@@ -460,7 +460,10 @@
 }
 
 /* Chapter 1 overlap decoration */
-.ls-img--overlap { position: relative; }
+.ls-img--overlap {
+    position: relative;
+    flex-shrink: 0;
+}
 .ls-deco-overlay {
     position: absolute;
     top: -11px;
@@ -468,6 +471,7 @@
     width: 109px;
     height: auto;
     pointer-events: none;
+    z-index: 1;
 }
 
 /* Chapter 2 collage (page 2) */
@@ -515,9 +519,25 @@
     display: block;
 }
 
-/* Mobile */
+/* Mobile — rows stay nowrap (same as original), but columns get specific widths */
 @media (max-width: 767px) {
     .section-lovestory { padding: 10% 5%; gap: 15px; }
-    .ls-row { flex-wrap: wrap; }
-    .ls-col { flex: 1 1 45%; min-width: 120px; }
+
+    /* Ch.0 text gets padding */
+    .ls-row:not(.ls-row--reverse) .ls-text { padding: 9px; }
+
+    /* Ch.1: image col = 100px fixed, text col = fills rest (~73%) */
+    .ls-row--reverse .ls-img--overlap {
+        width: 100px;
+        flex: 0 0 100px;
+    }
+    .ls-row--reverse .ls-text--last {
+        flex: 1;
+        padding: 9px;
+    }
+
+    /* Typography size reductions */
+    .ls-date { font-size: 16px; }
+    .ls-chapter-title { font-size: 16px; }
+    .ls-desc { font-size: 13px; }
 }
