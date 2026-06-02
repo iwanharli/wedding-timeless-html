@@ -515,15 +515,18 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    /* SVG mask: rectangle with circular hole at right edge */
-    -webkit-mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjMuOCAyNjQuOSI+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzEtMiIgZGF0YS1uYW1lPSJMYXllciAxIj48cGF0aCBkPSJNMjYzLjMsMTcyLjJhMzkuOCwzOS44LDAsMSwxLDAtNzkuNWguNVYwSDBWMjY0LjlIMjYzLjhWMTcyLjJaIj48L3BhdGg+PC9nPjwvZz48L3N2Zz4=");
+    /* SVG mask: rectangle with circular hole at right edge.
+       Uses white fill so luminance-mode mask works (white=visible, transparent=hole) */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 263.8 264.9'%3E%3Cpath fill='white' d='M263.3,172.2a39.8,39.8,0,1,1,0-79.5h.5V0H0V264.9H263.8V172.2Z'/%3E%3C/svg%3E");
     -webkit-mask-size: 100% 100%;
     -webkit-mask-position: center;
     -webkit-mask-repeat: no-repeat;
-    mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjMuOCAyNjQuOSI+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzEtMiIgZGF0YS1uYW1lPSJMYXllciAxIj48cGF0aCBkPSJNMjYzLjMsMTcyLjJhMzkuOCwzOS44LDAsMSwxLDAtNzkuNWguNVYwSDBWMjY0LjlIMjYzLjhWMTcyLjJaIj48L3BhdGg+PC9nPjwvZz48L3N2Zz4=");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 263.8 264.9'%3E%3Cpath fill='white' d='M263.3,172.2a39.8,39.8,0,1,1,0-79.5h.5V0H0V264.9H263.8V172.2Z'/%3E%3C/svg%3E");
     mask-size: 100% 100%;
     mask-position: center;
     mask-repeat: no-repeat;
+    mask-mode: luminance;
+    -webkit-mask-source-type: luminance;
 }
 
 .ls-paper-title {
