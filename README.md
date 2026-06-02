@@ -8,7 +8,8 @@ Sebuah halaman undangan pernikahan statis yang tampaknya diekspor dari WordPress
 - Style kustom: `app.css`
 - Script kustom: `app.js`
 - Content loader: `assets/js/content-loader.js`
-- Data konten: `assets/data/content.json`
+- Data konten: `assets/data/content-data.js` (JS variable, kompatibel `file://`)
+- Referensi konten: `assets/data/content.json` (source of truth, tidak diload browser)
 - Aset pendukung: `assets/`
 
 ## Fitur
@@ -23,12 +24,20 @@ Sebuah halaman undangan pernikahan statis yang tampaknya diekspor dari WordPress
 
 ## Content Binding (JSON-driven)
 
-Halaman mendukung content binding berbasis JSON melalui data attributes:
+Halaman mendukung content binding berbasis data attributes. Konten dikelola melalui satu file tanpa perlu mengedit HTML.
 
 ### File Konfigurasi
 
-- `assets/data/content.json` - Menyimpan semua nilai konten (teks, path aset)
-- `assets/js/content-loader.js` - Script yang memuat JSON dan mengisi elemen HTML
+- `assets/data/content-data.js` - Data konten sebagai `window.CONTENT_DATA` (diload via `<script>` tag, bekerja di `file://` maupun HTTP)
+- `assets/data/content.json` - Source of truth JSON untuk referensi/editing manual
+- `assets/js/content-loader.js` - Script yang membaca `window.CONTENT_DATA` dan mengisi elemen HTML
+
+### Cara Edit Konten
+
+1. Edit nilai di `assets/data/content.json`
+2. Salin isi JSON ke `assets/data/content-data.js`, wrap dengan `window.CONTENT_DATA = { ... };`
+
+> **Catatan:** `content.json` tidak diload langsung oleh browser. Browser memblokir request XHR ke `file://` (CORS policy). Solusinya menggunakan `content-data.js` yang di-include sebagai script biasa.
 
 ### Data Attributes yang Didukung
 
@@ -39,10 +48,10 @@ Halaman mendukung content binding berbasis JSON melalui data attributes:
 - `data-bg-key="path.to.value"` - Set background image dari JSON
 - `data-href-key="path.to.value"` - Set link `href` dari JSON
 
-### Contoh `assets/data/content.json`
+### Contoh `assets/data/content-data.js`
 
-```json
-{
+```js
+window.CONTENT_DATA = {
   "hero": {
     "name1": "Handon",
     "connector": "and",
@@ -55,7 +64,7 @@ Halaman mendukung content binding berbasis JSON melalui data attributes:
   "audio": {
     "track": "assets/media/YOU-by-Morgan-Saint.mp3"
   }
-}
+};
 ```
 
 ### Cara Menggunakan
@@ -66,9 +75,9 @@ Halaman mendukung content binding berbasis JSON melalui data attributes:
    <video data-video-src-key="hero.backgroundVideo" src="" autoplay muted></video>
    ```
 
-2. Update nilai di `assets/data/content.json`
+2. Update nilai di `assets/data/content-data.js`
 
-3. Script `content-loader.js` otomatis memuat dan mengisi elemen saat halaman dimuat
+3. Script `content-loader.js` otomatis membaca `window.CONTENT_DATA` dan mengisi elemen saat halaman dimuat
 
 ### Keuntungan
 
@@ -85,13 +94,14 @@ Halaman mendukung content binding berbasis JSON melalui data attributes:
 
 ## Cara Menjalankan
 
-1. Buka `index.html` secara langsung di browser
-2. Atau jalankan server lokal jika diperlukan:
+1. Buka `index.html` secara langsung di browser (tanpa server)
+2. Atau jalankan server lokal untuk akses via HTTP:
    - Python 3:
      ```bash
      python3 -m http.server 8000
      ```
    - Kemudian akses `http://localhost:8000`
+   - VS Code: klik kanan `index.html` → **Open with Live Server**
 
 ## Kustomisasi
 

@@ -81,20 +81,10 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    // Use XMLHttpRequest for file:// protocol compatibility
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'assets/data/content.json', true);
-    xhr.onload = function () {
-      try {
-        var data = JSON.parse(xhr.responseText);
-        applyBindings(data);
-      } catch (err) {
-        console.warn('Content loader: Failed to parse JSON', err);
-      }
-    };
-    xhr.onerror = function () {
-      console.warn('Content loader: Failed to fetch content.json');
-    };
-    xhr.send();
+    if (window.CONTENT_DATA) {
+      applyBindings(window.CONTENT_DATA);
+    } else {
+      console.warn('Content loader: window.CONTENT_DATA not found. Include assets/data/content-data.js before this script.');
+    }
   });
 })();
