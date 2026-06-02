@@ -1,0 +1,48 @@
+{
+  // ── Editor ──────────────────────────────────────────
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+
+  // ── HTML ────────────────────────────────────────────
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": false
+  },
+
+  // ── CSS ─────────────────────────────────────────────
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+
+  // ── JavaScript ──────────────────────────────────────
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+
+  // ── Live Server ─────────────────────────────────────
+  "liveServer.settings.file": "/index.html",
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.NoBrowser": false,
+
+  // ── File Explorer ───────────────────────────────────
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+
+  // ── Search: exclude vendor & minified files ──────────
+  "search.exclude": {
+    "**/assets/vendor/**": true,
+    "**/assets/js/*.min*": true,
+    "**/assets/css/*.min*": true
+  },
+
+  // ── File Associations ────────────────────────────────
+  "files.associations": {
+    "*.css": "css",
+    "*.js": "javascript"
+  }
+}
