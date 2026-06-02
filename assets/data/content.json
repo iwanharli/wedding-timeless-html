@@ -92,7 +92,8 @@
     "description": "We kindly request your prompt response to confirm your attendance at our upcoming event. Alongside your RSVP, please take a moment to extend your warm regards and best wishes.",
     "submitButtonText": "Send",
     "attendanceLabel": "EXCITED TO ATTEND",
-    "unableLabel": "UNABLE ATTEND"
+    "unableLabel": "UNABLE ATTEND",
+    "guestAttendanceTitle": "Attire"
   },
   "gift": {
     "title": "Wedding Gift",
