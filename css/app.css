@@ -1,0 +1,2022 @@
+/* app.css — inline styles extracted from index.html */
+
+/* ── Video: Fixed Background untuk Semua Section ── */
+@media screen and (min-width: 801px) {
+
+    /* Video: fixed di right panel 700px, selalu visible saat scroll */
+    .elementor-element-84b6401 {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 700px !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* Video element: cover full container */
+    .elementor-element-84b6401 video,
+    .elementor-element-84b6401 .elementor-background-video-container {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* Semua child section: di atas video (z-index 1) */
+    .elementor-element-38563ea2 > .child {
+        position: relative !important;
+        z-index: 1 !important;
+        background-color: transparent !important;
+    }
+
+    /* Cover section (hapus-section): menutup video saat cover */
+    .elementor-element-0892a8b {
+        position: relative !important;
+        z-index: 3 !important;
+    }
+
+    /* Section terakhir: background sendiri menutup video */
+    .elementor-element-303ad26d {
+        z-index: 2 !important;
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+}
+
+/* ── Cover Layout Fix: Persistent Left Panel ── */
+
+/* ── Cover Layout Fix: Persistent Left Panel ── */
+
+/* Desktop only: left panel fixed, right 700px scrolls */
+@media screen and (min-width: 801px) {
+    /* Left panel: fixed ke kiri sepanjang halaman */
+    .elementor-element-5de39555 {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: calc(100vw - 700px) !important;
+        height: 100vh !important;
+        z-index: 10 !important;
+        overflow: hidden !important;
+    }
+    /* Pastikan background image tidak bergeser */
+    .elementor-element-5de39555::before {
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+
+    /* Seluruh konten undangan: di sisi kanan 700px */
+    .elementor.elementor-605881 {
+        margin-left: calc(100vw - 700px) !important;
+        width: 700px !important;
+    }
+}
+
+/* ── Inline Style ── */
+.wdp-comment-text img {
+    max-width: 100% !important;
+}
+
+/* ── Font Faces ── */
+@font-face {
+    font-family: 'script icon';
+    font-weight: 400;
+    src: url('../assets/fonts/New-Icon-Script.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'lausanne300';
+    font-weight: 300;
+    src: url('../assets/fonts/Lausanne-300.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantUpright';
+    font-weight: 700;
+    src: url('../assets/fonts/CormorantUpright-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantUpright';
+    font-weight: 600;
+    src: url('../assets/fonts/CormorantUpright-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantUpright';
+    font-weight: 400;
+    src: url('../assets/fonts/CormorantUpright-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantUpright';
+    font-weight: 500;
+    src: url('../assets/fonts/CormorantUpright-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CormorantUpright';
+    font-weight: 300;
+    src: url('../assets/fonts/CormorantUpright-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'time now italic';
+    font-weight: 400;
+    src: url('../assets/fonts/TimesNow-SemiLightItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'time now italic';
+    font-weight: 300;
+    src: url('../assets/fonts/TimesNow-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'time noww';
+    font-weight: 600;
+    src: url('../assets/fonts/TimesNow-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'time noww';
+    font-weight: 400;
+    src: url('../assets/fonts/TimesNow-SemiLight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'time noww';
+    font-weight: 300;
+    src: url('../assets/fonts/TimesNow-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ovo';
+    font-weight: 400;
+    src: url('../assets/fonts/Ovo-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'signature fed';
+    font-weight: 400;
+    src: url('../assets/fonts/FrederickFree.otf') format('OpenType');
+}
+
+@font-face {
+    font-family: 'Thesignature';
+    font-weight: 400;
+    src: url('../assets/fonts/Thesignature.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'inter';
+    font-weight: 400;
+    src: url('../assets/fonts/Inter-VariableFont_slntwght.ttf') format('truetype');
+}
+
+/* ── WordPress Global Styles & CSS Vars ── */
+:root {
+    --wp--preset--aspect-ratio--square: 1;
+    --wp--preset--aspect-ratio--4-3: 4/3;
+    --wp--preset--aspect-ratio--3-4: 3/4;
+    --wp--preset--aspect-ratio--3-2: 3/2;
+    --wp--preset--aspect-ratio--2-3: 2/3;
+    --wp--preset--aspect-ratio--16-9: 16/9;
+    --wp--preset--aspect-ratio--9-16: 9/16;
+    --wp--preset--color--black: #000000;
+    --wp--preset--color--cyan-bluish-gray: #abb8c3;
+    --wp--preset--color--white: #ffffff;
+    --wp--preset--color--pale-pink: #f78da7;
+    --wp--preset--color--vivid-red: #cf2e2e;
+    --wp--preset--color--luminous-vivid-orange: #ff6900;
+    --wp--preset--color--luminous-vivid-amber: #fcb900;
+    --wp--preset--color--light-green-cyan: #7bdcb5;
+    --wp--preset--color--vivid-green-cyan: #00d084;
+    --wp--preset--color--pale-cyan-blue: #8ed1fc;
+    --wp--preset--color--vivid-cyan-blue: #0693e3;
+    --wp--preset--color--vivid-purple: #9b51e0;
+    --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgb(6, 147, 227) 0%, rgb(155, 81, 224) 100%);
+    --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
+    --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgb(252, 185, 0) 0%, rgb(255, 105, 0) 100%);
+    --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgb(255, 105, 0) 0%, rgb(207, 46, 46) 100%);
+    --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
+    --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
+    --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
+    --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
+    --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
+    --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
+    --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
+    --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
+    --wp--preset--font-size--small: 13px;
+    --wp--preset--font-size--medium: 20px;
+    --wp--preset--font-size--large: 36px;
+    --wp--preset--font-size--x-large: 42px;
+    --wp--preset--font-family--inter: "Inter", sans-serif;
+    --wp--preset--font-family--cardo: Cardo;
+    --wp--preset--spacing--20: 0.44rem;
+    --wp--preset--spacing--30: 0.67rem;
+    --wp--preset--spacing--40: 1rem;
+    --wp--preset--spacing--50: 1.5rem;
+    --wp--preset--spacing--60: 2.25rem;
+    --wp--preset--spacing--70: 3.38rem;
+    --wp--preset--spacing--80: 5.06rem;
+    --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
+    --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
+    --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
+    --wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);
+    --wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);
+}
+
+:root {
+    --wp--style--global--content-size: 800px;
+    --wp--style--global--wide-size: 1200px;
+}
+
+:where(body) {
+    margin: 0;
+}
+
+.wp-site-blocks>.alignleft {
+    float: left;
+    margin-right: 2em;
+}
+
+.wp-site-blocks>.alignright {
+    float: right;
+    margin-left: 2em;
+}
+
+.wp-site-blocks>.aligncenter {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+:where(.wp-site-blocks)>* {
+    margin-block-start: 24px;
+    margin-block-end: 0;
+}
+
+:where(.wp-site-blocks)> :first-child {
+    margin-block-start: 0;
+}
+
+:where(.wp-site-blocks)> :last-child {
+    margin-block-end: 0;
+}
+
+:root {
+    --wp--style--block-gap: 24px;
+}
+
+:root :where(.is-layout-flow)> :first-child {
+    margin-block-start: 0;
+}
+
+:root :where(.is-layout-flow)> :last-child {
+    margin-block-end: 0;
+}
+
+:root :where(.is-layout-flow)>* {
+    margin-block-start: 24px;
+    margin-block-end: 0;
+}
+
+:root :where(.is-layout-constrained)> :first-child {
+    margin-block-start: 0;
+}
+
+:root :where(.is-layout-constrained)> :last-child {
+    margin-block-end: 0;
+}
+
+:root :where(.is-layout-constrained)>* {
+    margin-block-start: 24px;
+    margin-block-end: 0;
+}
+
+:root :where(.is-layout-flex) {
+    gap: 24px;
+}
+
+:root :where(.is-layout-grid) {
+    gap: 24px;
+}
+
+.is-layout-flow>.alignleft {
+    float: left;
+    margin-inline-start: 0;
+    margin-inline-end: 2em;
+}
+
+.is-layout-flow>.alignright {
+    float: right;
+    margin-inline-start: 2em;
+    margin-inline-end: 0;
+}
+
+.is-layout-flow>.aligncenter {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.is-layout-constrained>.alignleft {
+    float: left;
+    margin-inline-start: 0;
+    margin-inline-end: 2em;
+}
+
+.is-layout-constrained>.alignright {
+    float: right;
+    margin-inline-start: 2em;
+    margin-inline-end: 0;
+}
+
+.is-layout-constrained>.aligncenter {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+    max-width: var(--wp--style--global--content-size);
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.is-layout-constrained>.alignwide {
+    max-width: var(--wp--style--global--wide-size);
+}
+
+body .is-layout-flex {
+    display: flex;
+}
+
+.is-layout-flex {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.is-layout-flex> :is(*, div) {
+    margin: 0;
+}
+
+body .is-layout-grid {
+    display: grid;
+}
+
+.is-layout-grid> :is(*, div) {
+    margin: 0;
+}
+
+body {
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+}
+
+a:where(:not(.wp-element-button)) {
+    text-decoration: underline;
+}
+
+:root :where(.wp-element-button, .wp-block-button__link) {
+    background-color: #32373c;
+    border-width: 0;
+    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    padding-top: calc(0.667em + 2px);
+    padding-right: calc(1.333em + 2px);
+    padding-bottom: calc(0.667em + 2px);
+    padding-left: calc(1.333em + 2px);
+    text-decoration: none;
+    text-transform: inherit;
+}
+
+.has-black-color {
+    color: var(--wp--preset--color--black) !important;
+}
+
+.has-cyan-bluish-gray-color {
+    color: var(--wp--preset--color--cyan-bluish-gray) !important;
+}
+
+.has-white-color {
+    color: var(--wp--preset--color--white) !important;
+}
+
+.has-pale-pink-color {
+    color: var(--wp--preset--color--pale-pink) !important;
+}
+
+.has-vivid-red-color {
+    color: var(--wp--preset--color--vivid-red) !important;
+}
+
+.has-luminous-vivid-orange-color {
+    color: var(--wp--preset--color--luminous-vivid-orange) !important;
+}
+
+.has-luminous-vivid-amber-color {
+    color: var(--wp--preset--color--luminous-vivid-amber) !important;
+}
+
+.has-light-green-cyan-color {
+    color: var(--wp--preset--color--light-green-cyan) !important;
+}
+
+.has-vivid-green-cyan-color {
+    color: var(--wp--preset--color--vivid-green-cyan) !important;
+}
+
+.has-pale-cyan-blue-color {
+    color: var(--wp--preset--color--pale-cyan-blue) !important;
+}
+
+.has-vivid-cyan-blue-color {
+    color: var(--wp--preset--color--vivid-cyan-blue) !important;
+}
+
+.has-vivid-purple-color {
+    color: var(--wp--preset--color--vivid-purple) !important;
+}
+
+.has-black-background-color {
+    background-color: var(--wp--preset--color--black) !important;
+}
+
+.has-cyan-bluish-gray-background-color {
+    background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+}
+
+.has-white-background-color {
+    background-color: var(--wp--preset--color--white) !important;
+}
+
+.has-pale-pink-background-color {
+    background-color: var(--wp--preset--color--pale-pink) !important;
+}
+
+.has-vivid-red-background-color {
+    background-color: var(--wp--preset--color--vivid-red) !important;
+}
+
+.has-luminous-vivid-orange-background-color {
+    background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+}
+
+.has-luminous-vivid-amber-background-color {
+    background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+}
+
+.has-light-green-cyan-background-color {
+    background-color: var(--wp--preset--color--light-green-cyan) !important;
+}
+
+.has-vivid-green-cyan-background-color {
+    background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+}
+
+.has-pale-cyan-blue-background-color {
+    background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+}
+
+.has-vivid-cyan-blue-background-color {
+    background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+}
+
+.has-vivid-purple-background-color {
+    background-color: var(--wp--preset--color--vivid-purple) !important;
+}
+
+.has-black-border-color {
+    border-color: var(--wp--preset--color--black) !important;
+}
+
+.has-cyan-bluish-gray-border-color {
+    border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+}
+
+.has-white-border-color {
+    border-color: var(--wp--preset--color--white) !important;
+}
+
+.has-pale-pink-border-color {
+    border-color: var(--wp--preset--color--pale-pink) !important;
+}
+
+.has-vivid-red-border-color {
+    border-color: var(--wp--preset--color--vivid-red) !important;
+}
+
+.has-luminous-vivid-orange-border-color {
+    border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+}
+
+.has-luminous-vivid-amber-border-color {
+    border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+}
+
+.has-light-green-cyan-border-color {
+    border-color: var(--wp--preset--color--light-green-cyan) !important;
+}
+
+.has-vivid-green-cyan-border-color {
+    border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+}
+
+.has-pale-cyan-blue-border-color {
+    border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+}
+
+.has-vivid-cyan-blue-border-color {
+    border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+}
+
+.has-vivid-purple-border-color {
+    border-color: var(--wp--preset--color--vivid-purple) !important;
+}
+
+.has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+    background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+}
+
+.has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+    background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+}
+
+.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+    background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+}
+
+.has-luminous-vivid-orange-to-vivid-red-gradient-background {
+    background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+}
+
+.has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+    background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+}
+
+.has-cool-to-warm-spectrum-gradient-background {
+    background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+}
+
+.has-blush-light-purple-gradient-background {
+    background: var(--wp--preset--gradient--blush-light-purple) !important;
+}
+
+.has-blush-bordeaux-gradient-background {
+    background: var(--wp--preset--gradient--blush-bordeaux) !important;
+}
+
+.has-luminous-dusk-gradient-background {
+    background: var(--wp--preset--gradient--luminous-dusk) !important;
+}
+
+.has-pale-ocean-gradient-background {
+    background: var(--wp--preset--gradient--pale-ocean) !important;
+}
+
+.has-electric-grass-gradient-background {
+    background: var(--wp--preset--gradient--electric-grass) !important;
+}
+
+.has-midnight-gradient-background {
+    background: var(--wp--preset--gradient--midnight) !important;
+}
+
+.has-small-font-size {
+    font-size: var(--wp--preset--font-size--small) !important;
+}
+
+.has-medium-font-size {
+    font-size: var(--wp--preset--font-size--medium) !important;
+}
+
+.has-large-font-size {
+    font-size: var(--wp--preset--font-size--large) !important;
+}
+
+.has-x-large-font-size {
+    font-size: var(--wp--preset--font-size--x-large) !important;
+}
+
+.has-inter-font-family {
+    font-family: var(--wp--preset--font-family--inter) !important;
+}
+
+.has-cardo-font-family {
+    font-family: var(--wp--preset--font-family--cardo) !important;
+}
+
+/* ── WeddingPress Comment Kit ── */
+.wdp-wrapper {
+
+    font-size: 14px
+}
+
+.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment .wdp-comment-avatar img {
+
+    max-width: 28px;
+
+    max-height: 28px;
+
+}
+
+.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment .wdp-comment-content {
+
+    margin-left: 38px;
+
+}
+
+.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment ul .wdp-comment-avatar img {
+
+    max-width: 24px;
+
+    max-height: 24px;
+
+}
+
+.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment ul ul .wdp-comment-avatar img {
+
+    max-width: 21px;
+
+    max-height: 21px;
+
+}
+
+/* ── Elementor – Background Images per Element ── */
+.elementor-605881 .elementor-element.elementor-element-5de39555::before,
+.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
+.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
+.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
+.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
+.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
+    background-image: url("../assets/images/Timeless-00036.jpg");
+}
+
+.elementor-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
+.elementor-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background: url("../assets/images/Timeless-00036.jpg") 50% 50%;
+    background-size: cover;
+}
+
+.elementor-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
+.elementor-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-image: url("../assets/images/Timeless-00025-1.jpg");
+}
+
+.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
+    background-color: #dbd6d3;
+}
+
+.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
+    color: #dbd6d3;
+    border-color: #dbd6d3;
+}
+
+.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
+    fill: #dbd6d3;
+}
+
+.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
+    background-color: #2a211c;
+}
+
+.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
+    color: #2a211c;
+    border-color: #2a211c;
+}
+
+.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
+    fill: #2a211c;
+}
+
+.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
+    background-color: #806f5f;
+}
+
+.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
+    color: #806f5f;
+    border-color: #806f5f;
+}
+
+.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
+    fill: #806f5f;
+}
+
+.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
+    background-color: #bca8a0;
+}
+
+.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
+    color: #bca8a0;
+    border-color: #bca8a0;
+}
+
+.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
+.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
+    fill: #bca8a0;
+}
+
+.elementor-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
+.elementor-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-image: url("../assets/images/Timeless-00018.jpg");
+}
+
+/* ── Inline Style (2) ── */
+.wdp_note_button {
+    display: none !important;
+}
+
+/* ── Inline Style (4) ── */
+.pswp.pafe-lightbox-modal {
+    display: none;
+}
+
+/* ── Custom CSS (scroll, scrollbar, guestbook) ── */
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    /* warna track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    /* warna thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+    /* warna thumb pas hover */
+}
+
+/*judul foto hilang*/
+.elementor-slideshow__title {
+    visibility: hidden;
+}
+
+/*icon share foto hilang*/
+i.eicon-share-arrow {
+    visibility: hidden;
+}
+
+i.eicon-zoom-in-bold {
+    visibility: hidden;
+}
+
+.elementor-lightbox .elementor-swiper-button-next i,
+.elementor-lightbox .elementor-swiper-button-prev i {
+    padding: 10px;
+    background-color: transparent;
+}
+
+.user-guestbook img {
+    visibility: hidden;
+}
+
+/*icon centang guest book*/
+/*icon centang*/
+i.fas.fa-check-circle {
+    visibility: hidden;
+}
+
+/*background comment guest book*/
+.guestbook {
+    background-color: #fff0;
+}
+
+/*slide to top */
+.removeModals {
+    transform: translateY(-200%);
+    transition: 1s ease-in-out;
+}
+
+/*SELANJUTNYA COMMENT KIT*/
+.wdp-wrapper .wdp-holder {
+    display: block !important;
+}
+
+/*TAMPILAN COMMENTKIT DI ELEMENTOR*/
+.wdp-wrapper .wdp-wrap-comments {
+    display: block !important;
+}
+
+/* ── Swiper – hide default arrows ── */
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+    display: none;
+}
+
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+    display: none;
+}
+
+/* ── Inline Style (5) ── */
+.elementor .elementor-element.elementor-element-47b3f9a .e-form__indicators {
+    display: none !important;
+}
+
+/* ── RSVP – Guest Count +/- buttons ── */
+.number-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 7px;
+}
+
+.number-input-wrapper input {
+    width: 100px;
+    /* Sesuaikan dengan kebutuhan */
+    text-align: center;
+    padding: 0 30px;
+    /* Ruang untuk teks - dan + */
+    box-sizing: border-box;
+}
+
+.number-input-wrapper .decrement-text,
+.number-input-wrapper .increment-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+@media (min-width: 1024px) {
+
+    .number-input-wrapper .decrement-text,
+    .number-input-wrapper .increment-text {
+        display: none;
+    }
+}
+
+.number-input-wrapper .decrement-text {
+    left: 0px;
+    /* Posisi - di kiri dalam input */
+    padding-left: 10px;
+    padding-right: 40px;
+}
+
+.number-input-wrapper .increment-text {
+    right: 0px;
+    /* Posisi + di kanan dalam input */
+    padding-right: 10px;
+    padding-left: 40px;
+}
+
+/* ── Guestbook – comment styling ── */
+/*Hapus TOMBOL hapus komen di halaman elementor*/
+
+/*tombol hapus*/
+button.hapus-komentar {
+    font-family: inter;
+    font-size: 10px;
+    padding: 5px;
+    border: none;
+
+}
+
+/*NAMA PENGIRIM*/
+.komentar-item>strong {
+    font-family: time now italic;
+    font-weight: 500;
+    font-size: 25px;
+    color: #fff;
+
+}
+
+/*TEKS Komentar*/
+.komentar-item>p {
+    font-family: inter;
+    font-weight: 300;
+    font-size: 13px;
+    color: #fff;
+    width: 45%;
+
+}
+
+.komentar-item>small {
+    font-family: inter;
+    font-weight: 300;
+    font-size: 10px;
+    color: #888;
+}
+
+/*DIVIDER komentar*/
+.komentar-item {
+    border-bottom: 1px solid #fff0;
+    /* Ganti #ccc dengan warna yang diinginkan */
+    padding-bottom: 0px;
+    /* Menambahkan ruang di bawah komentar */
+    margin-bottom: 10px;
+    /* Menambahkan jarak antara komentar */
+}
+
+/*zigzag comment*/
+#komentar-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.komentar-item {
+    width: 100%;
+    /* Setiap item mengambil 100% lebar container */
+    margin-bottom: 10px;
+    /* Jarak antar item */
+}
+
+.komentar-item:nth-child(odd) {
+    text-align: left;
+    /* Konten di kiri */
+}
+
+.komentar-item:nth-child(even) {
+    text-align: right;
+    /* Konten di kanan */
+}
+
+.komentar-item p {
+    width: 40%;
+    /* Lebar <p> 45% */
+}
+
+.komentar-item:nth-child(even) p {
+    margin-left: auto;
+    /* Menjaga <p> di kanan */
+}
+
+/*scrollbar*/
+.miniscrollbar::-webkit-scrollbar {
+    width: 2px;
+    /* Menentukan lebar scrollbar */
+    height: 6px;
+    /* Menentukan tinggi scrollbar pada horizontal */
+}
+
+.miniscrollbar::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    /* Warna scrollbar */
+    border-radius: 10px;
+    /* Membuat scrollbar lebih bulat */
+}
+
+.miniscrollbar::-webkit-scrollbar-track {
+    background: #fff2;
+    /* Warna track scrollbar */
+}
+
+@media only screen and (max-width: 600px) {
+    .komentar-item p {
+        width: 80%;
+    }
+
+    .komentar-item>p {
+        font-size: 13px !important;
+    }
+}
+
+/* ── Guestbook – comment styling (2) ── */
+/* Semua komentar disembunyikan secara default dengan opacity */
+.komentar-item {
+
+    opacity: 0;
+    visibility: hidden;
+    /* Hilangkan secara visual tanpa menghapus dari tata letak */
+    position: absolute;
+    /* Hindari memengaruhi tata letak container */
+    top: 0;
+    /* Pastikan semua komentar dimulai dari atas */
+    left: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0s linear 0s;
+    /* Efek fade */
+}
+
+/* Komentar yang terlihat */
+.komentar-item.show {
+    opacity: 1;
+    visibility: visible;
+    /* Tampilkan kembali komentar */
+    position: relative;
+    /* Kembalikan ke relatif jika ditampilkan */
+    transition: opacity 0.7s ease-in-out, visibility 0s linear 0s;
+    /* Fade-in lebih cepat */
+}
+
+.komentar-item p {
+    width: 75%;
+}
+
+/* Tambahkan gaya untuk tombol disabled */
+#next-btn,
+#prev-Btn {
+    cursor: pointer;
+
+}
+
+.elementor-editor-active .komentar-item:nth-child(-n+5) {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
+
+/* ── Hide scrollbar ── */
+.mdw-side-menu-area {
+    --hide-on-scroll: true;
+    --hide-on-scroll-amount: 100;
+    --menu-icon-width: 48px;
+    --menu-icon-gap: 15px;
+}
+
+.mdw-side-menu-area .mdw-hide-on-scroll {
+    transition: all 0.3s ease-in-out;
+}
+
+.mdw-side-menu-area .mdw-hide-on-scroll.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button {
+    cursor: pointer;
+    height: var(--min-height, 45px);
+    overflow: hidden !important;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button {
+    transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.mdw-side-menu-area.open .mdw-side-menu-button .elementor-widget-button {
+    transform: translateY(-100%);
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-button {
+    height: var(--min-height, 45px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-button-icon {
+    margin: 0;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-button-content-wrapper {
+    perspective: 6em;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(1) {
+    transform-origin: top;
+    transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button.open .elementor-button-text:nth-child(1) {
+    opacity: 0;
+    transform: rotateX(90deg) scaleX(.9) translate3d(0, -10px, 0);
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(2) {
+    position: absolute;
+    opacity: 0;
+    transform: rotateX(-90deg) scaleX(.9) translate3d(0, 10px, 0);
+    transform-origin: bottom;
+    transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
+}
+
+.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button.open .elementor-button-text:nth-child(2) {
+    opacity: 1;
+    transform: rotateX(0deg) scaleX(1) translateZ(0);
+    transition: transform .75s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .3s;
+}
+
+.mdw-side-menu-area:not(.open-arrow) .mdw-side-menu {
+    pointer-events: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu:before {
+    top: 0;
+    right: 0;
+    left: unset;
+    transition: all 0.75s cubic-bezier(.76, 0, .24, 1);
+}
+
+.mdw-side-menu-area:not(.open) .mdw-side-menu:before {
+    height: var(--button-height, 45px);
+    width: var(--button-width, 110px);
+    transform: translate(calc(-1*var(--button-right, 25px)), var(--button-top, 25px));
+}
+
+.mdw-side-menu-area:not(.anim) .mdw-side-menu:before {
+    transition: none;
+    opacity: 0;
+}
+
+.mdw-side-menu-area .mdw-side-menu .e-con::-webkit-scrollbar,
+.mdw-side-menu-area .mdw-side-menu .e-container::-webkit-scrollbar {
+    display: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu .e-con,
+.mdw-side-menu-area .mdw-side-menu .e-container {
+    overflow-y: auto;
+    max-height: calc(100vh - 20px - var(--margin-block-start, 113px));
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item,
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item a {
+    perspective: calc(3*48px);
+    perspective-origin: bottom;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item {
+    margin-top: 0 !important;
+    padding-top: var(--padding-top);
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:first-child {
+    padding-top: 0;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item a {
+    outline: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon {
+    width: var(--menu-icon-width, 48px);
+    height: calc(0.6*var(--menu-icon-width, 48px));
+    align-items: center;
+    padding-right: var(--menu-icon-gap, 15px);
+    overflow: hidden;
+    opacity: 0;
+    box-sizing: content-box;
+}
+
+.mdw-side-menu-area.open-arrow .mdw-side-menu .elementor-icon-list-icon {
+    opacity: 1;
+    transition: all 0s cubic-bezier(.215, .61, .355, 1) calc(var(--index, 0) * .1s + 0.55s);
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i {
+    width: 100% !important;
+    height: 0.1em;
+    background: currentColor;
+    position: relative;
+    margin-left: calc(0px - var(--menu-icon-width, 48px) - var(--menu-icon-gap, 15px));
+    transition: all .65s cubic-bezier(.215, .61, .355, 1) !important;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon svg {
+    display: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:hover .elementor-icon-list-icon i {
+    margin-left: -0.07em;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:before,
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:after {
+    content: "";
+    position: absolute;
+    width: 40%;
+    transform: rotate(45deg) translateX(0.05em);
+    transform-origin: right center;
+    height: 0.1em;
+    background: currentColor;
+    right: 0;
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:after {
+    transform: rotate(-45deg) translateX(0.05em);
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-text {
+    transform: rotateX(90deg) translate3d(0, 60px, 0);
+    opacity: 0;
+    transition: transform 0s linear .45s, opacity 0.3s linear !important;
+    transform-origin: center bottom;
+    padding-left: 0 !important;
+    max-width: calc(100% - var(--menu-icon-width, 48px) - var(--menu-icon-gap, 15px));
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon+.elementor-icon-list-text {
+    margin-left: calc(0px - var(--menu-icon-width, 48px) - var(--menu-icon-gap, 15px));
+}
+
+.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:hover .elementor-icon-list-text {
+    margin-left: 0;
+}
+
+.mdw-side-menu-area.open-instant .mdw-side-menu .elementor-icon-list-text {
+    transform: rotateX(0deg);
+    opacity: 1;
+    transition: transform .65s cubic-bezier(.215, .61, .355, 1) calc(var(--index, 0) * .1s + .55s), opacity .35s linear calc(var(--index, 0) * .1s + .55s), margin-left .65s cubic-bezier(.215, .61, .355, 1) !important;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social {
+    display: block;
+    background: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social .elementor-widget-empty-icon {
+    display: none;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item {
+    width: 47%;
+    float: left;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social a {
+    display: inline-block;
+    width: auto;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-text {
+    transform: translate3d(0, 100%, 0);
+    transition: transform 0s linear .45s, opacity 0.3s linear;
+    max-width: 100%;
+}
+
+.mdw-side-menu-area.open-instant .mdw-side-menu-social .elementor-icon-list-text {
+    transition: opacity .45s linear 0s, transform .65s cubic-bezier(.215, .61, .355, 1) 0s !important;
+    transition-delay: calc(var(--index)*.1s + .7s) !important;
+}
+
+.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-text:after {
+    content: "";
+    height: 1px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: currentColor;
+    transform: scaleX(0%);
+    transform-origin: left;
+    transition: all 0.75s cubic-bezier(.645, .045, .355, 1);
+}
+
+.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item:hover .elementor-icon-list-text:after {
+    transform: scaleX(100%);
+}
+
+@media (max-width:767px) {
+    .mdw-side-menu-area {
+        --menu-icon-width: 38px;
+        --menu-icon-gap: 10px;
+    }
+
+    .mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item {
+        width: 50%;
+    }
+}
+
+/* ── Scroll behavior & child snap ── */
+body {
+    color: #000;
+}
+
+html {
+    scroll-snap-type: y mandator;
+    scroll-behavior: smooth;
+
+}
+
+.child {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100vh;
+    will-change: transform;
+    /* Mengoptimalkan elemen child agar lebih smooth saat di-scroll */
+    overflow: hidden;
+    /* Pastikan tidak ada overflow tak diinginkan */
+}
+
+/* ── Hide scrollbar (2) ── */
+/* Menyembunyikan scrollbar tetapi tetap memungkinkan scroll */
+/* Hide scrollbar for Chrome, Safari, and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Cover animation & section lock ── */
+@keyframes blurSlideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+        filter: blur(10px);
+    }
+}
+
+#hapus-section.fade-out {
+    animation: blurSlideUp 0.5s ease forwards;
+}
+
+/* ── Preloader loading text ── */
+.loading-text {
+    margin-top: 10px !important;
+    font-family: lausanne300 !important;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #C2C2C2 !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding-left: 3% !important;
+}
+
+/* Untuk layar mobile */
+@media (max-width: 768px) {
+    .loading-text {
+        font-size: 12px !important;
+        letter-spacing: 1px;
+        text-align: center !important;
+        padding-left: 0 !important;
+    }
+}
+
+/* ── Preloader page ── */
+.preloader-page {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+
+    z-index: 9999999 !important;
+    transition: opacity 1s ease !important;
+}
+
+.elementor-editor-active .preloader-page {
+    position: relative !important;
+}
+
+.preloader-page.hide {
+    opacity: 0 !important;
+}
+
+/* ── Inline Style (8) ── */
+/* opsional buat sembunyikan QR */
+.hidden-qr {
+    display: none
+}
+
+/* ── Elementor – DCE background fix ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555::before,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
+    background-image: url("../assets/images/Timeless-00036.jpg");
+}
+
+/* ── Elementor – DCE background fix (2) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background: url("../assets/images/Timeless-00036.jpg") 50% 50%;
+    background-size: cover;
+}
+
+/* ── Elementor – DCE background fix (3) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-image: url("../assets/images/Timeless-00025-1.jpg");
+}
+
+/* ── Elementor – DCE background fix (4) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
+    background-color: #dbd6d3;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
+    color: #dbd6d3;
+    border-color: #dbd6d3;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
+    fill: #dbd6d3;
+}
+
+/* ── Elementor – DCE background fix (5) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
+    background-color: #2a211c;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
+    color: #2a211c;
+    border-color: #2a211c;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
+    fill: #2a211c;
+}
+
+/* ── Elementor – DCE background fix (6) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
+    background-color: #806f5f;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
+    color: #806f5f;
+    border-color: #806f5f;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
+    fill: #806f5f;
+}
+
+/* ── Elementor – DCE background fix (7) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
+    background-color: #bca8a0;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
+    color: #bca8a0;
+    border-color: #bca8a0;
+}
+
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
+    fill: #bca8a0;
+}
+
+/* ── Elementor – DCE background fix (8) ── */
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+    background-image: url("../assets/images/Timeless-00018.jpg");
+}
+
+/* ── Google Fonts (lokal) ── */
+@font-face {
+  font-family: 'Abhaya Libre';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/AbhayaLibre-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Abhaya Libre';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/AbhayaLibre-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Abhaya Libre';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/AbhayaLibre-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Abhaya Libre';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/AbhayaLibre-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Abhaya Libre';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/AbhayaLibre-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-500-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-600-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-700-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/LibreBaskerville-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-100-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-200-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-300-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-500-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-600-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-700-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-800-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-900-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-100-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/Poppins-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-100-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-200-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-300-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-500-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-600-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-700-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-800-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-900-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-100-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/Roboto-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-100-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/RobotoSlab-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-100-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-200-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-300-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-500-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-600-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-700-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-800-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-900-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-100-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/DMSans-900-normal.woff2') format('woff2');
+}
