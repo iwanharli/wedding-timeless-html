@@ -1,0 +1,251 @@
+/* ================================================================
+   sections.css
+   Native CSS untuk sections 2–15 (diisi bertahap per section)
+================================================================ */
+
+/* ================================================================
+   SECTION 2 · INTRO SCREEN  (#pertama)
+================================================================ */
+#pertama {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+}
+
+#pertama #home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Content box: absolute, starts at top 25% */
+.intro-content {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.intro-invite-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 13px;
+    font-weight: 200;
+    text-align: center;
+    margin: 0 0 4px 0;
+}
+
+/* Two-row names — same pattern as hero, font size 60px */
+.intro-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.intro-names-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0;
+}
+
+.intro-name {
+    font-family: "script icon", sans-serif;
+    font-size: 60px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.intro-name1 {
+    align-self: flex-end;
+    padding-right: 14px;
+}
+
+.intro-name-connector {
+    font-family: "script icon", sans-serif;
+    font-size: 27px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 11px 0 0 0;
+    align-self: flex-start;
+}
+
+.intro-names-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.intro-name2 {
+    align-self: center;
+}
+
+.intro-date {
+    color: #ffffff;
+    font-family: "Abhaya Libre", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.6px;
+    text-align: center;
+    margin: 6px 0 0 0;
+}
+
+.intro-vow {
+    color: #ffffff;
+    font-family: "Abhaya Libre", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    margin: 6px 0 0 0;
+    line-height: 1.6;
+}
+
+.intro-spacer {
+    height: 50px;
+}
+
+.intro-scroll-hint {
+    color: #ffffff;
+    font-family: "Abhaya Libre", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+/* galleggia = gentle floating animation (defined in dce-animations30ad.css) */
+.intro-scroll-hint .dce-animations {
+    animation-name: galleggia;
+    animation-duration: 0.9s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
+    display: inline-block;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .intro-name {
+        font-size: 60px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .intro-name-connector {
+        margin-top: 11px;
+        padding-left: 4px;
+    }
+
+    .intro-names-bottom .intro-name2 {
+        padding-left: 30px;
+    }
+
+    .intro-vow {
+        font-size: 13px;
+    }
+
+    .intro-scroll-hint {
+        font-size: 13px;
+    }
+}
+
+/* ================================================================
+   SECTION 3 · PROFILE INTRO
+================================================================ */
+.section-profile-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6% 6% 22% 6%;
+    position: relative;
+}
+
+.profile-intro-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    gap: 0;
+}
+
+.profile-biblical-ref {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 12px 0;
+}
+
+.profile-image-wrap {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    margin: 0 auto 16px auto;
+    flex-shrink: 0;
+}
+
+.profile-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.profile-biblical-text {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.7;
+    margin: 0 0 12px 0;
+    transition-delay: 600ms;
+}
+
+.profile-couple-names {
+    color: #ffffff;
+    font-family: "Abhaya Libre", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.6px;
+    text-align: center;
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    .section-profile-intro {
+        padding: 10%;
+    }
+
+    .profile-biblical-ref {
+        font-size: 30px;
+        letter-spacing: 0.8px;
+    }
+
+    .profile-biblical-text {
+        font-size: 13px;
+    }
+
+    .profile-couple-names {
+        font-size: 13px;
+    }
+}
