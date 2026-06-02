@@ -504,11 +504,13 @@
 .ls-deco-wrap {
     position: relative;
     flex: 1;
+    height: 128px;
+    overflow: hidden;
 }
 
 .ls-paper {
     width: 100%;
-    height: 128px;
+    height: 100%;
     object-fit: cover;
     display: block;
 }
