@@ -529,13 +529,20 @@
     line-height: 1.3;
 }
 
-.ls-overlap-photo {
+/* Wrapper constrains height, image fills it */
+.ls-overlap-wrap {
     width: 147px;
     height: 128px;
+    flex-shrink: 0;
+    overflow: hidden;
+    margin-left: -74px;
+}
+
+.ls-overlap-photo {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
-    margin-left: -74px;
-    flex-shrink: 0;
     display: block;
 }
 
