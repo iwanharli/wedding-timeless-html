@@ -392,6 +392,7 @@
 .section-lovestory {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-height: 100vh;
     padding: 10%;
     gap: 20px;
@@ -399,14 +400,12 @@
     box-sizing: border-box;
 }
 
-/* Row: two-column flex, grows to fill available height */
+/* Row: two-column flex, natural height based on content */
 .ls-row {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
-    flex: 1;
-    min-height: 0;
     gap: 0;
 }
 
@@ -465,13 +464,13 @@
     margin: 0;
 }
 
-/* Photos: fill their container with cover crop */
+/* Photos: natural sizing, capped so they don't grow too tall */
 .ls-photo {
     width: 100%;
-    flex: 1;
-    min-height: 80px;
+    height: auto;
+    max-height: 220px;
     object-fit: cover;
-    object-position: center;
+    object-position: center top;
     display: block;
 }
 
