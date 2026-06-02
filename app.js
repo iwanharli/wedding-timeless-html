@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!tombolBuka) return;
 
     tombolBuka.addEventListener('click', function () {
-        var video = document.querySelector('.elementor-background-video-hosted');
+        var video = document.querySelector('#video-bg-player, .elementor-background-video-hosted');
         if (video && video.paused) { video.play(); }
 
         var scrollItem = document.querySelector('.scroll');
@@ -1253,3 +1253,31 @@ jQuery(document).ready(function ($) {
 			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
 			document.body.className = c;
 		})();
+
+/* ── Countdown Timer (Section 7) ── */
+document.addEventListener('DOMContentLoaded', function () {
+    var targetTs = 1729310400 * 1000; // same timestamp as original data-date
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+        var diff = targetTs - Date.now();
+        var d = document.querySelector('.cd-days');
+        var h = document.querySelector('.cd-hours');
+        var m = document.querySelector('.cd-minutes');
+        var s = document.querySelector('.cd-seconds');
+        if (!d) return;
+
+        if (diff <= 0) {
+            d.textContent = h.textContent = m.textContent = s.textContent = '00';
+            return;
+        }
+        d.textContent = pad(Math.floor(diff / 86400000));
+        h.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+        m.textContent = pad(Math.floor((diff % 3600000) / 60000));
+        s.textContent = pad(Math.floor((diff % 60000) / 1000));
+    }
+
+    tick();
+    setInterval(tick, 1000);
+});
