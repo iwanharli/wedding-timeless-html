@@ -392,18 +392,21 @@
 .section-lovestory {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 20px;
+    min-height: 100vh;
     padding: 10%;
+    gap: 20px;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* Row: two-column flex */
+/* Row: two-column flex, grows to fill available height */
 .ls-row {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
+    flex: 1;
+    min-height: 0;
     gap: 0;
 }
 
@@ -412,7 +415,10 @@
 .ls-row--reverse .ls-text--last { order: 999; }
 
 /* Columns */
-.ls-col { flex: 1; }
+.ls-col {
+    flex: 1;
+    min-width: 0;
+}
 
 .ls-text {
     display: flex;
@@ -420,8 +426,13 @@
     gap: 10px;
 }
 
-.ls-img { display: flex; flex-direction: column; gap: 5px; justify-content: flex-end; }
-.ls-img--right { justify-content: flex-end; }
+/* Image columns: fill row height, images use object-fit cover */
+.ls-img {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.ls-img--right { justify-content: flex-end; gap: 5px; }
 
 /* Typography */
 .ls-date {
@@ -431,6 +442,7 @@
     font-weight: 500;
     text-align: left;
     margin: 0;
+    flex-shrink: 0;
 }
 
 .ls-chapter-title {
@@ -440,6 +452,7 @@
     font-weight: 500;
     text-align: left;
     margin: 0;
+    flex-shrink: 0;
 }
 
 .ls-desc {
@@ -452,10 +465,13 @@
     margin: 0;
 }
 
-/* Photos */
+/* Photos: fill their container with cover crop */
 .ls-photo {
     width: 100%;
-    height: auto;
+    flex: 1;
+    min-height: 80px;
+    object-fit: cover;
+    object-position: center;
     display: block;
 }
 
