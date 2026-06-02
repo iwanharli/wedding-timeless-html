@@ -20,7 +20,7 @@
     z-index: 1 !important;
     background-color: transparent !important;
 }
-#right-panel > .child:not(.elementor-element-303ad26d):not(#hapus-section) {
+#right-panel > .child:not(.elementor-element-303ad26d):not(#hapus-section):not(#section-thankyou) {
     background-image: none !important;
 }
 
