@@ -390,14 +390,15 @@
    SECTION 6 · LOVE STORY
 ================================================================ */
 .section-lovestory {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 10%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10% !important;
     gap: 20px;
     overflow: hidden;
     box-sizing: border-box;
+    width: 100%;
 }
 
 /* Row: two-column flex, natural height based on content */
