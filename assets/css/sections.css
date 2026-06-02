@@ -385,3 +385,139 @@
     .profile-relation { font-size: 20px; }
     .profile-relation-desc { font-size: 13px; }
 }
+
+/* ================================================================
+   SECTION 6 · LOVE STORY
+================================================================ */
+.section-lovestory {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 10%;
+    overflow: hidden;
+}
+
+/* Row: two-column flex */
+.ls-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+}
+
+/* Reverse row: text pushed to right via order */
+.ls-row--reverse { justify-content: flex-end; }
+.ls-row--reverse .ls-text--last { order: 999; }
+
+/* Columns */
+.ls-col { flex: 1; }
+
+.ls-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ls-img { display: flex; flex-direction: column; gap: 5px; justify-content: flex-end; }
+.ls-img--right { justify-content: flex-end; }
+
+/* Typography */
+.ls-date {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+}
+
+.ls-chapter-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+}
+
+.ls-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: left;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Photos */
+.ls-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Chapter 1 overlap decoration */
+.ls-img--overlap { position: relative; }
+.ls-deco-overlay {
+    position: absolute;
+    top: -11px;
+    left: 0;
+    width: 109px;
+    height: auto;
+    pointer-events: none;
+}
+
+/* Chapter 2 collage (page 2) */
+.ls-row--collage { align-items: flex-start; }
+
+.ls-deco-col {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.ls-deco-wrap {
+    position: relative;
+    flex: 1;
+}
+
+.ls-paper {
+    width: 100%;
+    height: 128px;
+    object-fit: cover;
+    display: block;
+}
+
+.ls-paper-title {
+    position: absolute;
+    top: 43%;
+    left: 0;
+    right: 0;
+    color: #636363;
+    font-family: "time noww", sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    text-align: left;
+    padding: 0 4px;
+    line-height: 1.3;
+}
+
+.ls-overlap-photo {
+    width: 147px;
+    height: 128px;
+    object-fit: cover;
+    object-position: center;
+    margin-left: -74px;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-lovestory { padding: 10% 5%; gap: 15px; }
+    .ls-row { flex-wrap: wrap; }
+    .ls-col { flex: 1 1 45%; min-width: 120px; }
+}
