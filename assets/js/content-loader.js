@@ -81,18 +81,20 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    fetch('assets/data/content.json')
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error('Failed to load content.json: ' + response.status);
-        }
-        return response.json();
-      })
-      .then(function (data) {
+    // Use XMLHttpRequest for file:// protocol compatibility
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'assets/data/content.json', true);
+    xhr.onload = function () {
+      try {
+        var data = JSON.parse(xhr.responseText);
         applyBindings(data);
-      })
-      .catch(function (err) {
-        console.warn('Content loader:', err);
-      });
+      } catch (err) {
+        console.warn('Content loader: Failed to parse JSON', err);
+      }
+    };
+    xhr.onerror = function () {
+      console.warn('Content loader: Failed to fetch content.json');
+    };
+    xhr.send();
   });
 })();
