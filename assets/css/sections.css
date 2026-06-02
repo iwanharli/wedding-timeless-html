@@ -1375,9 +1375,10 @@
     color: #ffffff;
     font-family: "time noww", sans-serif;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 500;
     text-align: center;
     margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .thankyou-message {
@@ -1388,6 +1389,7 @@
     text-align: center;
     margin: 0;
     line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .thankyou-names {
@@ -1397,6 +1399,7 @@
     font-weight: 400;
     text-align: center;
     margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
 }
 
 .thankyou-bottom {
