@@ -949,3 +949,226 @@
     .section-livestream { padding: 10% 5%; }
     .ls9-photo-wrap { height: 180px; }
 }
+
+/* ================================================================
+   SECTION 10 · DRESS CODE
+================================================================ */
+.section-dress-code {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.dc-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+}
+
+.dc-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 53px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+/* 4 overlapping colour circles */
+.dc-swatches {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 16px;
+}
+
+.dc-swatch {
+    font-size: 39px;
+    margin-left: -14px;
+}
+.dc-swatch:first-child { margin-left: 0; }
+
+.dc-text {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    text-align: center;
+    max-width: 81%;
+    margin: 0;
+    line-height: 1.7;
+}
+
+/* ================================================================
+   SECTION 11 · RSVP  (#rsvp)
+================================================================ */
+.section-rsvp {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.rsvp-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.rsvp-title {
+    color: #ffffff;
+    font-family: "time now italic", sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+}
+
+.rsvp-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: left;
+    margin: 0 0 16px 0;
+    line-height: 1.6;
+}
+
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.rsvp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rsvp-field label {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rsvp-input, .rsvp-textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 13px;
+    padding: 6px 0;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rsvp-textarea { resize: vertical; min-height: 80px; }
+
+.rsvp-radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.rsvp-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.rsvp-submit {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.6);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 24px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 4px;
+}
+.rsvp-submit:hover { background: rgba(255,255,255,0.1); }
+
+/* ================================================================
+   SECTION 12 · GUEST WISHES DISPLAY
+================================================================ */
+.section-wishes {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Navigation buttons */
+#komentar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.wishes-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.wishes-nav-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+}
+
+/* Wishes container */
+#komentar-container {
+    flex: 1;
+    position: relative;
+    min-height: 200px;
+}
