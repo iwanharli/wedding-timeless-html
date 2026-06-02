@@ -417,6 +417,7 @@
 .ls-col {
     flex: 1;
     min-width: 0;
+    padding: 0 8px;
 }
 
 .ls-text {
@@ -425,13 +426,17 @@
     gap: 10px;
 }
 
-/* Image columns: fill row height, images use object-fit cover */
+/* Image columns */
 .ls-img {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    align-items: flex-start;
+    gap: 5px;
 }
-.ls-img--right { justify-content: flex-end; gap: 5px; }
+.ls-img--right {
+    align-items: flex-start;
+    justify-content: flex-end;
+}
 
 /* Typography */
 .ls-date {
@@ -464,13 +469,11 @@
     margin: 0;
 }
 
-/* Photos: natural sizing, capped so they don't grow too tall */
+/* Photos: full photo visible, width capped to keep them small */
 .ls-photo {
     width: 100%;
+    max-width: 200px;
     height: auto;
-    max-height: 220px;
-    object-fit: cover;
-    object-position: center top;
     display: block;
 }
 
