@@ -861,3 +861,91 @@
     .ev-cards { flex-direction: column; gap: 20px; }
     .ev-card-address { max-width: 90%; }
 }
+
+/* ================================================================
+   SECTION 9 · LIVESTREAMING  (#livestreaming)
+================================================================ */
+.section-livestream {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ls9-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+}
+
+/* Photo: landscape, 217px tall */
+.ls9-photo-wrap {
+    width: 100%;
+    height: 217px;
+    overflow: hidden;
+}
+.ls9-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+/* Title */
+.ls9-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 31px;
+    font-weight: 500;
+    text-align: left;
+    margin: 12px 0 0 0;
+    width: 100%;
+    line-height: 1.2;
+}
+
+/* Date */
+.ls9-date {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+    margin: 6px 0 0 0;
+    width: 100%;
+}
+
+/* Join Now button — circular outline, left aligned */
+.ls9-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 10px 16px;
+    text-decoration: none;
+    max-width: 203px;
+    margin-top: -10px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+.ls9-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-livestream { padding: 10% 5%; }
+    .ls9-photo-wrap { height: 180px; }
+}
