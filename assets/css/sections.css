@@ -506,7 +506,7 @@
     position: relative;
     flex: 1;
     height: 128px;
-    overflow: visible; /* allow overlap photo to show through hole */
+    overflow: hidden; /* clips paper image to 128px; sibling photo still visible through mask */
     z-index: 2;
 }
 
