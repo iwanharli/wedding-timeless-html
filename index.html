@@ -845,21 +845,18 @@
 
 				<!-- ================================================================
 				     SECTION 14 · GALLERY  (#gallery)
-				     YouTube video + 3x Swiper sliders (4 photos each)
-				     Lightbox: custom implementation in app.js
 				================================================================ -->
 				<div id="gallery" class="section-gallery child">
 					<div class="gal-inner">
 
 						<h2 class="gal-title">Unveiling<br />Our Prewedding Story</h2>
 
-						<!-- YouTube video with thumbnail overlay (app.js manages iframe) -->
 						<div class="gal-video-wrap">
 							<div class="elementor-wrapper elementor-open-inline">
 								<div class="elementor-video"></div>
 								<div class="elementor-custom-embed-image-overlay"
 									style="background-image: url(assets/images/Timeless-00028.jpg);">
-									<div class="elementor-custom-embed-play" role="button" aria-label="Play Video" tabindex="0">
+									<div class="elementor-custom-embed-play" role="button" tabindex="0">
 										<i aria-hidden="true" class="eicon-play"></i>
 									</div>
 								</div>
@@ -868,146 +865,153 @@
 
 						<p class="gal-hint">Click image for preview</p>
 
-						<!-- Photo grid: 2-column layout, 3 Swiper sliders -->
 						<div class="gal-grid">
-
-							<!-- Slider left (align-right class) -->
 							<div class="gal-col gal-col--left">
+								<div class="dynamic_acfslider gallery gallery-lightbox" itemscope
+								itemtype="http://schema.org/ImageGallery">
 								<div class="dyncontel-swiper dce-fade dce-direction-horizontal">
-																			<div class="swiper-container">
-																				<div class="swiper-wrapper">
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00028.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00013.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00024.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00002-1.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																				</div>
-																			</div>
+								<div class="swiper-container">
+								<div class="swiper-wrapper">
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00028.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00013.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00024.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00002-1.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								</div>
+								</div>
+								</div>
+								</div>
 								<p class="gal-quote">Every love story is beautiful, but ours is my
 											favorite. Through the highs and lows, our love grows stronger and deeper
 											with each passing day.</p>
 							</div>
-
-							<!-- Right column: two stacked sliders -->
 							<div class="gal-col gal-col--right">
+								<div class="dynamic_acfslider gallery gallery-lightbox" itemscope
+								itemtype="http://schema.org/ImageGallery">
 								<div class="dyncontel-swiper dce-fade dce-direction-horizontal">
-																			<div class="swiper-container">
-																				<div class="swiper-wrapper">
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00042.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00001.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00043-1.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00045.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																				</div>
-																			</div>
+								<div class="swiper-container">
+								<div class="swiper-wrapper">
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00042.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00001.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00043-1.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00045.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								</div>
+								</div>
+								</div>
+								</div>
+								<div class="dynamic_acfslider gallery gallery-lightbox" itemscope
+								itemtype="http://schema.org/ImageGallery">
 								<div class="dyncontel-swiper dce-fade dce-direction-horizontal">
-																			<div class="swiper-container">
-																				<div class="swiper-wrapper">
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00019.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00003-1.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00030-1.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																					<div class="swiper-slide">
-																						<figure itemprop="associatedMedia" itemscope
-																							itemtype="http://schema.org/ImageObject"
-																							class="acfslider-item grid-item">
-																							<div class="wrap-item-acfslider"><img decoding="async"
-																									src="assets/images/Timeless-00033.jpg"
-																									itemprop="thumbnail" alt="" /></div>
-																						</figure>
-																					</div>
-																				</div>
-																			</div>
+								<div class="swiper-container">
+								<div class="swiper-wrapper">
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00019.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00003-1.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00030-1.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								<div class="swiper-slide">
+								<figure itemprop="associatedMedia" itemscope
+								itemtype="http://schema.org/ImageObject"
+								class="acfslider-item grid-item">
+								<div class="wrap-item-acfslider"><img decoding="async"
+								src="assets/images/Timeless-00033.jpg"
+								itemprop="thumbnail" alt="" /></div>
+								</figure>
+								</div>
+								</div>
+								</div>
+								</div>
+								</div>
 							</div>
+						</div>
 
-						</div><!-- /gal-grid -->
-					</div><!-- /gal-inner -->
-				</div><!-- /#gallery -->
+					</div>
+				</div>
 
 				<!-- ================================================================
 				     SECTION 15 · THANK YOU
