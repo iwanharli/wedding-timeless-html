@@ -1412,6 +1412,7 @@
     justify-content: space-between;
     min-height: 100vh;
     padding: 60px 30px;
+    /* background set here — no longer depends on elementor-element-303ad26d class */
     overflow: hidden;
     box-sizing: border-box;
     background-image: url('../images/Timeless-00018.jpg');
