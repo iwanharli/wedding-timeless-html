@@ -2,8 +2,8 @@
 
 /* ── Video: Fixed Background untuk Semua Section (Desktop & Mobile) ── */
 
-/* Video element: cover full container */
-.elementor-element-84b6401 video {
+/* Video element: cover full container (#video-bg) */
+#video-bg video {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -12,26 +12,20 @@
     object-fit: cover !important;
     transform: none !important;
 }
-
-.elementor-element-84b6401 .elementor-background-video-container {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-}
+/* NOTE: #video-bg outer container positioning is in the desktop/mobile media queries below */
 
 /* Semua child section (halaman 1-14): di atas video (z-index 1) dan transparan agar background video terlihat */
-.elementor-element-38563ea2 > .child {
+#right-panel > .child:not(#hapus-section) {
     position: relative !important;
     z-index: 1 !important;
     background-color: transparent !important;
 }
-.elementor-element-38563ea2 > .child:not(.elementor-element-303ad26d) {
+#right-panel > .child:not(.elementor-element-303ad26d):not(#hapus-section) {
     background-image: none !important;
 }
 
-/* Cover section (hapus-section) sebelum dibuka: z-index di atas video */
-.elementor-element-0892a8b {
+/* #hapus-section (cover) punya background foto sendiri sebelum diklik */
+#hapus-section {
     position: relative !important;
     z-index: 3 !important;
 }
@@ -46,7 +40,7 @@
 /* ── Desktop Layout: Persistent Left Panel & Right Scrolling Panel ── */
 @media screen and (min-width: 801px) {
     /* Left panel: fixed ke kiri sepanjang halaman */
-    .elementor-element-5de39555 {
+    #left-panel {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -58,7 +52,7 @@
     }
     
     /* Pastikan background image tidak bergeser */
-    .elementor-element-5de39555::before {
+    #left-panel::before {
         background-size: cover !important;
         background-position: center center !important;
     }
@@ -70,13 +64,13 @@
     }
 
     /* KONTEN UTAMA KANAN: Berikan position relative agar child absolute di dalamnya sejajar di 700px kanan */
-    .elementor-element-38563ea2 {
+    #right-panel {
         position: relative !important;
         width: 700px !important;
     }
 
     /* Video latar belakang: fixed terbatas di panel kanan 700px */
-    .elementor-element-84b6401 {
+    #video-bg {
         position: fixed !important;
         top: 0 !important;
         right: 0 !important;
@@ -90,7 +84,7 @@
 /* ── Mobile Layout: Full Screen Video & Content ── */
 @media screen and (max-width: 800px) {
     /* Video fixed di layar penuh 100vw */
-    .elementor-element-84b6401 {
+    #video-bg {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -679,23 +673,17 @@ a:where(:not(.wp-element-button)) {
 }
 
 /* ── Elementor – Background Images per Element ── */
-.elementor-605881 .elementor-element.elementor-element-5de39555::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
+#left-panel::before {
     background-image: url("./assets/images/Timeless-00036.jpg");
 }
 
-.elementor-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+#video-bg {
     background: url("./assets/images/Timeless-00036.jpg") 50% 50%;
     background-size: cover;
 }
 
-.elementor-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+.elementor-605881 .elementor-element#hapus-section:not(.elementor-motion-effects-element-type-background),
+.elementor-605881 .elementor-element#hapus-section>.elementor-motion-effects-container>.elementor-motion-effects-layer {
     background-image: url("./assets/images/Timeless-00025-1.jpg");
 }
 
@@ -1541,25 +1529,19 @@ body::-webkit-scrollbar {
 }
 
 /* ── Elementor – DCE background fix ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
+.dce-fix-background-loop #left-panel::before {
     background-image: url("./assets/images/Timeless-00036.jpg");
 }
 
 /* ── Elementor – DCE background fix (2) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+.dce-fix-background-loop #video-bg {
     background: url("./assets/images/Timeless-00036.jpg") 50% 50%;
     background-size: cover;
 }
 
 /* ── Elementor – DCE background fix (3) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element#hapus-section:not(.elementor-motion-effects-element-type-background),
+.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element#hapus-section>.elementor-motion-effects-container>.elementor-motion-effects-layer {
     background-image: url("./assets/images/Timeless-00025-1.jpg");
 }
 
