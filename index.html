@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
+
+
+<!-- ================================================================
+     HEAD
+     Stylesheets: Elementor vendor CSS, AOS, FontAwesome, app.css
+================================================================ -->
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -60,17 +66,39 @@
 	
 </head>
 
+
+
+<!-- ================================================================
+     BODY
+================================================================ -->
 <body
 	class="wp-singular post-template post-template-elementor_canvas single single-post postid-605881 single-format-standard wp-embed-responsive wp-theme-hello-elementor theme-hello-elementor woocommerce-no-js hello-elementor-default elementor-default elementor-template-canvas elementor-kit-5 elementor-page elementor-page-605881">
 	<script src="assets/vendor/aos.js" defer></script> 
 	<e-page-transition class="e-page-transition--entering">
 	</e-page-transition>
+
+
+	<!-- ================================================================
+	     ROOT · Elementor post wrapper (ID 605881)
+	================================================================ -->
 	<div data-elementor-type="wp-post" data-elementor-id="605881" class="elementor elementor-605881"
 		data-elementor-post-type="post">
+
+		<!-- ================================================================
+		     LAYOUT · TWO-COLUMN WRAPPER  (#section-cover)
+		     ├─ Left  : sticky background panel (desktop only)
+		     └─ Right : scrollable panel — all content sections
+		================================================================ -->
 		<div class="elementor-element elementor-element-595b698c e-con-full hidden e-flex e-con e-parent"
+
 			data-id="595b698c" data-element_type="container" id="section-cover">
+
+			<!-- ── LEFT PANEL (desktop sticky, hidden on mobile/tablet) ─────────
+			     Background overlay image + couple names
+			──────────────────────────────────────────────────────────────────── -->
 			<div data-bg-key="hero.backgroundOverlayImage" data-dce-background-overlay-image-url="assets/images/Timeless-00036.jpg"
 				class="elementor-element elementor-element-5de39555 e-con-full elementor-hidden-mobile elementor-hidden-tablet e-flex e-con e-child"
+
 				data-id="5de39555" data-element_type="container"
 				data-settings="{&quot;sticky&quot;:&quot;top&quot;,&quot;background_background&quot;:&quot;classic&quot;,&quot;sticky_on&quot;:[&quot;desktop&quot;],&quot;sticky_parent&quot;:&quot;yes&quot;,&quot;sticky_offset&quot;:0,&quot;sticky_effects_offset&quot;:0}">
 				<div class="elementor-element elementor-element-dcbd97d e-con-full e-flex e-con e-child"
@@ -119,6 +147,11 @@
 					</div>
 				</div>
 			</div>
+
+
+			<!-- ── RIGHT PANEL (scrollable) ─────────────────────────────────────
+			     All invitation sections live inside here
+			──────────────────────────────────────────────────────────────────── -->
 			<div class="elementor-element elementor-element-38563ea2 e-con-full e-flex e-con e-child" data-id="38563ea2"
 				data-element_type="container">
 				<div data-dce-background-overlay-color="#101010"
@@ -132,8 +165,16 @@
 							autoplay muted playsinline loop></video>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 1 · HERO / COVER  (#hapus-section)
+				     Background image + video loop
+				     'LET'S OPEN' button → #tombol-buka
+				     Removed from DOM by app.js when button is clicked
+				================================================================ -->
 				<div data-bg-key="hero.backgroundImage" data-dce-background-image-url="assets/images/Timeless-00025-1.jpg"
 					class="elementor-element elementor-element-0892a8b e-con-full e-flex e-con e-child"
+
 					data-id="0892a8b" data-element_type="container" id="hapus-section"
 					data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 					<div class="elementor-element elementor-element-eb35439 e-flex e-con-boxed e-con e-child"
@@ -270,7 +311,15 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 2 · INTRO SCREEN  (#pertama)
+				     Shown after cover opens (first scroll-snap stop)
+				     Couple names, date, "we make an eternal vow"
+				     Anchor: #home
+				================================================================ -->
 				<div class="elementor-element elementor-element-3c63c56 child e-con-full e-flex e-con e-child"
+
 					data-id="3c63c56" data-element_type="container" id="pertama">
 					<div class="elementor-element elementor-element-dd56561 e-flex e-con-boxed e-con e-child"
 						data-id="dd56561" data-element_type="container"
@@ -386,7 +435,13 @@
 						data-settings="{&quot;position&quot;:&quot;absolute&quot;}">
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 3 · PROFILE INTRO
+				     Biblical quote (Mark 10:6-9) + couple preview photo
+				================================================================ -->
 				<div class="elementor-element elementor-element-40fa890d child e-flex e-con-boxed e-con e-child"
+
 					data-id="40fa890d" data-element_type="container">
 					<div class="e-con-inner">
 						<div class="elementor-element elementor-element-21013902 e-flex e-con-boxed e-con e-child"
@@ -434,7 +489,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 4 · GROOM PROFILE  (#profile)
+				     Photo, name, parents, Instagram
+				     Content keys: groom.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-2e297329 child e-con-full e-flex e-con e-child"
+
 					data-id="2e297329" data-element_type="container" id="profile">
 					<div class="elementor-element elementor-element-500db090 e-flex e-con-boxed e-con e-child"
 						data-id="500db090" data-element_type="container">
@@ -512,7 +574,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 5 · BRIDE PROFILE
+				     Photo, name, parents, Instagram
+				     Content keys: bride.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-1ae512c4 child e-con-full e-flex e-con e-child"
+
 					data-id="1ae512c4" data-element_type="container">
 					<div class="elementor-element elementor-element-4f137456 e-flex e-con-boxed e-con e-child"
 						data-id="4f137456" data-element_type="container">
@@ -590,7 +659,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 6 · LOVE STORY  (#lovestory)
+				     3 chapters: date, description, photo
+				     Content keys: loveStory.chapters.0/1/2.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-4ab5e2be e-con-full child e-flex e-con e-child"
+
 					data-id="4ab5e2be" data-element_type="container" id="lovestory">
 					<div class="elementor-element elementor-element-6561620a e-con-full e-flex e-con e-child"
 						data-id="6561620a" data-element_type="container">
@@ -747,7 +823,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 7 · COUNTDOWN + SAVE THE DATE
+				     Countdown timer (data-date hardcoded)
+				     .ics calendar download button
+				================================================================ -->
 				<div class="elementor-element elementor-element-7cc2b8a0 child e-con-full e-flex e-con e-child"
+
 					data-id="7cc2b8a0" data-element_type="container">
 					<div class="elementor-element elementor-element-1839a6c e-con-full e-flex e-con e-child"
 						data-id="1839a6c" data-element_type="container">
@@ -882,7 +965,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 8 · WEDDING EVENT  (#weddingevent)
+				     Holy Matrimony + Reception
+				     Content keys: event.ceremony.* / event.reception.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-41a3466c child e-con-full e-flex e-con e-child"
+
 					data-id="41a3466c" data-element_type="container" id="weddingevent">
 					<div class="elementor-element elementor-element-d6df815 e-con-full e-flex e-con e-child"
 						data-id="d6df815" data-element_type="container">
@@ -1005,7 +1095,13 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 9 · LIVESTREAMING  (#livestreaming)
+				     Content keys: livestream.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-384acc59 child e-con-full e-flex e-con e-child"
+
 					data-id="384acc59" data-element_type="container" id="livestreaming">
 					<div class="elementor-element elementor-element-49799a94 e-flex e-con-boxed e-con e-child"
 						data-id="49799a94" data-element_type="container" data-aos="fade" data-aos-offset="0"
@@ -1058,7 +1154,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 10 · DRESS CODE
+				     Colour swatches + attire guidance
+				     Content key: rsvp.guestAttendanceTitle
+				================================================================ -->
 				<div class="elementor-element elementor-element-54db2e23 e-con-full child e-flex e-con e-child"
+
 					data-id="54db2e23" data-element_type="container">
 					<div class="elementor-element elementor-element-c53800f e-con-full animated-slow e-flex e-con e-child"
 						data-id="c53800f" data-element_type="container"
@@ -1135,7 +1238,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 11 · RSVP  (#rsvp)
+				     Form: name, attendance, guest count, wishes
+				     Submit: #send-comment
+				================================================================ -->
 				<div class="elementor-element elementor-element-3dcfc97a child e-con-full e-flex e-con e-child"
+
 					data-id="3dcfc97a" data-element_type="container" id="rsvp">
 					<div class="elementor-element elementor-element-35e9eef8 e-flex e-con-boxed e-con e-child"
 						data-id="35e9eef8" data-element_type="container">
@@ -1291,7 +1401,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 12 · GUEST WISHES DISPLAY
+				     Paginated list → #komentar-container
+				     Navigation: #prev-btn / #next-btn
+				================================================================ -->
 				<div class="elementor-element elementor-element-02afb1b e-con-full child e-flex e-con e-child"
+
 					data-id="02afb1b" data-element_type="container">
 					<div class="elementor-element elementor-element-6179a58f e-con-full e-flex e-con e-child"
 						data-id="6179a58f" data-element_type="container" data-aos="fade" data-aos-offset="0"
@@ -1375,7 +1492,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 13 · WEDDING GIFT  (#weddinggift)
+				     Bank accounts + copy-to-clipboard buttons
+				     Content keys: gift.*
+				================================================================ -->
 				<div class="elementor-element elementor-element-7a07fb35 e-con-full child e-flex e-con e-child"
+
 					data-id="7a07fb35" data-element_type="container" id="weddinggift">
 					<div class="elementor-element elementor-element-305e5e09 e-flex e-con-boxed e-con e-child"
 						data-id="305e5e09" data-element_type="container">
@@ -1632,7 +1756,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 14 · GALLERY  (#gallery)
+				     YouTube video + 3x Swiper sliders (4 photos each)
+				     Lightbox: custom implementation in app.js
+				================================================================ -->
 				<div class="elementor-element elementor-element-11ab34e3 e-con-full child e-flex e-con e-child"
+
 					data-id="11ab34e3" data-element_type="container" id="gallery">
 					<div class="elementor-element elementor-element-417ff75 e-con-full e-flex e-con e-child"
 						data-id="417ff75" data-element_type="container">
@@ -1859,8 +1990,14 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ================================================================
+				     SECTION 15 · THANK YOU
+				     Closing message + WhatsApp contact link
+				================================================================ -->
 				<div data-dce-background-image-url="assets/images/Timeless-00018.jpg"
 					class="elementor-element elementor-element-303ad26d e-con-full child e-flex e-con e-child"
+
 					data-id="303ad26d" data-element_type="container"
 					data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 					<div class="elementor-element elementor-element-54904814 e-flex e-con-boxed e-con e-child"
@@ -1929,6 +2066,12 @@
 				</div>
 			</div>
 		</div>
+
+
+		<!-- ================================================================
+		     FLOATING · EDIT PANEL  (position: fixed)
+		     Hidden, toggled by #openedit — not used in static build
+		================================================================ -->
 		<div class="elementor-element elementor-element-27a3b71 e-flex e-con-boxed e-con e-parent" data-id="27a3b71"
 			data-element_type="container">
 			<div class="e-con-inner">
@@ -1967,7 +2110,14 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- ================================================================
+		     FLOATING · QR / FLYER OVERLAY  (position: fixed)
+		     Triggered by .dqr button
+		     Flyer: elementor-377529 · Download: #downloadBtn → html2canvas
+		================================================================ -->
 		<div class="dce-visibility-element-hidden dce-visibility-original-content dce-visibility-event elementor-element elementor-element-5e8872d e-flex e-con-boxed e-con e-parent"
+
 			data-dce-background-color="#101010E6" data-id="5e8872d" data-element_type="container"
 			data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;position&quot;:&quot;fixed&quot;,&quot;enabled_visibility&quot;:&quot;yes&quot;,&quot;dce_visibility_click&quot;:&quot;.dqr&quot;,&quot;dce_visibility_click_show&quot;:&quot;fade&quot;,&quot;dce_visibility_click_toggle&quot;:&quot;yes&quot;,&quot;dce_visibility_selected&quot;:&quot;yes&quot;,&quot;dce_visibility_event&quot;:&quot;click&quot;}">
 			<div class="e-con-inner">
@@ -2106,7 +2256,15 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- ================================================================
+		     FLOATING · SIDE NAVIGATION + AUDIO  (position: fixed)
+		     Revealed after #tombol-buka click
+		     Hamburger menu, section links, play/pause buttons
+		     Hidden <p class="link-mp3"> → audio URL read by app.js
+		================================================================ -->
 		<div class="dce-visibility-element-hidden dce-visibility-original-content dce-visibility-event elementor-element elementor-element-f15c2b6 hidden e-flex e-con-boxed e-con e-parent"
+
 			data-id="f15c2b6" data-element_type="container"
 			data-settings="{&quot;enabled_visibility&quot;:&quot;yes&quot;,&quot;dce_visibility_click&quot;:&quot;#tombol-buka&quot;,&quot;dce_visibility_selected&quot;:&quot;yes&quot;,&quot;dce_visibility_event&quot;:&quot;click&quot;}">
 			<div class="e-con-inner">
@@ -2473,7 +2631,14 @@
 	</div>
 
 	</div>
+
+	<!-- ================================================================
+	     POPUP · WEDDING GIFT FORM  (elementor-430708)
+	     Triggered by "Confirm" in #weddinggift
+	     Fields: full name, recipient bank, amount, note
+	================================================================ -->
 	<div data-elementor-type="popup" data-elementor-id="430708"
+
 		class="elementor elementor-430708 elementor-location-popup"
 		data-elementor-settings="{&quot;exit_animation&quot;:&quot;fadeInDown&quot;,&quot;entrance_animation_duration&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.7,&quot;sizes&quot;:[]},&quot;prevent_scroll&quot;:&quot;yes&quot;,&quot;a11y_navigation&quot;:&quot;yes&quot;,&quot;timing&quot;:[]}"
 		data-elementor-post-type="elementor_library">
@@ -2567,6 +2732,14 @@
 		</div>
 	</div>
 	
+
+
+	<!-- ================================================================
+	     SCRIPTS
+	     Vendor  : Swiper, PhotoSwipe, jQuery, ClipboardJS
+	     Config  : ElementorProFrontendConfig, elementorFrontendConfig
+	     Custom  : content-data.js, content-loader.js, app.js
+	================================================================ -->
 	<script src="assets/js/wdp-swiper.min.js" defer></script>
 	<script
 		src="assets/vendor/photoswipe-ui-default.min30ad.js" defer></script>
