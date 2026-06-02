@@ -1,55 +1,49 @@
 /* app.css — inline styles extracted from index.html */
 
-/* ── Video: Fixed Background untuk Semua Section ── */
-@media screen and (min-width: 801px) {
+/* ── Video: Fixed Background untuk Semua Section (Desktop & Mobile) ── */
 
-    /* Video: fixed di right panel 700px, selalu visible saat scroll */
-    .elementor-element-84b6401 {
-        position: fixed !important;
-        top: 0 !important;
-        right: 0 !important;
-        width: 700px !important;
-        height: 100vh !important;
-        z-index: 0 !important;
-        overflow: hidden !important;
-    }
-
-    /* Video element: cover full container */
-    .elementor-element-84b6401 video,
-    .elementor-element-84b6401 .elementor-background-video-container {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-    }
-
-    /* Semua child section: di atas video (z-index 1) */
-    .elementor-element-38563ea2 > .child {
-        position: relative !important;
-        z-index: 1 !important;
-        background-color: transparent !important;
-    }
-
-    /* Cover section (hapus-section): menutup video saat cover */
-    .elementor-element-0892a8b {
-        position: relative !important;
-        z-index: 3 !important;
-    }
-
-    /* Section terakhir: background sendiri menutup video */
-    .elementor-element-303ad26d {
-        z-index: 2 !important;
-        background-size: cover !important;
-        background-position: center center !important;
-    }
+/* Video element: cover full container */
+.elementor-element-84b6401 video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
 }
 
-/* ── Cover Layout Fix: Persistent Left Panel ── */
+.elementor-element-84b6401 .elementor-background-video-container {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
 
-/* ── Cover Layout Fix: Persistent Left Panel ── */
+/* Semua child section (halaman 1-14): di atas video (z-index 1) dan transparan agar background video terlihat */
+.elementor-element-38563ea2 > .child {
+    position: relative !important;
+    z-index: 1 !important;
+    background-color: transparent !important;
+}
+.elementor-element-38563ea2 > .child:not(.elementor-element-303ad26d) {
+    background-image: none !important;
+}
 
-/* Desktop only: left panel fixed, right 700px scrolls */
+/* Cover section (hapus-section) sebelum dibuka: z-index di atas video */
+.elementor-element-0892a8b {
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+/* Section terakhir (halaman 15): background sendiri menutup video background */
+.elementor-element-303ad26d {
+    z-index: 2 !important;
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+/* ── Desktop Layout: Persistent Left Panel & Right Scrolling Panel ── */
 @media screen and (min-width: 801px) {
     /* Left panel: fixed ke kiri sepanjang halaman */
     .elementor-element-5de39555 {
@@ -60,7 +54,9 @@
         height: 100vh !important;
         z-index: 10 !important;
         overflow: hidden !important;
+        display: flex !important; /* Pastikan selalu muncul di desktop */
     }
+    
     /* Pastikan background image tidak bergeser */
     .elementor-element-5de39555::before {
         background-size: cover !important;
@@ -71,6 +67,37 @@
     .elementor.elementor-605881 {
         margin-left: calc(100vw - 700px) !important;
         width: 700px !important;
+    }
+
+    /* KONTEN UTAMA KANAN: Berikan position relative agar child absolute di dalamnya sejajar di 700px kanan */
+    .elementor-element-38563ea2 {
+        position: relative !important;
+        width: 700px !important;
+    }
+
+    /* Video latar belakang: fixed terbatas di panel kanan 700px */
+    .elementor-element-84b6401 {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 700px !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
+/* ── Mobile Layout: Full Screen Video & Content ── */
+@media screen and (max-width: 800px) {
+    /* Video fixed di layar penuh 100vw */
+    .elementor-element-84b6401 {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
     }
 }
 
@@ -1304,7 +1331,7 @@ body {
 }
 
 html {
-    scroll-snap-type: y mandator;
+    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
 
 }
@@ -1345,47 +1372,166 @@ body::-webkit-scrollbar {
     animation: blurSlideUp 0.5s ease forwards;
 }
 
-/* ── Preloader loading text ── */
-.loading-text {
-    margin-top: 10px !important;
-    font-family: lausanne300 !important;
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #C2C2C2 !important;
-    width: 100% !important;
-    text-align: left !important;
-    padding-left: 3% !important;
-}
-
-/* Untuk layar mobile */
-@media (max-width: 768px) {
-    .loading-text {
-        font-size: 12px !important;
-        letter-spacing: 1px;
-        text-align: center !important;
-        padding-left: 0 !important;
-    }
-}
-
-/* ── Preloader page ── */
-.preloader-page {
+/* ── Preloader Page & Overrides ── */
+#preloader {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    display: flex !important;
-
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
     z-index: 9999999 !important;
-    transition: opacity 1s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+#preloader.hide {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Force show the loading elements instantly with zero-glitch */
+#preloader .elementor-invisible,
+#preloader .elementor-element-2c5634a,
+#preloader .elementor-widget-heading,
+#preloader .elementor-heading-title {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+}
+
+/* Reset elementor layout properties inside preloader to achieve pixel perfect layout */
+#preloader .elementor-element-2c5634a,
+#preloader .elementor-element-53dc703,
+#preloader .elementor-element-409cb27,
+#preloader .elementor-element-d307c0a,
+#preloader .elementor-element-87a7d32,
+#preloader .elementor-widget-container {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    box-shadow: none !important;
+}
+
+/* Layout Names Row and Column */
+#preloader .elementor-element-2c5634a {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+}
+
+#preloader .elementor-element-53dc703 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 12px !important;
+}
+
+#preloader .elementor-element-87a7d32 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: -15px !important; /* Elegant overlap characteristic of signature cursive fonts */
+}
+
+/* "Handon" and "Cathrine" typography overrides */
+#preloader .elementor-element-c13ff1a .elementor-heading-title,
+#preloader .elementor-element-a6c30fc .elementor-heading-title {
+    font-family: 'Thesignature', 'signature fed', cursive !important;
+    color: #ffffff !important;
+    font-size: clamp(52px, 6.5vw, 84px) !important;
+    font-weight: 300 !important;
+    line-height: 1.1 !important;
+    text-transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    letter-spacing: 0px !important;
+    text-shadow: none !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* "and" styling override */
+#preloader .elementor-element-c45833a .elementor-heading-title {
+    font-family: 'Thesignature', 'signature fed', cursive !important;
+    color: #ffffff !important;
+    font-size: clamp(20px, 2.5vw, 30px) !important;
+    font-weight: 300 !important;
+    line-height: 1.1 !important;
+    text-transform: lowercase !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    letter-spacing: 0px !important;
+    opacity: 0.8 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Pin the progress indicator at the absolute bottom-left corner of viewport */
+#preloader .elementor-element-23fae09 {
+    position: absolute !important;
+    bottom: 5vh !important;
+    left: 5vw !important;
+    top: auto !important;
+    right: auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 10000000 !important;
+}
+
+#preloader .loading-text {
+    font-family: 'lausanne300', 'inter', sans-serif !important;
+    font-size: 12px !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    opacity: 0.6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    width: auto !important;
+}
+
+/* Responsive tweaks for mobile viewports */
+@media (max-width: 768px) {
+    #preloader .elementor-element-23fae09 {
+        left: 6vw !important;
+        bottom: 5vh !important;
+    }
+    #preloader .loading-text {
+        font-size: 11px !important;
+        letter-spacing: 1.5px !important;
+        text-align: left !important;
+    }
+    #preloader .elementor-element-53dc703 {
+        gap: 8px !important;
+    }
+    #preloader .elementor-element-87a7d32 {
+        margin-top: -12px !important;
+    }
 }
 
 .elementor-editor-active .preloader-page {
     position: relative !important;
-}
-
-.preloader-page.hide {
-    opacity: 0 !important;
 }
 
 /* ── Inline Style (8) ── */

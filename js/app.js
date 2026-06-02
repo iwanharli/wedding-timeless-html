@@ -254,7 +254,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* ── AOS Init ── */
-AOS.init();
+AOS.init({
+    duration: 800,
+    easing: 'ease-in-out',
+    once: false,
+    mirror: true,
+    offset: 0
+});
 
 /* ── URL Param → Form Name ── */
 document.addEventListener("DOMContentLoaded", function () {
@@ -789,6 +795,7 @@ function lockSection() {
         // Mobile: full width
         var isDesktop = window.innerWidth > 800;
         document.getElementById("section-cover").style.width = isDesktop ? "700px" : "100vw";
+        document.body.classList.remove("opened");
     }
 }
 
@@ -798,6 +805,7 @@ function unlockSection() {
     document.body.style.position = "";
     document.body.style.overflowY = "";
     document.getElementById("section-cover").style.width = "";
+    document.body.classList.add("opened");
 }
 
 // Menambahkan event listener untuk perubahan visibility
@@ -823,6 +831,7 @@ document.getElementById("tombol-buka").onclick = function() {
         sectionToRemove.classList.add("fade-out");
         setTimeout(() => {
             sectionToRemove.remove();
+            AOS.refresh();
         }, 500); // Waktu sesuai dengan durasi animasi
     }
 
@@ -836,6 +845,7 @@ document.getElementById("tombol-buka").onclick = function() {
     // Mengaktifkan kembali scroll snap setelah scroll selesai
     setTimeout(() => {
         document.documentElement.style.scrollSnapType = "y mandatory";
+        AOS.refresh();
     }, 500); // Durasi dapat disesuaikan sesuai kecepatan scroll
 };
 
