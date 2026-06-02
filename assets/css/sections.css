@@ -472,7 +472,7 @@
 /* Photos: full photo visible, width capped to keep them small */
 .ls-photo {
     width: 100%;
-    max-width: 200px;
+    max-width: 130px;
     height: auto;
     display: block;
 }
