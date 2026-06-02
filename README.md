@@ -7,6 +7,8 @@ Sebuah halaman undangan pernikahan statis yang tampaknya diekspor dari WordPress
 - Halaman utama: `index.html`
 - Style kustom: `app.css`
 - Script kustom: `app.js`
+- Content loader: `assets/js/content-loader.js`
+- Data konten: `assets/data/content.json`
 - Aset pendukung: `assets/`
 
 ## Fitur
@@ -17,6 +19,62 @@ Sebuah halaman undangan pernikahan statis yang tampaknya diekspor dari WordPress
 - Galeri lightbox kustom dengan navigasi keyboard dan swipe mobile
 - Dukungan audio toggle (sound on/off)
 - Aset Elementor dan library pendukung tersimpan secara lokal di folder `assets/`
+- **JSON-driven content binding**: Teks, gambar, video, dan audio dapat diatur dari file JSON tanpa memodifikasi HTML
+
+## Content Binding (JSON-driven)
+
+Halaman mendukung content binding berbasis JSON melalui data attributes:
+
+### File Konfigurasi
+
+- `assets/data/content.json` - Menyimpan semua nilai konten (teks, path aset)
+- `assets/js/content-loader.js` - Script yang memuat JSON dan mengisi elemen HTML
+
+### Data Attributes yang Didukung
+
+- `data-text-key="path.to.value"` - Isi text content dari JSON
+- `data-src-key="path.to.value"` - Set attribute `src` dari JSON
+- `data-video-src-key="path.to.value"` - Set video `src` dari JSON
+- `data-audio-src-key="path.to.value"` - Set audio `src` dari JSON
+- `data-bg-key="path.to.value"` - Set background image dari JSON
+- `data-href-key="path.to.value"` - Set link `href` dari JSON
+
+### Contoh `assets/data/content.json`
+
+```json
+{
+  "hero": {
+    "name1": "Handon",
+    "connector": "and",
+    "name2": "Cathrine",
+    "inviteTitle": "WE INVITE YOU TO CELEBRATE",
+    "openButton": "LET'S OPEN",
+    "backgroundVideo": "assets/media/Hanson-Catherine-CoupleSession.mp4",
+    "previewImage": "assets/images/Timeless-00025-1.jpg"
+  },
+  "audio": {
+    "track": "assets/media/YOU-by-Morgan-Saint.mp3"
+  }
+}
+```
+
+### Cara Menggunakan
+
+1. Tambahkan data attribute ke elemen HTML:
+   ```html
+   <h2 data-text-key="hero.name1">Handon</h2>
+   <video data-video-src-key="hero.backgroundVideo" src="" autoplay muted></video>
+   ```
+
+2. Update nilai di `assets/data/content.json`
+
+3. Script `content-loader.js` otomatis memuat dan mengisi elemen saat halaman dimuat
+
+### Keuntungan
+
+- Mudah mengubah konten tanpa mengedit HTML
+- Centralized content management
+- Cocok untuk template dinamis atau multi-bahasa
 
 ## Konten Utama
 

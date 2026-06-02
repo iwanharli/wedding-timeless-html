@@ -1,0 +1,16 @@
+{
+  "hero": {
+    "name1": "Handon",
+    "connector": "and",
+    "name2": "Cathrine",
+    "inviteTitle": "WE INVITE YOU TO CELEBRATE",
+    "openButton": "LET'S OPEN",
+    "backgroundOverlayImage": "assets/images/Timeless-00036.jpg",
+    "backgroundImage": "assets/images/Timeless-00025-1.jpg",
+    "backgroundVideo": "assets/media/Hanson-Catherine-CoupleSession.mp4",
+    "previewImage": "assets/images/Timeless-00025-1.jpg"
+  },
+  "audio": {
+    "track": "assets/media/YOU-by-Morgan-Saint.mp3"
+  }
+}
