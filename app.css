@@ -1383,40 +1383,8 @@ body::-webkit-scrollbar {
     pointer-events: none !important;
 }
 
-/* Force show the loading elements instantly with zero-glitch */
-#preloader .elementor-invisible,
-#preloader .elementor-element-2c5634a,
-#preloader .elementor-widget-heading,
-#preloader .elementor-heading-title {
-    opacity: 1 !important;
-    visibility: visible !important;
-    animation: none !important;
-}
-
-/* Reset elementor layout properties inside preloader to achieve pixel perfect layout */
-#preloader .elementor-element-2c5634a,
-#preloader .elementor-element-53dc703,
-#preloader .elementor-element-409cb27,
-#preloader .elementor-element-d307c0a,
-#preloader .elementor-element-87a7d32,
-#preloader .elementor-widget-container {
-    width: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    position: relative !important;
-    transform: none !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    box-shadow: none !important;
-}
-
-/* Layout Names Row and Column */
-#preloader .elementor-element-2c5634a {
+/* Preloader content layout (clean native CSS — no Elementor IDs) */
+.preloader-content {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -1424,7 +1392,7 @@ body::-webkit-scrollbar {
     gap: 4px !important;
 }
 
-#preloader .elementor-element-53dc703 {
+.preloader-names-row {
     display: flex !important;
     flex-direction: row !important;
     align-items: baseline !important;
@@ -1432,17 +1400,8 @@ body::-webkit-scrollbar {
     gap: 12px !important;
 }
 
-#preloader .elementor-element-87a7d32 {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin-top: -15px !important; /* Elegant overlap characteristic of signature cursive fonts */
-}
-
-/* "Handon" and "Cathrine" typography overrides */
-#preloader .elementor-element-c13ff1a .elementor-heading-title,
-#preloader .elementor-element-a6c30fc .elementor-heading-title {
+/* Names typography */
+.preloader-name {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(52px, 6.5vw, 84px) !important;
@@ -1451,38 +1410,30 @@ body::-webkit-scrollbar {
     text-transform: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    letter-spacing: 0px !important;
+    letter-spacing: 0 !important;
     text-shadow: none !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* "and" styling override */
-#preloader .elementor-element-c45833a .elementor-heading-title {
+.preloader-connector {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(20px, 2.5vw, 30px) !important;
     font-weight: 400 !important;
-    line-height: 1.1 !important;
     text-transform: lowercase !important;
     margin: 0 !important;
     padding: 0 !important;
-    letter-spacing: 0px !important;
     opacity: 0.8 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Pin the progress indicator at the absolute bottom-left corner of viewport */
-#preloader .elementor-element-23fae09 {
+/* Progress indicator: bottom-left */
+.preloader-progress {
     position: absolute !important;
     bottom: 5vh !important;
     left: 5vw !important;
-    top: auto !important;
-    right: auto !important;
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
     z-index: 10000000 !important;
 }
 
@@ -1501,25 +1452,17 @@ body::-webkit-scrollbar {
 
 /* Responsive tweaks for mobile viewports */
 @media (max-width: 768px) {
-    #preloader .elementor-element-23fae09 {
+    .preloader-progress {
         left: 6vw !important;
         bottom: 5vh !important;
     }
     #preloader .loading-text {
         font-size: 11px !important;
         letter-spacing: 1.5px !important;
-        text-align: left !important;
     }
-    #preloader .elementor-element-53dc703 {
+    .preloader-names-row {
         gap: 8px !important;
     }
-    #preloader .elementor-element-87a7d32 {
-        margin-top: -12px !important;
-    }
-}
-
-.elementor-editor-active .preloader-page {
-    position: relative !important;
 }
 
 /* ── Inline Style (8) ── */
@@ -1742,3 +1685,82 @@ body::-webkit-scrollbar {
   font-display: swap;
   src: url('./assets/fonts/DMSans-900-normal.woff2') format('woff2');
 }
+
+/* ── Elementor Pro replacements (previously in elementor-pro.frontend.min28fc.css) ── */
+
+/* Gallery video embed */
+.elementor-custom-embed-image-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.elementor-custom-embed-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+.elementor-custom-embed-play .eicon-play {
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+/* Base button */
+.elementor-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.elementor-button-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form base */
+.elementor-form .elementor-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.elementor-form .elementor-field-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.elementor-form .elementor-field,
+.elementor-form .elementor-field-textual {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    color: #ffffff;
+    padding: 6px 0;
+    font-size: 13px;
+    outline: none;
+}
+
+/* Page transition element */
+e-page-transition { display: none; }
