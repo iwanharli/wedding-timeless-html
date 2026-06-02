@@ -1455,10 +1455,10 @@ body::-webkit-scrollbar {
 /* "Handon" and "Cathrine" typography overrides */
 #preloader .elementor-element-c13ff1a .elementor-heading-title,
 #preloader .elementor-element-a6c30fc .elementor-heading-title {
-    font-family: 'Thesignature', 'signature fed', cursive !important;
+    font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(52px, 6.5vw, 84px) !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     line-height: 1.1 !important;
     text-transform: none !important;
     margin: 0 !important;
@@ -1471,10 +1471,10 @@ body::-webkit-scrollbar {
 
 /* "and" styling override */
 #preloader .elementor-element-c45833a .elementor-heading-title {
-    font-family: 'Thesignature', 'signature fed', cursive !important;
+    font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(20px, 2.5vw, 30px) !important;
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     line-height: 1.1 !important;
     text-transform: lowercase !important;
     margin: 0 !important;
