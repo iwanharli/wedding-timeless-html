@@ -603,9 +603,9 @@ function setSmallState($this){
     setCSS($this, '--button-height', buttonHeight + 'px')
     setCSS($this, '--button-width', buttonWidth + 'px')
 
-    $this.find('.mdw-side-menu .elementor-widget-icon-list').each(function(i){
-        var paddingBottom = getCSS($(this).find('.elementor-icon-list-item').eq(0), 'padding-bottom')
-        setCSS($(this).find('.elementor-icon-list-item'), '--padding-top', paddingBottom)
+    $this.find('.mdw-side-menu .nav-list').each(function(i){
+        var paddingBottom = getCSS($(this).find('.nav-item').eq(0), 'padding-bottom')
+        setCSS($(this).find('.nav-item'), '--padding-top', paddingBottom)
     })
 }
 
@@ -625,7 +625,7 @@ $('.mdw-side-menu-area').each(function(){
 
     $(this).find('.mdw-side-menu .elementor-icon-list-item').each(function(i){
         setCSS($(this), '--index', i)
-        var icon = $(this).find('.elementor-icon-list-icon')
+        var icon = $(this).find('.nav-icon')
         if(icon.length && !icon.find('i').length){
             icon.append('<i aria-hidden="true" class="fas fa-arrow-right"></i>')
         }
@@ -633,8 +633,8 @@ $('.mdw-side-menu-area').each(function(){
 })
 
 $('.mdw-side-menu-button .elementor-widget-button').each(function(){
-    var wrapper = $(this).find('.elementor-button-content-wrapper'),
-    text = $(this).find('.elementor-button-text')
+    var wrapper = $(this).find('.nav-btn-content'),
+    text = $(this).find('.nav-btn-text')
     text.clone().appendTo(wrapper)
 })
 
@@ -644,7 +644,7 @@ $('.mdw-side-menu-button').on('click', function(){
     if(clickLock) return
     var $this = $(this),
         menu = $this.closest('.mdw-side-menu-area'),
-        button = $this.find('.elementor-widget-button')
+        button = $this.find('.nav-btn')
         clickLock = true
     if(menu.hasClass('open')){
         button.eq(1).removeClass('open')
@@ -689,10 +689,10 @@ $(window).on('scroll', function(){
 
 /* ── Empty Icon List Cleanup ── */
 document.addEventListener("DOMContentLoaded", function () {
-    const listItems = document.querySelectorAll(".elementor-icon-list-item");
+    const listItems = document.querySelectorAll(".nav-item");
 
     listItems.forEach(item => {
-        const textElement = item.querySelector(".elementor-icon-list-text");
+        const textElement = item.querySelector(".nav-text");
         if (textElement && textElement.textContent.trim() === "") {
             item.remove(); // Menghapus elemen <li> jika teks kosong
         }
@@ -701,7 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /////
 // Mendapatkan semua elemen <li> dalam daftar
-const listItems = document.querySelectorAll('.elementor-icon-list-item');
+const listItems = document.querySelectorAll('.nav-item');
 
 // Menambahkan kelas "mdw-side-menu-button" ke setiap <li>
 listItems.forEach(item => {
@@ -955,7 +955,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let allowAutoResume = false; // gesture user
   let autoPaused = false;
 
-  const videoIframe = document.querySelector('.elementor-video');
+  const videoIframe = document.querySelector('#gallery-video');
 
   // ========================
   // PLAY FULL AUDIO
@@ -1069,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // LOAD MP3 SAAT PAGE OPEN
   // ========================
   window.addEventListener('load', () => {
-    const mp3Container = document.querySelector('.elementor-element.link-mp3 .dce-tokens > p');
+    const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
     const url = mp3Container ? mp3Container.textContent.trim() : null;
 
     if (url) playFullAudio(url);
@@ -1086,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
 
       allowAutoResume = true; // klik user → boleh autoplay
-      const mp3Container = document.querySelector('.elementor-element.link-mp3 .dce-tokens > p');
+      const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
       const url = mp3Container ? mp3Container.textContent.trim() : null;
 
       playFullAudio(url);
@@ -1108,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       allowAutoResume = true; // gesture user
 
-      const mp3Container = document.querySelector('.elementor-element.link-mp3 .dce-tokens > p');
+      const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
       const url = mp3Container ? mp3Container.textContent.trim() : null;
 
       playUrl(url, 0, 0);
@@ -1151,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           smartPause();
         } else if (data.info === 2 || data.info === 0) {
           // VIDEO PAUSE / END → MP3 HARUS PLAY
-          const mp3Container = document.querySelector('.elementor-element.link-mp3 .dce-tokens > p');
+          const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
           const url = mp3Container ? mp3Container.textContent.trim() : null;
 
           if (url) {
