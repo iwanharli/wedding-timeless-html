@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!tombolBuka) return;
 
     tombolBuka.addEventListener('click', function () {
-        var video = document.querySelector('#video-bg-player, .elementor-background-video-hosted');
+        var video = document.querySelector('#video-bg-player, .video-bg-hosted');
         if (video && video.paused) { video.play(); }
 
         var scrollItem = document.querySelector('.scroll');
@@ -623,7 +623,7 @@ $('.mdw-side-menu-area').each(function(){
         $this.addClass('anim')
     },100)
 
-    $(this).find('.mdw-side-menu .elementor-icon-list-item').each(function(i){
+    $(this).find('.mdw-side-menu .nav-item').each(function(i){
         setCSS($(this), '--index', i)
         var icon = $(this).find('.nav-icon')
         if(icon.length && !icon.find('i').length){
@@ -632,7 +632,7 @@ $('.mdw-side-menu-area').each(function(){
     })
 })
 
-$('.mdw-side-menu-button .elementor-widget-button').each(function(){
+$('.mdw-side-menu-button .nav-btn').each(function(){
     var wrapper = $(this).find('.nav-btn-content'),
     text = $(this).find('.nav-btn-text')
     text.clone().appendTo(wrapper)

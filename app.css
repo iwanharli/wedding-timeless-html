@@ -20,7 +20,7 @@
     z-index: 1 !important;
     background-color: transparent !important;
 }
-#right-panel > .child:not(.elementor-element-303ad26d):not(#hapus-section):not(#section-thankyou) {
+#right-panel > .child:not(#hapus-section):not(#section-thankyou) {
     background-image: none !important;
 }
 
@@ -31,11 +31,6 @@
 }
 
 /* Section terakhir (halaman 15): background sendiri menutup video background */
-.elementor-element-303ad26d {
-    z-index: 2 !important;
-    background-size: cover !important;
-    background-position: center center !important;
-}
 
 /* ── Desktop Layout: Persistent Left Panel & Right Scrolling Panel ── */
 @media screen and (min-width: 801px) {
@@ -58,7 +53,7 @@
     }
 
     /* Seluruh konten undangan: di sisi kanan 700px */
-    .elementor.elementor-605881 {
+    #app-wrapper {
         margin-left: calc(100vw - 700px) !important;
         width: 700px !important;
     }
@@ -682,76 +677,6 @@ a:where(:not(.wp-element-button)) {
     background-size: cover;
 }
 
-.elementor-605881 .elementor-element#hapus-section:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element#hapus-section>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00025-1.jpg");
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
-    background-color: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
-    color: #dbd6d3;
-    border-color: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
-    fill: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
-    background-color: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
-    color: #2a211c;
-    border-color: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
-    fill: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
-    background-color: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
-    color: #806f5f;
-    border-color: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
-    fill: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
-    background-color: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
-    color: #bca8a0;
-    border-color: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
-    fill: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00018.jpg");
-}
-
 /* ── Inline Style (2) ── */
 .wdp_note_button {
     display: none !important;
@@ -788,9 +713,6 @@ html {
 }
 
 /*judul foto hilang*/
-.elementor-slideshow__title {
-    visibility: hidden;
-}
 
 /*icon share foto hilang*/
 i.eicon-share-arrow {
@@ -799,12 +721,6 @@ i.eicon-share-arrow {
 
 i.eicon-zoom-in-bold {
     visibility: hidden;
-}
-
-.elementor-lightbox .elementor-swiper-button-next i,
-.elementor-lightbox .elementor-swiper-button-prev i {
-    padding: 10px;
-    background-color: transparent;
 }
 
 .user-guestbook img {
@@ -850,9 +766,6 @@ i.fas.fa-check-circle {
 }
 
 /* ── Inline Style (5) ── */
-.elementor .elementor-element.elementor-element-47b3f9a .e-form__indicators {
-    display: none !important;
-}
 
 /* ── RSVP – Guest Count +/- buttons ── */
 .number-input-wrapper {
@@ -1054,12 +967,6 @@ button.hapus-komentar {
 
 }
 
-.elementor-editor-active .komentar-item:nth-child(-n+5) {
-    opacity: 1;
-    visibility: visible;
-    position: relative;
-}
-
 /* ── Hide scrollbar ── */
 .mdw-side-menu-area {
     --hide-on-scroll: true;
@@ -1091,32 +998,32 @@ button.hapus-komentar {
     transform: translateY(-100%);
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button {
+.mdw-side-menu-area .mdw-side-menu-button .btn {
     height: var(--min-height, 45px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-icon {
+.mdw-side-menu-area .mdw-side-menu-button .btn-icon {
     margin: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-content-wrapper {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-content {
     perspective: 6em;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(1) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-text:nth-child(1) {
     transform-origin: top;
     transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .elementor-button-text:nth-child(1) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .nav-btn-text:nth-child(1) {
     opacity: 0;
     transform: rotateX(90deg) scaleX(.9) translate3d(0, -10px, 0);
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(2) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-text:nth-child(2) {
     position: absolute;
     opacity: 0;
     transform: rotateX(-90deg) scaleX(.9) translate3d(0, 10px, 0);
@@ -1124,7 +1031,7 @@ button.hapus-komentar {
     transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .elementor-button-text:nth-child(2) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .nav-btn-text:nth-child(2) {
     opacity: 1;
     transform: rotateX(0deg) scaleX(1) translateZ(0);
     transition: transform .75s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .3s;
@@ -1260,7 +1167,7 @@ button.hapus-komentar {
     background: none;
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-widget-empty-icon {
+.mdw-side-menu-area .mdw-side-menu-social .empty-icon {
     display: none;
 }
 
@@ -1472,91 +1379,10 @@ body::-webkit-scrollbar {
 }
 
 /* ── Elementor – DCE background fix ── */
-.dce-fix-background-loop #left-panel::before {
-    background-image: url("./assets/images/Timeless-00036.jpg");
-}
 
 /* ── Elementor – DCE background fix (2) ── */
-.dce-fix-background-loop #video-bg {
-    background: url("./assets/images/Timeless-00036.jpg") 50% 50%;
-    background-size: cover;
-}
 
 /* ── Elementor – DCE background fix (3) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element#hapus-section:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element#hapus-section>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00025-1.jpg");
-}
-
-/* ── Elementor – DCE background fix (4) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
-    background-color: #dbd6d3;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
-    color: #dbd6d3;
-    border-color: #dbd6d3;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
-    fill: #dbd6d3;
-}
-
-/* ── Elementor – DCE background fix (5) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
-    background-color: #2a211c;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
-    color: #2a211c;
-    border-color: #2a211c;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
-    fill: #2a211c;
-}
-
-/* ── Elementor – DCE background fix (6) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
-    background-color: #806f5f;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
-    color: #806f5f;
-    border-color: #806f5f;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
-    fill: #806f5f;
-}
-
-/* ── Elementor – DCE background fix (7) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
-    background-color: #bca8a0;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
-    color: #bca8a0;
-    border-color: #bca8a0;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
-    fill: #bca8a0;
-}
-
-/* ── Elementor – DCE background fix (8) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00018.jpg");
-}
 
 /* ── Google Fonts (lokal) ── */
 @font-face {
@@ -1689,7 +1515,7 @@ body::-webkit-scrollbar {
 /* ── Elementor Pro replacements (previously in elementor-pro.frontend.min28fc.css) ── */
 
 /* Gallery video embed */
-.elementor-custom-embed-image-overlay {
+.gallery-video-thumb {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background-size: cover;
@@ -1700,7 +1526,7 @@ body::-webkit-scrollbar {
     cursor: pointer;
 }
 
-.elementor-custom-embed-play {
+.gallery-video-play {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1712,13 +1538,13 @@ body::-webkit-scrollbar {
     color: #ffffff;
 }
 
-.elementor-custom-embed-play .eicon-play {
+.gallery-video-play .eicon-play {
     font-size: 20px;
     margin-left: 3px;
 }
 
 /* Base button */
-.elementor-button {
+.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1729,28 +1555,27 @@ body::-webkit-scrollbar {
     padding: 0;
 }
 
-.elementor-button-content-wrapper {
+.btn-content-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Form base */
-.elementor-form .elementor-field-group {
+.popup-form .popup-field {
     display: flex;
     flex-direction: column;
     gap: 4px;
     margin-bottom: 8px;
 }
 
-.elementor-form .elementor-field-label {
+.popup-form .popup-label {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.elementor-form .elementor-field,
-.elementor-form .elementor-field-textual {
+.popup-form .popup-input {
     width: 100%;
     box-sizing: border-box;
     background: transparent;
@@ -1767,7 +1592,7 @@ e-page-transition { display: none; }
 
 /* ── Replacements for removed elementor.frontend.mind9b0.css ── */
 .hidden { display: none !important; }
-.elementor-invisible { opacity: 0; }
+.preloader-hidden { opacity: 0; }
 .e-con { display: var(--display, flex); }
 .e-con-inner { width: 100%; }
 
@@ -1813,3 +1638,70 @@ e-page-transition { display: none; }
 
 /* Side nav semantic classes (nav-list, nav-item, nav-icon, nav-text)
    Styled by the MDW section above which already uses nav-* names */
+
+/* ── Nav list styles (from elementor-widget-icon-list, renamed to nav-*) ── */
+.nav-list.nav-list.nav-inline{margin-right: -8px;
+    margin-left: -8px}
+.nav-list.nav-list.nav-inline .nav-item{margin-right: 8px;
+    margin-left: 8px}
+.nav-list.nav-list.nav-inline .nav-item:after{width: auto;
+    left: auto;
+    right: auto;
+    position: relative;
+    height: 100%;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+    border-left-width: 1px;
+    border-style: solid;
+    right: -8px}
+.nav-list{list-style-type: none;
+    margin: 0;
+    padding: 0}
+.nav-item{margin: 0;
+    padding: 0;
+    position: relative}
+.nav-item:after{position: absolute;
+    bottom: 0;
+    width: 100%}
+.nav-item,
+.nav-item a{display: flex;
+    font-size: inherit;
+    align-items: var(--icon-vertical-align, center)}
+.nav-icon+.nav-text{align-self: center;
+    padding-inline-start: 5px}
+.nav-icon{display: flex;
+    position: relative;
+    top: var(--icon-vertical-offset, initial)}
+.nav-icon svg{width: var(--e-icon-list-icon-size, 1em);
+    height: var(--e-icon-list-icon-size, 1em)}
+.nav-icon i{width: 1.25em;
+    font-size: var(--e-icon-list-icon-size)}
+
+/* ── Gallery video native styles ── */
+.gallery-video-inner {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}
+.gallery-video-thumb {
+    position: absolute !important;
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    text-decoration: none;
+}
+.gallery-video-play {
+    width: 52px; height: 52px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+}
+.gallery-video-frame { position: absolute; inset: 0; width: 100%; height: 100%; }

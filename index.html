@@ -28,13 +28,11 @@
 	<link rel="stylesheet"
 		href="assets/vendor/photoswipe-default-skin30ad.css" />
 	<link rel="stylesheet" href="assets/css/dce-acf-slider.min30ad.css" />
-	<link rel="stylesheet" href="assets/css/elementor-widget-icon-list.mind9b0.css" />
 	<link rel="stylesheet" href="assets/vendor/fadeInDown.mind9b0.css" />
 		<link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome.min52d5.css" />
 	<link rel="stylesheet" href="assets/vendor/font-awesome/css/solid.min52d5.css" />
 	<link rel="stylesheet" href="assets/vendor/font-awesome/css/brands.min52d5.css" />
 	<link rel="stylesheet" href="assets/vendor/font-awesome/css/regular.min52d5.css" />
-	<script src="assets/js/elementor-pro.page-transitions.min28fc.js" defer></script>
 	<link href="assets/vendor/aos.css" rel="stylesheet">
 	<meta name="color-scheme" content="light dark">
 	<meta name="generator"
@@ -52,7 +50,7 @@
      BODY
 ================================================================ -->
 <body
-	class="wp-singular post-template single single-post postid-605881 single-format-standard wp-embed-responsive woocommerce-no-js hello-elementor-page-605881">
+	class="wp-singular post-template single single-post postid-605881 single-format-standard wp-embed-responsive woocommerce-no-js">
 	<script src="assets/vendor/aos.js" defer></script> 
 	<e-page-transition class="e-page-transition--entering">
 	</e-page-transition>
@@ -61,8 +59,7 @@
 	<!-- ================================================================
 	     ROOT · Elementor post wrapper (ID 605881)
 	================================================================ -->
-	<div data-elementor-type="wp-post" data-elementor-id="605881" class="elementor elementor-605881"
-		data-elementor-post-type="post">
+	<div id="app-wrapper">
 
 		<!-- ================================================================
 		     LAYOUT · TWO-COLUMN WRAPPER  (#section-cover)
@@ -816,7 +813,7 @@
 
 					<!-- Confirm button → opens wedding gift form popup -->
 					<a class="gift-confirm-btn"
-						href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjQzMDcwOCIsInRvZ2dsZSI6ZmFsc2V9"
+						href="#" onclick="var p=document.getElementById('wedding-gift-popup');p.style.display='flex'"
 						target="_blank">Confirm</a>
 
 				</div>
@@ -830,11 +827,11 @@
 						<h2 class="gal-title">Unveiling<br />Our Prewedding Story</h2>
 
 						<div class="gal-video-wrap">
-							<div class="elementor-wrapper elementor-open-inline">
-								<div class="elementor-video" id="gallery-video"></div>
-								<div class="elementor-custom-embed-image-overlay"
+							<div class="gallery-video-inner">
+								<div class="gallery-video-frame" id="gallery-video"></div>
+								<div class="gallery-video-thumb"
 									style="background-image: url(assets/images/Timeless-00028.jpg);">
-									<div class="elementor-custom-embed-play" role="button" tabindex="0">
+									<div class="gallery-video-play" role="button" tabindex="0">
 										<i aria-hidden="true" class="eicon-play"></i>
 									</div>
 								</div>
@@ -1062,17 +1059,17 @@
 				Close
 			</a>
 			<div data-dce-background-overlay-color="#EBE3DA"
-									class="elementor-element elementor-element-06243b8 e-con-full selebaran e-flex e-con e-parent"
+									class="selebaran-wrapper"
 									data-id="06243b8" data-element_type="container"
 									data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-									<div class="elementor-element elementor-element-0692e8b bacground-save e-flex e-con-boxed e-con e-child"
+									<div class="selebaran-card"
 										data-id="0692e8b" data-element_type="container">
 										<div class="e-con-inner">
-											<div class="elementor-element elementor-element-44f0f70 konten-gambar dce_masking-none wdp-sticky-section-no elementor-widget elementor-widget-image"
+											<div class="selebaran-image"
 												data-id="44f0f70" data-element_type="widget"
 												data-widget_type="image.default">
-												<div class="elementor-widget-container">
-													<img loading="lazy" decoding="async" width="2226" height="1510"
+												<div class="selebaran-img-wrap">
+											<img loading="lazy" decoding="async" width="2226" height="1510"
 														src="assets/images/groove-blog-olive-versi-400173.jpg"
 														class="attachment-full size-full wp-image-372724" alt="" />
 												</div>
@@ -1084,7 +1081,7 @@
 		     FLOATING · SIDE NAVIGATION + AUDIO  (position: fixed)
 		     Revealed after #tombol-buka click — app.js manages MDW menu
 		     key classes: mdw-side-menu-area, mdw-side-menu, mdw-side-menu-button
-		     Audio URL: .elementor-element.link-mp3 .dce-tokens > p
+		     Audio URL: .link-mp3 .dce-tokens > p
 		================================================================ -->
 		<div class="dce-visibility-element-hidden hidden mdw-side-menu-area section-song e-con e-parent"
 			id="nav-side-area">
@@ -1097,8 +1094,8 @@
 						<path d="M10.5,7.5H.2c-.1,0-.2,0-.2-.2V6.1H20.7c.2,0,.3,0,.3.2a4,4,0,0,0,0,1.1c0,.2-.1.2-.2.2H10.5Z"/>
 					</svg>
 				</div>
-				<div class="elementor-widget-button navsound-button open">
-					<a class="elementor-button" href="#"><span class="nav-btn-text">CLOSE</span></a>
+				<div class="nav-btn navsound-button open">
+					<a class="btn"  href="#"><span class="nav-btn-text">CLOSE</span></a>
 				</div>
 			</div>
 
@@ -1132,8 +1129,8 @@
 				<!-- Audio controls -->
 				<div class="navsound">
 					<div class="play-music" style="position:absolute;">
-						<a class="elementor-button" role="button">
-							<span class="elementor-button-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.9 130.8">
+						<a class="btn" role="button">
+							<span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.9 130.8">
 												<g id="Layer_2" data-name="Layer 2">
 													<g id="Layer_1-2" data-name="Layer 1">
 														<g id="Layer_2-2" data-name="Layer 2">
@@ -1149,8 +1146,8 @@
 						</a>
 					</div>
 					<div class="off-music" style="position:absolute; display:none;">
-						<a class="elementor-button elementor-button-link" href="#" role="button">
-							<span class="elementor-button-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.8 255.4">
+						<a class="btn btn-link" role="button">
+							<span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.8 255.4">
 												<defs></defs>
 												<g id="Layer_2" data-name="Layer 2">
 													<g id="Layer_1-2" data-name="Layer 1">
@@ -1170,7 +1167,7 @@
 				</div>
 			</div>
 
-			<!-- Audio URL: read by app.js via .elementor-element.link-mp3 .dce-tokens > p -->
+			<!-- Audio URL: read by app.js via .link-mp3 .dce-tokens > p -->
 			<div class="link-mp3" style="position:absolute;">
 				<div class="dce-tokens">
 					<p data-text-key="audio.track" style="display:none">assets/media/YOU-by-Morgan-Saint.mp3
@@ -1227,26 +1224,12 @@
 	<!-- ================================================================
 	     SCRIPTS
 	     Vendor  : Swiper, PhotoSwipe, jQuery, ClipboardJS
-	     Config  : ElementorProFrontendConfig, elementorFrontendConfig
+	     Config  : page config variables
 	     Custom  : content-data.js, content-loader.js, app.js
 	================================================================ -->
 	<script src="assets/js/wdp-swiper.min.js" defer></script>
 	<script
 		src="assets/vendor/photoswipe-ui-default.min30ad.js" defer></script>
-	<script>
-		var ElementorProFrontendConfig = {
-			"urls": { "assets": "assets/"}, "shareButtonsNetworks": { "facebook": { "title": "Facebook", "has_counter": true }, "twitter": { "title": "Twitter" }, "linkedin": { "title": "LinkedIn", "has_counter": true }, "pinterest": { "title": "Pinterest", "has_counter": true }, "reddit": { "title": "Reddit", "has_counter": true }, "vk": { "title": "VK", "has_counter": true }, "odnoklassniki": { "title": "OK", "has_counter": true }, "tumblr": { "title": "Tumblr" }, "digg": { "title": "Digg" }, "skype": { "title": "Skype" }, "stumbleupon": { "title": "StumbleUpon", "has_counter": true }, "mix": { "title": "Mix" }, "telegram": { "title": "Telegram" }, "pocket": { "title": "Pocket", "has_counter": true }, "xing": { "title": "XING", "has_counter": true }, "whatsapp": { "title": "WhatsApp" }, "email": { "title": "Email" }, "print": { "title": "Print" }, "x-twitter": { "title": "X" }, "threads": { "title": "Threads" } },
-			"facebook_sdk": { "lang": "en_US", "app_id": "" }
-		};
-	</script>
-	<script>
-		var elementorFrontendConfig = {
-			"environmentMode": { "edit": false, "wpPreview": false, "isScriptDebug": false }, "i18n": { "shareOnFacebook": "Share on Facebook", "shareOnTwitter": "Share on Twitter", "pinIt": "Pin it", "download": "Download", "downloadImage": "Download image", "fullscreen": "Fullscreen", "zoom": "Zoom", "share": "Share", "playVideo": "Play Video", "previous": "Previous", "next": "Next", "close": "Close", "a11yCarouselWrapperAriaLabel": "Carousel | Horizontal scrolling: Arrow Left & Right", "a11yCarouselPrevSlideMessage": "Previous slide", "a11yCarouselNextSlideMessage": "Next slide", "a11yCarouselFirstSlideMessage": "This is the first slide", "a11yCarouselLastSlideMessage": "This is the last slide", "a11yCarouselPaginationBulletMessage": "Go to slide" }, "is_rtl": false, "breakpoints": { "xs": 0, "sm": 480, "md": 768, "lg": 1025, "xl": 1440, "xxl": 1600 }, "responsive": {
-				"breakpoints": { "mobile": { "label": "Mobile Portrait", "value": 767, "default_value": 767, "direction": "max", "is_enabled": true }, "mobile_extra": { "label": "Mobile Landscape", "value": 880, "default_value": 880, "direction": "max", "is_enabled": false }, "tablet": { "label": "Tablet Portrait", "value": 1024, "default_value": 1024, "direction": "max", "is_enabled": true }, "tablet_extra": { "label": "Tablet Landscape", "value": 1200, "default_value": 1200, "direction": "max", "is_enabled": false }, "laptop": { "label": "Laptop", "value": 1366, "default_value": 1366, "direction": "max", "is_enabled": false }, "widescreen": { "label": "Widescreen", "value": 2400, "default_value": 2400, "direction": "min", "is_enabled": false } },
-				"hasCustomBreakpoints": false
-			}, "version": "3.24.8", "is_static": true, "experimentalFeatures": { "container": true, "container_grid": true, "e_swiper_latest": true, "e_nested_atomic_repeaters": true, "e_onboarding": true, "theme_builder_v2": true, "home_screen": true, "landing-pages": true, "nested-elements": true, "link-in-bio": true, "floating-buttons": true, "display-conditions": true, "form-submissions": true, "taxonomy-filter": true }, "urls": { "assets": "assets/"}, "swiperClass": "swiper", "settings": { "page": [], "editorPreferences": [], "dynamicooo": [] }, "kit": { "active_breakpoints": ["viewport_mobile", "viewport_tablet"], "global_image_lightbox": "yes", "lightbox_enable_counter": "yes", "lightbox_enable_fullscreen": "yes", "lightbox_enable_zoom": "yes", "lightbox_enable_share": "yes", "lightbox_title_src": "title", "lightbox_description_src": "description", "woocommerce_notices_elements": [] }, "post": { "id": 605881, "title": "WE%20INVITE%20YOU%20TO%20CELEBRATE%20Hanson%20%26%20Catherine", "excerpt": "", "featuredImage": false }
-		};
-	</script>
 	<script>
 		var cevar = { "ajax_url": "", "plugin_url": "" };
 	</script>
