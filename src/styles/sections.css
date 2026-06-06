@@ -1,0 +1,1502 @@
+/* ================================================================
+   sections.css
+   Native CSS untuk sections 2–15 (diisi bertahap per section)
+================================================================ */
+
+/* ================================================================
+   SECTION 2 · INTRO SCREEN  (#pertama)
+================================================================ */
+#pertama {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+}
+
+#pertama #home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Content box: absolute, starts at top 25% */
+.intro-content {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.intro-invite-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 13px;
+    font-weight: 200;
+    text-align: center;
+    margin: 0 0 4px 0;
+}
+
+/* Two-row names — same pattern as hero, font size 60px */
+.intro-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.intro-names-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0;
+}
+
+.intro-name {
+    font-family: "script icon", sans-serif;
+    font-size: 60px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.intro-name1 {
+    align-self: flex-end;
+    padding-right: 14px;
+}
+
+.intro-name-connector {
+    font-family: "script icon", sans-serif;
+    font-size: 27px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 11px 0 0 0;
+    align-self: flex-start;
+}
+
+.intro-names-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.intro-name2 {
+    align-self: center;
+}
+
+.intro-date {
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.6px;
+    text-align: center;
+    margin: 6px 0 0 0;
+}
+
+.intro-vow {
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    margin: 6px 0 0 0;
+    line-height: 1.6;
+}
+
+.intro-spacer {
+    height: 50px;
+}
+
+.intro-scroll-hint {
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+@keyframes float-hint {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-6px); }
+}
+
+.intro-scroll-hint .scroll-hint-text {
+    animation: float-hint 0.9s ease-out alternate infinite;
+    display: inline-block;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .intro-name {
+        font-size: 60px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .intro-name-connector {
+        margin-top: 11px;
+        padding-left: 4px;
+    }
+
+    .intro-names-bottom .intro-name2 {
+        padding-left: 30px;
+    }
+
+    .intro-vow {
+        font-size: 13px;
+    }
+
+    .intro-scroll-hint {
+        font-size: 13px;
+    }
+}
+
+/* ================================================================
+   SECTION 3 · PROFILE INTRO
+================================================================ */
+.section-profile-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6% 6% 22% 6%;
+    position: relative;
+}
+
+.profile-intro-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    gap: 0;
+}
+
+.profile-biblical-ref {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 12px 0;
+}
+
+.profile-image-wrap {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    margin: 0 auto 16px auto;
+    flex-shrink: 0;
+}
+
+.profile-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.profile-biblical-text {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.7;
+    margin: 0 0 12px 0;
+    transition-delay: 600ms;
+}
+
+.profile-couple-names {
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.6px;
+    text-align: center;
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    .section-profile-intro {
+        padding: 10%;
+    }
+
+    .profile-biblical-ref {
+        font-size: 30px;
+        letter-spacing: 0.8px;
+    }
+
+    .profile-biblical-text {
+        font-size: 13px;
+    }
+
+    .profile-couple-names {
+        font-size: 13px;
+    }
+}
+
+/* ================================================================
+   SECTION 4 & 5 · GROOM / BRIDE PROFILE
+================================================================ */
+.section-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 30px 70px 30px;
+    overflow: hidden;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Role: "The Groom" / "The Bride" */
+.profile-role {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    line-height: 17px;
+    text-align: center;
+    margin: 0;
+    transition-delay: 200ms;
+}
+.profile-role--left { text-align: left; }
+
+/* Photo: 166×192 */
+.profile-photo-wrap {
+    width: 166px;
+    height: 192px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* First name */
+.profile-firstname {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 50px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+    transition-delay: 600ms;
+}
+
+/* Last name: script font, overlaps slightly with first name */
+.profile-lastname {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 45px;
+    font-weight: 500;
+    text-align: center;
+    margin: -20px 0 0 0;
+    transition-delay: 600ms;
+}
+.profile-lastname--left { text-align: left; }
+
+/* Parent info box */
+.profile-parents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.profile-relation {
+    color: #ffffff;
+    font-family: "time now italic", sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 17px;
+    margin: 0;
+    text-align: center;
+}
+.profile-relation--left { text-align: left; }
+.profile-relation-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+}
+
+/* Instagram button: circular outline */
+.profile-instagram-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 10px 16px;
+    text-decoration: none;
+    max-width: 203px;
+    margin-top: -10px;
+}
+.profile-instagram-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-profile {
+        padding: 20px 20px 100px 20px;
+    }
+    .profile-lastname--left { text-align: left; }
+    .profile-role--left { text-align: center; } /* override to center on mobile */
+    .profile-relation { font-size: 20px; }
+    .profile-relation-desc { font-size: 13px; }
+}
+
+/* ================================================================
+   SECTION 6 · LOVE STORY
+================================================================ */
+.section-lovestory {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10% !important;
+    gap: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Row: two-column flex, natural height based on content */
+.ls-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+}
+
+/* Reverse row: text pushed to right via order */
+.ls-row--reverse { justify-content: flex-end; }
+.ls-row--reverse .ls-text--last { order: 999; }
+
+/* Columns */
+.ls-col {
+    flex: 1;
+    min-width: 0;
+    padding: 0 8px;
+}
+
+.ls-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Image columns */
+.ls-img {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+.ls-img--right {
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+/* Typography */
+.ls-date {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.ls-chapter-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.ls-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: left;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Photos: full photo visible, width capped to keep them small */
+.ls-photo {
+    width: 100%;
+    max-width: 130px;
+    height: auto;
+    display: block;
+}
+
+/* Chapter 1 overlap decoration */
+.ls-img--overlap {
+    position: relative;
+    flex-shrink: 0;
+}
+.ls-deco-overlay {
+    position: absolute;
+    top: -11px;
+    left: 0;
+    width: 109px;
+    height: auto;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Chapter 2 collage (page 2) */
+.ls-row--collage { align-items: flex-start; }
+
+.ls-deco-col {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.ls-deco-wrap {
+    position: relative;
+    flex: 1;
+    height: 128px;
+    overflow: hidden; /* clips paper image to 128px; sibling photo still visible through mask */
+    z-index: 2;
+}
+
+.ls-paper {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* SVG mask: rectangle with circular hole at right edge.
+       Uses white fill so luminance-mode mask works (white=visible, transparent=hole) */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 263.8 264.9'%3E%3Cpath fill='white' d='M263.3,172.2a39.8,39.8,0,1,1,0-79.5h.5V0H0V264.9H263.8V172.2Z'/%3E%3C/svg%3E");
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 263.8 264.9'%3E%3Cpath fill='white' d='M263.3,172.2a39.8,39.8,0,1,1,0-79.5h.5V0H0V264.9H263.8V172.2Z'/%3E%3C/svg%3E");
+    mask-size: 100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-mode: luminance;
+    -webkit-mask-source-type: luminance;
+}
+
+.ls-paper-title {
+    position: absolute;
+    top: 43%;
+    left: 0;
+    right: 0;
+    color: #636363;
+    font-family: "time noww", sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    text-align: left;
+    padding: 0 4px;
+    line-height: 1.3;
+}
+
+/* Wrapper constrains height, image fills it — z-index 1 so paper (z-index 2) is on top */
+.ls-overlap-wrap {
+    width: 147px;
+    height: 128px;
+    flex-shrink: 0;
+    overflow: hidden;
+    margin-left: -74px;
+    position: relative;
+    z-index: 1;
+}
+
+.ls-overlap-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Mobile — rows stay nowrap (same as original), but columns get specific widths */
+@media (max-width: 767px) {
+    .section-lovestory { padding: 10% 5%; gap: 15px; }
+
+    /* Ch.0 text gets padding */
+    .ls-row:not(.ls-row--reverse) .ls-text { padding: 9px; }
+
+    /* Ch.1: image col = 100px fixed, text col = fills rest (~73%) */
+    .ls-row--reverse .ls-img--overlap {
+        width: 100px;
+        flex: 0 0 100px;
+    }
+    .ls-row--reverse .ls-text--last {
+        flex: 1;
+        padding: 9px;
+    }
+
+    /* Typography size reductions */
+    .ls-date { font-size: 16px; }
+    .ls-chapter-title { font-size: 16px; }
+    .ls-desc { font-size: 13px; }
+}
+
+/* ================================================================
+   SECTION 7 · COUNTDOWN + SAVE THE DATE
+================================================================ */
+.section-countdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 30px 50px 30px;
+    overflow: hidden;
+    box-sizing: border-box;
+    gap: 0;
+}
+
+/* Main photo: full width, 150px tall, cropped from bottom */
+.cd-main-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.cd-main-photo {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: bottom center;
+    display: block;
+}
+
+/* Countdown: absolute over main photo at 37% from top */
+.cd-countdown {
+    position: absolute;
+    top: 37%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+}
+
+.cd-items {
+    display: flex;
+    flex-direction: row;
+    max-width: 68%;
+}
+
+.cd-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+    padding: 11px;
+    margin: 0 5px;
+}
+
+.cd-digits {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.cd-label {
+    color: #ffffff;
+    font-family: CormorantUpright, sans-serif;
+    font-size: 8px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* Two small photos side by side */
+.cd-photos-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 0;
+}
+
+.cd-photo-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.cd-small-photo {
+    width: 100%;
+    height: 134px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Paper overlay texts */
+.cd-paper-name {
+    position: absolute;
+    top: 36%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #636363;
+    font-family: "time noww", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+.cd-paper-date {
+    position: absolute;
+    top: 51%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #636363;
+    font-family: "time noww", sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+/* "Almost Time" message: rotated, narrow */
+.cd-message {
+    color: #ffffff;
+    font-family: "signature fed", sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    max-width: 197px;
+    margin: 12px 0 0 0;
+    transform: rotateZ(-5deg);
+    z-index: 2;
+}
+
+/* Save the date button */
+.cd-save-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cd-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "inter", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    padding: 11px 0;
+}
+
+.cd-save-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+    flex-shrink: 0;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .cd-items { max-width: 80%; }
+    .cd-item { margin: 0 3px; }
+    .cd-digits { font-size: 14px; }
+    .cd-message { font-size: 13px; }
+    .cd-save-btn { padding: 15px 0; }
+}
+
+/* ================================================================
+   SECTION 8 · WEDDING EVENT  (#weddingevent)
+================================================================ */
+.section-event {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 6%;
+    overflow: hidden;
+    box-sizing: border-box;
+    gap: 0;
+}
+
+/* Decorative SVG monogram */
+.ev-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.ev-icon svg {
+    width: 175px;
+    height: 175px;
+    fill: #ffffff;
+    display: block;
+}
+
+/* Wedding date */
+.ev-date {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 20px 0;
+    line-height: 1.3;
+}
+
+/* Two event cards side by side */
+.ev-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.ev-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Card title: event name + time + location */
+.ev-card-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Address */
+.ev-card-address {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    max-width: 64%;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Google Maps button: circular outline */
+.ev-maps-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 10px 16px;
+    text-decoration: none;
+    max-width: 203px;
+    margin-top: -10px;
+}
+.ev-maps-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-event { padding: 20px 20px 100px 20px; }
+    .ev-cards { flex-direction: column; gap: 20px; }
+    .ev-card-address { max-width: 90%; }
+}
+
+/* ================================================================
+   SECTION 9 · LIVESTREAMING  (#livestreaming)
+================================================================ */
+.section-livestream {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ls9-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+}
+
+/* Photo: landscape, 217px tall — wrapper clips img (global height:auto override) */
+.ls9-photo-wrap {
+    width: 100%;
+    height: 217px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.ls9-photo {
+    width: 100%;
+    height: 217px !important; /* override global img { height: auto !important } */
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+/* Title */
+.ls9-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 31px;
+    font-weight: 500;
+    text-align: left;
+    margin: 12px 0 0 0;
+    width: 100%;
+    line-height: 1.2;
+}
+
+/* Date */
+.ls9-date {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+    margin: 6px 0 0 0;
+    width: 100%;
+    text-decoration: none !important;
+}
+
+/* Join Now button — circular outline, left aligned */
+.ls9-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 10px 16px;
+    text-decoration: none;
+    max-width: 203px;
+    margin-top: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+.ls9-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-livestream { padding: 10% 5%; }
+    .ls9-photo-wrap { height: 180px; }
+    .ls9-photo { height: 180px !important; }
+}
+
+/* ================================================================
+   SECTION 10 · DRESS CODE
+================================================================ */
+.section-dress-code {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.dc-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+}
+
+.dc-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 53px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+/* 4 overlapping colour circles */
+.dc-swatches {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 16px;
+}
+
+.dc-swatch {
+    font-size: 39px;
+    margin-left: -14px;
+}
+.dc-swatch:first-child { margin-left: 0; }
+
+.dc-text {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    text-align: center;
+    max-width: 81%;
+    margin: 0;
+    line-height: 1.7;
+}
+
+/* ================================================================
+   SECTION 11 · RSVP  (#rsvp)
+================================================================ */
+.section-rsvp {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.rsvp-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.rsvp-title {
+    color: #ffffff;
+    font-family: "time now italic", sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+}
+
+.rsvp-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: left;
+    margin: 0 0 16px 0;
+    line-height: 1.6;
+}
+
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.rsvp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rsvp-field label {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rsvp-input, .rsvp-textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 13px;
+    padding: 6px 0;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rsvp-textarea { resize: vertical; min-height: 80px; }
+
+.rsvp-radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.rsvp-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.rsvp-submit {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.6);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 24px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 4px;
+}
+.rsvp-submit:hover { background: rgba(255,255,255,0.1); }
+
+/* ================================================================
+   SECTION 12 · GUEST WISHES DISPLAY
+================================================================ */
+.section-wishes {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Navigation buttons */
+#komentar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.wishes-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+}
+
+.wishes-nav-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+}
+
+/* Wishes container */
+#komentar-container {
+    flex: 1;
+    position: relative;
+    min-height: 200px;
+}
+
+/* ================================================================
+   SECTION 13 · WEDDING GIFT  (#weddinggift)
+================================================================ */
+.section-gift {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 30px;
+    overflow: hidden;
+    box-sizing: border-box;
+    gap: 16px;
+}
+
+.gift-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0 0 6px 0;
+    data-aos: fade;
+}
+
+.gift-desc {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: left;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.gift-accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.gift-account {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.gift-account-name {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.gift-account-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(134,134,134,0.28);
+    padding: 8px 12px;
+    border-radius: 2px;
+    gap: 8px;
+}
+
+.gift-account-detail p {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+    flex: 1;
+}
+
+
+.gift-confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    padding: 10px 24px;
+    text-decoration: none;
+    align-self: flex-start;
+}
+.gift-confirm-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+/* ================================================================
+   SECTION 14 · GALLERY  (#gallery)
+================================================================ */
+.section-gallery {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 70px 20px 20px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.gal-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.gal-title {
+    color: #ffffff;
+    font-family: CormorantUpright, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    text-align: left;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+/* Video container: must be position:relative to contain absolute overlay */
+.gal-video-wrap {
+    width: 65%;
+    align-self: flex-start;
+    position: relative;
+}
+
+
+.gal-hint {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 9px;
+    font-weight: 300;
+    text-align: right;
+    margin: 0;
+    padding-right: 20px;
+}
+
+/* Photo grid: left col (large slider + quote) | right col (2 small sliders) */
+.gal-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.gal-col { flex: 1; min-width: 0; }
+
+.gal-col--left {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.gal-col--right {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Swiper gallery: base image fill */
+.gal-swiper img { width: 100%; display: block; }
+.gal-img-wrap { position: relative; display: block; }
+
+/* Constrain swiper images to consistent height */
+.gal-col--left .gal-img-wrap img {
+    width: 100%;
+    height: 220px !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.gal-col--right .gal-img-wrap img {
+    width: 100%;
+    height: 140px !important;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Quote text: large italic cursive */
+.gal-quote {
+    color: #ffffff;
+    font-family: "signature fed", "Thesignature", cursive;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 6px 0 0 0;
+    padding: 0 4px;
+}
+
+/* ================================================================
+   SECTION 15 · THANK YOU
+================================================================ */
+.section-thankyou {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    padding: 60px 30px;
+    /* background set via .section-lovestory-third selector */
+    overflow: hidden;
+    box-sizing: border-box;
+    background-image: url('/assets/images/Timeless-00018.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.section-thankyou::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(16,16,16,0.27);
+    z-index: 0;
+}
+
+.section-thankyou > * { position: relative; z-index: 1; }
+
+.thankyou-top {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.thankyou-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.thankyou-message {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.thankyou-names {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.thankyou-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thankyou-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+}
+.thankyou-wa i { font-size: 20px; }
+
+/* Thank You section footer additions */
+.thankyou-credit {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0 0 12px 0;
+    opacity: 0.8;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.thankyou-contacts {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.thankyou-contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-decoration: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.thankyou-contact-link i { font-size: 14px; }
+
+.thankyou-copyright {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+    opacity: 0.7;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
