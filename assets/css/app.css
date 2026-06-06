@@ -1563,3 +1563,78 @@ body::-webkit-scrollbar {
     display: flex; align-items: center; justify-content: center;
 }
 .gallery-video-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ── QR Overlay ── */
+.qr-overlay-wrap {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 16, 16, 0.9);
+  z-index: 9998;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.dqr {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inter, sans-serif;
+  letter-spacing: 1px;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.selebaran-wrapper { background-color: #EBE3DA; }
+
+/* ── Side Nav floating positions ── */
+#navsound-button { position: absolute; }
+.play-music { position: absolute; }
+.off-music { position: absolute; display: none; }
+.link-mp3 { position: absolute; }
+.audio-url p { display: none; }
+
+/* ── Wedding Gift Popup ── */
+#wedding-gift-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(240, 240, 240, 0.97);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.gift-popup-inner {
+  background: #fff;
+  padding: 30px;
+  max-width: 400px;
+  width: 90%;
+  border-radius: 4px;
+}
+#wedding-gift-popup h3 {
+  margin: 0 0 16px;
+  font-family: inter, sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+#wedding_gift {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.gift-close-link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  cursor: pointer;
+  font-family: inter, sans-serif;
+  font-size: 11px;
+  color: #888;
+}

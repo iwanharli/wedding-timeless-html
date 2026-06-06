@@ -915,12 +915,12 @@
 		     FLOATING · QR / FLYER OVERLAY  (position: fixed)
 		     Triggered by .dqr button · Close: .dqr
 		================================================================ -->
-		<div class="qr-overlay-wrap" style="display:none; position:fixed; inset:0; background:rgba(16,16,16,0.9); z-index:9998; align-items:center; justify-content:center; flex-direction:column;">
-			<a class="dqr" style="position:absolute; top:20px; right:20px; color:#fff; font-size:14px; cursor:pointer; text-decoration:none; font-family:inter,sans-serif; letter-spacing:1px; background:none; border:none; display:flex; align-items:center; gap:6px;" role="button">
-				<i class="fas fa-xmark" aria-hidden="true" style="font-size:14px; color:#fff;"></i>
+		<div class="qr-overlay-wrap">
+			<a class="dqr" role="button">
+				<i class="fas fa-xmark" aria-hidden="true"></i>
 				Close
 			</a>
-			<div class="selebaran-wrapper" style="background-color: #EBE3DA;">
+			<div class="selebaran-wrapper">
 				<div class="selebaran-card">
 					<div class="selebaran-image">
 						<div class="selebaran-img-wrap">
@@ -942,8 +942,7 @@
 		<div class="hidden mdw-side-menu-area section-song"
 			id="nav-side-area">
 			<!-- Hamburger trigger button -->
-			<div class="mdw-side-menu-button navsound-button" id="navsound-button"
-				style="position:absolute;">
+			<div class="mdw-side-menu-button navsound-button" id="navsound-button">
 				<div class="nav-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 7.5" style="width:21px; height:7.5px; fill:currentColor;">
 						<path d="M10.5,1.5H.3c-.2,0-.3,0-.3-.2V.2C0,0,0,0,.2,0H20.7c.2,0,.3,0,.3.3a1.7,1.7,0,0,0,0,1c0,.2-.1.2-.2.2H10.5Z"/>
@@ -984,7 +983,7 @@
 
 				<!-- Audio controls -->
 				<div class="navsound">
-					<div class="play-music" style="position:absolute;">
+					<div class="play-music">
 						<a class="btn" role="button">
 							<span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.9 130.8">
 												<g id="Layer_2" data-name="Layer 2">
@@ -1001,7 +1000,7 @@
 											</svg></span>
 						</a>
 					</div>
-					<div class="off-music" style="position:absolute; display:none;">
+					<div class="off-music">
 						<a class="btn btn-link" role="button">
 							<span class="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.8 255.4">
 												<defs></defs>
@@ -1023,9 +1022,9 @@
 				</div>
 			</div>
 
-			<div class="link-mp3" style="position:absolute;">
+			<div class="link-mp3">
 				<div class="audio-url">
-					<p data-text-key="audio.track" style="display:none">assets/media/YOU-by-Morgan-Saint.mp3</p>
+					<p data-text-key="audio.track">assets/media/YOU-by-Morgan-Saint.mp3</p>
 				</div>
 				<audio id="song" preload="metadata" loop hidden data-audio-src-key="audio.track"></audio>
 			</div>
@@ -1035,11 +1034,10 @@
 		     POPUP · WEDDING GIFT FORM
 		     Triggered by "Confirm" in #weddinggift
 		================================================================ -->
-		<div id="wedding-gift-popup" style="display:none; position:fixed; inset:0; background:rgba(240,240,240,0.97); z-index:9999; display:none; align-items:center; justify-content:center; flex-direction:column;">
-			<div style="background:#fff; padding:30px; max-width:400px; width:90%; border-radius:4px;">
-				<h3 style="margin:0 0 16px; font-family:inter,sans-serif; font-size:14px; text-align:center;">Wedding Gift</h3>
-				<form id="wedding_gift" name="weddinggift"
-					style="display:flex; flex-direction:column; gap:12px;">
+		<div id="wedding-gift-popup">
+			<div class="gift-popup-inner">
+				<h3>Wedding Gift</h3>
+				<form id="wedding_gift" name="weddinggift">
 
 					<div class="popup-field">
 						<label class="popup-label">Full Name</label>
@@ -1063,8 +1061,7 @@
 					</div>
 					<button type="submit" id="wedding_gift_submit" class="popup-submit">Send</button>
 				</form>
-				<a onclick="document.getElementById('wedding-gift-popup').style.display='none'"
-					style="display:block; text-align:center; margin-top:12px; cursor:pointer; font-family:inter,sans-serif; font-size:11px; color:#888;">Close</a>
+				<a class="gift-close-link" onclick="document.getElementById('wedding-gift-popup').style.display='none'">Close</a>
 			</div>
 		</div>
 
@@ -1072,11 +1069,10 @@
 
 	<!-- ================================================================
 	     SCRIPTS
-	     Vendor  : Swiper, jQuery, AOS
+	     Vendor  : Swiper, AOS
 	     Custom  : content-data.js, content-loader.js, app.js
 	================================================================ -->
-	<script src="assets/js/wdp-swiper.min.js" defer></script>
-	<script src="assets/js/jquery.minf43b.js" defer></script>
+	<script src="assets/js/swiper.min.js" defer></script>
 	<script src="assets/vendor/aos.js" defer></script>
 	<script src="assets/data/content-data.js"></script>
 	<script src="assets/js/content-loader.js" defer></script>

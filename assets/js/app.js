@@ -478,117 +478,98 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /* ── MDW Side Menu ── */
-if(!MDWNonce108){
-var MDWNonce108 = true
-var $ = jQuery
-$(document).ready(function(){
+(function() {
+  function getCSS(el, property) {
+    return getComputedStyle(el).getPropertyValue(property);
+  }
 
-function getCSS(el, property){
-    return getComputedStyle(el.get(0)).getPropertyValue(property)
-}
+  function setSmallState(area) {
+    var button = area.querySelector('.mdw-side-menu-button');
+    var mainMenu = area.querySelector('.mdw-side-menu');
+    area.style.setProperty('--button-right', (parseFloat(getCSS(button, 'right')) - parseFloat(getCSS(mainMenu, 'right'))) + 'px');
+    area.style.setProperty('--button-top', (parseFloat(getCSS(button, 'top')) - parseFloat(getCSS(mainMenu, 'top'))) + 'px');
+    area.style.setProperty('--button-height', button.offsetHeight + 'px');
+    area.style.setProperty('--button-width', button.offsetWidth + 'px');
 
-function setCSS(el, property, value){
-    el.each(function(i){
-        el.get(i).style.setProperty(property, value)
-    })
-}
+    area.querySelectorAll('.mdw-side-menu .nav-list').forEach(function(list) {
+      var firstItem = list.querySelector('.nav-item');
+      if (!firstItem) return;
+      var paddingBottom = getCSS(firstItem, 'padding-bottom');
+      list.querySelectorAll('.nav-item').forEach(function(item) {
+        item.style.setProperty('--padding-top', paddingBottom);
+      });
+    });
+  }
 
-function setSmallState($this){
-    var button = $this.find('.mdw-side-menu-button'),
-        mainMenu = $this.find('.mdw-side-menu'),
-        buttonRight = (parseFloat(getCSS(button, 'right')) - parseFloat(getCSS(mainMenu, 'right'))) + 'px',
-            buttonTop = (parseFloat(getCSS(button, 'top')) - parseFloat(getCSS(mainMenu, 'top'))) + 'px',
-        buttonHeight = button.height(),
-        buttonWidth = button.width()
+  var clickLock = false;
 
-    setCSS($this, '--button-right', buttonRight)
-    setCSS($this, '--button-top', buttonTop)
-    setCSS($this, '--button-height', buttonHeight + 'px')
-    setCSS($this, '--button-width', buttonWidth + 'px')
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.mdw-side-menu-area').forEach(function(area) {
+      setSmallState(area);
+      setTimeout(function() { area.classList.add('anim'); }, 100);
 
-    $this.find('.mdw-side-menu .nav-list').each(function(i){
-        var paddingBottom = getCSS($(this).find('.nav-item').eq(0), 'padding-bottom')
-        setCSS($(this).find('.nav-item'), '--padding-top', paddingBottom)
-    })
-}
-
-$(window).on('load resize', function(){
-$('.mdw-side-menu-area').each(function(){
-    setSmallState($(this))
-})
-})
-
-$('.mdw-side-menu-area').each(function(){
-
-    var $this = $(this)
-    setSmallState($this)
-    setTimeout(function(){
-        $this.addClass('anim')
-    },100)
-
-    $(this).find('.mdw-side-menu .nav-item').each(function(i){
-        setCSS($(this), '--index', i)
-        var icon = $(this).find('.nav-icon')
-        if(icon.length && !icon.find('i').length){
-            icon.append('<i aria-hidden="true" class="fas fa-arrow-right"></i>')
+      area.querySelectorAll('.mdw-side-menu .nav-item').forEach(function(item, i) {
+        item.style.setProperty('--index', i);
+        var icon = item.querySelector('.nav-icon');
+        if (icon && !icon.querySelector('i')) {
+          icon.insertAdjacentHTML('beforeend', '<i aria-hidden="true" class="fas fa-arrow-right"></i>');
         }
-    })
-})
+      });
+    });
 
-$('.mdw-side-menu-button .nav-btn').each(function(){
-    var wrapper = $(this).find('.nav-btn-content'),
-    text = $(this).find('.nav-btn-text')
-    text.clone().appendTo(wrapper)
-})
-
-var clickLock = false
-
-$('.mdw-side-menu-button').on('click', function(){
-    if(clickLock) return
-    var $this = $(this),
-        menu = $this.closest('.mdw-side-menu-area'),
-        button = $this.find('.nav-btn')
-        clickLock = true
-    if(menu.hasClass('open')){
-        button.eq(1).removeClass('open')
-        menu.removeClass('open-arrow')
-        setTimeout(function(){ menu.removeClass('open-instant') },300)
-        setTimeout(function(){ menu.removeClass('open') },500)
-        setTimeout(function(){ button.eq(0).removeClass('open') },750)
-    }else{
-        button.eq(0).addClass('open')
-        setTimeout(function(){ menu.addClass('open open-instant open-arrow') },500)
-        setTimeout(function(){ button.eq(1).addClass('open') },750)
-    }
-    setTimeout(function(){ clickLock = false },750)
-})
-
-$('.mdw-side-menu-button a').on('click', function(e){
-    e.preventDefault()
-})
-
-$('body').on('click', function(e){
-    $('.mdw-side-menu-area').each(function(){
-        if($(this).hasClass('open-instant') && !$(e.target).closest('.mdw-side-menu').length && !$(e.target).closest('.mdw-side-menu-button').length){
-            $(this).find('.mdw-side-menu-button').trigger('click')
+    document.querySelectorAll('.mdw-side-menu-button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var area = btn.closest('.mdw-side-menu-area');
+        if (!area || clickLock) return;
+        var navBtns = btn.querySelectorAll('.nav-btn');
+        clickLock = true;
+        if (area.classList.contains('open')) {
+          if (navBtns[1]) navBtns[1].classList.remove('open');
+          area.classList.remove('open-arrow');
+          setTimeout(function() { area.classList.remove('open-instant'); }, 300);
+          setTimeout(function() { area.classList.remove('open'); }, 500);
+          setTimeout(function() { if (navBtns[0]) navBtns[0].classList.remove('open'); }, 750);
+        } else {
+          if (navBtns[0]) navBtns[0].classList.add('open');
+          setTimeout(function() { area.classList.add('open', 'open-instant', 'open-arrow'); }, 500);
+          setTimeout(function() { if (navBtns[1]) navBtns[1].classList.add('open'); }, 750);
         }
-    })
-})
+        setTimeout(function() { clickLock = false; }, 750);
+      });
+    });
 
-$(window).on('scroll', function(){
-    $('.mdw-hide-on-scroll').each(function(){
-        var offset = isNaN(parseFloat(getCSS($(this), '--hide-on-scroll-amount'))) ? parseFloat(getCSS($(this), '--hide-on-scroll-amount')) : 100
-        if(getCSS($(this), '--hide-on-scroll').trim() == 'true'){
-            if($(window).scrollTop() > offset){
-                $(this).addClass('hide')
-            }else{
-                $(this).removeClass('hide')
-            }
+    document.querySelectorAll('.mdw-side-menu-button a').forEach(function(link) {
+      link.addEventListener('click', function(e) { e.preventDefault(); });
+    });
+
+    document.body.addEventListener('click', function(e) {
+      document.querySelectorAll('.mdw-side-menu-area').forEach(function(area) {
+        if (area.classList.contains('open-instant') &&
+            !e.target.closest('.mdw-side-menu') &&
+            !e.target.closest('.mdw-side-menu-button')) {
+          area.querySelector('.mdw-side-menu-button').click();
         }
-    })
-})
-})
-}
+      });
+    });
+
+    window.addEventListener('scroll', function() {
+      document.querySelectorAll('.mdw-hide-on-scroll').forEach(function(el) {
+        var amount = parseFloat(getCSS(el, '--hide-on-scroll-amount'));
+        var offset = isNaN(amount) ? 100 : amount;
+        if (getCSS(el, '--hide-on-scroll').trim() === 'true') {
+          el.classList.toggle('hide', window.scrollY > offset);
+        }
+      });
+    });
+  });
+
+  window.addEventListener('load', function() {
+    document.querySelectorAll('.mdw-side-menu-area').forEach(setSmallState);
+  });
+  window.addEventListener('resize', function() {
+    document.querySelectorAll('.mdw-side-menu-area').forEach(setSmallState);
+  });
+}());
 
 /* ── Empty Icon List Cleanup ── */
 document.addEventListener("DOMContentLoaded", function () {
@@ -1113,17 +1094,15 @@ document.addEventListener("visibilitychange", event => {
 })
 
 /* ── Refresh Komentar ── */
-jQuery(document).ready(function ($) {
-    // Pantau tombol send-comment dan update tampilan komentar setelah submit
+document.addEventListener('DOMContentLoaded', function() {
     var sendButton = document.getElementById('send-comment');
     if (!sendButton) return;
 
-    var observer = new MutationObserver(function (mutationsList) {
-        mutationsList.forEach(function (mutation) {
+    var observer = new MutationObserver(function(mutationsList) {
+        mutationsList.forEach(function(mutation) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
                 if (!sendButton.disabled) {
-                    setTimeout(function () {
-                        // Tampilkan pesan sederhana (static site - tidak ada refresh dari server)
+                    setTimeout(function() {
                         var container = document.getElementById('komentar-container');
                         if (container && container.textContent.trim() === 'Your wishes will be shown here.') {
                             container.innerHTML = '<p style="color:white">Terima kasih atas ucapan & doanya!</p>';
