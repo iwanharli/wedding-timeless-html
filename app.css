@@ -1390,19 +1390,6 @@ button.hapus-komentar {
     opacity: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu .e-con::-webkit-scrollbar,
-.mdw-side-menu-area .mdw-side-menu .e-container::-webkit-scrollbar {
-    display: none;
-}
-
-.mdw-side-menu-area .mdw-side-menu .e-con,
-.mdw-side-menu-area .mdw-side-menu .e-container {
-    overflow-y: auto;
-    max-height: calc(100vh - 20px - var(--margin-block-start, 113px));
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
 .mdw-side-menu-area .mdw-side-menu .nav-item,
 .mdw-side-menu-area .mdw-side-menu .nav-item a {
     perspective: calc(3*48px);
@@ -1918,14 +1905,8 @@ body::-webkit-scrollbar {
     outline: none;
 }
 
-/* Page transition element */
-e-page-transition { display: none; }
-
-/* ── Replacements for removed elementor.frontend.mind9b0.css ── */
 .hidden { display: none !important; }
 .preloader-hidden { opacity: 0; }
-.e-con { display: var(--display, flex); }
-.e-con-inner { width: 100%; }
 
 /* Popup form styles */
 .popup-field {

@@ -349,16 +349,3 @@
         bottom: 26%;
     }
 }
-
-/* DCE background fix compatibility */
-.dce-fix-background-loop #left-panel::before {
-    background-image: url('../images/Timeless-00036.jpg');
-}
-
-.dce-fix-background-loop #video-bg {
-    background: url('../images/Timeless-00036.jpg') 50% 50% / cover;
-}
-
-.dce-fix-background-loop #hapus-section {
-    background-image: url('../images/Timeless-00025-1.jpg');
-}
