@@ -734,8 +734,8 @@ window.onbeforeunload = function() {
 var isSectionLocked = true; // Menyimpan status kunci tampilan section
 
 // Menambahkan variabel untuk audio
-const wdpAudio = document.body.contains(document.getElementById('song')) ? document.getElementById('song') : false;
-const wdpVideo = document.body.contains(document.getElementById('video')) ? document.getElementById('video') : false;
+const bgAudio = document.body.contains(document.getElementById('song')) ? document.getElementById('song') : false;
+const bgVideo = document.body.contains(document.getElementById('video')) ? document.getElementById('video') : false;
 
 // Mengunci tampilan section pertama saat halaman dimuat
 window.addEventListener('DOMContentLoaded', function() {
@@ -821,15 +821,15 @@ function enableScrolling() {
 
 // Fungsi untuk memutar audio
 function playAudio() {
-    if (wdpAudio) {
-        wdpAudio.play();
+    if (bgAudio) {
+        bgAudio.play();
     }
 }
 
 // Fungsi untuk menjeda audio
 function pauseAudio() {
-    if (wdpAudio) {
-        wdpAudio.pause();
+    if (bgAudio) {
+        bgAudio.pause();
     }
 }
 
@@ -1139,19 +1139,19 @@ document.addEventListener('DOMContentLoaded', () => {
   update(); // set kondisi awal
 });
 
-/* ── wdpAudio Visibility Handlers ── */
+/* ── bgAudio Visibility Handlers ── */
 
 const pauseAudioOnVideoPlay = () => {
-  if (wdpVideo) {
-    wdpVideo.addEventListener('play', () => {
+  if (bgVideo) {
+    bgVideo.addEventListener('play', () => {
       pauseAudio();
     });
   }
 }
 
 const resumeAudioOnVideoPause = () => {
-  if (wdpVideo) {
-    wdpVideo.addEventListener('pause', () => {
+  if (bgVideo) {
+    bgVideo.addEventListener('pause', () => {
       playAudio();
     });
   }
@@ -1192,13 +1192,6 @@ jQuery(document).ready(function ($) {
     observer.observe(sendButton, { attributes: true });
 });
 
-
-/* ── WooCommerce Class Fix ── */
-(function () {
-			var c = document.body.className;
-			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
-			document.body.className = c;
-		})();
 
 /* ── Countdown Timer (Section 7) ── */
 document.addEventListener('DOMContentLoaded', function () {

@@ -5,7 +5,7 @@
 
 <!-- ================================================================
      HEAD
-     Stylesheets: Elementor vendor CSS, AOS, FontAwesome, app.css
+     Stylesheets: app.css, hero.css, sections.css, AOS, FontAwesome, Swiper
 ================================================================ -->
 <head>
 	<meta charset="UTF-8">
@@ -32,7 +32,7 @@
 
 
 	<!-- ================================================================
-	     ROOT · Elementor post wrapper (ID 605881)
+	     ROOT · App wrapper
 	================================================================ -->
 	<div id="app-wrapper">
 
@@ -619,17 +619,12 @@
 							data-aos-delay="200" data-aos-duration="800">
 							We kindly request your prompt response to confirm your attendance.</p>
 
-						<form class="rsvp-form" id="commentform" name="comment_form" method="post">
-							<input type="hidden" name="post_id" value="605881" />
-							<input type="hidden" name="form_id" value="47b3f9a" />
-							<input type="hidden" name="referer_title"
-								value="WE INVITE YOU TO CELEBRATE Hanson &amp; Catherine" />
-							<input type="hidden" name="queried_id" value="605881" />
+						<form class="rsvp-form" id="commentform" name="comment_form">
 
 							<!-- Name -->
 							<div class="rsvp-field">
-								<label for="form-field-name">Name</label>
-								<input type="text" name="form_fields[name]" id="form-field-name"
+								<label for="field-name">Name</label>
+								<input type="text" name="name" id="field-name"
 									class="rsvp-input" required aria-required="true" />
 							</div>
 
@@ -639,42 +634,32 @@
 								<div class="rsvp-radio-group">
 									<label class="rsvp-radio-label">
 										<input type="radio" value="EXCITED TO ATTEND"
-											id="form-field-attendance-0"
-											name="form_fields[attendance]" required aria-required="true" />
+											id="field-attendance-yes"
+											name="attendance" required aria-required="true" />
 										<span data-text-key="rsvp.attendanceLabel">EXCITED TO ATTEND</span>
 									</label>
 									<label class="rsvp-radio-label">
 										<input type="radio" value="Tidak Hadir"
-											id="form-field-attendance-1"
-											name="form_fields[attendance]" required aria-required="true" />
+											id="field-attendance-no"
+											name="attendance" required aria-required="true" />
 										<span data-text-key="rsvp.unableLabel">UNABLE ATTEND</span>
 									</label>
 								</div>
 							</div>
 
-							<!-- Guest count (conditionally shown) -->
-							<div class="rsvp-field"
-								data-field-conditions="[{&quot;id&quot;:&quot;field_b0d08a4&quot;,&quot;condition&quot;:&quot;(attendance == \&quot;Tidak Hadir\&quot;)&quot;,&quot;mode&quot;:&quot;hide&quot;,&quot;disableOnly&quot;:false}]">
-								<label for="form-field-field_b0d08a4">No of Guest</label>
-								<input type="number" name="form_fields[field_b0d08a4]"
-									id="form-field-field_b0d08a4"
+							<!-- Guest count -->
+							<div class="rsvp-field">
+								<label for="field-guests">No of Guest</label>
+								<input type="number" name="guests" id="field-guests"
 									class="rsvp-input" value="1" required aria-required="true" min="1" max="2" />
 							</div>
 
 							<!-- Wishes -->
 							<div class="rsvp-field">
-								<label for="form-field-comment">Wishes</label>
-								<textarea name="form_fields[comment]" id="form-field-comment"
+								<label for="field-wishes">Wishes</label>
+								<textarea name="wishes" id="field-wishes"
 									class="rsvp-textarea" rows="4"></textarea>
 							</div>
-
-							<!-- Hidden fields -->
-							<input type="text" name="form_fields[field_bacffc5]"
-								id="form-field-field_bacffc5" style="display:none !important;" />
-							<input type="hidden" name="form_fields[post_title]"
-								id="form-field-post_title" value="timeless v2" />
-							<input type="hidden" name="form_fields[link_undangan]"
-								id="form-field-link_undangan" />
 
 							<!-- Submit -->
 							<button class="rsvp-submit" type="submit" id="send-comment">
@@ -1081,31 +1066,28 @@
 		<div id="wedding-gift-popup" style="display:none; position:fixed; inset:0; background:rgba(240,240,240,0.97); z-index:9999; display:none; align-items:center; justify-content:center; flex-direction:column;">
 			<div style="background:#fff; padding:30px; max-width:400px; width:90%; border-radius:4px;">
 				<h3 style="margin:0 0 16px; font-family:inter,sans-serif; font-size:14px; text-align:center;">Wedding Gift</h3>
-				<form id="wedding_gift" name="weddinggift" method="post"
+				<form id="wedding_gift" name="weddinggift"
 					style="display:flex; flex-direction:column; gap:12px;">
-					<input type="hidden" name="post_id" value="430708" />
-					<input type="hidden" name="form_id" value="a8eed2a" />
-					<input type="hidden" name="queried_id" value="605881" />
 
 					<div class="popup-field">
 						<label class="popup-label">Full Name</label>
-						<input type="text" name="form_fields[name]" id="form-field-name"
+						<input type="text" name="name" id="gift-field-name"
 							class="popup-input" required />
 					</div>
 					<div class="popup-field">
 						<label class="popup-label">Recipient Bank</label>
-						<select name="form_fields[bank_tujuan]" id="form-field-bank_tujuan" class="popup-input" required>
+						<select name="bank" id="gift-field-bank" class="popup-input" required>
 							<option value="Groove Public Invitation (BCA)">Groove Public Invitation (BCA)</option>
 							<option value="Groove Public Invitation (Mandiri)">Groove Public Invitation (Mandiri)</option>
 						</select>
 					</div>
 					<div class="popup-field">
 						<label class="popup-label">Amount</label>
-						<input type="number" name="form_fields[Amount]" id="form-field-Amount" class="popup-input" />
+						<input type="number" name="amount" id="gift-field-amount" class="popup-input" />
 					</div>
 					<div class="popup-field">
 						<label class="popup-label">Note (optional)</label>
-						<textarea name="form_fields[note]" id="form-field-note" class="popup-input" rows="3"></textarea>
+						<textarea name="note" id="gift-field-note" class="popup-input" rows="3"></textarea>
 					</div>
 					<button type="submit" id="wedding_gift_submit" class="popup-submit">Send</button>
 				</form>

@@ -27,12 +27,6 @@
   function setBg(el, value) {
     if (value) {
       el.style.backgroundImage = 'url(' + value + ')';
-      if (el.hasAttribute('data-dce-background-image-url')) {
-        el.setAttribute('data-dce-background-image-url', value);
-      }
-      if (el.hasAttribute('data-dce-background-overlay-image-url')) {
-        el.setAttribute('data-dce-background-overlay-image-url', value);
-      }
     }
   }
 
