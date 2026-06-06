@@ -30,7 +30,7 @@ export default function SectionGallery() {
 
   useEffect(() => {
     const opts = {
-      loop: true,
+      loop: false,
       slidesPerView: 'auto',
       centeredSlides: true,
       autoplay: { delay: 3000, disableOnInteraction: false },
@@ -173,7 +173,7 @@ export default function SectionGallery() {
         }}>
           <img
             id="lightbox-img"
-            src=""
+            src={null}
             alt=""
             style={{ width: '100%', maxHeight: '90vh', display: 'block', margin: '0 auto', objectFit: 'contain' }}
           />
