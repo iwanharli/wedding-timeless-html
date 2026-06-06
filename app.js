@@ -1209,18 +1209,6 @@ document.addEventListener("visibilitychange", event => {
   }
 })
 
-//text error name rsvp
-jQuery(document).ready(function ($) {
-    $('.wdp-error-info-name').text('maksimal 25 karakter hindari menggunakan tanda titik');
-});
-
-//animasi setelah cover
-var _wdpBtn = document.querySelector('.wdp-button-wrapper button');
-if (_wdpBtn) _wdpBtn.addEventListener('click', function () {
-    var first = document.querySelector('.firstColumn');
-    if (first) first.style.display = 'block';
-});
-
 /* ── Refresh Komentar ── */
 jQuery(document).ready(function ($) {
     // Pantau tombol send-comment dan update tampilan komentar setelah submit
