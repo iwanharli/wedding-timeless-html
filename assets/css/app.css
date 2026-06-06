@@ -1,9 +1,416 @@
-/* app.css — inline styles extracted from index.html */
+/* ── Reset / Base Styles ── */
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: inherit;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-block-end: 1rem;
+    margin-block-start: .5rem
+}
+
+h1 { font-size: 2.5rem }
+h2 { font-size: 2rem }
+h3 { font-size: 1.75rem }
+h4 { font-size: 1.5rem }
+h5 { font-size: 1.25rem }
+h6 { font-size: 1rem }
+
+p {
+    margin-block-end: .9rem;
+    margin-block-start: 0
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible
+}
+
+pre {
+    font-family: monospace, monospace;
+    font-size: 1em;
+    white-space: pre-wrap
+}
+
+a {
+    background-color: transparent;
+    color: #c36;
+    text-decoration: none
+}
+
+a:active,
+a:hover {
+    color: #336
+}
+
+a:not([href]):not([tabindex]),
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+    color: inherit;
+    text-decoration: none
+}
+
+a:not([href]):not([tabindex]):focus {
+    outline: 0
+}
+
+abbr[title] {
+    border-block-end: none;
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted
+}
+
+b,
+strong {
+    font-weight: bolder
+}
+
+code,
+kbd,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em
+}
+
+small { font-size: 80% }
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline
+}
+
+sub { bottom: -.25em }
+sup { top: -.5em }
+
+img {
+    border-style: none;
+    height: auto;
+    max-width: 100%
+}
+
+details { display: block }
+summary { display: list-item }
+
+figcaption {
+    color: #333;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.4
+}
+
+[hidden],
+template {
+    display: none
+}
+
+@media print {
+    *,
+    :after,
+    :before {
+        background: transparent !important;
+        box-shadow: none !important;
+        color: #000 !important;
+        text-shadow: none !important
+    }
+
+    a,
+    a:visited { text-decoration: underline }
+
+    a[href]:after { content: " (" attr(href) ")" }
+    abbr[title]:after { content: " (" attr(title) ")" }
+
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after { content: "" }
+
+    pre { white-space: pre-wrap !important }
+
+    blockquote,
+    pre {
+        -moz-column-break-inside: avoid;
+        border: 1px solid #ccc;
+        break-inside: avoid
+    }
+
+    thead { display: table-header-group }
+
+    img,
+    tr {
+        -moz-column-break-inside: avoid;
+        break-inside: avoid
+    }
+
+    h2,
+    h3,
+    p {
+        orphans: 3;
+        widows: 3
+    }
+
+    h2,
+    h3 {
+        -moz-column-break-after: avoid;
+        break-after: avoid
+    }
+}
+
+label {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0
+}
+
+input[type=date],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=url],
+select,
+textarea {
+    border: 1px solid #666;
+    border-radius: 3px;
+    padding: .5rem 1rem;
+    transition: all .3s;
+    width: 100%
+}
+
+input[type=date]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+input[type=password]:focus,
+input[type=search]:focus,
+input[type=tel]:focus,
+input[type=text]:focus,
+input[type=url]:focus,
+select:focus,
+textarea:focus {
+    border-color: #333
+}
+
+button,
+input { overflow: visible }
+
+button,
+select { text-transform: none }
+
+[type=button],
+[type=reset],
+[type=submit],
+button {
+    -webkit-appearance: button;
+    width: auto
+}
+
+[type=button],
+[type=submit],
+button {
+    background-color: transparent;
+    border: 1px solid #c36;
+    border-radius: 3px;
+    color: #c36;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: .5rem 1rem;
+    text-align: center;
+    transition: all .3s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    white-space: nowrap
+}
+
+[type=button]:focus:not(:focus-visible),
+[type=submit]:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+    outline: none
+}
+
+[type=button]:focus,
+[type=button]:hover,
+[type=submit]:focus,
+[type=submit]:hover,
+button:focus,
+button:hover {
+    background-color: #c36;
+    color: #fff;
+    text-decoration: none
+}
+
+[type=button]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+    cursor: pointer
+}
+
+fieldset { padding: .35em .75em .625em }
+
+legend {
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal
+}
+
+progress { vertical-align: baseline }
+
+textarea {
+    overflow: auto;
+    resize: vertical
+}
+
+[type=checkbox],
+[type=radio] {
+    box-sizing: border-box;
+    padding: 0
+}
+
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+    height: auto
+}
+
+[type=search] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px
+}
+
+[type=search]::-webkit-search-decoration {
+    -webkit-appearance: none
+}
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit
+}
+
+select { display: block }
+
+table {
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: .9em;
+    margin-block-end: 15px;
+    width: 100%
+}
+
+table td,
+table th {
+    border: 1px solid hsla(0, 0%, 50%, .502);
+    line-height: 1.5;
+    padding: 15px;
+    vertical-align: top
+}
+
+table th { font-weight: 700 }
+
+table tfoot th,
+table thead th { font-size: 1em }
+
+table caption+thead tr:first-child td,
+table caption+thead tr:first-child th,
+table colgroup+thead tr:first-child td,
+table colgroup+thead tr:first-child th,
+table thead:first-child tr:first-child td,
+table thead:first-child tr:first-child th {
+    border-block-start: 1px solid hsla(0, 0%, 50%, .502)
+}
+
+table tbody>tr:nth-child(odd)>td,
+table tbody>tr:nth-child(odd)>th {
+    background-color: hsla(0, 0%, 50%, .071)
+}
+
+table tbody tr:hover>td,
+table tbody tr:hover>th {
+    background-color: hsla(0, 0%, 50%, .102)
+}
+
+table tbody+tbody {
+    border-block-start: 2px solid hsla(0, 0%, 50%, .502)
+}
+
+@media (max-width: 767px) {
+    table table { font-size: .8em }
+
+    table table td,
+    table table th {
+        line-height: 1.3;
+        padding: 7px
+    }
+
+    table table th { font-weight: 400 }
+}
+
+dd,
+dl,
+dt,
+li,
+ol,
+ul {
+    background: transparent;
+    border: 0;
+    font-size: 100%;
+    margin-block-end: 0;
+    margin-block-start: 0;
+    outline: 0;
+    vertical-align: baseline
+}
+
+/* ── app.css — inline styles extracted from index.html ── */
 
 /* ── Video: Fixed Background untuk Semua Section (Desktop & Mobile) ── */
 
-/* Video element: cover full container */
-.elementor-element-84b6401 video {
+/* Video element: cover full container (#video-bg) */
+#video-bg video {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -12,41 +419,30 @@
     object-fit: cover !important;
     transform: none !important;
 }
-
-.elementor-element-84b6401 .elementor-background-video-container {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-}
+/* NOTE: #video-bg outer container positioning is in the desktop/mobile media queries below */
 
 /* Semua child section (halaman 1-14): di atas video (z-index 1) dan transparan agar background video terlihat */
-.elementor-element-38563ea2 > .child {
+#right-panel > .child:not(#hapus-section) {
     position: relative !important;
     z-index: 1 !important;
     background-color: transparent !important;
 }
-.elementor-element-38563ea2 > .child:not(.elementor-element-303ad26d) {
+#right-panel > .child:not(#hapus-section):not(#section-thankyou) {
     background-image: none !important;
 }
 
-/* Cover section (hapus-section) sebelum dibuka: z-index di atas video */
-.elementor-element-0892a8b {
+/* #hapus-section (cover) punya background foto sendiri sebelum diklik */
+#hapus-section {
     position: relative !important;
     z-index: 3 !important;
 }
 
 /* Section terakhir (halaman 15): background sendiri menutup video background */
-.elementor-element-303ad26d {
-    z-index: 2 !important;
-    background-size: cover !important;
-    background-position: center center !important;
-}
 
 /* ── Desktop Layout: Persistent Left Panel & Right Scrolling Panel ── */
 @media screen and (min-width: 801px) {
     /* Left panel: fixed ke kiri sepanjang halaman */
-    .elementor-element-5de39555 {
+    #left-panel {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -58,25 +454,25 @@
     }
     
     /* Pastikan background image tidak bergeser */
-    .elementor-element-5de39555::before {
+    #left-panel::before {
         background-size: cover !important;
         background-position: center center !important;
     }
 
     /* Seluruh konten undangan: di sisi kanan 700px */
-    .elementor.elementor-605881 {
+    #app-wrapper {
         margin-left: calc(100vw - 700px) !important;
         width: 700px !important;
     }
 
     /* KONTEN UTAMA KANAN: Berikan position relative agar child absolute di dalamnya sejajar di 700px kanan */
-    .elementor-element-38563ea2 {
+    #right-panel {
         position: relative !important;
         width: 700px !important;
     }
 
     /* Video latar belakang: fixed terbatas di panel kanan 700px */
-    .elementor-element-84b6401 {
+    #video-bg {
         position: fixed !important;
         top: 0 !important;
         right: 0 !important;
@@ -90,7 +486,7 @@
 /* ── Mobile Layout: Full Screen Video & Content ── */
 @media screen and (max-width: 800px) {
     /* Video fixed di layar penuh 100vw */
-    .elementor-element-84b6401 {
+    #video-bg {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -101,106 +497,101 @@
     }
 }
 
-/* ── Inline Style ── */
-.wdp-comment-text img {
-    max-width: 100% !important;
-}
-
 /* ── Font Faces ── */
 @font-face {
     font-family: 'script icon';
     font-weight: 400;
-    src: url('./assets/fonts/New-Icon-Script.ttf') format('truetype');
+    src: url('../fonts/New-Icon-Script.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'lausanne300';
     font-weight: 300;
-    src: url('./assets/fonts/Lausanne-300.ttf') format('truetype');
+    src: url('../fonts/Lausanne-300.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 700;
-    src: url('./assets/fonts/CormorantUpright-Bold.ttf') format('truetype');
+    src: url('../fonts/CormorantUpright-Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 600;
-    src: url('./assets/fonts/CormorantUpright-SemiBold.ttf') format('truetype');
+    src: url('../fonts/CormorantUpright-SemiBold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 400;
-    src: url('./assets/fonts/CormorantUpright-Regular.ttf') format('truetype');
+    src: url('../fonts/CormorantUpright-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 500;
-    src: url('./assets/fonts/CormorantUpright-Medium.ttf') format('truetype');
+    src: url('../fonts/CormorantUpright-Medium.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 300;
-    src: url('./assets/fonts/CormorantUpright-Light.ttf') format('truetype');
+    src: url('../fonts/CormorantUpright-Light.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'time now italic';
     font-weight: 400;
-    src: url('./assets/fonts/TimesNow-SemiLightItalic.ttf') format('truetype');
+    src: url('../fonts/TimesNow-SemiLightItalic.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'time now italic';
     font-weight: 300;
-    src: url('./assets/fonts/TimesNow-LightItalic.ttf') format('truetype');
+    src: url('../fonts/TimesNow-LightItalic.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'time noww';
     font-weight: 600;
-    src: url('./assets/fonts/TimesNow-SemiBold.ttf') format('truetype');
+    src: url('../fonts/TimesNow-SemiBold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'time noww';
     font-weight: 400;
-    src: url('./assets/fonts/TimesNow-SemiLight.ttf') format('truetype');
+    src: url('../fonts/TimesNow-SemiLight.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'time noww';
     font-weight: 300;
-    src: url('./assets/fonts/TimesNow-Light.ttf') format('truetype');
+    src: url('../fonts/TimesNow-Light.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'ovo';
     font-weight: 400;
-    src: url('./assets/fonts/Ovo-Regular.ttf') format('truetype');
+    src: url('../fonts/Ovo-Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'signature fed';
     font-weight: 400;
-    src: url('./assets/fonts/FrederickFree.otf') format('OpenType');
+    src: url('../fonts/FrederickFree.otf') format('OpenType');
 }
 
 @font-face {
     font-family: 'Thesignature';
     font-weight: 400;
-    src: url('./assets/fonts/Thesignature.ttf') format('truetype');
+    src: url('../fonts/Thesignature.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'inter';
     font-weight: 400;
-    src: url('./assets/fonts/Inter-VariableFont_slntwght.ttf') format('truetype');
+    src: url('../fonts/Inter-VariableFont_slntwght.ttf') format('truetype');
 }
 
 /* ── WordPress Global Styles & CSS Vars ── */
@@ -642,136 +1033,14 @@ a:where(:not(.wp-element-button)) {
     font-family: var(--wp--preset--font-family--cardo) !important;
 }
 
-/* ── WeddingPress Comment Kit ── */
-.wdp-wrapper {
-
-    font-size: 14px
+/* ── Background Images ── */
+#left-panel::before {
+    background-image: url("../images/Timeless-00036.jpg");
 }
 
-.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment .wdp-comment-avatar img {
-
-    max-width: 28px;
-
-    max-height: 28px;
-
-}
-
-.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment .wdp-comment-content {
-
-    margin-left: 38px;
-
-}
-
-.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment ul .wdp-comment-avatar img {
-
-    max-width: 24px;
-
-    max-height: 24px;
-
-}
-
-.wdp-wrapper ul.wdp-container-comments li.wdp-item-comment ul ul .wdp-comment-avatar img {
-
-    max-width: 21px;
-
-    max-height: 21px;
-
-}
-
-/* ── Elementor – Background Images per Element ── */
-.elementor-605881 .elementor-element.elementor-element-5de39555::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
-.elementor-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
-    background-image: url("./assets/images/Timeless-00036.jpg");
-}
-
-.elementor-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background: url("./assets/images/Timeless-00036.jpg") 50% 50%;
+#video-bg {
+    background: url("../images/Timeless-00036.jpg") 50% 50%;
     background-size: cover;
-}
-
-.elementor-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00025-1.jpg");
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
-    background-color: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
-    color: #dbd6d3;
-    border-color: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
-    fill: #dbd6d3;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
-    background-color: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
-    color: #2a211c;
-    border-color: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
-    fill: #2a211c;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
-    background-color: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
-    color: #806f5f;
-    border-color: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
-    fill: #806f5f;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
-    background-color: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
-    color: #bca8a0;
-    border-color: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.elementor-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
-    fill: #bca8a0;
-}
-
-.elementor-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
-.elementor-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00018.jpg");
-}
-
-/* ── Inline Style (2) ── */
-.wdp_note_button {
-    display: none !important;
-}
-
-/* ── Inline Style (4) ── */
-.pswp.pafe-lightbox-modal {
-    display: none;
 }
 
 /* ── Custom CSS (scroll, scrollbar, guestbook) ── */
@@ -799,30 +1068,6 @@ html {
     /* warna thumb pas hover */
 }
 
-/*judul foto hilang*/
-.elementor-slideshow__title {
-    visibility: hidden;
-}
-
-/*icon share foto hilang*/
-i.eicon-share-arrow {
-    visibility: hidden;
-}
-
-i.eicon-zoom-in-bold {
-    visibility: hidden;
-}
-
-.elementor-lightbox .elementor-swiper-button-next i,
-.elementor-lightbox .elementor-swiper-button-prev i {
-    padding: 10px;
-    background-color: transparent;
-}
-
-.user-guestbook img {
-    visibility: hidden;
-}
-
 /*icon centang guest book*/
 /*icon centang*/
 i.fas.fa-check-circle {
@@ -840,16 +1085,6 @@ i.fas.fa-check-circle {
     transition: 1s ease-in-out;
 }
 
-/*SELANJUTNYA COMMENT KIT*/
-.wdp-wrapper .wdp-holder {
-    display: block !important;
-}
-
-/*TAMPILAN COMMENTKIT DI ELEMENTOR*/
-.wdp-wrapper .wdp-wrap-comments {
-    display: block !important;
-}
-
 /* ── Swiper – hide default arrows ── */
 .swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
@@ -862,9 +1097,6 @@ i.fas.fa-check-circle {
 }
 
 /* ── Inline Style (5) ── */
-.elementor .elementor-element.elementor-element-47b3f9a .e-form__indicators {
-    display: none !important;
-}
 
 /* ── RSVP – Guest Count +/- buttons ── */
 .number-input-wrapper {
@@ -1066,12 +1298,6 @@ button.hapus-komentar {
 
 }
 
-.elementor-editor-active .komentar-item:nth-child(-n+5) {
-    opacity: 1;
-    visibility: visible;
-    position: relative;
-}
-
 /* ── Hide scrollbar ── */
 .mdw-side-menu-area {
     --hide-on-scroll: true;
@@ -1095,40 +1321,40 @@ button.hapus-komentar {
     overflow: hidden !important;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn {
     transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.mdw-side-menu-area.open .mdw-side-menu-button .elementor-widget-button {
+.mdw-side-menu-area.open .mdw-side-menu-button .nav-btn {
     transform: translateY(-100%);
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button {
+.mdw-side-menu-area .mdw-side-menu-button .btn {
     height: var(--min-height, 45px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-icon {
+.mdw-side-menu-area .mdw-side-menu-button .btn-icon {
     margin: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-content-wrapper {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-content {
     perspective: 6em;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(1) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-text:nth-child(1) {
     transform-origin: top;
     transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button.open .elementor-button-text:nth-child(1) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .nav-btn-text:nth-child(1) {
     opacity: 0;
     transform: rotateX(90deg) scaleX(.9) translate3d(0, -10px, 0);
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-button-text:nth-child(2) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn-text:nth-child(2) {
     position: absolute;
     opacity: 0;
     transform: rotateX(-90deg) scaleX(.9) translate3d(0, 10px, 0);
@@ -1136,7 +1362,7 @@ button.hapus-komentar {
     transition: transform .55s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .2s;
 }
 
-.mdw-side-menu-area .mdw-side-menu-button .elementor-widget-button.open .elementor-button-text:nth-child(2) {
+.mdw-side-menu-area .mdw-side-menu-button .nav-btn.open .nav-btn-text:nth-child(2) {
     opacity: 1;
     transform: rotateX(0deg) scaleX(1) translateZ(0);
     transition: transform .75s cubic-bezier(.645, .045, .355, 1), opacity .35s linear .3s;
@@ -1164,39 +1390,26 @@ button.hapus-komentar {
     opacity: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu .e-con::-webkit-scrollbar,
-.mdw-side-menu-area .mdw-side-menu .e-container::-webkit-scrollbar {
-    display: none;
-}
-
-.mdw-side-menu-area .mdw-side-menu .e-con,
-.mdw-side-menu-area .mdw-side-menu .e-container {
-    overflow-y: auto;
-    max-height: calc(100vh - 20px - var(--margin-block-start, 113px));
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item,
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item a {
+.mdw-side-menu-area .mdw-side-menu .nav-item,
+.mdw-side-menu-area .mdw-side-menu .nav-item a {
     perspective: calc(3*48px);
     perspective-origin: bottom;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item {
+.mdw-side-menu-area .mdw-side-menu .nav-item {
     margin-top: 0 !important;
     padding-top: var(--padding-top);
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:first-child {
+.mdw-side-menu-area .mdw-side-menu .nav-item:first-child {
     padding-top: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item a {
+.mdw-side-menu-area .mdw-side-menu .nav-item a {
     outline: none;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon {
+.mdw-side-menu-area .mdw-side-menu .nav-icon {
     width: var(--menu-icon-width, 48px);
     height: calc(0.6*var(--menu-icon-width, 48px));
     align-items: center;
@@ -1206,12 +1419,12 @@ button.hapus-komentar {
     box-sizing: content-box;
 }
 
-.mdw-side-menu-area.open-arrow .mdw-side-menu .elementor-icon-list-icon {
+.mdw-side-menu-area.open-arrow .mdw-side-menu .nav-icon {
     opacity: 1;
     transition: all 0s cubic-bezier(.215, .61, .355, 1) calc(var(--index, 0) * .1s + 0.55s);
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i {
+.mdw-side-menu-area .mdw-side-menu .nav-icon i {
     width: 100% !important;
     height: 0.1em;
     background: currentColor;
@@ -1220,16 +1433,16 @@ button.hapus-komentar {
     transition: all .65s cubic-bezier(.215, .61, .355, 1) !important;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon svg {
+.mdw-side-menu-area .mdw-side-menu .nav-icon svg {
     display: none;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:hover .elementor-icon-list-icon i {
+.mdw-side-menu-area .mdw-side-menu .nav-item:hover .nav-icon i {
     margin-left: -0.07em;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:before,
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:after {
+.mdw-side-menu-area .mdw-side-menu .nav-icon i:before,
+.mdw-side-menu-area .mdw-side-menu .nav-icon i:after {
     content: "";
     position: absolute;
     width: 40%;
@@ -1240,11 +1453,11 @@ button.hapus-komentar {
     right: 0;
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon i:after {
+.mdw-side-menu-area .mdw-side-menu .nav-icon i:after {
     transform: rotate(-45deg) translateX(0.05em);
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-text {
+.mdw-side-menu-area .mdw-side-menu .nav-text {
     transform: rotateX(90deg) translate3d(0, 60px, 0);
     opacity: 0;
     transition: transform 0s linear .45s, opacity 0.3s linear !important;
@@ -1253,15 +1466,15 @@ button.hapus-komentar {
     max-width: calc(100% - var(--menu-icon-width, 48px) - var(--menu-icon-gap, 15px));
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-icon+.elementor-icon-list-text {
+.mdw-side-menu-area .mdw-side-menu .nav-icon+.nav-text {
     margin-left: calc(0px - var(--menu-icon-width, 48px) - var(--menu-icon-gap, 15px));
 }
 
-.mdw-side-menu-area .mdw-side-menu .elementor-icon-list-item:hover .elementor-icon-list-text {
+.mdw-side-menu-area .mdw-side-menu .nav-item:hover .nav-text {
     margin-left: 0;
 }
 
-.mdw-side-menu-area.open-instant .mdw-side-menu .elementor-icon-list-text {
+.mdw-side-menu-area.open-instant .mdw-side-menu .nav-text {
     transform: rotateX(0deg);
     opacity: 1;
     transition: transform .65s cubic-bezier(.215, .61, .355, 1) calc(var(--index, 0) * .1s + .55s), opacity .35s linear calc(var(--index, 0) * .1s + .55s), margin-left .65s cubic-bezier(.215, .61, .355, 1) !important;
@@ -1272,11 +1485,11 @@ button.hapus-komentar {
     background: none;
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-widget-empty-icon {
+.mdw-side-menu-area .mdw-side-menu-social .empty-icon {
     display: none;
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item {
+.mdw-side-menu-area .mdw-side-menu-social .nav-item {
     width: 47%;
     float: left;
 }
@@ -1286,18 +1499,18 @@ button.hapus-komentar {
     width: auto;
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-text {
+.mdw-side-menu-area .mdw-side-menu-social .nav-text {
     transform: translate3d(0, 100%, 0);
     transition: transform 0s linear .45s, opacity 0.3s linear;
     max-width: 100%;
 }
 
-.mdw-side-menu-area.open-instant .mdw-side-menu-social .elementor-icon-list-text {
+.mdw-side-menu-area.open-instant .mdw-side-menu-social .nav-text {
     transition: opacity .45s linear 0s, transform .65s cubic-bezier(.215, .61, .355, 1) 0s !important;
     transition-delay: calc(var(--index)*.1s + .7s) !important;
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-text:after {
+.mdw-side-menu-area .mdw-side-menu-social .nav-text:after {
     content: "";
     height: 1px;
     width: 100%;
@@ -1310,7 +1523,7 @@ button.hapus-komentar {
     transition: all 0.75s cubic-bezier(.645, .045, .355, 1);
 }
 
-.mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item:hover .elementor-icon-list-text:after {
+.mdw-side-menu-area .mdw-side-menu-social .nav-item:hover .nav-text:after {
     transform: scaleX(100%);
 }
 
@@ -1320,7 +1533,7 @@ button.hapus-komentar {
         --menu-icon-gap: 10px;
     }
 
-    .mdw-side-menu-area .mdw-side-menu-social .elementor-icon-list-item {
+    .mdw-side-menu-area .mdw-side-menu-social .nav-item {
         width: 50%;
     }
 }
@@ -1395,40 +1608,8 @@ body::-webkit-scrollbar {
     pointer-events: none !important;
 }
 
-/* Force show the loading elements instantly with zero-glitch */
-#preloader .elementor-invisible,
-#preloader .elementor-element-2c5634a,
-#preloader .elementor-widget-heading,
-#preloader .elementor-heading-title {
-    opacity: 1 !important;
-    visibility: visible !important;
-    animation: none !important;
-}
-
-/* Reset elementor layout properties inside preloader to achieve pixel perfect layout */
-#preloader .elementor-element-2c5634a,
-#preloader .elementor-element-53dc703,
-#preloader .elementor-element-409cb27,
-#preloader .elementor-element-d307c0a,
-#preloader .elementor-element-87a7d32,
-#preloader .elementor-widget-container {
-    width: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    position: relative !important;
-    transform: none !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    box-shadow: none !important;
-}
-
-/* Layout Names Row and Column */
-#preloader .elementor-element-2c5634a {
+/* Preloader content layout (clean native CSS — no Elementor IDs) */
+.preloader-content {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -1436,7 +1617,7 @@ body::-webkit-scrollbar {
     gap: 4px !important;
 }
 
-#preloader .elementor-element-53dc703 {
+.preloader-names-row {
     display: flex !important;
     flex-direction: row !important;
     align-items: baseline !important;
@@ -1444,17 +1625,8 @@ body::-webkit-scrollbar {
     gap: 12px !important;
 }
 
-#preloader .elementor-element-87a7d32 {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin-top: -15px !important; /* Elegant overlap characteristic of signature cursive fonts */
-}
-
-/* "Handon" and "Cathrine" typography overrides */
-#preloader .elementor-element-c13ff1a .elementor-heading-title,
-#preloader .elementor-element-a6c30fc .elementor-heading-title {
+/* Names typography */
+.preloader-name {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(52px, 6.5vw, 84px) !important;
@@ -1463,38 +1635,30 @@ body::-webkit-scrollbar {
     text-transform: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    letter-spacing: 0px !important;
+    letter-spacing: 0 !important;
     text-shadow: none !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* "and" styling override */
-#preloader .elementor-element-c45833a .elementor-heading-title {
+.preloader-connector {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
     font-size: clamp(20px, 2.5vw, 30px) !important;
     font-weight: 400 !important;
-    line-height: 1.1 !important;
     text-transform: lowercase !important;
     margin: 0 !important;
     padding: 0 !important;
-    letter-spacing: 0px !important;
     opacity: 0.8 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Pin the progress indicator at the absolute bottom-left corner of viewport */
-#preloader .elementor-element-23fae09 {
+/* Progress indicator: bottom-left */
+.preloader-progress {
     position: absolute !important;
     bottom: 5vh !important;
     left: 5vw !important;
-    top: auto !important;
-    right: auto !important;
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
     z-index: 10000000 !important;
 }
 
@@ -1513,25 +1677,17 @@ body::-webkit-scrollbar {
 
 /* Responsive tweaks for mobile viewports */
 @media (max-width: 768px) {
-    #preloader .elementor-element-23fae09 {
+    .preloader-progress {
         left: 6vw !important;
         bottom: 5vh !important;
     }
     #preloader .loading-text {
         font-size: 11px !important;
         letter-spacing: 1.5px !important;
-        text-align: left !important;
     }
-    #preloader .elementor-element-53dc703 {
+    .preloader-names-row {
         gap: 8px !important;
     }
-    #preloader .elementor-element-87a7d32 {
-        margin-top: -12px !important;
-    }
-}
-
-.elementor-editor-active .preloader-page {
-    position: relative !important;
 }
 
 /* ── Inline Style (8) ── */
@@ -1541,628 +1697,323 @@ body::-webkit-scrollbar {
 }
 
 /* ── Elementor – DCE background fix ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-video-container::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-video-container::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-background-slideshow::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.e-con-inner>.elementor-background-slideshow::before,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-5de39555>.elementor-motion-effects-container>.elementor-motion-effects-layer::before {
-    background-image: url("./assets/images/Timeless-00036.jpg");
-}
 
 /* ── Elementor – DCE background fix (2) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-84b6401>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background: url("./assets/images/Timeless-00036.jpg") 50% 50%;
-    background-size: cover;
-}
 
 /* ── Elementor – DCE background fix (3) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-0892a8b>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00025-1.jpg");
-}
-
-/* ── Elementor – DCE background fix (4) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-stacked .elementor-icon {
-    background-color: #dbd6d3;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon {
-    color: #dbd6d3;
-    border-color: #dbd6d3;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-220c725.elementor-view-default .elementor-icon svg {
-    fill: #dbd6d3;
-}
-
-/* ── Elementor – DCE background fix (5) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-stacked .elementor-icon {
-    background-color: #2a211c;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon {
-    color: #2a211c;
-    border-color: #2a211c;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-45db8096.elementor-view-default .elementor-icon svg {
-    fill: #2a211c;
-}
-
-/* ── Elementor – DCE background fix (6) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-stacked .elementor-icon {
-    background-color: #806f5f;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon {
-    color: #806f5f;
-    border-color: #806f5f;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-28ae85ec.elementor-view-default .elementor-icon svg {
-    fill: #806f5f;
-}
-
-/* ── Elementor – DCE background fix (7) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-stacked .elementor-icon {
-    background-color: #bca8a0;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon {
-    color: #bca8a0;
-    border-color: #bca8a0;
-}
-
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-framed .elementor-icon,
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-55650960.elementor-view-default .elementor-icon svg {
-    fill: #bca8a0;
-}
-
-/* ── Elementor – DCE background fix (8) ── */
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d:not(.elementor-motion-effects-element-type-background),
-.dce-fix-background-loop .dce-elementor-post-605881 .elementor-element.elementor-element-303ad26d>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-    background-image: url("./assets/images/Timeless-00018.jpg");
-}
 
 /* ── Google Fonts (lokal) ── */
 @font-face {
-  font-family: 'Abhaya Libre';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/AbhayaLibre-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Abhaya Libre';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/AbhayaLibre-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Abhaya Libre';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/AbhayaLibre-600-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Abhaya Libre';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/AbhayaLibre-700-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Abhaya Libre';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/AbhayaLibre-800-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-400-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-500-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-600-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-700-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-600-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Libre Baskerville';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/LibreBaskerville-700-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 100;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-100-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 200;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-200-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-300-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-400-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-500-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-600-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-700-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-800-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 900;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-900-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-100-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 200;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-200-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-300-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-600-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-700-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-800-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('./assets/fonts/Poppins-900-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 100;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-100-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 200;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-200-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-300-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-400-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-500-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-600-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-700-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-800-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: italic;
-  font-weight: 900;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-900-italic.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-100-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 200;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-200-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-300-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-600-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-700-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-800-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('./assets/fonts/Roboto-900-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-100-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 200;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-200-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-300-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-400-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-500-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-600-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-700-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-800-normal.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Slab';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('./assets/fonts/RobotoSlab-900-normal.woff2') format('woff2');
-}
-@font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 100;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-100-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-100-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 200;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-200-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-200-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 300;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-300-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-300-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-400-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-400-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 500;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-500-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-500-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-600-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-600-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 700;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-700-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-700-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 800;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-800-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-800-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
   font-weight: 900;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-900-italic.woff2') format('woff2');
+  src: url('../fonts/DMSans-900-italic.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-100-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-100-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 200;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-200-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-200-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-300-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-300-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-400-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-400-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-500-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-500-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-600-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-600-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-700-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-700-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 800;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-800-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-800-normal.woff2') format('woff2');
 }
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url('./assets/fonts/DMSans-900-normal.woff2') format('woff2');
+  src: url('../fonts/DMSans-900-normal.woff2') format('woff2');
 }
+
+/* ── Elementor Pro replacements (previously in elementor-pro.frontend.min28fc.css) ── */
+
+/* Gallery video embed */
+.gallery-video-thumb {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.gallery-video-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+.gallery-video-play .eicon-play {
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+/* Base button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.btn-content-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form base */
+.popup-form .popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.popup-form .popup-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.popup-form .popup-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    color: #ffffff;
+    padding: 6px 0;
+    font-size: 13px;
+    outline: none;
+}
+
+.hidden { display: none !important; }
+.preloader-hidden { opacity: 0; }
+
+/* Popup form styles */
+.popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.popup-label {
+    font-family: inter, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #333;
+}
+.popup-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 0;
+    font-size: 13px;
+    font-family: inter, sans-serif;
+    outline: none;
+    background: transparent;
+}
+.popup-select { appearance: none; cursor: pointer; }
+.popup-submit {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-family: inter, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+.popup-submit:hover { background: #555; }
+
+/* Side nav semantic classes (nav-list, nav-item, nav-icon, nav-text)
+   Styled by the MDW section above which already uses nav-* names */
+
+/* ── Nav list styles (from elementor-widget-icon-list, renamed to nav-*) ── */
+.nav-list.nav-list.nav-inline{margin-right: -8px;
+    margin-left: -8px}
+.nav-list.nav-list.nav-inline .nav-item{margin-right: 8px;
+    margin-left: 8px}
+.nav-list.nav-list.nav-inline .nav-item:after{width: auto;
+    left: auto;
+    right: auto;
+    position: relative;
+    height: 100%;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+    border-left-width: 1px;
+    border-style: solid;
+    right: -8px}
+.nav-list{list-style-type: none;
+    margin: 0;
+    padding: 0}
+.nav-item{margin: 0;
+    padding: 0;
+    position: relative}
+.nav-item:after{position: absolute;
+    bottom: 0;
+    width: 100%}
+.nav-item,
+.nav-item a{display: flex;
+    font-size: inherit;
+    align-items: var(--icon-vertical-align, center)}
+.nav-icon+.nav-text{align-self: center;
+    padding-inline-start: 5px}
+.nav-icon{display: flex;
+    position: relative;
+    top: var(--icon-vertical-offset, initial)}
+.nav-icon svg{width: var(--e-icon-list-icon-size, 1em);
+    height: var(--e-icon-list-icon-size, 1em)}
+.nav-icon i{width: 1.25em;
+    font-size: var(--e-icon-list-icon-size)}
+
+/* ── Gallery video native styles ── */
+.gallery-video-inner {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}
+.gallery-video-thumb {
+    position: absolute !important;
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    text-decoration: none;
+}
+.gallery-video-play {
+    width: 52px; height: 52px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+}
+.gallery-video-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
