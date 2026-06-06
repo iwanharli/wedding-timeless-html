@@ -650,12 +650,6 @@ i.fas.fa-check-circle {
     background-color: #fff0;
 }
 
-/*slide to top */
-.removeModals {
-    transform: translateY(-200%);
-    transition: 1s ease-in-out;
-}
-
 /* ── Swiper – hide default arrows ── */
 .swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
@@ -721,16 +715,6 @@ i.fas.fa-check-circle {
 }
 
 /* ── Guestbook – comment styling ── */
-/*Hapus TOMBOL hapus komen di halaman elementor*/
-
-/*tombol hapus*/
-button.hapus-komentar {
-    font-family: inter;
-    font-size: 10px;
-    padding: 5px;
-    border: none;
-
-}
 
 /*NAMA PENGIRIM*/
 .komentar-item>strong {
@@ -1267,12 +1251,6 @@ body::-webkit-scrollbar {
     display: none
 }
 
-/* ── Elementor – DCE background fix ── */
-
-/* ── Elementor – DCE background fix (2) ── */
-
-/* ── Elementor – DCE background fix (3) ── */
-
 /* ── Google Fonts (lokal) ── */
 @font-face {
   font-family: 'DM Sans';
@@ -1401,7 +1379,7 @@ body::-webkit-scrollbar {
   src: url('../fonts/DMSans-900-normal.woff2') format('woff2');
 }
 
-/* ── Elementor Pro replacements (previously in elementor-pro.frontend.min28fc.css) ── */
+/* ── Preloader & Popup ── */
 
 /* Gallery video embed */
 .gallery-video-thumb {
@@ -1427,7 +1405,7 @@ body::-webkit-scrollbar {
     color: #ffffff;
 }
 
-.gallery-video-play .eicon-play {
+.gallery-video-play .fas.fa-play {
     font-size: 20px;
     margin-left: 3px;
 }
@@ -1519,10 +1497,7 @@ body::-webkit-scrollbar {
 }
 .popup-submit:hover { background: #555; }
 
-/* Side nav semantic classes (nav-list, nav-item, nav-icon, nav-text)
-   Styled by the MDW section above which already uses nav-* names */
-
-/* ── Nav list styles (from elementor-widget-icon-list, renamed to nav-*) ── */
+/* ── Nav list styles ── */
 .nav-list.nav-list.nav-inline{margin-right: -8px;
     margin-left: -8px}
 .nav-list.nav-list.nav-inline .nav-item{margin-right: 8px;

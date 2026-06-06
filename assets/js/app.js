@@ -271,8 +271,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (nameParam) {
       // Decode dan set langsung ke input
       const decodedName = decodeURIComponent(nameParam);
-      const input = document.getElementById("form-field-name");
-      input.value = decodedName;
+      const input = document.getElementById("field-name");
+      if (input) input.value = decodedName;
     }
   });
 
@@ -290,33 +290,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-/* ── RSVP Form – Link & Guest Count ── */
-//ambil link
-  window.addEventListener('DOMContentLoaded', function() {
-    var linkField = document.getElementById('form-field-link_undangan');
-    if (linkField) {
-        linkField.value = window.location.href;
-    }
-});
-
-//jumlah max
-  // Ambil parameter dari URL
+/* ── RSVP Form – Guest Count ── */
+//jumlah max — dari URL param ?max=
   const urlParams = new URLSearchParams(window.location.search);
   const maxValue = urlParams.get('max');
-
-  // Cari input field berdasarkan ID
-  const inputField = document.getElementById('form-field-field_b0d08a4');
-
-  // Jika parameter max ditemukan, atur nilai maksimum
+  const inputField = document.getElementById('field-guests');
   if (maxValue && inputField) {
     inputField.max = maxValue;
   }
 
   //label maxValue
 document.addEventListener("DOMContentLoaded", function () {
-    const numberField = document.getElementById("form-field-field_b0d08a4");
+    const numberField = document.getElementById("field-guests");
+    if (!numberField) return;
     const maxGuests = numberField.getAttribute("max");
-    const label = document.querySelector('label[for="form-field-field_b0d08a4"]');
+    const label = document.querySelector('label[for="field-guests"]');
     if (label && maxGuests) {
         label.textContent = `No of Guest (Max ${maxGuests})`;
     }
@@ -324,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //TOMBOL + dan - -------------------------
 document.addEventListener('DOMContentLoaded', () => {
-  const inputField = document.querySelector('#form-field-field_b0d08a4');
+  const inputField = document.querySelector('#field-guests');
 
   if (inputField) {
     // Bungkus input field dengan wrapper
@@ -369,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
-    const textarea = document.getElementById('form-field-comment');
+    const textarea = document.getElementById('field-wishes');
     const hiddenFields = document.querySelectorAll('.field-hidden');
 
     // Validate elements exist
@@ -487,49 +475,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Konfigurasi observer untuk memantau penambahan/penyisihan child node di dalam container
     const config = { childList: true, subtree: true };
     observer.observe(komentarContainer, config);
-});
-
-/* ── Download Selebaran ── */
-document.addEventListener('DOMContentLoaded', function () {
-    var downloadBtn = document.getElementById('downloadBtn');
-    if (!downloadBtn) return;
-
-    downloadBtn.addEventListener('click', function () {
-        var section = document.querySelector('.selebaran');
-        if (!section) return;
-        downloadBtn.style.display = 'none';
-
-        var images = section.querySelectorAll('img.imaged');
-        var promises = [];
-        images.forEach(function (img) {
-            if (!img.complete) {
-                promises.push(new Promise(function (resolve) {
-                    img.onload = resolve;
-                    img.onerror = resolve;
-                    img.src = img.src;
-                }));
-            }
-            img.style.objectFit = 'cover';
-        });
-
-        section.querySelectorAll('*').forEach(function (el) {
-            el.childNodes.forEach(function (node) {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    node.nodeValue = node.nodeValue.replace(/&amp;/g, '&');
-                }
-            });
-        });
-
-        Promise.all(promises).then(function () {
-            html2canvas(section, { scale: 3 }).then(function (canvas) {
-                var link = document.createElement('a');
-                link.href = canvas.toDataURL();
-                link.download = '.png';
-                link.click();
-                downloadBtn.style.display = 'block';
-            });
-        });
-    });
 });
 
 /* ── MDW Side Menu ── */

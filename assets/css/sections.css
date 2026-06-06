@@ -94,7 +94,7 @@
 
 .intro-date {
     color: #ffffff;
-    font-family: "Abhaya Libre", sans-serif;
+    font-family: lausanne300, sans-serif;
     font-size: 13px;
     font-weight: 400;
     text-transform: uppercase;
@@ -105,7 +105,7 @@
 
 .intro-vow {
     color: #ffffff;
-    font-family: "Abhaya Libre", sans-serif;
+    font-family: lausanne300, sans-serif;
     font-size: 13px;
     font-weight: 400;
     text-align: center;
@@ -119,7 +119,7 @@
 
 .intro-scroll-hint {
     color: #ffffff;
-    font-family: "Abhaya Libre", sans-serif;
+    font-family: lausanne300, sans-serif;
     font-size: 13px;
     font-weight: 400;
     text-align: center;
@@ -221,7 +221,7 @@
 
 .profile-couple-names {
     color: #ffffff;
-    font-family: "Abhaya Libre", sans-serif;
+    font-family: lausanne300, sans-serif;
     font-size: 13px;
     font-weight: 400;
     text-transform: uppercase;
@@ -649,7 +649,7 @@
 
 .cd-label {
     color: #ffffff;
-    font-family: "Libre Baskerville", sans-serif;
+    font-family: CormorantUpright, sans-serif;
     font-size: 8px;
     font-weight: 300;
     line-height: 1.4;
@@ -1291,7 +1291,7 @@
 
 .gal-title {
     color: #ffffff;
-    font-family: "Libre Baskerville", sans-serif;
+    font-family: CormorantUpright, sans-serif;
     font-size: 12px;
     font-weight: 300;
     text-align: left;
@@ -1381,7 +1381,7 @@
     justify-content: space-between;
     min-height: 100vh;
     padding: 60px 30px;
-    /* background set here — no longer depends on elementor-element-303ad26d class */
+    /* background set via .section-lovestory-third selector */
     overflow: hidden;
     box-sizing: border-box;
     background-image: url('../images/Timeless-00018.jpg');
