@@ -489,48 +489,6 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(komentarContainer, config);
 });
 
-/* ── Clipboard – BCA (1) ── */
-jQuery(function () {
-				var clipboardBca1 = new ClipboardJS('#clipboard-btn-bca1');
-				clipboardBca1.on('success', function (e) {
-					jQuery('#clipboard-btn-bca1').addClass('animated').addClass('tada');
-					setTimeout(function(){
-						jQuery('#clipboard-btn-bca1').removeClass('animated').removeClass('tada');
-					}, 3000);
-					return false;
-				});
-				clipboardBca1.on('error', function (e) {
-				});
-			});
-
-/* ── Clipboard – BCA (2) ── */
-jQuery(function () {
-				var clipboardBca2 = new ClipboardJS('#clipboard-btn-bca2');
-				clipboardBca2.on('success', function (e) {
-					jQuery('#clipboard-btn-bca2').addClass('animated').addClass('tada');
-					setTimeout(function(){
-						jQuery('#clipboard-btn-bca2').removeClass('animated').removeClass('tada');
-					}, 3000);
-					return false;
-				});
-				clipboardBca2.on('error', function (e) {
-				});
-			});
-
-/* ── Clipboard – Mandiri ── */
-jQuery(function () {
-				var clipboardMandiri = new ClipboardJS('#clipboard-btn-mandiri');
-				clipboardMandiri.on('success', function (e) {
-					jQuery('#clipboard-btn-mandiri').addClass('animated').addClass('tada');
-					setTimeout(function(){
-						jQuery('#clipboard-btn-mandiri').removeClass('animated').removeClass('tada');
-					}, 3000);
-					return false;
-				});
-				clipboardMandiri.on('error', function (e) {
-				});
-			});
-
 /* ── Download Selebaran ── */
 document.addEventListener('DOMContentLoaded', function () {
     var downloadBtn = document.getElementById('downloadBtn');
