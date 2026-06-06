@@ -126,14 +126,13 @@
     margin: 0;
 }
 
-/* galleggia = gentle floating animation (defined in dce-animations30ad.css) */
-.intro-scroll-hint .dce-animations {
-    animation-name: galleggia;
-    animation-duration: 0.9s;
-    animation-timing-function: ease-out;
-    animation-direction: alternate;
-    animation-iteration-count: infinite;
-    animation-delay: 0s;
+@keyframes float-hint {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-6px); }
+}
+
+.intro-scroll-hint .scroll-hint-text {
+    animation: float-hint 0.9s ease-out alternate infinite;
     display: inline-block;
 }
 
@@ -1324,40 +1323,6 @@
     position: relative;
 }
 
-.gal-video-wrap .elementor-wrapper {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    overflow: hidden;
-}
-
-/* Force overlay and play button to be contained within the video wrapper */
-.gal-video-wrap .elementor-custom-embed-image-overlay {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.gal-video-wrap .elementor-custom-embed-play {
-    position: static !important;
-    transform: none !important;
-}
-
-.gal-video-wrap .elementor-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .gal-hint {
     color: #ffffff;
@@ -1392,9 +1357,12 @@
     gap: 4px;
 }
 
+/* Swiper gallery: base image fill */
+.gal-swiper img { width: 100%; display: block; }
+.gal-img-wrap { position: relative; display: block; }
+
 /* Constrain swiper images to consistent height */
-.gal-col--left .wrap-item-acfslider img,
-.gal-col--left .acfslider-item img {
+.gal-col--left .gal-img-wrap img {
     width: 100%;
     height: 220px !important;
     object-fit: cover;
@@ -1402,8 +1370,7 @@
     display: block;
 }
 
-.gal-col--right .wrap-item-acfslider img,
-.gal-col--right .acfslider-item img {
+.gal-col--right .gal-img-wrap img {
     width: 100%;
     height: 140px !important;
     object-fit: cover;

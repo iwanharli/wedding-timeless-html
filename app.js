@@ -4,7 +4,7 @@
 // Custom Lightbox Gallery yang bisa digeser kanan-kiri - untuk struktur HTML baru
 document.addEventListener('DOMContentLoaded', function() {
   // Cari semua elemen gambar dalam struktur Swiper yang baru
-  const galleryImages = document.querySelectorAll('.dyncontel-swiper .swiper-slide:not(.swiper-slide-duplicate) .wrap-item-acfslider img');
+  const galleryImages = document.querySelectorAll('.gal-swiper .swiper-slide:not(.swiper-slide-duplicate) .gal-img-wrap img');
   const imageList = Array.from(galleryImages).map(img => {
     return {
       src: img.getAttribute('src'),
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
   galleryImages.forEach((img, index) => {
     // Pastikan gambar dan parent wrappernya dapat diklik
     img.style.cursor = 'pointer';
-    const parentWrapper = img.closest('.wrap-item-acfslider');
+    const parentWrapper = img.closest('.gal-img-wrap');
     if (parentWrapper) {
       parentWrapper.style.cursor = 'pointer';
 
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Pastikan lightbox diinisialisasi
     setTimeout(function() {
-      const galleryImages = document.querySelectorAll('.dyncontel-swiper .swiper-slide:not(.swiper-slide-duplicate) .wrap-item-acfslider img');
+      const galleryImages = document.querySelectorAll('.gal-swiper .swiper-slide:not(.swiper-slide-duplicate) .gal-img-wrap img');
       if (galleryImages.length > 0 && !document.getElementById('custom-lightbox')) {
         // Memicu kembali eksekusi script
         const retryEvent = new Event('load-lightbox');
@@ -491,43 +491,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* ── Clipboard – BCA (1) ── */
 jQuery(function () {
-				var clipboard_20415f2_605881 = new ClipboardJS('#dce-clipboard-btn-20415f2-605881');
-				clipboard_20415f2_605881.on('success', function (e) {
-					jQuery('#dce-clipboard-btn-20415f2-605881').addClass('animated').addClass('tada');
+				var clipboardBca1 = new ClipboardJS('#clipboard-btn-bca1');
+				clipboardBca1.on('success', function (e) {
+					jQuery('#clipboard-btn-bca1').addClass('animated').addClass('tada');
 					setTimeout(function(){
-						jQuery('#dce-clipboard-btn-20415f2-605881').removeClass('animated').removeClass('tada');
+						jQuery('#clipboard-btn-bca1').removeClass('animated').removeClass('tada');
 					}, 3000);
 					return false;
 				});
-				clipboard_20415f2_605881.on('error', function (e) {
+				clipboardBca1.on('error', function (e) {
 				});
 			});
 
 /* ── Clipboard – BCA (2) ── */
 jQuery(function () {
-				var clipboard_b5a1caf_605881 = new ClipboardJS('#dce-clipboard-btn-b5a1caf-605881');
-				clipboard_b5a1caf_605881.on('success', function (e) {
-					jQuery('#dce-clipboard-btn-b5a1caf-605881').addClass('animated').addClass('tada');
+				var clipboardBca2 = new ClipboardJS('#clipboard-btn-bca2');
+				clipboardBca2.on('success', function (e) {
+					jQuery('#clipboard-btn-bca2').addClass('animated').addClass('tada');
 					setTimeout(function(){
-						jQuery('#dce-clipboard-btn-b5a1caf-605881').removeClass('animated').removeClass('tada');
+						jQuery('#clipboard-btn-bca2').removeClass('animated').removeClass('tada');
 					}, 3000);
 					return false;
 				});
-				clipboard_b5a1caf_605881.on('error', function (e) {
+				clipboardBca2.on('error', function (e) {
 				});
 			});
 
 /* ── Clipboard – Mandiri ── */
 jQuery(function () {
-				var clipboard_0b3a9df_605881 = new ClipboardJS('#dce-clipboard-btn-0b3a9df-605881');
-				clipboard_0b3a9df_605881.on('success', function (e) {
-					jQuery('#dce-clipboard-btn-0b3a9df-605881').addClass('animated').addClass('tada');
+				var clipboardMandiri = new ClipboardJS('#clipboard-btn-mandiri');
+				clipboardMandiri.on('success', function (e) {
+					jQuery('#clipboard-btn-mandiri').addClass('animated').addClass('tada');
 					setTimeout(function(){
-						jQuery('#dce-clipboard-btn-0b3a9df-605881').removeClass('animated').removeClass('tada');
+						jQuery('#clipboard-btn-mandiri').removeClass('animated').removeClass('tada');
 					}, 3000);
 					return false;
 				});
-				clipboard_0b3a9df_605881.on('error', function (e) {
+				clipboardMandiri.on('error', function (e) {
 				});
 			});
 
@@ -1069,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // LOAD MP3 SAAT PAGE OPEN
   // ========================
   window.addEventListener('load', () => {
-    const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
+    const mp3Container = document.querySelector('.link-mp3 .audio-url > p');
     const url = mp3Container ? mp3Container.textContent.trim() : null;
 
     if (url) playFullAudio(url);
@@ -1086,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
 
       allowAutoResume = true; // klik user → boleh autoplay
-      const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
+      const mp3Container = document.querySelector('.link-mp3 .audio-url > p');
       const url = mp3Container ? mp3Container.textContent.trim() : null;
 
       playFullAudio(url);
@@ -1108,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       allowAutoResume = true; // gesture user
 
-      const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
+      const mp3Container = document.querySelector('.link-mp3 .audio-url > p');
       const url = mp3Container ? mp3Container.textContent.trim() : null;
 
       playUrl(url, 0, 0);
@@ -1151,7 +1151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           smartPause();
         } else if (data.info === 2 || data.info === 0) {
           // VIDEO PAUSE / END → MP3 HARUS PLAY
-          const mp3Container = document.querySelector('.link-mp3 .dce-tokens > p');
+          const mp3Container = document.querySelector('.link-mp3 .audio-url > p');
           const url = mp3Container ? mp3Container.textContent.trim() : null;
 
           if (url) {
