@@ -53,7 +53,7 @@ export default function App() {
 
       <div
         id="section-cover"
-        className={`invitation-layout${isOpen ? '' : ' hidden'}`}
+        className="invitation-layout"
       >
         {/* Left panel */}
         <aside
