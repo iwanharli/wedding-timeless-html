@@ -36,9 +36,26 @@ export default function App() {
     })
   }, [])
 
+  // Replicate lockSection() / unlockSection() from original app.js
+  useEffect(() => {
+    const isDesktop = window.innerWidth > 800
+    if (!isOpen) {
+      document.body.style.position = 'fixed'
+      document.body.style.overflowY = 'scroll'
+      document.body.style.height = '100vh'
+      document.getElementById('section-cover').style.width = isDesktop ? '700px' : '100vw'
+      document.body.classList.remove('opened')
+    } else {
+      document.body.style.position = ''
+      document.body.style.overflowY = ''
+      document.body.style.height = ''
+      document.getElementById('section-cover').style.width = ''
+      document.body.classList.add('opened')
+    }
+  }, [isOpen])
+
   function handleOpen() {
     setIsOpen(true)
-    // Disable scroll snap briefly then re-enable
     document.documentElement.style.scrollSnapType = 'none'
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout(() => {
