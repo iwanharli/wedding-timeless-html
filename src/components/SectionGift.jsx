@@ -27,29 +27,14 @@ export default function SectionGift({ content, onOpenGiftPopup }) {
         data-aos-delay="100"
         data-aos-duration="1000"
       >
-        {/* Account 1: Groove Public BCA */}
-        <div className="gift-account">
-          <p className="gift-account-name">Groove Public</p>
-          <div className="gift-account-detail">
-            <p>Bank BCA<br />00008888123</p>
+        {(g.accounts || []).map((account, i) => (
+          <div className="gift-account" key={i}>
+            <p className="gift-account-name">{account.bankName}</p>
+            <div className="gift-account-detail">
+              <p>{account.bankType}<br />{account.accountNumber}</p>
+            </div>
           </div>
-        </div>
-
-        {/* Account 2: Groove Public Invitation BCA */}
-        <div className="gift-account">
-          <p className="gift-account-name">Groove Public Invitation</p>
-          <div className="gift-account-detail">
-            <p>Bank BCA<br />00008888123</p>
-          </div>
-        </div>
-
-        {/* Account 3: Groove Public Invitation Mandiri */}
-        <div className="gift-account">
-          <p className="gift-account-name">Groove Public Invitation</p>
-          <div className="gift-account-detail">
-            <p>Bank Mandiri<br />00008888123</p>
-          </div>
-        </div>
+        ))}
       </div>
 
       <a

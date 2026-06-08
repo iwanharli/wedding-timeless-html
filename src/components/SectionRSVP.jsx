@@ -1,30 +1,53 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function SectionRSVP({ content }) {
   const r = content.rsvp
+  const defaultMax = Number(r.maxGuests) || 2
+  const defaultLabel = r.guestLabel || 'No of Guest'
+
   const [guests, setGuests] = useState(1)
-  const [maxGuests, setMaxGuests] = useState(2)
+  const [maxGuests, setMaxGuests] = useState(defaultMax)
   const [name, setName] = useState('')
   const [attendance, setAttendance] = useState('')
   const [wishes, setWishes] = useState('')
-  const [guestLabel, setGuestLabel] = useState('No of Guest')
+  const [guestLabel, setGuestLabel] = useState(defaultLabel)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
+  const slugRef = useRef(null)
 
   useEffect(() => {
-    // Read URL param ?to= for name pre-fill
     const params = new URLSearchParams(window.location.search)
     const nameParam = params.get('to')
     if (nameParam) setName(decodeURIComponent(nameParam))
 
-    // Read URL param ?max= for max guests
+    slugRef.current = params.get('g') || null
+
     const maxParam = params.get('max')
-    if (maxParam) {
-      const m = parseInt(maxParam, 10)
-      setMaxGuests(m)
-      setGuestLabel(`No of Guest (Max ${m})`)
-    } else {
-      setGuestLabel(`No of Guest (Max ${maxGuests})`)
-    }
+    const resolvedMax = maxParam ? parseInt(maxParam, 10) : defaultMax
+    setMaxGuests(resolvedMax)
+    setGuestLabel(`${defaultLabel} (Max ${resolvedMax})`)
   }, [])
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!name.trim() || !attendance) return
+    setSubmitting(true)
+    setSubmitError(null)
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, attend: attendance, guests, wish: wishes, slug: slugRef.current }),
+      })
+      if (!res.ok) throw new Error((await res.json()).error || 'Gagal mengirim')
+      setSubmitted(true)
+    } catch (err) {
+      setSubmitError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <div id="rsvp" className="section-rsvp child">
@@ -49,7 +72,13 @@ export default function SectionRSVP({ content }) {
           {r.description}
         </p>
 
-        <form className="rsvp-form" id="commentform" name="comment_form">
+        {submitted && (
+          <div className="rsvp-success">
+            <p>{r.successMessage || 'Terima kasih! RSVP kamu sudah diterima.'}</p>
+          </div>
+        )}
+
+        <form className="rsvp-form" id="commentform" name="comment_form" onSubmit={handleSubmit} style={submitted ? { display: 'none' } : {}}>
           {/* Name */}
           <div className="rsvp-field">
             <label htmlFor="field-name">Name</label>
@@ -81,6 +110,17 @@ export default function SectionRSVP({ content }) {
                   onChange={e => setAttendance(e.target.value)}
                 />
                 <span>{r.attendanceLabel}</span>
+              </label>
+              <label className="rsvp-radio-label">
+                <input
+                  type="radio"
+                  value="Mungkin Datang"
+                  id="field-attendance-maybe"
+                  name="attendance"
+                  checked={attendance === 'Mungkin Datang'}
+                  onChange={e => setAttendance(e.target.value)}
+                />
+                <span>{r.maybeLabel || 'Mungkin Datang'}</span>
               </label>
               <label className="rsvp-radio-label">
                 <input
@@ -139,8 +179,9 @@ export default function SectionRSVP({ content }) {
           </div>
 
           {/* Submit */}
-          <button className="rsvp-submit" type="submit" id="send-comment">
-            <span>{r.submitButtonText}</span>
+          {submitError && <p className="rsvp-error">{submitError}</p>}
+          <button className="rsvp-submit" type="submit" id="send-comment" disabled={submitting}>
+            <span>{submitting ? 'Mengirim…' : r.submitButtonText}</span>
           </button>
         </form>
       </div>

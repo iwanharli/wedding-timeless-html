@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react'
 function pad(n) { return String(n).padStart(2, '0') }
 
 export default function SectionCountdown({ content }) {
-  const targetTs = 1729310400 * 1000
   const [time, setTime] = useState({ d: '00', h: '00', m: '00', s: '00' })
 
   useEffect(() => {
+    const targetTs = new Date(content.countdown.date).getTime()
     function tick() {
       const diff = targetTs - Date.now()
       if (diff <= 0) {
@@ -23,7 +23,7 @@ export default function SectionCountdown({ content }) {
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [])
+  }, [content.countdown.date])
 
   return (
     <div className="section-countdown child">

@@ -11,7 +11,8 @@ const content = {
     "previewImage": "/assets/images/Timeless-00025-1.jpg",
     "date": "(Saturday, 02 March 202X)",
     "dear": "Dear",
-    "apologyText": "We apologize if there is any misspelling of name or title"
+    "apologyText": "We apologize if there is any misspelling of name or title",
+    "vow": "we make an eternal vow\nAT THIS MOMENT"
   },
   "profile": {
     "biblicalReference": "Mark 10:6-9",
@@ -62,7 +63,7 @@ const content = {
   "countdown": {
     "message": "Almost Time For Our Celebration",
     "image": "/assets/images/Timeless-00046.jpg",
-    "date": "2024-03-02"
+    "date": "2024-03-02T07:00"
   },
   "event": {
     "date": "SUNDAY, 28 JULY 2024",
@@ -84,6 +85,7 @@ const content = {
   "livestream": {
     "title": "Join our exclusive live streaming event",
     "date": "Saturday, 02 March 2024",
+    "url": "",
     "buttonText": "Join Now",
     "image": "/assets/images/Timeless-00016-1.jpg"
   },
@@ -93,7 +95,8 @@ const content = {
     "submitButtonText": "Send",
     "attendanceLabel": "EXCITED TO ATTEND",
     "unableLabel": "UNABLE ATTEND",
-    "guestAttendanceTitle": "Attire"
+    "guestLabel": "No of Guest",
+    "maxGuests": 2
   },
   "gift": {
     "title": "Wedding Gift",

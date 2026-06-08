@@ -1,4 +1,4 @@
-export default function SectionHero({ content, onOpen, isOpen }) {
+export default function SectionHero({ content, onOpen, isOpen, guestName }) {
   if (isOpen) return null
 
   return (
@@ -23,8 +23,13 @@ export default function SectionHero({ content, onOpen, isOpen }) {
 
       <div className="hero-open-box">
         <div className="hero-open-inner">
-          <p className="hero-dear">{content.hero.dear}</p>
-          <p className="hero-apology">{content.hero.apologyText}</p>
+          {guestName && (
+            <>
+              <p className="hero-dear">{content.hero.dear}</p>
+              <p className="hero-guest-name">{guestName}</p>
+              <p className="hero-apology">{content.hero.apologyText}</p>
+            </>
+          )}
           <div id="tombol-buka" className="hero-open-btn" onClick={onOpen}>
             <span>{content.hero.openButton}</span>
           </div>

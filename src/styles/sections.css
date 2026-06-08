@@ -37,9 +37,12 @@
 .intro-invite-title {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 200;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
     margin: 0 0 4px 0;
 }
 
@@ -61,7 +64,7 @@
 
 .intro-name {
     font-family: "script icon", sans-serif;
-    font-size: 60px;
+    font-size: clamp(42px, 15vw, 60px);
     font-weight: 400;
     color: #ffffff;
     margin: 0;
@@ -75,7 +78,7 @@
 
 .intro-name-connector {
     font-family: "script icon", sans-serif;
-    font-size: 27px;
+    font-size: clamp(19px, 7vw, 27px);
     font-weight: 400;
     color: #ffffff;
     margin: 11px 0 0 0;
@@ -95,20 +98,26 @@
 .intro-date {
     color: #ffffff;
     font-family: lausanne300, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 2.6px;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
     margin: 6px 0 0 0;
 }
 
 .intro-vow {
     color: #ffffff;
     font-family: lausanne300, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
     margin: 6px 0 0 0;
     line-height: 1.6;
 }
@@ -120,9 +129,12 @@
 .intro-scroll-hint {
     color: #ffffff;
     font-family: lausanne300, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
     margin: 0;
 }
 
@@ -139,7 +151,6 @@
 /* Mobile */
 @media (max-width: 767px) {
     .intro-name {
-        font-size: 60px;
         width: 100%;
         text-align: center;
     }
@@ -154,11 +165,11 @@
     }
 
     .intro-vow {
-        font-size: 13px;
+        font-size: 17px;
     }
 
     .intro-scroll-hint {
-        font-size: 13px;
+        font-size: 17px;
     }
 }
 
@@ -211,7 +222,7 @@
 .profile-biblical-text {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: center;
     line-height: 1.7;
@@ -222,7 +233,7 @@
 .profile-couple-names {
     color: #ffffff;
     font-family: lausanne300, sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 2.6px;
@@ -241,11 +252,11 @@
     }
 
     .profile-biblical-text {
-        font-size: 13px;
+        font-size: 17px;
     }
 
     .profile-couple-names {
-        font-size: 13px;
+        font-size: 17px;
     }
 }
 
@@ -273,7 +284,7 @@
 .profile-role {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1.8px;
@@ -346,7 +357,7 @@
 .profile-relation-desc {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: center;
     margin: 0;
@@ -358,7 +369,7 @@
     align-items: center;
     gap: 6px;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     color: #ffffff;
@@ -382,7 +393,7 @@
     .profile-lastname--left { text-align: left; }
     .profile-role--left { text-align: center; } /* override to center on mobile */
     .profile-relation { font-size: 20px; }
-    .profile-relation-desc { font-size: 13px; }
+    .profile-relation-desc { font-size: 17px; }
 }
 
 /* ================================================================
@@ -462,7 +473,7 @@
 .ls-desc {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: left;
     line-height: 1.7;
@@ -535,7 +546,7 @@
     right: 0;
     color: #636363;
     font-family: "time noww", sans-serif;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 500;
     text-align: left;
     padding: 0 4px;
@@ -581,7 +592,7 @@
     /* Typography size reductions */
     .ls-date { font-size: 16px; }
     .ls-chapter-title { font-size: 16px; }
-    .ls-desc { font-size: 13px; }
+    .ls-desc { font-size: 17px; }
 }
 
 /* ================================================================
@@ -650,7 +661,7 @@
 .cd-label {
     color: #ffffff;
     font-family: CormorantUpright, sans-serif;
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 300;
     line-height: 1.4;
 }
@@ -686,7 +697,7 @@
     text-align: center;
     color: #636363;
     font-family: "time noww", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     pointer-events: none;
 }
@@ -699,7 +710,7 @@
     text-align: center;
     color: #636363;
     font-family: "time noww", sans-serif;
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 400;
     pointer-events: none;
 }
@@ -729,7 +740,7 @@
     align-items: center;
     gap: 8px;
     font-family: "inter", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.3px;
@@ -752,7 +763,7 @@
     .cd-items { max-width: 80%; }
     .cd-item { margin: 0 3px; }
     .cd-digits { font-size: 14px; }
-    .cd-message { font-size: 13px; }
+    .cd-message { font-size: 17px; }
     .cd-save-btn { padding: 15px 0; }
 }
 
@@ -826,7 +837,7 @@
 .ev-card-address {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 300;
     text-align: center;
     max-width: 64%;
@@ -840,7 +851,7 @@
     align-items: center;
     justify-content: center;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     color: #ffffff;
@@ -929,7 +940,7 @@
     align-items: center;
     justify-content: center;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     color: #ffffff;
@@ -1002,7 +1013,7 @@
 .dc-text {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.2px;
     text-align: center;
@@ -1046,7 +1057,7 @@
 .rsvp-desc {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: left;
     margin: 0 0 16px 0;
@@ -1069,7 +1080,7 @@
 .rsvp-field label {
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1081,7 +1092,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.4);
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     padding: 6px 0;
     outline: none;
     width: 100%;
@@ -1102,7 +1113,7 @@
     gap: 6px;
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     cursor: pointer;
@@ -1113,7 +1124,7 @@
     border: 1px solid rgba(255,255,255,0.6);
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1152,7 +1163,7 @@
     gap: 6px;
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1202,7 +1213,7 @@
 .gift-desc {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: left;
     margin: 0;
@@ -1225,7 +1236,7 @@
 .gift-account-name {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
     margin: 0;
 }
@@ -1243,7 +1254,7 @@
 .gift-account-detail p {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     margin: 0;
     line-height: 1.4;
@@ -1256,7 +1267,7 @@
     align-items: center;
     justify-content: center;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     color: #ffffff;
@@ -1292,7 +1303,7 @@
 .gal-title {
     color: #ffffff;
     font-family: CormorantUpright, sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 300;
     text-align: left;
     margin: 0 0 4px 0;
@@ -1310,7 +1321,7 @@
 .gal-hint {
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 300;
     text-align: right;
     margin: 0;
@@ -1419,7 +1430,7 @@
 .thankyou-message {
     color: #ffffff;
     font-family: "ovo", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 300;
     text-align: center;
     margin: 0;
@@ -1449,7 +1460,7 @@
     gap: 8px;
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     text-decoration: none;
 }
 .thankyou-wa i { font-size: 20px; }
@@ -1458,7 +1469,7 @@
 .thankyou-credit {
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -1483,7 +1494,7 @@
     gap: 6px;
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     text-decoration: none;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
@@ -1493,7 +1504,7 @@
 .thankyou-copyright {
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 300;
     text-align: center;
     margin: 0;

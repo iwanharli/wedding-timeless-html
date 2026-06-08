@@ -1,0 +1,16 @@
+export const DEFAULT_SECTIONS = [
+  { id: 'intro', component: 'SectionIntro', label: 'Intro' },
+  { id: 'profileIntro', component: 'SectionProfileIntro', label: 'Profile Intro' },
+  { id: 'groom', component: 'SectionGroom', label: 'Groom' },
+  { id: 'bride', component: 'SectionBride', label: 'Bride' },
+  { id: 'loveStory', component: 'SectionLoveStory', label: 'Love Story' },
+  { id: 'countdown', component: 'SectionCountdown', label: 'Countdown' },
+  { id: 'event', component: 'SectionEvent', label: 'Event' },
+  { id: 'livestream', component: 'SectionLivestream', label: 'Livestream' },
+  { id: 'dressCode', component: 'SectionDressCode', label: 'Dress Code' },
+  { id: 'rsvp', component: 'SectionRSVP', label: 'RSVP' },
+  { id: 'wishes', component: 'SectionWishes', label: 'Wishes' },
+  { id: 'gift', component: 'SectionGift', label: 'Gift' },
+  { id: 'gallery', component: 'SectionGallery', label: 'Gallery' },
+  { id: 'thankYou', component: 'SectionThankYou', label: 'Thank You' },
+]

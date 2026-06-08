@@ -90,6 +90,7 @@
     padding: 0;
     position: relative;
     flex: 1;
+    min-width: 0;
 }
 
 @media screen and (min-width: 801px) {
@@ -168,7 +169,7 @@
 /* Top: invite title + couple names + date */
 .hero-top {
     position: absolute;
-    top: 10%;
+    top: 8%;
     left: 0;
     width: 100%;
     display: flex;
@@ -176,14 +177,19 @@
     align-items: center;
     z-index: 1;
     gap: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
 .hero-invite-title {
     text-align: center;
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 200;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
     margin: 0 0 8px 0;
     letter-spacing: 1px;
 }
@@ -207,7 +213,7 @@
 
 .hero-name {
     font-family: "script icon", sans-serif;
-    font-size: 43px;
+    font-size: clamp(28px, 10vw, 43px);
     font-weight: 400;
     color: #ffffff;
     margin: 0;
@@ -221,10 +227,10 @@
 
 .hero-name-connector {
     font-family: "script icon", sans-serif;
-    font-size: 20px;
+    font-size: clamp(13px, 4vw, 20px);
     font-weight: 400;
     color: #ffffff;
-    margin: 11px 0 0 0;
+    margin: 8px 0 0 0;
     padding-left: 4px;
     align-self: flex-start;
 }
@@ -244,12 +250,16 @@
 .hero-date {
     color: #ffffff;
     font-family: "Abhaya Libre", sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 3.5vw, 17px);
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 2.6px;
+    letter-spacing: clamp(1px, 0.5vw, 2.6px);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 12px;
     margin: 6px 0 0 0;
     text-align: center;
+    overflow-wrap: break-word;
 }
 
 /* Middle: Dear + apology + open button */
@@ -279,22 +289,38 @@
     font-size: 18px;
     font-weight: 500;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0;
+}
+
+.hero-guest-name {
+    color: #ffffff;
+    font-family: "time now", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 2px 0 0;
+    letter-spacing: 0.03em;
 }
 
 .hero-apology {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 500;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0;
 }
 
 .hero-open-btn {
     display: inline-block;
     font-family: "inter", sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 300;
     text-transform: uppercase;
     letter-spacing: 0;
@@ -334,18 +360,35 @@
 /* Mobile */
 @media (max-width: 767px) {
     .hero-open-box {
-        top: 52%;
+        top: 54%;
     }
-
     .hero-open-inner {
-        width: 85%;
+        width: 88%;
+        padding: 16px;
     }
-
     .hero-apology {
-        font-size: 10px;
+        font-size: 13px;
     }
-
+    .hero-dear {
+        font-size: 16px;
+    }
+    .hero-guest-name {
+        font-size: 19px;
+    }
     #hapus-section .scroll {
         bottom: 26%;
+    }
+}
+
+/* Very small screens (≤ 380px) */
+@media (max-width: 380px) {
+    .hero-top {
+        top: 6%;
+    }
+    .hero-open-box {
+        top: 56%;
+    }
+    .hero-invite-title {
+        font-size: 14px;
     }
 }

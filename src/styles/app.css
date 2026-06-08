@@ -1177,14 +1177,16 @@ body::-webkit-scrollbar {
     flex-direction: row !important;
     align-items: baseline !important;
     justify-content: center !important;
-    gap: 12px !important;
+    gap: 10px !important;
+    max-width: calc(100vw - 40px) !important;
+    flex-wrap: wrap !important;
 }
 
 /* Names typography */
 .preloader-name {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
-    font-size: clamp(52px, 6.5vw, 84px) !important;
+    font-size: clamp(28px, 8vw, 84px) !important;
     font-weight: 400 !important;
     line-height: 1.1 !important;
     text-transform: none !important;
@@ -1199,7 +1201,7 @@ body::-webkit-scrollbar {
 .preloader-connector {
     font-family: 'script icon', 'Thesignature', 'signature fed', cursive !important;
     color: #ffffff !important;
-    font-size: clamp(20px, 2.5vw, 30px) !important;
+    font-size: clamp(14px, 3vw, 30px) !important;
     font-weight: 400 !important;
     text-transform: lowercase !important;
     margin: 0 !important;
@@ -1230,7 +1232,22 @@ body::-webkit-scrollbar {
     width: auto !important;
 }
 
-/* Responsive tweaks for mobile viewports */
+/* Mobile: stack names vertically for narrow viewports */
+@media (max-width: 520px) {
+    .preloader-names-row {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0 !important;
+    }
+    .preloader-name {
+        font-size: clamp(36px, 11vw, 56px) !important;
+    }
+    .preloader-connector {
+        font-size: clamp(14px, 4vw, 20px) !important;
+        margin: 2px 0 !important;
+    }
+}
+
 @media (max-width: 768px) {
     .preloader-progress {
         left: 6vw !important;
@@ -1239,9 +1256,6 @@ body::-webkit-scrollbar {
     #preloader .loading-text {
         font-size: 11px !important;
         letter-spacing: 1.5px !important;
-    }
-    .preloader-names-row {
-        gap: 8px !important;
     }
 }
 

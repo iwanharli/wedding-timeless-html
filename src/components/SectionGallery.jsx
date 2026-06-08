@@ -1,28 +1,12 @@
 import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
 
-const leftImages = [
-  '/assets/images/Timeless-00028.jpg',
-  '/assets/images/Timeless-00013.jpg',
-  '/assets/images/Timeless-00024.jpg',
-  '/assets/images/Timeless-00002-1.jpg',
-]
+export default function SectionGallery({ content }) {
+  const gallery = content.gallery
+  const leftImages = gallery.columns[0]?.images || []
+  const rightTopImages = gallery.columns[1]?.images || []
+  const rightBottomImages = gallery.columns[2]?.images || []
 
-const rightTopImages = [
-  '/assets/images/Timeless-00042.jpg',
-  '/assets/images/Timeless-00001.jpg',
-  '/assets/images/Timeless-00043-1.jpg',
-  '/assets/images/Timeless-00045.jpg',
-]
-
-const rightBottomImages = [
-  '/assets/images/Timeless-00019.jpg',
-  '/assets/images/Timeless-00003-1.jpg',
-  '/assets/images/Timeless-00030-1.jpg',
-  '/assets/images/Timeless-00033.jpg',
-]
-
-export default function SectionGallery() {
   const swiperLeftRef = useRef(null)
   const swiperRightTopRef = useRef(null)
   const swiperRightBottomRef = useRef(null)
@@ -96,7 +80,7 @@ export default function SectionGallery() {
   return (
     <div id="gallery" className="section-gallery child">
       <div className="gal-inner">
-        <h2 className="gal-title">Unveiling<br />Our Prewedding Story</h2>
+        <h2 className="gal-title" style={{ whiteSpace: 'pre-line' }}>{gallery.title}</h2>
 
         <div className="gal-video-wrap">
           <div className="gallery-video-inner">
@@ -124,10 +108,7 @@ export default function SectionGallery() {
                 </div>
               </div>
             </div>
-            <p className="gal-quote">
-              Every love story is beautiful, but ours is my favorite. Through the highs and lows,
-              our love grows stronger and deeper with each passing day.
-            </p>
+            <p className="gal-quote">{gallery.quote}</p>
           </div>
 
           {/* Right column */}

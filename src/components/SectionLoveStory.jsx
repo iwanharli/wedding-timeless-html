@@ -1,102 +1,59 @@
+function ChapterRow({ chapter, reverse }) {
+  const text = (
+    <div className={`ls-col ls-text${reverse ? ' ls-text--last' : ''}`}>
+      <h3 className="ls-date">{chapter.date}</h3>
+      <p
+        className="ls-desc"
+        data-aos="fade"
+        data-aos-offset="0"
+        data-aos-delay="200"
+        data-aos-duration="800"
+      >
+        {chapter.description}
+      </p>
+    </div>
+  )
+
+  const image = reverse ? (
+    <div className="ls-col ls-img ls-img--overlap">
+      <img src={chapter.image} className="ls-photo" loading="lazy" alt="" />
+      <img
+        src="/assets/images/Black-Vintage-Photo-Collage-Instagram-Portrait-2-Medium.png"
+        className="ls-deco-overlay"
+        loading="lazy"
+        alt=""
+      />
+    </div>
+  ) : (
+    <div className="ls-col ls-img ls-img--right">
+      <p className="ls-chapter-title">{chapter.title}</p>
+      <img src={chapter.image} className="ls-photo" loading="lazy" alt="" />
+    </div>
+  )
+
+  return (
+    <div className={`ls-row${reverse ? ' ls-row--reverse' : ''}`}>
+      {reverse ? <>{image}{text}</> : <>{text}{image}</>}
+    </div>
+  )
+}
+
 export default function SectionLoveStory({ content }) {
-  const ch = content.loveStory.chapters
+  const chapters = content.loveStory.chapters || []
+  const pages = []
+  for (let i = 0; i < chapters.length; i += 2) {
+    pages.push(chapters.slice(i, i + 2))
+  }
+
   return (
     <>
-      {/* Page 1: Chapters 0 & 1 */}
-      <div id="lovestory" className="section-lovestory child">
-        {/* Chapter 0: text left | image right */}
-        <div className="ls-row">
-          <div className="ls-col ls-text">
-            <h3 className="ls-date">{ch[0].date}</h3>
-            <p
-              className="ls-desc"
-              data-aos="fade"
-              data-aos-offset="0"
-              data-aos-delay="200"
-              data-aos-duration="800"
-            >
-              {ch[0].description}
-            </p>
-          </div>
-          <div className="ls-col ls-img ls-img--right">
-            <p className="ls-chapter-title">The Journey of Two Souls in Love</p>
-            <img
-              src="/assets/images/Timeless-00023.jpg"
-              className="ls-photo"
-              loading="lazy"
-              alt=""
-            />
-          </div>
+      {pages.map((page, pageIndex) => (
+        <div id={pageIndex === 0 ? 'lovestory' : undefined} className="section-lovestory child" key={pageIndex}>
+          {page.map((chapter, i) => (
+            <ChapterRow chapter={chapter} reverse={i % 2 === 1} key={i} />
+          ))}
         </div>
-
-        {/* Chapter 1: image left | text right */}
-        <div className="ls-row ls-row--reverse">
-          <div className="ls-col ls-img ls-img--overlap">
-            <img
-              src="/assets/images/Timeless-00021.jpg"
-              className="ls-photo"
-              loading="lazy"
-              alt=""
-            />
-            <img
-              src="/assets/images/Black-Vintage-Photo-Collage-Instagram-Portrait-2-Medium.png"
-              className="ls-deco-overlay"
-              loading="lazy"
-              alt=""
-            />
-          </div>
-          <div className="ls-col ls-text ls-text--last">
-            <h3 className="ls-date">{ch[1].date}</h3>
-            <p
-              className="ls-desc"
-              data-aos="fade"
-              data-aos-offset="0"
-              data-aos-delay="200"
-              data-aos-duration="800"
-            >
-              {ch[1].description}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Page 2: Chapter 2 collage */}
-      <div className="section-lovestory child">
-        <div className="ls-row ls-row--collage">
-          <div className="ls-col ls-deco-col">
-            <div className="ls-deco-wrap">
-              <img
-                src="/assets/images/footage-paper-Desain-tanpa-judul-3.jpg"
-                className="ls-paper"
-                loading="lazy"
-                alt=""
-              />
-              <span className="ls-paper-title">The Journey of Two<br />Souls in Love</span>
-            </div>
-            <div className="ls-overlap-wrap">
-              <img
-                src="/assets/images/Timeless-00034-1.jpg"
-                className="ls-overlap-photo"
-                loading="lazy"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="ls-col ls-text">
-          <h3 className="ls-date">{ch[2].date}</h3>
-          <p
-            className="ls-desc"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="800"
-          >
-            {ch[2].description}
-          </p>
-        </div>
-      </div>
+      ))}
     </>
   )
 }

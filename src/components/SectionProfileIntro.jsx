@@ -37,7 +37,7 @@ export default function SectionProfileIntro({ content }) {
           data-aos-delay="500"
           data-aos-duration="1000"
         >
-          <span>{content.profile.coupleNames}</span>
+          <span>{content.hero.name1} {content.hero.connector} {content.hero.name2}</span>
         </h2>
       </div>
     </div>

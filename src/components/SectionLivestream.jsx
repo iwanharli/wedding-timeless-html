@@ -45,6 +45,9 @@ export default function SectionLivestream({ content }) {
         <a
           className="ls9-btn"
           role="button"
+          href={ls.url || '#'}
+          target={ls.url ? '_blank' : undefined}
+          rel="noreferrer"
           data-aos="fade"
           data-aos-offset="0"
           data-aos-delay="200"
