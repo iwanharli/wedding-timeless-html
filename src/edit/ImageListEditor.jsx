@@ -14,9 +14,14 @@ async function uploadFile(file) {
   return body.url
 }
 
-function ImageRow({ src, index, isDragging, isDropTarget, onUpdate, onRemove, onDragStart, onDragEnd, onDragOver, onDrop }) {
+function isVideoSrc(src) {
+  return /\.(mp4|mov|webm|ogg)(\?|$)/i.test(src || '')
+}
+
+function MediaRow({ src, index, accept, isDragging, isDropTarget, onUpdate, onRemove, onDragStart, onDragEnd, onDragOver, onDrop }) {
   const inputRef = useRef(null)
   const [uploading, setUploading] = useState(false)
+  const isVideo = isVideoSrc(src)
 
   async function handleFile(e) {
     const file = e.target.files?.[0]
@@ -45,21 +50,30 @@ function ImageRow({ src, index, isDragging, isDropTarget, onUpdate, onRemove, on
       <span className="edit-array-handle"><i className="fas fa-grip-vertical" /></span>
 
       <div className="edit-imgrow-thumb-wrap" onClick={() => inputRef.current?.click()}>
-        {src
-          ? <img src={src} alt="" className="edit-imgrow-thumb" />
-          : <div className="edit-imgrow-thumb-empty">
-              <i className="fas fa-plus" />
-              <span>Upload</span>
-            </div>}
+        {src ? (
+          isVideo ? (
+            <div className="edit-imgrow-thumb edit-imgrow-thumb--video">
+              <i className="fas fa-film" />
+              <span className="edit-imgrow-video-label">Video</span>
+            </div>
+          ) : (
+            <img src={src} alt="" className="edit-imgrow-thumb" />
+          )
+        ) : (
+          <div className="edit-imgrow-thumb-empty">
+            <i className="fas fa-plus" />
+            <span>Upload</span>
+          </div>
+        )}
         {uploading && (
           <div className="edit-imgrow-thumb-spinner">
             <i className="fas fa-circle-notch fa-spin" />
           </div>
         )}
-        {src && <div className="edit-imgrow-thumb-overlay"><i className="fas fa-camera" /></div>}
+        {src && <div className="edit-imgrow-thumb-overlay"><i className={`fas ${isVideo ? 'fa-video' : 'fa-camera'}`} /></div>}
       </div>
 
-      <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFile} />
+      <input ref={inputRef} type="file" accept={accept || 'image/*'} style={{ display: 'none' }} onChange={handleFile} />
 
       <button type="button" className="edit-icon-btn edit-icon-btn--danger" onClick={onRemove} title="Remove">
         <i className="fas fa-trash-alt" />
@@ -68,7 +82,7 @@ function ImageRow({ src, index, isDragging, isDropTarget, onUpdate, onRemove, on
   )
 }
 
-export default function ImageListEditor({ label, items, onChange }) {
+export default function ImageListEditor({ label, items, onChange, accept }) {
   const [draggingIndex, setDraggingIndex] = useState(null)
   const [dropTarget, setDropTarget] = useState(null)
   const dragIndex = useRef(null)
@@ -107,6 +121,9 @@ export default function ImageListEditor({ label, items, onChange }) {
     dragIndex.current = null
   }
 
+  const isMedia = (accept || '').includes('video')
+  const addLabel = isMedia ? 'Add Photo / Video' : 'Add Photo'
+
   return (
     <div className="edit-array-wrap">
       <div className="edit-array-header">
@@ -115,16 +132,17 @@ export default function ImageListEditor({ label, items, onChange }) {
           <span className="edit-array-count">{items.length}</span>
         </div>
         <button type="button" className="edit-array-add-btn" onClick={add}>
-          <i className="fas fa-plus" /> Add Photo
+          <i className="fas fa-plus" /> {addLabel}
         </button>
       </div>
 
       <div className="edit-array-list">
         {items.map((src, i) => (
-          <ImageRow
+          <MediaRow
             key={i}
             src={src}
             index={i}
+            accept={accept}
             isDragging={draggingIndex === i}
             isDropTarget={dropTarget === i && draggingIndex !== i}
             onUpdate={v => update(i, v)}
@@ -137,7 +155,7 @@ export default function ImageListEditor({ label, items, onChange }) {
         ))}
         {items.length === 0 && (
           <div className="edit-array-empty">
-            No photos yet — click <strong>+ Add Photo</strong>.
+            No media yet — click <strong>+ {addLabel}</strong>.
           </div>
         )}
       </div>

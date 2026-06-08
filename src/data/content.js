@@ -39,6 +39,8 @@ const content = {
     "instagramUsername": "catherine"
   },
   "loveStory": {
+    "sectionLabel": "Love Story",
+    "sectionTitle": "Our Journey Together",
     "chapters": [
       {
         "date": "September 202X",
@@ -101,6 +103,13 @@ const content = {
   "gift": {
     "title": "Wedding Gift",
     "description": "For those of you who want to give a token of love to the bride and groom, you can use the account number below:",
+    "confirmButtonText": "Confirm Gift",
+    "popupTitle": "Konfirmasi Hadiah",
+    "popupLabelName": "Nama Lengkap",
+    "popupLabelBank": "Bank Tujuan",
+    "popupLabelAmount": "Jumlah",
+    "popupLabelNote": "Catatan",
+    "popupSubmitText": "Kirim Konfirmasi",
     "accounts": [
       {
         "bankName": "Groove Public",
@@ -117,7 +126,7 @@ const content = {
   "thankYou": {
     "title": "Thank You For Your Attendance And Support",
     "message": "Hanson & Catherine",
-    "note": "Note!"
+    "note": "It is a pleasure and honor for us, if you are willing to attend and give us your blessing."
   },
   "audio": {
     "track": "/assets/media/YOU-by-Morgan-Saint.mp3"

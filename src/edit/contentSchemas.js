@@ -31,8 +31,11 @@ export const CONTENT_SECTIONS = [
           { path: 'groom.lastName',            label: 'Last Name',           type: 'text' },
           { path: 'groom.relation',            label: 'Relation Label',      type: 'text' },
           { path: 'groom.relationDescription', label: 'Relation Description',type: 'textarea' },
-          { path: 'groom.instagramUsername',   label: 'Instagram Username',  type: 'text' },
           { path: 'groom.image',               label: 'Photo',               type: 'image' },
+          { path: 'groom.instagramUsername',   label: 'Instagram',           type: 'text', hint: 'Username tanpa @' },
+          { path: 'groom.tiktokUsername',      label: 'TikTok',              type: 'text', hint: 'Username tanpa @' },
+          { path: 'groom.facebookUrl',         label: 'Facebook',            type: 'text', hint: 'URL profil Facebook' },
+          { path: 'groom.twitterUsername',     label: 'X / Twitter',         type: 'text', hint: 'Username tanpa @' },
         ],
       },
       {
@@ -48,8 +51,11 @@ export const CONTENT_SECTIONS = [
           { path: 'bride.lastName',            label: 'Last Name',           type: 'text' },
           { path: 'bride.relation',            label: 'Relation Label',      type: 'text' },
           { path: 'bride.relationDescription', label: 'Relation Description',type: 'textarea' },
-          { path: 'bride.instagramUsername',   label: 'Instagram Username',  type: 'text' },
           { path: 'bride.image',               label: 'Photo',               type: 'image' },
+          { path: 'bride.instagramUsername',   label: 'Instagram',           type: 'text', hint: 'Username tanpa @' },
+          { path: 'bride.tiktokUsername',      label: 'TikTok',              type: 'text', hint: 'Username tanpa @' },
+          { path: 'bride.facebookUrl',         label: 'Facebook',            type: 'text', hint: 'URL profil Facebook' },
+          { path: 'bride.twitterUsername',     label: 'X / Twitter',         type: 'text', hint: 'Username tanpa @' },
         ],
       },
     ],
@@ -132,6 +138,10 @@ export const CONTENT_SECTIONS = [
     iconColor: '#fff1f2',
     iconFg: '#be123c',
     description: 'Cerita perjalanan cinta pasangan, chapter per chapter.',
+    fields: [
+      { path: 'loveStory.sectionLabel', label: 'Label (kecil)',  type: 'text', hint: 'e.g. "Love Story"' },
+      { path: 'loveStory.sectionTitle', label: 'Section Title',  type: 'text', hint: 'e.g. "Our Journey Together"' },
+    ],
     arrays: [
       {
         path: 'loveStory.chapters',
@@ -231,11 +241,13 @@ export const CONTENT_SECTIONS = [
     fields: [
       { path: 'rsvp.title',           label: 'Title',                      type: 'text' },
       { path: 'rsvp.description',     label: 'Description',                type: 'textarea' },
-      { path: 'rsvp.attendanceLabel', label: 'Will Attend — Button Label', type: 'text' },
-      { path: 'rsvp.unableLabel',     label: 'Cannot Attend — Button Label',type: 'text' },
+      { path: 'rsvp.attendanceLabel', label: 'Will Attend — Label',        type: 'text' },
+      { path: 'rsvp.maybeLabel',      label: 'Maybe Attend — Label',       type: 'text', hint: 'e.g. "Mungkin Datang"' },
+      { path: 'rsvp.unableLabel',     label: 'Cannot Attend — Label',      type: 'text' },
       { path: 'rsvp.guestLabel',      label: 'Guest Count Field Label',    type: 'text', hint: 'e.g. "No of Guest"' },
       { path: 'rsvp.maxGuests',       label: 'Max Guests per RSVP',        type: 'number' },
       { path: 'rsvp.submitButtonText',label: 'Submit Button Text',         type: 'text' },
+      { path: 'rsvp.successMessage',  label: 'Success Message',            type: 'textarea', hint: 'Ditampilkan setelah form berhasil dikirim' },
     ],
   },
 
@@ -248,8 +260,15 @@ export const CONTENT_SECTIONS = [
     iconFg: '#c2410c',
     description: 'Informasi rekening dan detail pengiriman hadiah.',
     fields: [
-      { path: 'gift.title',       label: 'Title',       type: 'text' },
-      { path: 'gift.description', label: 'Description', type: 'textarea' },
+      { path: 'gift.title',                 label: 'Title',                        type: 'text' },
+      { path: 'gift.description',           label: 'Description',                  type: 'textarea' },
+      { path: 'gift.confirmButtonText',     label: 'Confirm Button Text',          type: 'text', hint: 'e.g. "Confirm Gift"' },
+      { path: 'gift.popupTitle',            label: 'Popup — Judul',                type: 'text', hint: 'e.g. "Konfirmasi Hadiah"' },
+      { path: 'gift.popupLabelName',        label: 'Popup — Label Nama',           type: 'text' },
+      { path: 'gift.popupLabelBank',        label: 'Popup — Label Bank Tujuan',    type: 'text' },
+      { path: 'gift.popupLabelAmount',      label: 'Popup — Label Jumlah',         type: 'text' },
+      { path: 'gift.popupLabelNote',        label: 'Popup — Label Catatan',        type: 'text' },
+      { path: 'gift.popupSubmitText',       label: 'Popup — Tombol Kirim',         type: 'text' },
     ],
     arrays: [
       {
@@ -273,15 +292,24 @@ export const CONTENT_SECTIONS = [
     icon: 'fa-images',
     iconColor: '#fdf4ff',
     iconFg: '#7e22ce',
-    description: 'Foto-foto kenangan dalam tiga kolom.',
-    fields: [
-      { path: 'gallery.title', label: 'Title', type: 'textarea', hint: 'Use Enter / new line for line breaks' },
-      { path: 'gallery.quote', label: 'Quote', type: 'textarea' },
-    ],
-    imageLists: [
-      { path: 'gallery.columns.0.images', label: 'Column 1 Photos' },
-      { path: 'gallery.columns.1.images', label: 'Column 2 Photos' },
-      { path: 'gallery.columns.2.images', label: 'Column 3 Photos' },
+    tabs: [
+      {
+        label: 'Video / Photo Highlight',
+        description: 'Media utama yang tampil di atas slider — bisa video atau foto.',
+        fields: [
+          { path: 'gallery.title',      label: 'Section Title',  type: 'textarea', hint: 'Gunakan Enter untuk baris baru' },
+          { path: 'gallery.quote',      label: 'Quote',          type: 'textarea' },
+          { path: 'gallery.videoFile',  label: 'Video',          type: 'video',    hint: 'Upload file video (mp4, mov, webm). Kosongkan jika ingin tampil foto saja.' },
+          { path: 'gallery.videoThumb', label: 'Foto Highlight', type: 'image',    hint: 'Tampil sebagai poster video, atau sebagai foto jika tidak ada video.' },
+        ],
+      },
+      {
+        label: 'Media Slider',
+        description: 'Foto-foto yang tampil di slider bawah. Drag untuk mengubah urutan.',
+        imageLists: [
+          { path: 'gallery.images', label: 'Foto & Video Slider', accept: 'image/*,video/*' },
+        ],
+      },
     ],
   },
 

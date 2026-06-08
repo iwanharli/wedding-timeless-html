@@ -1,57 +1,37 @@
-function ChapterRow({ chapter, reverse }) {
-  const text = (
-    <div className={`ls-col ls-text${reverse ? ' ls-text--last' : ''}`}>
-      <h3 className="ls-date">{chapter.date}</h3>
-      <p
-        className="ls-desc"
-        data-aos="fade"
-        data-aos-offset="0"
-        data-aos-delay="200"
-        data-aos-duration="800"
-      >
-        {chapter.description}
-      </p>
-    </div>
-  )
-
-  const image = reverse ? (
-    <div className="ls-col ls-img ls-img--overlap">
-      <img src={chapter.image} className="ls-photo" loading="lazy" alt="" />
-      <img
-        src="/assets/images/Black-Vintage-Photo-Collage-Instagram-Portrait-2-Medium.png"
-        className="ls-deco-overlay"
-        loading="lazy"
-        alt=""
-      />
-    </div>
-  ) : (
-    <div className="ls-col ls-img ls-img--right">
-      <p className="ls-chapter-title">{chapter.title}</p>
-      <img src={chapter.image} className="ls-photo" loading="lazy" alt="" />
-    </div>
-  )
-
-  return (
-    <div className={`ls-row${reverse ? ' ls-row--reverse' : ''}`}>
-      {reverse ? <>{image}{text}</> : <>{text}{image}</>}
-    </div>
-  )
-}
-
 export default function SectionLoveStory({ content }) {
   const chapters = content.loveStory.chapters || []
-  const pages = []
-  for (let i = 0; i < chapters.length; i += 2) {
-    pages.push(chapters.slice(i, i + 2))
-  }
 
   return (
     <>
-      {pages.map((page, pageIndex) => (
-        <div id={pageIndex === 0 ? 'lovestory' : undefined} className="section-lovestory child" key={pageIndex}>
-          {page.map((chapter, i) => (
-            <ChapterRow chapter={chapter} reverse={i % 2 === 1} key={i} />
-          ))}
+      {chapters.map((chapter, i) => (
+        <div
+          id={i === 0 ? 'lovestory' : undefined}
+          className="section-lovestory child"
+          key={i}
+        >
+          {i === 0 && (
+            <div className="ls-header" data-aos="fade-up" data-aos-duration="800">
+              <span className="ls-section-label">{content.loveStory.sectionLabel || 'Love Story'}</span>
+              <h2 className="ls-section-title">{content.loveStory.sectionTitle || 'Our Journey Together'}</h2>
+              <div className="ls-header-line" />
+            </div>
+          )}
+
+          <div className="ls-chapter" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+            <div className="ls-chapter-top">
+              <span className="ls-chapter-index">{String(i + 1).padStart(2, '0')} / {String(chapters.length).padStart(2, '0')}</span>
+              <span className="ls-chapter-date">{chapter.date}</span>
+            </div>
+            {chapter.image && (
+              <div className="ls-chapter-photo-wrap">
+                <img src={chapter.image} className="ls-chapter-photo" loading="lazy" alt="" />
+              </div>
+            )}
+            <div className="ls-chapter-body">
+              <h3 className="ls-chapter-title">{chapter.title}</h3>
+              <p className="ls-chapter-desc">{chapter.description}</p>
+            </div>
+          </div>
         </div>
       ))}
     </>

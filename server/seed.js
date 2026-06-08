@@ -6,10 +6,21 @@ import { pool } from './db.js'
 const GALLERY = {
   title: 'Unveiling\nOur Prewedding Story',
   quote: 'Every love story is beautiful, but ours is my favorite. Through the highs and lows, our love grows stronger and deeper with each passing day.',
-  columns: [
-    { images: ['/assets/images/Timeless-00028.jpg', '/assets/images/Timeless-00013.jpg', '/assets/images/Timeless-00024.jpg', '/assets/images/Timeless-00002-1.jpg'] },
-    { images: ['/assets/images/Timeless-00042.jpg', '/assets/images/Timeless-00001.jpg', '/assets/images/Timeless-00043-1.jpg', '/assets/images/Timeless-00045.jpg'] },
-    { images: ['/assets/images/Timeless-00019.jpg', '/assets/images/Timeless-00003-1.jpg', '/assets/images/Timeless-00030-1.jpg', '/assets/images/Timeless-00033.jpg'] },
+  videoFile: '',
+  videoThumb: '/assets/images/Timeless-00028.jpg',
+  images: [
+    '/assets/images/Timeless-00028.jpg',
+    '/assets/images/Timeless-00013.jpg',
+    '/assets/images/Timeless-00024.jpg',
+    '/assets/images/Timeless-00002-1.jpg',
+    '/assets/images/Timeless-00042.jpg',
+    '/assets/images/Timeless-00001.jpg',
+    '/assets/images/Timeless-00043-1.jpg',
+    '/assets/images/Timeless-00045.jpg',
+    '/assets/images/Timeless-00019.jpg',
+    '/assets/images/Timeless-00003-1.jpg',
+    '/assets/images/Timeless-00030-1.jpg',
+    '/assets/images/Timeless-00033.jpg',
   ],
 }
 

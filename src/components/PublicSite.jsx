@@ -216,7 +216,7 @@ export default function PublicSite() {
       {/* Floating elements */}
       <SideNav content={content} isOpen={isOpen} />
       <QROverlay />
-      <GiftPopup isOpen={giftPopupOpen} onClose={() => setGiftPopupOpen(false)} />
+      <GiftPopup isOpen={giftPopupOpen} onClose={() => setGiftPopupOpen(false)} gift={content.gift || {}} />
     </div>
   )
 }

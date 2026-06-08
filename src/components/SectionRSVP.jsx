@@ -14,6 +14,7 @@ export default function SectionRSVP({ content }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState(null)
+  const [errors, setErrors] = useState({})
   const slugRef = useRef(null)
 
   useEffect(() => {
@@ -31,7 +32,11 @@ export default function SectionRSVP({ content }) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!name.trim() || !attendance) return
+    const newErrors = {}
+    if (!name.trim()) newErrors.name = 'Please enter your name'
+    if (!attendance) newErrors.attendance = 'Please select your attendance'
+    if (Object.keys(newErrors).length > 0) { setErrors(newErrors); return }
+    setErrors({})
     setSubmitting(true)
     setSubmitError(null)
     try {
@@ -74,10 +79,12 @@ export default function SectionRSVP({ content }) {
 
         {submitted && (
           <div className="rsvp-success">
+            <i className="fas fa-check-circle" />
             <p>{r.successMessage || 'Terima kasih! RSVP kamu sudah diterima.'}</p>
           </div>
         )}
 
+        <div className="rsvp-form-card">
         <form className="rsvp-form" id="commentform" name="comment_form" onSubmit={handleSubmit} style={submitted ? { display: 'none' } : {}}>
           {/* Name */}
           <div className="rsvp-field">
@@ -86,28 +93,25 @@ export default function SectionRSVP({ content }) {
               type="text"
               name="name"
               id="field-name"
-              className="rsvp-input"
-              required
-              aria-required="true"
+              className={`rsvp-input${errors.name ? ' rsvp-input--error' : ''}`}
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={e => { setName(e.target.value); setErrors(v => ({ ...v, name: undefined })) }}
             />
+            {errors.name && <span className="rsvp-field-error">{errors.name}</span>}
           </div>
 
           {/* Attendance */}
           <div className="rsvp-field">
             <label>Attendance</label>
-            <div className="rsvp-radio-group">
+            <div className={`rsvp-radio-group${errors.attendance ? ' rsvp-radio-group--error' : ''}`}>
               <label className="rsvp-radio-label">
                 <input
                   type="radio"
                   value="EXCITED TO ATTEND"
                   id="field-attendance-yes"
                   name="attendance"
-                  required
-                  aria-required="true"
                   checked={attendance === 'EXCITED TO ATTEND'}
-                  onChange={e => setAttendance(e.target.value)}
+                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
                 />
                 <span>{r.attendanceLabel}</span>
               </label>
@@ -118,7 +122,7 @@ export default function SectionRSVP({ content }) {
                   id="field-attendance-maybe"
                   name="attendance"
                   checked={attendance === 'Mungkin Datang'}
-                  onChange={e => setAttendance(e.target.value)}
+                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
                 />
                 <span>{r.maybeLabel || 'Mungkin Datang'}</span>
               </label>
@@ -128,40 +132,32 @@ export default function SectionRSVP({ content }) {
                   value="Tidak Hadir"
                   id="field-attendance-no"
                   name="attendance"
-                  required
-                  aria-required="true"
                   checked={attendance === 'Tidak Hadir'}
-                  onChange={e => setAttendance(e.target.value)}
+                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
                 />
                 <span>{r.unableLabel}</span>
               </label>
             </div>
+            {errors.attendance && <span className="rsvp-field-error">{errors.attendance}</span>}
           </div>
 
           {/* Guest count */}
           <div className="rsvp-field">
             <label htmlFor="field-guests">{guestLabel}</label>
-            <div className="number-input-wrapper">
-              <input
-                type="number"
-                name="guests"
-                id="field-guests"
-                className="rsvp-input"
-                value={guests}
-                required
-                aria-required="true"
-                min="1"
-                max={maxGuests}
-                onChange={e => setGuests(parseInt(e.target.value, 10) || 1)}
-              />
-              <span
-                className="decrement-text"
+            <div className="rsvp-stepper">
+              <button
+                type="button"
+                className="rsvp-stepper-btn"
                 onClick={() => setGuests(v => Math.max(1, v - 1))}
-              >-</span>
-              <span
-                className="increment-text"
+                disabled={guests <= 1}
+              >−</button>
+              <span className="rsvp-stepper-val">{guests}</span>
+              <button
+                type="button"
+                className="rsvp-stepper-btn"
                 onClick={() => setGuests(v => Math.min(maxGuests, v + 1))}
-              >+</span>
+                disabled={guests >= maxGuests}
+              >+</button>
             </div>
           </div>
 
@@ -184,6 +180,7 @@ export default function SectionRSVP({ content }) {
             <span>{submitting ? 'Mengirim…' : r.submitButtonText}</span>
           </button>
         </form>
+        </div>
       </div>
     </div>
   )

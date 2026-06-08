@@ -8,37 +8,30 @@ export default function SectionEvent({ content }) {
         </svg>
       </div>
 
-      <h2
-        className="ev-date"
+      <div className="ev-date-wrap"
         data-aos="fade"
         data-aos-offset="0"
         data-aos-delay="300"
         data-aos-duration="900"
       >
-        {ev.date.replace(',', ',\n')}
-      </h2>
+        <span className="ev-date-line" />
+        <h2 className="ev-date">{ev.date.replace(',', ',\n')}</h2>
+        <span className="ev-date-line" />
+      </div>
 
-      <div className="ev-cards">
+      <div className="ev-cards"
+        data-aos="fade-up"
+        data-aos-offset="0"
+        data-aos-delay="500"
+        data-aos-duration="900"
+      >
         {/* Holy Matrimony */}
-        <div
-          className="ev-card"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="600"
-          data-aos-duration="900"
-        >
-          <h3 className="ev-card-title">
-            <span>{ev.ceremony.title}</span><br />
-            <span>{ev.ceremony.time}</span><br />
-            <span>{ev.ceremony.location}</span>
-          </h3>
-          <p
-            className="ev-card-address"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="800"
-          >
+        <div className="ev-card">
+          <span className="ev-card-name">{ev.ceremony.title}</span>
+          <span className="ev-card-time">{ev.ceremony.time}</span>
+          <span className="ev-card-venue">{ev.ceremony.location}</span>
+          <p className="ev-card-address">
+            <i className="fas fa-map-marker-alt" />
             {ev.ceremony.address}
           </p>
           <a
@@ -46,35 +39,21 @@ export default function SectionEvent({ content }) {
             href={ev.ceremony.mapsUrl}
             target="_blank"
             rel="noopener"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="1000"
           >
+            <i className="fas fa-map-marked-alt" />
             GOOGLE MAPS
           </a>
         </div>
 
+        <div className="ev-cards-divider" />
+
         {/* Reception */}
-        <div
-          className="ev-card"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="1000"
-          data-aos-duration="900"
-        >
-          <h3 className="ev-card-title">
-            <span>{ev.reception.title}</span><br />
-            <span>{ev.reception.time}</span><br />
-            <span>{ev.reception.location}</span>
-          </h3>
-          <p
-            className="ev-card-address"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="800"
-          >
+        <div className="ev-card">
+          <span className="ev-card-name">{ev.reception.title}</span>
+          <span className="ev-card-time">{ev.reception.time}</span>
+          <span className="ev-card-venue">{ev.reception.location}</span>
+          <p className="ev-card-address">
+            <i className="fas fa-map-marker-alt" />
             {ev.reception.address}
           </p>
           <a
@@ -82,11 +61,8 @@ export default function SectionEvent({ content }) {
             href={ev.reception.mapsUrl}
             target="_blank"
             rel="noopener"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="1000"
           >
+            <i className="fas fa-map-marked-alt" />
             GOOGLE MAPS
           </a>
         </div>

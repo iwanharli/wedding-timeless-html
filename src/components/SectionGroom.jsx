@@ -1,67 +1,51 @@
+function SocialLinks({ person }) {
+  const links = [
+    person.instagramUsername && { href: `https://instagram.com/${person.instagramUsername}`, icon: 'fab fa-instagram', label: person.instagramUsername },
+    person.tiktokUsername    && { href: `https://tiktok.com/@${person.tiktokUsername}`,      icon: 'fab fa-tiktok',    label: person.tiktokUsername },
+    person.facebookUrl       && { href: person.facebookUrl,                                   icon: 'fab fa-facebook',  label: 'Facebook' },
+    person.twitterUsername   && { href: `https://x.com/${person.twitterUsername}`,            icon: 'fab fa-x-twitter', label: person.twitterUsername },
+  ].filter(Boolean)
+
+  if (!links.length) return null
+  return (
+    <div className="profile-socials">
+      {links.map((l, i) => (
+        <a key={i} className="profile-social-btn" href={l.href} target="_blank" rel="noopener">
+          <i className={l.icon} />
+          <span>{l.label}</span>
+        </a>
+      ))}
+    </div>
+  )
+}
+
 export default function SectionGroom({ content }) {
   const g = content.groom
   return (
     <div id="profile" className="section-profile child">
-      <div className="profile-card">
-        <h3
-          className="profile-role"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
-        >
-          {g.title}
-        </h3>
+      <div className="profile-card" data-aos="fade-up" data-aos-duration="900">
 
         <div className="profile-photo-wrap">
           <img src={g.image} className="profile-photo" alt="" />
+          <div className="profile-photo-gradient" />
         </div>
 
-        <h2
-          className="profile-firstname"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
-        >
-          {g.firstName}
-        </h2>
+        <div className="profile-body">
+          <span className="profile-role">{g.title}</span>
 
-        <h2
-          className="profile-lastname"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
-        >
-          {g.lastName}
-        </h2>
+          <div className="profile-names">
+            <h2 className="profile-firstname">{g.firstName}</h2>
+            <h2 className="profile-lastname">{g.lastName}</h2>
+          </div>
 
-        <div className="profile-parents">
-          <p className="profile-relation profile-relation--left">{g.relation}</p>
-          <p
-            className="profile-relation-desc"
-            data-aos="fade"
-            data-aos-offset="0"
-            data-aos-delay="200"
-            data-aos-duration="800"
-          >
-            {g.relationDescription}
-          </p>
+          <div className="profile-divider" />
+
+          <p className="profile-relation">{g.relation}</p>
+          <p className="profile-relation-desc">{g.relationDescription}</p>
+
+          <SocialLinks person={g} />
         </div>
 
-        <a
-          className="profile-instagram-btn"
-          href="#"
-          rel="noopener"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="300"
-          data-aos-duration="1000"
-        >
-          <i className="fab fa-instagram" aria-hidden="true"></i>
-          <span>{g.instagramUsername}</span>
-        </a>
       </div>
     </div>
   )

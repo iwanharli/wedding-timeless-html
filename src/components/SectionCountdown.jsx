@@ -1,18 +1,50 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 function pad(n) { return String(n).padStart(2, '0') }
 
+function toICSDate(isoString) {
+  const d = new Date(isoString)
+  const y = d.getFullYear()
+  const mo = pad(d.getMonth() + 1)
+  const day = pad(d.getDate())
+  const h = pad(d.getHours())
+  const mi = pad(d.getMinutes())
+  return `${y}${mo}${day}T${h}${mi}00`
+}
+
+function buildICS(content) {
+  const names = content.thankYou?.message || 'The Couple'
+  const date = content.countdown?.date || ''
+  const location = content.event?.ceremony?.mapsUrl || content.event?.reception?.mapsUrl || ''
+  const start = date ? toICSDate(date) : ''
+  const end = date ? toICSDate(new Date(new Date(date).getTime() + 3 * 3600000).toISOString()) : ''
+  const summary = `The Wedding of ${names}`
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'BEGIN:VEVENT',
+    `UID:wedding-${Date.now()}@groovepublic`,
+    `SUMMARY:${summary}`,
+    start ? `DTSTART;TZID=Asia/Jakarta:${start}` : '',
+    end   ? `DTEND;TZID=Asia/Jakarta:${end}`   : '',
+    location ? `LOCATION:${location}` : '',
+    'DESCRIPTION:Aktifkan peringatan 15 menit sebelumnya.',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].filter(Boolean).join('\r\n')
+  return 'data:text/calendar;charset=utf8,' + encodeURIComponent(ics)
+}
+
 export default function SectionCountdown({ content }) {
   const [time, setTime] = useState({ d: '00', h: '00', m: '00', s: '00' })
+  const cd = content.countdown
+  const icsHref = useMemo(() => buildICS(content), [content])
 
   useEffect(() => {
-    const targetTs = new Date(content.countdown.date).getTime()
+    const targetTs = new Date(cd.date).getTime()
     function tick() {
       const diff = targetTs - Date.now()
-      if (diff <= 0) {
-        setTime({ d: '00', h: '00', m: '00', s: '00' })
-        return
-      }
+      if (diff <= 0) { setTime({ d: '00', h: '00', m: '00', s: '00' }); return }
       setTime({
         d: pad(Math.floor(diff / 86400000)),
         h: pad(Math.floor((diff % 86400000) / 3600000)),
@@ -23,97 +55,59 @@ export default function SectionCountdown({ content }) {
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [content.countdown.date])
+  }, [cd.date])
+
+  const bgImage = cd.image || '/assets/images/Timeless-00046.jpg'
 
   return (
-    <div className="section-countdown child">
-      <div className="cd-main-wrap">
-        <img
-          src="/assets/images/Timeless-00046.jpg"
-          className="cd-main-photo"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
-          loading="lazy"
-          alt=""
-        />
-        <div
-          className="cd-countdown"
-          data-aos="fade"
-          data-aos-offset="0"
-          data-aos-delay="600"
-          data-aos-duration="800"
-        >
-          <div className="cd-items">
-            <div className="cd-item">
-              <span className="cd-digits cd-days">{time.d}</span>
-              <span className="cd-label">Hari</span>
-            </div>
-            <div className="cd-item">
-              <span className="cd-digits cd-hours">{time.h}</span>
-              <span className="cd-label">Jam</span>
-            </div>
-            <div className="cd-item">
-              <span className="cd-digits cd-minutes">{time.m}</span>
-              <span className="cd-label">Menit</span>
-            </div>
-            <div className="cd-item">
-              <span className="cd-digits cd-seconds">{time.s}</span>
-              <span className="cd-label">Detik</span>
-            </div>
+    <div
+      className="section-countdown child"
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
+      <div className="cd-body">
+
+        <div className="cd-top" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
+          <h2 className="cd-message">{cd.message}</h2>
+          <p className="cd-names-date">
+            <span className="cd-names">{content.thankYou.message}</span>
+            <span className="cd-dot-sep">·</span>
+            <span className="cd-date">{content.hero.date}</span>
+          </p>
+        </div>
+
+        <div className="cd-timer" data-aos="fade-up" data-aos-delay="250" data-aos-duration="900">
+          <div className="cd-unit">
+            <span className="cd-digits">{time.d}</span>
+            <span className="cd-label">Hari</span>
+          </div>
+          <span className="cd-sep">:</span>
+          <div className="cd-unit">
+            <span className="cd-digits">{time.h}</span>
+            <span className="cd-label">Jam</span>
+          </div>
+          <span className="cd-sep">:</span>
+          <div className="cd-unit">
+            <span className="cd-digits">{time.m}</span>
+            <span className="cd-label">Menit</span>
+          </div>
+          <span className="cd-sep">:</span>
+          <div className="cd-unit">
+            <span className="cd-digits">{time.s}</span>
+            <span className="cd-label">Detik</span>
           </div>
         </div>
-      </div>
 
-      <div
-        className="cd-photos-row"
-        data-aos="fade"
-        data-aos-offset="0"
-        data-aos-delay="200"
-        data-aos-duration="1000"
-      >
-        <div className="cd-photo-wrap">
-          <img
-            src="/assets/images/footage-paper-Desain-tanpa-judul-3.jpg"
-            className="cd-small-photo"
-            loading="lazy"
-            alt=""
-          />
-          <span className="cd-paper-name">{content.thankYou.message}</span>
-          <span className="cd-paper-date">{content.hero.date}</span>
+        <div className="cd-save-wrap" data-aos="fade" data-aos-delay="400" data-aos-duration="800">
+          <a
+            className="cd-save-btn"
+            download="save-the-date.ics"
+            href={icsHref}
+          >
+            <i className="fas fa-calendar-plus" />
+            <span>Save the Date</span>
+          </a>
         </div>
-        <div className="cd-photo-wrap">
-          <img
-            src="/assets/images/Timeless-00041-1.jpg"
-            className="cd-small-photo"
-            loading="lazy"
-            alt=""
-          />
-        </div>
-      </div>
 
-      <h2
-        className="cd-message"
-        data-aos="fade"
-        data-aos-offset="0"
-        data-aos-delay="200"
-        data-aos-duration="800"
-      >
-        <span>{content.countdown.message}</span>
-      </h2>
-
-      <div className="cd-save-wrap">
-        <a
-          className="cd-save-btn"
-          download="Hanson-amp-Catherine"
-          href="data:text/calendar;charset=utf8;base64,QkVHSU46VkNBTEVOREFSDQpWRVJTSU9OOjIuMA0KQkVHSU46VkVWRU5UDQpVSUQ6Mzc4YzMwNjM3YjNkMDcxNzk3ZjI1MWMxZTY3YTBhMmINClNVTU1BUlk6VGhlIFdlZGRpbmcgb2YgSGFuc29uICZhbXBcOyBDYXRoZXJpbmUNCkRUU1RBUlQ7VFpJRD1Bc2lhL0pha2FydGE6MjAyNDEyMDVUMTQzMDAwDQpEVEVORDtUWklEPUFzaWEvSmFrYXJ0YToyMDI0MTIwNlQxNDMwMDANCkRFU0NSSVBUSU9OOjxwPkFrdGlma2FuIHBlcmluZ2F0YW4gYXBhYmlsYSBiZWx1bSBha3RpZiBzZWNhcmEgYmF3YWFuLiAoYXR1ciAxNSBtZW5pdCBzZWJlbHVtbnlhXCwgYXRhdSBzZXN1YWlrYW4gbGFnaSk8L3A+PHA+RW5hYmxlIGFsZXJ0cyBpZiB0aGV5IGFyZSBub3QgYWxyZWFkeSBhY3RpdmUgYnkgZGVmYXVsdC4gKHNldCAxNSBtaW51dGVzIHByZXZpb3VzbHlcLCBvciBhZGp1c3QgYWdhaW4pPC9wPg0KTE9DQVRJT046aHR0cHM6Ly9tYXBzLmFwcC5nb28uZ2wvZVE3S1FoQmNKa0VaZEdEdDcNCkVORDpWRVZFTlQNCkVORDpWQ0FMRU5EQVI="
-          target="_blank"
-          rel="nofollow"
-        >
-          <i className="fas fa-arrow-right" aria-hidden="true"></i>
-          Save the date
-        </a>
       </div>
     </div>
   )

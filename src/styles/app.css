@@ -1619,36 +1619,132 @@ body::-webkit-scrollbar {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(240, 240, 240, 0.97);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 9999;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
 }
 .gift-popup-inner {
-  background: #fff;
-  padding: 30px;
+  background: rgba(18, 18, 18, 0.96);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 32px 28px 28px;
   max-width: 400px;
-  width: 90%;
-  border-radius: 4px;
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
 }
-#wedding-gift-popup h3 {
-  margin: 0 0 16px;
-  font-family: inter, sans-serif;
-  font-size: 14px;
-  text-align: center;
+
+/* Close button — top right */
+.gift-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, color .2s;
 }
+.gift-popup-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.gift-popup-label {
+  color: rgba(255,255,255,0.35);
+  font-family: "inter", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+.gift-popup-title {
+  color: #ffffff;
+  font-family: "script icon", sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  margin: 0 0 24px;
+  line-height: 1.1;
+}
+
 #wedding_gift {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
-.gift-close-link {
-  display: block;
-  text-align: center;
-  margin-top: 12px;
+
+.gift-popup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gift-popup-field-label {
+  color: rgba(255,255,255,0.4);
+  font-family: "inter", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.gift-popup-optional {
+  color: rgba(255,255,255,0.25);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10px;
+}
+.gift-popup-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  color: #ffffff;
+  font-family: "inter", sans-serif;
+  font-size: 15px;
+  padding: 7px 0;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color .2s;
+}
+.gift-popup-input:focus { border-bottom-color: rgba(255,255,255,0.6); }
+.gift-popup-select {
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
-  font-family: inter, sans-serif;
-  font-size: 11px;
-  color: #888;
 }
+.gift-popup-input option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+.gift-popup-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #ffffff;
+  font-family: "inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background .2s;
+}
+.gift-popup-submit i { font-size: 11px; opacity: 0.7; }
+.gift-popup-submit:hover { background: rgba(255,255,255,0.18); }

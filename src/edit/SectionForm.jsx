@@ -48,6 +48,7 @@ function FieldGroup({ fields, arrays, imageLists, draft, onFieldChange, onArrayC
         <ImageListEditor
           key={listSchema.path}
           label={listSchema.label}
+          accept={listSchema.accept}
           items={getPath(draft, listSchema.path) || []}
           onChange={items => onArrayChange(listSchema.path, items)}
         />
@@ -100,6 +101,7 @@ export default function SectionForm({ schema, draft, onFieldChange, onArrayChang
             </div>
           </CardHeader>
           <div className="edit-form-card-body">
+            {tab.description && <p className="edit-tab-desc">{tab.description}</p>}
             <FieldGroup
               fields={tab.fields}
               arrays={tab.arrays}
