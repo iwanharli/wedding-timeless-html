@@ -16,6 +16,6 @@ echo "🏗️  Building frontend..."
 npm run build
 
 echo "🔄 Restarting PM2 backend process..."
-NODE_ENV=production pm2 restart wedding-api
+NODE_ENV=production pm2 restart timeless-wedding-api-14888
 
 echo "✅ Deploy complete successfully!"
