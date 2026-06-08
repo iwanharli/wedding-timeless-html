@@ -16,7 +16,7 @@
  *   6. wishes          — standalone guest wishes (legacy)
  */
 
-import 'dotenv/config'
+import './dotenv-loader.js'
 import bcrypt from 'bcrypt'
 import pg from 'pg'
 

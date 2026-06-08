@@ -9,7 +9,7 @@
  *   npm run seed      # then seed data
  */
 
-import 'dotenv/config'
+import './dotenv-loader.js'
 import pg from 'pg'
 import bcrypt from 'bcrypt'
 import { readFileSync } from 'fs'

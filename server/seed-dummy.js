@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import './dotenv-loader.js'
 import pg from 'pg'
 import { randomBytes } from 'crypto'
 
