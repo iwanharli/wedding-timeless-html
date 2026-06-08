@@ -134,6 +134,15 @@ async function seedPageVisits(client) {
   const guestSlugs = GUESTS.map(g => g.slug)
   const now = new Date()
 
+  const ips = ['114.122.14.55', '180.252.88.109', '36.72.215.12', '125.165.110.4', '110.138.80.22', '103.144.15.19', '182.253.11.90']
+  const devices = ['Mobile', 'Mobile', 'Mobile', 'Desktop', 'Tablet']
+  const browsers = ['Chrome', 'Safari', 'Chrome', 'Firefox', 'Chrome', 'Safari', 'Edge']
+  const osList = {
+    'Mobile': ['Android', 'iOS'],
+    'Tablet': ['Android', 'iOS'],
+    'Desktop': ['Windows', 'macOS', 'Linux']
+  }
+
   // Generate ~5-10 visits per day over 14 days
   for (let day = 13; day >= 0; day--) {
     const visits = Math.floor(Math.random() * 6) + 5
@@ -147,9 +156,17 @@ async function seedPageVisits(client) {
       const useSlug = Math.random() > 0.45
       const slug = useSlug ? guestSlugs[Math.floor(Math.random() * guestSlugs.length)] : null
 
+      const ip = ips[Math.floor(Math.random() * ips.length)]
+      const device = devices[Math.floor(Math.random() * devices.length)]
+      const possibleOs = osList[device]
+      const os = possibleOs[Math.floor(Math.random() * possibleOs.length)]
+      const browser = browsers[Math.floor(Math.random() * browsers.length)]
+      const userAgent = `Mozilla/5.0 (Dummy; ${device}; ${os}) ${browser}/100.0`
+
       await client.query(
-        `INSERT INTO page_visits (slug, visited_at) VALUES ($1, $2)`,
-        [slug, ts.toISOString()]
+        `INSERT INTO page_visits (slug, visited_at, ip_address, user_agent, device_type, browser_name, os_name) 
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [slug, ts.toISOString(), ip, userAgent, device, browser, os]
       )
     }
   }

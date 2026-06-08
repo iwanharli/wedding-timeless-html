@@ -125,9 +125,21 @@ async function createPageVisits(client) {
     CREATE TABLE IF NOT EXISTS page_visits (
       id              SERIAL PRIMARY KEY,
       slug            TEXT,
-      visited_at      TIMESTAMPTZ DEFAULT now()
+      visited_at      TIMESTAMPTZ DEFAULT now(),
+      ip_address      TEXT,
+      user_agent      TEXT,
+      device_type     TEXT,
+      browser_name    TEXT,
+      os_name         TEXT
     )
   `)
+
+  // Alter table for backward compatibility / upgrades
+  await client.query('ALTER TABLE page_visits ADD COLUMN IF NOT EXISTS ip_address TEXT')
+  await client.query('ALTER TABLE page_visits ADD COLUMN IF NOT EXISTS user_agent TEXT')
+  await client.query('ALTER TABLE page_visits ADD COLUMN IF NOT EXISTS device_type TEXT')
+  await client.query('ALTER TABLE page_visits ADD COLUMN IF NOT EXISTS browser_name TEXT')
+  await client.query('ALTER TABLE page_visits ADD COLUMN IF NOT EXISTS os_name TEXT')
 
   // Index for the 14-day stats query on dashboard
   await client.query(`

@@ -75,7 +75,7 @@ function FieldGroup({ fields, arrays, imageLists, audioTrim, draft, onFieldChang
   )
 }
 
-function CardHeader({ title, description, icon, iconColor, iconFg, children }) {
+function CardHeader({ title, description, icon, iconColor, iconFg, disabled, children }) {
   return (
     <div className="edit-form-card-header">
       {icon && (
@@ -87,7 +87,14 @@ function CardHeader({ title, description, icon, iconColor, iconFg, children }) {
         </div>
       )}
       <div className="edit-form-card-header-text">
-        <div className="edit-form-card-title">{title}</div>
+        <div className="edit-form-card-title">
+          {title}
+          {disabled && (
+            <span className="edit-form-card-disabled-badge">
+              <i className="fas fa-eye-slash" /> Inactive
+            </span>
+          )}
+        </div>
         {description && <div className="edit-form-card-desc">{description}</div>}
         {children}
       </div>
@@ -95,27 +102,72 @@ function CardHeader({ title, description, icon, iconColor, iconFg, children }) {
   )
 }
 
+function isLayoutSectionVisible(draft, sectionId) {
+  if (!draft || !draft.sections) return true
+  const sec = draft.sections.find(s => s.id === sectionId)
+  return sec ? sec.visible : true
+}
+
 export default function SectionForm({ schema, draft, onFieldChange, onArrayChange }) {
-  const [activeTab, setActiveTab] = useState(0)
+  const getTabSectionId = (idx) => {
+    if (schema.id === 'event') {
+      return idx === 0 ? 'event' : idx === 1 ? 'countdown' : 'livestream'
+    }
+    return null
+  }
+
+  const isTabVisible = (idx) => {
+    const sectionId = getTabSectionId(idx)
+    return sectionId ? isLayoutSectionVisible(draft, sectionId) : true
+  }
+
+  const firstActiveTab = schema.tabs ? schema.tabs.findIndex((_, idx) => isTabVisible(idx)) : 0
+  const initialTab = firstActiveTab !== -1 ? firstActiveTab : 0
+  const [activeTab, setActiveTab] = useState(initialTab)
+
+  const getGroupSectionId = (group) => {
+    if (schema.id === 'general') {
+      if (group.label === 'Groom') return 'groom'
+      if (group.label === 'Bride') return 'bride'
+    }
+    return null
+  }
+
+  const isGroupVisible = (group) => {
+    const sectionId = getGroupSectionId(group)
+    return sectionId ? isLayoutSectionVisible(draft, sectionId) : true
+  }
 
   // ── Tabbed layout ──────────────────────────────────────
   if (schema.tabs) {
-    const tab = schema.tabs[activeTab] || schema.tabs[0]
+    const activeTabIdx = isTabVisible(activeTab)
+      ? activeTab
+      : (schema.tabs.findIndex((_, idx) => isTabVisible(idx)) !== -1
+         ? schema.tabs.findIndex((_, idx) => isTabVisible(idx))
+         : 0)
+
+    const tab = schema.tabs[activeTabIdx] || schema.tabs[0]
     return (
       <div className="edit-form-wrap">
         <div className="edit-form-card">
           <CardHeader title={schema.label} description={schema.description} icon={schema.icon} iconColor={schema.iconColor} iconFg={schema.iconFg}>
             <div className="edit-tab-bar">
-              {schema.tabs.map((t, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className={`edit-tab-btn${activeTab === i ? ' active' : ''}`}
-                  onClick={() => setActiveTab(i)}
-                >
-                  {t.label}
-                </button>
-              ))}
+              {schema.tabs.map((t, i) => {
+                const visible = isTabVisible(i)
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`edit-tab-btn${activeTabIdx === i ? ' active' : ''}${!visible ? ' disabled' : ''}`}
+                    onClick={() => {
+                      if (visible) setActiveTab(i)
+                    }}
+                    title={!visible ? 'Section dinonaktifkan di Section Layout' : ''}
+                  >
+                    {t.label}
+                  </button>
+                )
+              })}
             </div>
           </CardHeader>
           <div className="edit-form-card-body">
@@ -139,29 +191,37 @@ export default function SectionForm({ schema, draft, onFieldChange, onArrayChang
   if (schema.groups) {
     return (
       <div className="edit-form-wrap edit-form-wrap--stack">
-        {schema.groups.map((group, i) => (
-          <div className="edit-form-card" key={i}>
-            <CardHeader
-              title={group.label}
-              description={group.description}
-              icon={group.icon}
-              iconColor={group.iconColor}
-              iconFg={group.iconFg}
-            />
-            <div className="edit-form-card-body">
-              <FieldGroup
-                fields={group.fields}
-                arrays={group.arrays}
-                imageLists={group.imageLists}
-                audioTrim={group.audioTrim}
-                draft={draft}
-                onFieldChange={onFieldChange}
-                onArrayChange={onArrayChange}
-                columns={group.columns}
+        {schema.groups.map((group, i) => {
+          const visible = isGroupVisible(group)
+          return (
+            <div
+              className={`edit-form-card${!visible ? ' disabled' : ''}`}
+              key={i}
+              title={!visible ? 'Grup ini dinonaktifkan di Section Layout' : ''}
+            >
+              <CardHeader
+                title={group.label}
+                description={group.description}
+                icon={group.icon}
+                iconColor={group.iconColor}
+                iconFg={group.iconFg}
+                disabled={!visible}
               />
+              <div className="edit-form-card-body">
+                <FieldGroup
+                  fields={group.fields}
+                  arrays={group.arrays}
+                  imageLists={group.imageLists}
+                  audioTrim={group.audioTrim}
+                  draft={draft}
+                  onFieldChange={onFieldChange}
+                  onArrayChange={onArrayChange}
+                  columns={group.columns}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     )
   }

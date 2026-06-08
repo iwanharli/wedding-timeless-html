@@ -11,6 +11,7 @@ import GuestList from './GuestList'
 import Dashboard from './Dashboard'
 import WishesList from './WishesList'
 import ShareSetup from './ShareSetup'
+import TrafficDetail from './TrafficDetail'
 import './edit.css'
 
 const NAV_ICON = {
@@ -44,7 +45,7 @@ const EDITOR_TO_SECTION = {
 // Public site section ID → editor section ID
 const SECTION_TO_EDITOR = {
   hero:         'hero',
-  intro:        'profile',
+  intro:        'hero',
   profileIntro: 'profile',
   groom:        'general',
   bride:        'general',
@@ -70,6 +71,7 @@ export default function Editor() {
   }, [section, navigate])
 
   const activeId = section || 'layout'
+  const hasToolbar = !['dashboard', 'guests', 'wishes', 'traffic-detail'].includes(activeId)
 
   const [draft, setDraft] = useState(null)
   const [savedJson, setSavedJson] = useState(null)
@@ -84,6 +86,15 @@ export default function Editor() {
       const res = await fetch(apiUrl('/api/config'))
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
+      
+      // Auto-initialize share object if it doesn't exist in the database yet
+      data.share = {
+        whatsappTemplate: data.share?.whatsappTemplate || "Halo {{name}},\n\nKami mengundangmu untuk hadir di pernikahan kami. Silakan buka undangan lewat link berikut:\n{{link}}\n\nTolong konfirmasi ya, kami menantikan kehadiranmu.",
+        ogTitle: data.share?.ogTitle || "Undangan Pernikahan",
+        ogDescription: data.share?.ogDescription || "Kami mengundangmu untuk merayakan hari istimewa kami. Klik tautan undangan untuk melihat detail acara dan RSVP.",
+        ogImage: data.share?.ogImage || "/assets/images/Timeless-00036.jpg"
+      }
+      
       setDraft(data)
       setSavedJson(JSON.stringify(data))
     } catch (err) {
@@ -180,7 +191,7 @@ export default function Editor() {
 
   // Preview → editor: sync active section when user scrolls
   // Guard: skip for special views that don't map to content sections
-  const SPECIAL_VIEWS = ['layout', 'dashboard', 'guests', 'wishes']
+  const SPECIAL_VIEWS = ['layout', 'dashboard', 'guests', 'wishes', 'traffic-detail']
   useEffect(() => {
     function handleMessage(e) {
       if (e.data?.type !== 'sectionVisible') return
@@ -193,9 +204,35 @@ export default function Editor() {
     return () => window.removeEventListener('message', handleMessage)
   }, [navigate, activeId])
 
+  const isSectionActive = useCallback((menuId) => {
+    if (!draft || !draft.sections) return true
+    const map = {
+      profile: ['profileIntro'],
+      loveStory: ['loveStory'],
+      event: ['event', 'countdown', 'livestream'],
+      dressCode: ['dressCode'],
+      rsvp: ['rsvp'],
+      gift: ['gift'],
+      gallery: ['gallery'],
+      thankYou: ['thankYou'],
+      wishes: ['wishes']
+    }
+    const targetIds = map[menuId]
+    if (!targetIds) return true
+    return draft.sections.some(s => targetIds.includes(s.id) && s.visible)
+  }, [draft])
+
+  // Auto-redirect if trying to access an inactive section
+  useEffect(() => {
+    if (draft && !isSectionActive(activeId)) {
+      navigate('/edit/layout', { replace: true })
+    }
+  }, [activeId, draft, navigate, isSectionActive])
+
   const activeSection = CONTENT_SECTIONS.find(s => s.id === activeId)
   const activeLabel =
     activeId === 'dashboard' ? 'Dashboard' :
+    activeId === 'traffic-detail' ? 'Detail Kunjungan (Traffic)' :
     activeId === 'layout'    ? 'Section Layout' :
     activeId === 'guests'    ? 'Daftar Tamu' :
     activeId === 'wishes'    ? 'Daftar Ucapan' :
@@ -271,8 +308,11 @@ export default function Editor() {
           </button>
           <button
             type="button"
-            className={`edit-nav-item${activeId === 'wishes' ? ' active' : ''}`}
-            onClick={() => navTo('wishes')}
+            className={`edit-nav-item${activeId === 'wishes' ? ' active' : ''}${!isSectionActive('wishes') ? ' disabled' : ''}`}
+            onClick={() => {
+              if (isSectionActive('wishes')) navTo('wishes')
+            }}
+            title={!isSectionActive('wishes') ? 'Section dinonaktifkan di Section Layout' : ''}
           >
             <span className="edit-nav-item-icon"><i className="fas fa-comment-dots" /></span>
             Daftar Ucapan
@@ -299,17 +339,23 @@ export default function Editor() {
           <div className="edit-nav-section">
             <span className="edit-nav-section-label">Content</span>
           </div>
-          {CONTENT_SECTIONS.map(s => (
-            <button
-              key={s.id}
-              type="button"
-              className={`edit-nav-item${activeId === s.id ? ' active' : ''}`}
-              onClick={() => navTo(s.id)}
-            >
-              <span className="edit-nav-item-icon"><i className={`fas ${NAV_ICON[s.id] || 'fa-circle'}`} /></span>
-              {s.label}
-            </button>
-          ))}
+          {CONTENT_SECTIONS.map(s => {
+            const active = isSectionActive(s.id)
+            return (
+              <button
+                key={s.id}
+                type="button"
+                className={`edit-nav-item${activeId === s.id ? ' active' : ''}${!active ? ' disabled' : ''}`}
+                onClick={() => {
+                  if (active) navTo(s.id)
+                }}
+                title={!active ? 'Section dinonaktifkan di Section Layout' : ''}
+              >
+                <span className="edit-nav-item-icon"><i className={`fas ${NAV_ICON[s.id] || 'fa-circle'}`} /></span>
+                {s.label}
+              </button>
+            )
+          })}
         </nav>
 
         <div className="edit-sidebar-footer">
@@ -324,38 +370,62 @@ export default function Editor() {
 
       {/* ── Main ── */}
       <main className="edit-main">
-        <header className="edit-toolbar">
-          <div className="edit-toolbar-left">
-            <button
-              type="button"
-              className="edit-hamburger"
-              onClick={() => setSidebarOpen(v => !v)}
-              title="Toggle menu"
-            >
-              <i className="fas fa-bars" />
-            </button>
-            <span className="edit-toolbar-title">{activeLabel}</span>
-            {hasChanges && (
-              <span className="edit-unsaved-badge">Unsaved changes</span>
-            )}
-          </div>
-          <div className="edit-toolbar-right">
-            {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'share' && (
+        {hasToolbar && (
+          <header className="edit-toolbar">
+            <div className="edit-toolbar-left">
               <button
                 type="button"
-                className={`edit-preview-toggle-btn${previewVisible ? ' active' : ''}`}
-                onClick={() => setPreviewVisible(v => !v)}
-                title={previewVisible ? 'Hide preview' : 'Show mobile preview'}
+                className="edit-hamburger"
+                onClick={() => setSidebarOpen(v => !v)}
+                title="Toggle menu"
               >
-                <i className="fas fa-mobile-alt" />
+                <i className="fas fa-bars" />
               </button>
-            )}
-          </div>
-        </header>
+              <span className="edit-toolbar-title">{activeLabel}</span>
+              {hasChanges && (
+                <span className="edit-unsaved-badge">Unsaved changes</span>
+              )}
+            </div>
+            <div className="edit-toolbar-right">
+              {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'traffic-detail' && (
+                <div className="edit-toolbar-save-wrap">
+                  {status && (
+                    <span className={`edit-status-toast edit-status-toast--${status.type}`}>
+                      {status.message}
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    className="edit-save-btn"
+                    onClick={handleSave}
+                    disabled={saving || !hasChanges}
+                  >
+                    {saving
+                      ? <><i className="fas fa-circle-notch fa-spin" /> <span className="edit-save-btn-label">Saving…</span></>
+                      : <><i className="fas fa-save" /> <span className="edit-save-btn-label">Save changes</span></>}
+                  </button>
+                </div>
+              )}
 
-        <div className={`edit-scroll${(activeId === 'guests' || activeId === 'dashboard' || activeId === 'wishes') ? ' edit-scroll--full' : ''}`}>
+              {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'traffic-detail' && activeId !== 'share' && (
+                <button
+                  type="button"
+                  className={`edit-preview-toggle-btn${previewVisible ? ' active' : ''}`}
+                  onClick={() => setPreviewVisible(v => !v)}
+                  title={previewVisible ? 'Hide preview' : 'Show mobile preview'}
+                >
+                  <i className="fas fa-mobile-alt" />
+                </button>
+              )}
+            </div>
+          </header>
+        )}
+
+        <div className={`edit-scroll${(activeId === 'guests' || activeId === 'dashboard' || activeId === 'wishes' || activeId === 'traffic-detail') ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
           {activeId === 'dashboard' ? (
             <Dashboard />
+          ) : activeId === 'traffic-detail' ? (
+            <TrafficDetail />
           ) : activeId === 'layout' ? (
             <LayoutPanel sections={draft.sections || []} onChange={updateSections} />
           ) : activeId === 'guests' ? (
@@ -376,30 +446,9 @@ export default function Editor() {
         </div>
       </main>
 
-      {/* Fixed save button — bottom-right (hidden on guest list view) */}
-      {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && (
-        <div className="edit-save-fixed">
-          {status && (
-            <span className={`edit-status-toast edit-status-toast--${status.type}`}>
-              {status.message}
-            </span>
-          )}
-          <button
-            type="button"
-            className="edit-save-btn"
-            onClick={handleSave}
-            disabled={saving || !hasChanges}
-          >
-            {saving
-              ? <><i className="fas fa-circle-notch fa-spin" /> <span className="edit-save-btn-label">Saving…</span></>
-              : <><i className="fas fa-save" /> <span className="edit-save-btn-label">Save changes</span></>}
-          </button>
-        </div>
-      )}
-
       <PreviewPanel
         ref={iframeRef}
-        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'share'}
+        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'traffic-detail' && activeId !== 'share'}
         onRefresh={() => setRefreshKey(k => k + 1)}
         activeLabel={activeLabel}
         refreshKey={refreshKey}

@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { authFetch } from './authClient'
+import * as echarts from 'echarts'
 
 const CATEGORY_COLOR = {
-  'Keluarga':    '#3b82f6',
-  'Teman':       '#22c55e',
-  'Rekan Kerja': '#a855f7',
-  'Lainnya':     '#9ca3af',
+  'Keluarga':    '#2563eb',
+  'Teman':       '#10b981',
+  'Rekan Kerja': '#8b5cf6',
+  'Lainnya':     '#64748b',
 }
 const CATEGORY_BG = {
   'Keluarga':    '#eff6ff',
   'Teman':       '#f0fdf4',
   'Rekan Kerja': '#faf5ff',
-  'Lainnya':     '#f3f4f6',
+  'Lainnya':     '#f8fafc',
 }
 
 function StatCard({ icon, iconBg, iconColor, label, value, sub, subColor }) {
@@ -46,68 +48,137 @@ function BarSegment({ label, count, total, color }) {
   )
 }
 
-function TrafficChart({ daily, days = 14 }) {
-  const filled = []
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date()
-    d.setDate(d.getDate() - i)
-    const dateStr = d.toISOString().slice(0, 10)
-    const found = daily.find(r => r.date === dateStr)
-    filled.push({
-      date:     dateStr,
-      total:    found ? found.total    : 0,
-      personal: found ? found.personal : 0,
+function TrafficChart({ daily, days = 7 }) {
+  const chartRef = useRef(null)
+
+  useEffect(() => {
+    if (!chartRef.current) return
+
+    const filled = []
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date()
+      d.setDate(d.getDate() - i)
+      const dateStr = d.toISOString().slice(0, 10)
+      const found = daily.find(r => r.date === dateStr)
+      filled.push({
+        date: dateStr,
+        total: found ? found.total : 0,
+        personal: found ? found.personal : 0,
+        public: found ? (found.total - found.personal) : 0,
+      })
+    }
+
+    const xData = filled.map(d => {
+      const dt = new Date(d.date + 'T12:00:00')
+      return dt.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
     })
-  }
+    const personalData = filled.map(d => d.personal)
+    const publicData = filled.map(d => d.public)
 
-  const maxVal  = Math.max(...filled.map(d => d.total), 4)
-  const niceMax = Math.ceil(maxVal / 4) * 4
+    const chart = echarts.init(chartRef.current)
 
-  const W = 560, H = 160
-  const PAD = { top: 16, right: 12, bottom: 28, left: 32 }
-  const cW = W - PAD.left - PAD.right
-  const cH = H - PAD.top  - PAD.bottom
-  const bW  = cW / days
-  const barW = Math.max(bW - 6, 4)
+    const option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        borderColor: '#e5e7eb',
+        borderWidth: 1,
+        textStyle: {
+          color: '#111827',
+          fontFamily: 'Inter, -apple-system, sans-serif',
+          fontSize: 12
+        },
+        extraCssText: 'box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border-radius: 8px;'
+      },
+      grid: {
+        top: '12%',
+        left: '2%',
+        right: '2%',
+        bottom: '8%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: xData,
+        axisLine: {
+          lineStyle: {
+            color: '#e5e7eb'
+          }
+        },
+        axisLabel: {
+          color: '#9ca3af',
+          fontSize: 11,
+          fontFamily: 'Inter, sans-serif'
+        }
+      },
+      yAxis: {
+        type: 'value',
+        minInterval: 1,
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          color: '#9ca3af',
+          fontSize: 11,
+          fontFamily: 'Inter, sans-serif'
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#f3f4f6'
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Link personal',
+          type: 'bar',
+          stack: 'visits',
+          data: personalData,
+          itemStyle: {
+            color: '#c9a87c'
+          },
+          emphasis: {
+            itemStyle: {
+              color: '#b8935f'
+            }
+          }
+        },
+        {
+          name: 'Link umum',
+          type: 'bar',
+          stack: 'visits',
+          data: publicData,
+          itemStyle: {
+            color: '#ebdcc7',
+            borderRadius: [4, 4, 0, 0]
+          },
+          emphasis: {
+            itemStyle: {
+              color: '#dfccb3'
+            }
+          }
+        }
+      ]
+    }
+
+    chart.setOption(option)
+
+    const resizeObserver = new ResizeObserver(() => {
+      chart.resize()
+    })
+    resizeObserver.observe(chartRef.current)
+
+    return () => {
+      chart.dispose()
+      resizeObserver.disconnect()
+    }
+  }, [daily, days])
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
-      {[0, 0.25, 0.5, 0.75, 1].map(t => {
-        const y   = PAD.top + cH * (1 - t)
-        const val = Math.round(niceMax * t)
-        return (
-          <g key={t}>
-            <line x1={PAD.left} y1={y} x2={W - PAD.right} y2={y} stroke="#f3f4f6" strokeWidth="1" />
-            <text x={PAD.left - 5} y={y + 4} textAnchor="end" fontSize="9" fill="#9ca3af">{val}</text>
-          </g>
-        )
-      })}
-      {filled.map((d, i) => {
-        const x        = PAD.left + i * bW + (bW - barW) / 2
-        const pubCount = d.total - d.personal
-        const persH    = (d.personal / niceMax) * cH
-        const pubH     = (pubCount   / niceMax) * cH
-        const showLbl  = days <= 7 || i % 2 === 0
-        const dt       = new Date(d.date + 'T12:00:00')
-        const lbl      = dt.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
-        return (
-          <g key={d.date}>
-            {pubH > 0 && (
-              <rect x={x} y={PAD.top + cH - persH - pubH} width={barW} height={pubH} fill="#bfdbfe" rx="2" />
-            )}
-            {persH > 0 && (
-              <rect x={x} y={PAD.top + cH - persH} width={barW} height={persH} fill="#3b82f6" rx="2" />
-            )}
-            {d.total === 0 && (
-              <rect x={x} y={PAD.top + cH - 2} width={barW} height={2} fill="#f3f4f6" rx="1" />
-            )}
-            {showLbl && (
-              <text x={x + barW / 2} y={H - 6} textAnchor="middle" fontSize="8.5" fill="#9ca3af">{lbl}</text>
-            )}
-          </g>
-        )
-      })}
-    </svg>
+    <div ref={chartRef} style={{ width: '100%', height: '240px' }} />
   )
 }
 
@@ -135,6 +206,7 @@ export default function Dashboard() {
   const [traffic, setTraffic] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState(null)
+  const [days, setDays]       = useState(7)
 
   useEffect(() => {
     setLoading(true)
@@ -202,20 +274,32 @@ export default function Dashboard() {
       {/* ── Traffic chart ── */}
       {traffic && (
         <div className="db-card">
-          <div className="db-card-header">
-            <i className="fas fa-chart-line" />
-            <span>Traffic Kunjungan</span>
-            <span className="db-card-header-badge">{traffic.allTime} total</span>
-            <div className="db-traffic-legend">
-              <span className="db-traffic-dot db-traffic-dot--personal" /> Link personal
-              <span className="db-traffic-dot db-traffic-dot--public"   /> Link umum
+          <div className="db-card-header db-card-header--traffic">
+            <div className="db-card-header-left">
+              <i className="fas fa-chart-line" />
+              <span>Traffic Kunjungan</span>
+              <span className="db-card-header-badge">{traffic.allTime} total</span>
+              <Link to="/edit/traffic-detail" className="db-card-header-link" style={{ marginLeft: '10px', fontSize: '12.5px', color: 'var(--accent-dark)', fontWeight: '600', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                Lihat Detail <i className="fas fa-chevron-right" style={{ fontSize: '9px', margin: '0' }} />
+              </Link>
+            </div>
+            <div className="db-card-header-right">
+              <div className="db-traffic-legend">
+                <span className="db-traffic-dot db-traffic-dot--personal" /> Link personal
+                <span className="db-traffic-dot db-traffic-dot--public"   /> Link umum
+              </div>
+              <select className="db-range-select" value={days} onChange={e => setDays(Number(e.target.value))}>
+                <option value={7}>7 Hari Terakhir</option>
+                <option value={14}>14 Hari Terakhir</option>
+                <option value={30}>30 Hari Terakhir</option>
+              </select>
             </div>
           </div>
           <div className="db-card-body db-card-body--chart">
             {traffic.allTime === 0 ? (
               <p className="db-empty-text">Belum ada data kunjungan.</p>
             ) : (
-              <TrafficChart daily={traffic.daily} days={14} />
+              <TrafficChart daily={traffic.daily} days={days} />
             )}
           </div>
         </div>

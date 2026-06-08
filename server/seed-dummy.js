@@ -80,6 +80,15 @@ async function run() {
 
     // Insert some dummy visit records spread over 14 days
     const now = new Date()
+    const ips = ['114.122.14.55', '180.252.88.109', '36.72.215.12', '125.165.110.4', '110.138.80.22', '103.144.15.19', '182.253.11.90']
+    const devices = ['Mobile', 'Mobile', 'Mobile', 'Desktop', 'Tablet']
+    const browsers = ['Chrome', 'Safari', 'Chrome', 'Firefox', 'Chrome', 'Safari', 'Edge']
+    const osList = {
+      'Mobile': ['Android', 'iOS'],
+      'Tablet': ['Android', 'iOS'],
+      'Desktop': ['Windows', 'macOS', 'Linux']
+    }
+
     for (let day = 13; day >= 0; day--) {
       const visits = Math.floor(Math.random() * 8) + 2
       for (let v = 0; v < visits; v++) {
@@ -89,9 +98,18 @@ async function run() {
         ts.setMinutes(Math.floor(Math.random() * 60))
         const useSlug = Math.random() > 0.45 && insertedSlugs.length
         const s = useSlug ? insertedSlugs[Math.floor(Math.random() * insertedSlugs.length)] : null
+
+        const ip = ips[Math.floor(Math.random() * ips.length)]
+        const device = devices[Math.floor(Math.random() * devices.length)]
+        const possibleOs = osList[device]
+        const os = possibleOs[Math.floor(Math.random() * possibleOs.length)]
+        const browser = browsers[Math.floor(Math.random() * browsers.length)]
+        const userAgent = `Mozilla/5.0 (Dummy; ${device}; ${os}) ${browser}/100.0`
+
         await client.query(
-          `INSERT INTO page_visits (slug, visited_at) VALUES ($1,$2)`,
-          [s, ts.toISOString()]
+          `INSERT INTO page_visits (slug, visited_at, ip_address, user_agent, device_type, browser_name, os_name) 
+           VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+          [s, ts.toISOString(), ip, userAgent, device, browser, os]
         )
       }
       process.stdout.write('.')

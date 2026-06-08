@@ -3,17 +3,6 @@ import { authFetch } from './authClient'
 
 const inviteLink = (slug) => `${window.location.origin}/?g=${slug}`
 
-const composeWhatsappMessage = (config, guest) => {
-  const template = config?.share?.whatsappTemplate?.trim()
-  const defaultText = `Kepada ${guest.name},\n\nBerikut link undangan pernikahan kami:\n${inviteLink(guest.slug)}`
-  const text = template
-    ? template
-        .replace(/\{\{name\}\}/g, guest.name || '')
-        .replace(/\{\{link\}\}/g, inviteLink(guest.slug))
-    : defaultText
-  return text
-}
-
 const CATEGORY_COLOR = {
   'Keluarga':    'blue',
   'Teman':       'green',
@@ -30,7 +19,12 @@ const RSVP_CONFIG = {
 function RsvpBadge({ status }) {
   if (!status) return <span className="gl-rsvp-badge gl-rsvp-badge--none">Belum RSVP</span>
   const cfg = RSVP_CONFIG[status] || { label: status, cls: 'grey' }
-  return <span className={`gl-rsvp-badge gl-rsvp-badge--${cfg.cls}`}>{cfg.label}</span>
+  return (
+    <span className={`gl-rsvp-badge gl-rsvp-badge--${cfg.cls}`}>
+      <span className="gl-rsvp-badge-dot" />
+      {cfg.label}
+    </span>
+  )
 }
 
 function CopyLinkBtn({ slug }) {
@@ -102,11 +96,18 @@ function Pagination({ page, totalPages, onChange }) {
   )
 }
 
-const EMPTY = { name: '', phone: '', category: '', notes: '' }
+const EMPTY = { name: '', phone: '', category: '', table_number: '', notes: '' }
 const CATEGORIES = ['Keluarga', 'Teman', 'Rekan Kerja', 'Lainnya']
 
 function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
-  const [form, setForm] = useState(initial)
+  const [form, setForm] = useState(() => ({
+    name: initial.name || '',
+    phone: initial.phone || '',
+    category: initial.category || '',
+    table_number: initial.table_number || '',
+    notes: initial.notes || '',
+  }))
+
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
   return (
@@ -115,24 +116,29 @@ function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
         <label className="gl-form-field">
           <span className="gl-form-label">Nama <span className="gl-required">*</span></span>
           <input type="text" className="gl-input" value={form.name}
-            onChange={e => set('name', e.target.value)} placeholder="Nama tamu" autoFocus />
+            onChange={e => set('name', e.target.value)} placeholder="Nama lengkap tamu" autoFocus />
         </label>
         <label className="gl-form-field">
           <span className="gl-form-label">No. WhatsApp</span>
           <input type="text" className="gl-input" value={form.phone}
-            onChange={e => set('phone', e.target.value)} placeholder="08xxxxxxxxxx" />
+            onChange={e => set('phone', e.target.value)} placeholder="Contoh: 081234567890" />
         </label>
         <label className="gl-form-field">
           <span className="gl-form-label">Kategori</span>
           <select className="gl-input gl-select" value={form.category} onChange={e => set('category', e.target.value)}>
-            <option value="">— Pilih —</option>
+            <option value="">— Pilih Kategori —</option>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </label>
+        <label className="gl-form-field">
+          <span className="gl-form-label">No. Meja</span>
+          <input type="text" className="gl-input" value={form.table_number}
+            onChange={e => set('table_number', e.target.value)} placeholder="Contoh: Meja A-3" />
+        </label>
         <label className="gl-form-field gl-form-field--full">
           <span className="gl-form-label">Catatan</span>
-          <input type="text" className="gl-input" value={form.notes}
-            onChange={e => set('notes', e.target.value)} placeholder="Catatan tambahan (opsional)" />
+          <textarea className="gl-input gl-textarea" value={form.notes}
+            onChange={e => set('notes', e.target.value)} placeholder="Catatan tambahan (seperti: keluarga dekat mempelai wanita, dll)" rows={3} />
         </label>
       </div>
       <div className="gl-form-actions">
@@ -166,6 +172,13 @@ export default function GuestList({ config }) {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
     else { setSortKey(key); setSortDir('asc') }
     setPage(1)
+  }
+
+  function getWaMessage(guest) {
+    const tpl = config?.share?.whatsappTemplate || `Kepada Yth. {{name}},\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.\n\nBerikut link undangan online Anda:\n{{link}}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.\n\nTerima kasih.`
+    return tpl
+      .replace(/\{\{name\}\}/g, guest.name)
+      .replace(/\{\{link\}\}/g, inviteLink(guest.slug))
   }
 
   // Reset to page 1 when filter or search changes
@@ -235,9 +248,9 @@ export default function GuestList({ config }) {
   }
 
   function exportCsv() {
-    const header = 'No,Nama,WhatsApp,Kategori,Catatan,RSVP,Link Undangan'
+    const header = 'No,Nama,WhatsApp,Kategori,No. Meja,Catatan,RSVP,Link Undangan'
     const rows = sorted.map((g, i) =>
-      [i + 1, g.name, g.phone, g.category, g.notes, RSVP_CONFIG[g.rsvp_status]?.label || (g.rsvp_status || 'Belum RSVP'), g.slug ? inviteLink(g.slug) : '']
+      [i + 1, g.name, g.phone, g.category, g.table_number || '', g.notes, RSVP_CONFIG[g.rsvp_status]?.label || (g.rsvp_status || 'Belum RSVP'), g.slug ? inviteLink(g.slug) : '']
         .map(v => `"${String(v || '').replace(/"/g, '""')}"`)
         .join(',')
     )
@@ -260,9 +273,20 @@ export default function GuestList({ config }) {
   })
   const toggleOne  = id => setSelected(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
-  const totalGuests = guests.reduce((sum, g) => sum + (Number(g.rsvp_pax) || 0), 0)
   const categories = [...new Set(guests.map(g => g.category).filter(Boolean))]
   const sortProps  = { sortKey, sortDir, onSort: toggleSort }
+
+  // Stats Calculations
+  const statTotal = guests.length
+  const statHadirTamu = guests.filter(g => g.rsvp_status === 'EXCITED TO ATTEND').length
+  const statHadirPax = guests.filter(g => g.rsvp_status === 'EXCITED TO ATTEND').reduce((sum, g) => sum + (Number(g.rsvp_pax) || 1), 0)
+  const statMungkin = guests.filter(g => g.rsvp_status === 'Mungkin Datang').length
+  const statTidak = guests.filter(g => g.rsvp_status === 'Tidak Hadir').length
+  const statBelum = guests.filter(g => !g.rsvp_status).length
+
+  // Drawer status
+  const editingGuest = editId ? guests.find(g => g.id === editId) : null
+  const isDrawerOpen = adding || !!editingGuest
 
   return (
     <div className="gl-wrap">
@@ -274,18 +298,11 @@ export default function GuestList({ config }) {
           <div>
             <h1 className="gl-header-title">Daftar Tamu</h1>
             <p className="gl-header-sub">
-              <span className="gl-header-count">{guests.length}</span> tamu terdaftar
-              <span className="gl-header-total"> · total {totalGuests} tamu</span>
-              {selected.size > 0 && <span className="gl-header-selected"> · {selected.size} dipilih</span>}
+              Kelola data tamu undangan, kategori meja, dan status konfirmasi RSVP pernikahan Anda.
             </p>
           </div>
         </div>
         <div className="gl-header-actions">
-          {selected.size > 0 && (
-            <button type="button" className="gl-btn gl-btn--danger" onClick={handleBulkDelete} disabled={deleting}>
-              <i className="fas fa-trash-alt" /> Hapus {selected.size}
-            </button>
-          )}
           <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
             <i className="fas fa-download" /> Export CSV
           </button>
@@ -295,16 +312,47 @@ export default function GuestList({ config }) {
         </div>
       </div>
 
-      {/* ── Add form ── */}
-      {adding && (
-        <div className="gl-card gl-card--form">
-          <div className="gl-card-header">
-            <i className="fas fa-user-plus" />
-            <span>Tambah Tamu Baru</span>
+      {/* ── Stats Banner ── */}
+      <div className="gl-stats-banner">
+        <div className="gl-stat-card">
+          <div className="gl-stat-card-icon gl-stat-card-icon--total"><i className="fas fa-users" /></div>
+          <div className="gl-stat-card-info">
+            <span className="gl-stat-card-label">Total Tamu</span>
+            <span className="gl-stat-card-value">
+              {statTotal} <span className="gl-stat-card-unit">Undangan</span>
+            </span>
           </div>
-          <GuestForm onSave={handleAdd} onCancel={() => setAdding(false)} saving={saving} />
         </div>
-      )}
+        <div className="gl-stat-card">
+          <div className="gl-stat-card-icon gl-stat-card-icon--hadir"><i className="fas fa-calendar-check" /></div>
+          <div className="gl-stat-card-info">
+            <span className="gl-stat-card-label">Konfirmasi Hadir</span>
+            <span className="gl-stat-card-value">
+              {statHadirPax} <span className="gl-stat-card-unit">Pax</span>
+              <span className="gl-stat-card-sub">({statHadirTamu} Undangan)</span>
+            </span>
+          </div>
+        </div>
+        <div className="gl-stat-card">
+          <div className="gl-stat-card-icon gl-stat-card-icon--mungkin"><i className="fas fa-question-circle" /></div>
+          <div className="gl-stat-card-info">
+            <span className="gl-stat-card-label">Mungkin / Batal</span>
+            <span className="gl-stat-card-value">
+              {statMungkin + statTidak} <span className="gl-stat-card-unit">Tamu</span>
+              <span className="gl-stat-card-sub">{statMungkin} Mungkin · {statTidak} Batal</span>
+            </span>
+          </div>
+        </div>
+        <div className="gl-stat-card">
+          <div className="gl-stat-card-icon gl-stat-card-icon--belum"><i className="fas fa-clock" /></div>
+          <div className="gl-stat-card-info">
+            <span className="gl-stat-card-label">Belum RSVP</span>
+            <span className="gl-stat-card-value">
+              {statBelum} <span className="gl-stat-card-unit">Tamu</span>
+            </span>
+          </div>
+        </div>
+      </div>
 
       {error && <div className="gl-error"><i className="fas fa-exclamation-circle" /> {error}</div>}
 
@@ -317,7 +365,7 @@ export default function GuestList({ config }) {
             <i className="fas fa-search gl-search-icon" />
             <input
               type="text" className="gl-input gl-search"
-              placeholder="Cari nama, nomor, catatan…"
+              placeholder="Cari nama, nomor, meja, catatan…"
               value={search} onChange={e => setSearch(e.target.value)}
             />
             {search && (
@@ -326,16 +374,18 @@ export default function GuestList({ config }) {
               </button>
             )}
           </div>
-          <select className="gl-input gl-select gl-filter-cat" value={filterCat} onChange={e => setFilterCat(e.target.value)}>
-            <option value="">Semua Kategori</option>
-            {categories.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-          <select className="gl-input gl-select gl-per-page" value={perPage}
-            onChange={e => { setPerPage(Number(e.target.value)); setPage(1) }}>
-            <option value={10}>10 / hal</option>
-            <option value={25}>25 / hal</option>
-            <option value={50}>50 / hal</option>
-          </select>
+          <div className="gl-toolbar-filters">
+            <select className="gl-input gl-select gl-filter-cat" value={filterCat} onChange={e => setFilterCat(e.target.value)}>
+              <option value="">Semua Kategori</option>
+              {categories.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <select className="gl-input gl-select gl-per-page" value={perPage}
+              onChange={e => { setPerPage(Number(e.target.value)); setPage(1) }}>
+              <option value={10}>10 / Hal</option>
+              <option value={25}>25 / Hal</option>
+              <option value={50}>50 / Hal</option>
+            </select>
+          </div>
         </div>
 
         {/* Table */}
@@ -359,29 +409,25 @@ export default function GuestList({ config }) {
                 <SortTh col="name"     label="Nama"     {...sortProps} />
                 <SortTh col="phone"    label="WhatsApp" {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="category" label="Kategori" {...sortProps} className="gl-th--hide-sm" />
+                <SortTh col="table_number" label="No. Meja" {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="notes"       label="Catatan"  {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_status" label="RSVP"      {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_pax"    label="Jml. Tamu" {...sortProps} className="gl-th--hide-sm gl-th--pax" />
-                <th className="gl-th gl-th--hide-sm gl-th--link">Link</th>
+                <th className="gl-th gl-th--hide-sm">Link Undangan</th>
                 <th className="gl-th gl-th--action" />
               </tr>
             </thead>
             <tbody>
               {paginated.map((g, i) => {
                 const rowNum = (safePage - 1) * perPage + i + 1
+                const isSelected = selected.has(g.id)
+                const isEditing = editId === g.id
                 return (
-                editId === g.id ? (
-                  <tr key={g.id} className="gl-tr gl-tr--editing">
-                    <td colSpan={9} className="gl-td gl-td--form">
-                      <GuestForm initial={g} onSave={handleEdit} onCancel={() => setEditId(null)} saving={saving} />
-                    </td>
-                  </tr>
-                ) : (
-                  <tr key={g.id} className={`gl-tr${selected.has(g.id) ? ' gl-tr--selected' : ''}`}>
+                  <tr key={g.id} className={`gl-tr${isSelected ? ' gl-tr--selected' : ''}${isEditing ? ' gl-tr--editing-highlight' : ''}`}>
                     <td className="gl-td gl-td--num" onClick={() => toggleOne(g.id)}>
                       <span className="gl-num-cell">
                         <span className="gl-num-label">{rowNum}</span>
-                        <input type="checkbox" className="gl-checkbox gl-num-check" checked={selected.has(g.id)} onChange={() => toggleOne(g.id)} onClick={e => e.stopPropagation()} />
+                        <input type="checkbox" className="gl-checkbox gl-num-check" checked={isSelected} onChange={() => toggleOne(g.id)} onClick={e => e.stopPropagation()} />
                       </span>
                     </td>
                     <td className="gl-td gl-td--name">{g.name}</td>
@@ -395,6 +441,11 @@ export default function GuestList({ config }) {
                         ? <span className={`gl-badge gl-badge--${CATEGORY_COLOR[g.category] || 'grey'}`}>{g.category}</span>
                         : <span className="gl-empty-cell">—</span>}
                     </td>
+                    <td className="gl-td gl-td--hide-sm">
+                      {g.table_number
+                        ? <span className="gl-table-number-val">{g.table_number}</span>
+                        : <span className="gl-empty-cell">—</span>}
+                    </td>
                     <td className="gl-td gl-td--hide-sm gl-td--notes">
                       <span className="gl-notes-text">{g.notes || <span className="gl-empty-cell">—</span>}</span>
                     </td>
@@ -406,12 +457,16 @@ export default function GuestList({ config }) {
                         ? <span className="gl-pax-val"><i className="fas fa-user-friends" /> {g.rsvp_pax}</span>
                         : <span className="gl-empty-cell">—</span>}
                     </td>
-                    <td className="gl-td gl-td--hide-sm gl-td--link">
+                    <td className="gl-td gl-td--hide-sm">
                       {g.slug ? (
                         <div className="gl-invite-btns">
                           <CopyLinkBtn slug={g.slug} />
                           <a
-                            href={g.phone ? `https://wa.me/${g.phone.replace(/\D/g,'')}?text=${encodeURIComponent(composeWhatsappMessage(config, g))}` : '#'}
+                            href={g.phone ? (() => {
+                              const digits = g.phone.replace(/\D/g, '');
+                              const formatted = digits.startsWith('0') ? '62' + digits.slice(1) : (digits.startsWith('8') ? '62' + digits : digits);
+                              return `https://wa.me/${formatted}?text=${encodeURIComponent(getWaMessage(g))}`;
+                            })() : '#'}
                             target="_blank" rel="noreferrer"
                             className={`gl-icon-btn gl-icon-btn--wa${!g.phone ? ' gl-icon-btn--disabled' : ''}`}
                             title={g.phone ? 'Kirim via WhatsApp' : 'Nomor WA belum diisi'}
@@ -434,8 +489,7 @@ export default function GuestList({ config }) {
                     </td>
                   </tr>
                 )
-              )
-            })}
+              })}
             </tbody>
           </table>
         )}
@@ -443,15 +497,66 @@ export default function GuestList({ config }) {
         {/* Footer */}
         {!loading && sorted.length > 0 && (
           <div className="gl-table-footer">
-            <span>
-              {(safePage - 1) * perPage + 1}–{Math.min(safePage * perPage, sorted.length)} dari {sorted.length} tamu
-              {sorted.length !== guests.length && <> (filter aktif)</>}
-              {selected.size > 0 && <> · <strong>{selected.size} dipilih</strong></>}
+            <span className="gl-table-footer-info">
+              Menampilkan <strong>{(safePage - 1) * perPage + 1}–{Math.min(safePage * perPage, sorted.length)}</strong> dari <strong>{sorted.length}</strong> tamu
+              {sorted.length !== guests.length && <span className="gl-table-footer-filter"> (filter aktif)</span>}
+              {selected.size > 0 && <span className="gl-table-footer-selected"><strong>{selected.size}</strong> terpilih</span>}
             </span>
             <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
           </div>
         )}
       </div>
+
+      {/* ── Slide-Over Panel (Side Drawer) for Add / Edit Guest ── */}
+      {isDrawerOpen && (
+        <>
+          <div className="gl-drawer-backdrop" onClick={() => { setAdding(false); setEditId(null) }} />
+          <div className="gl-drawer">
+            <div className="gl-drawer-header">
+              <div className="gl-drawer-header-title">
+                <i className={`fas ${adding ? 'fa-user-plus' : 'fa-user-edit'}`} />
+                <h2>{adding ? 'Tambah Tamu Baru' : 'Edit Detail Tamu'}</h2>
+              </div>
+              <button type="button" className="gl-drawer-close-btn" onClick={() => { setAdding(false); setEditId(null) }}>
+                <i className="fas fa-times" />
+              </button>
+            </div>
+            <div className="gl-drawer-body">
+              <GuestForm
+                initial={adding ? EMPTY : editingGuest}
+                onSave={adding ? handleAdd : handleEdit}
+                onCancel={() => { setAdding(false); setEditId(null) }}
+                saving={saving}
+              />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Floating Bulk Action Bar ── */}
+      {selected.size > 0 && (
+        <div className="gl-floating-bar">
+          <div className="gl-floating-bar-content">
+            <div className="gl-floating-bar-info">
+              <span className="gl-floating-bar-badge">{selected.size}</span>
+              <span>tamu terpilih</span>
+            </div>
+            <div className="gl-floating-bar-actions">
+              <button type="button" className="gl-btn gl-btn--ghost" style={{ border: 'none', background: 'transparent' }} onClick={() => setSelected(new Set())}>
+                Batal pilih
+              </button>
+              <button type="button" className="gl-btn gl-btn--danger" onClick={handleBulkDelete} disabled={deleting}>
+                {deleting ? (
+                  <><i className="fas fa-circle-notch fa-spin" /> Menghapus…</>
+                ) : (
+                  <><i className="fas fa-trash-alt" /> Hapus Terpilih</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

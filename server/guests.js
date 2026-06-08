@@ -20,7 +20,8 @@ const migrate = (async () => {
       created_at  TIMESTAMPTZ DEFAULT now()
     )
   `)
-  // Add slug column for existing installs that don't have it yet
+  // Add columns for existing installs that don't have them yet
+  await pool.query(`ALTER TABLE guests ADD COLUMN IF NOT EXISTS table_number TEXT DEFAULT ''`)
   await pool.query(`ALTER TABLE guests ADD COLUMN IF NOT EXISTS slug TEXT UNIQUE`)
   // Backfill slugs for any rows that don't have one
   const { rows } = await pool.query(`SELECT id FROM guests WHERE slug IS NULL OR slug = ''`)
@@ -85,7 +86,7 @@ guestsRouter.get('/', requireAuth, async (req, res) => {
 // POST /api/guests — add one
 guestsRouter.post('/', requireAuth, async (req, res) => {
   await migrate
-  const { name, phone = '', category = '', notes = '' } = req.body
+  const { name, phone = '', category = '', table_number = '', notes = '' } = req.body
   if (!name?.trim()) return res.status(400).json({ error: 'name is required' })
   let slug = generateSlug()
   // Retry on collision (extremely rare)
@@ -95,19 +96,19 @@ guestsRouter.post('/', requireAuth, async (req, res) => {
     slug = generateSlug()
   }
   const result = await pool.query(
-    'INSERT INTO guests (name, phone, category, notes, slug) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-    [name.trim(), phone, category, notes, slug]
+    'INSERT INTO guests (name, phone, category, table_number, notes, slug) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+    [name.trim(), phone, category, table_number, notes, slug]
   )
   res.status(201).json(result.rows[0])
 })
 
 // PUT /api/guests/:id — update
 guestsRouter.put('/:id', requireAuth, async (req, res) => {
-  const { name, phone = '', category = '', notes = '' } = req.body
+  const { name, phone = '', category = '', table_number = '', notes = '' } = req.body
   if (!name?.trim()) return res.status(400).json({ error: 'name is required' })
   const result = await pool.query(
-    'UPDATE guests SET name=$1, phone=$2, category=$3, notes=$4 WHERE id=$5 RETURNING *',
-    [name.trim(), phone, category, notes, req.params.id]
+    'UPDATE guests SET name=$1, phone=$2, category=$3, table_number=$4, notes=$5 WHERE id=$6 RETURNING *',
+    [name.trim(), phone, category, table_number, notes, req.params.id]
   )
   if (!result.rows.length) return res.status(404).json({ error: 'Not found' })
   res.json(result.rows[0])
