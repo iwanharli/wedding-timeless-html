@@ -9,7 +9,10 @@
     "start": "concurrently -n BE,FE -c cyan,green \"npm run dev:server\" \"npm run dev\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "migrate": "node server/migrate.js",
+    "seed": "node server/seed.js",
+    "seed:dummy": "node server/seed-dummy.js"
   },
   "dependencies": {
     "aos": "^2.3.4",
