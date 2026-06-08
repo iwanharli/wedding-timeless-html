@@ -3,16 +3,18 @@ export default function SectionProfileIntro({ content }) {
   return (
     <div className="section-profile-intro child">
 
-      <div className="pi-photo-wrap" data-aos="fade" data-aos-duration="1000">
-        <img src={p.coupleImage} className="pi-photo" alt="" />
-        <div className="pi-photo-overlay" />
-        {p.biblicalReference && (
-          <span className="pi-ref-badge">{p.biblicalReference}</span>
-        )}
-      </div>
+      {/* Full-bleed photo */}
+      <img src={p.coupleImage} className="pi-photo" alt="" data-aos="fade" data-aos-duration="1200" />
 
-      <div className="pi-body" data-aos="fade-up" data-aos-delay="150" data-aos-duration="800">
-        <p className="pi-text">{p.biblicalText}</p>
+      {/* Gradient overlay */}
+      <div className="pi-photo-overlay" />
+
+      {/* Content pinned to bottom */}
+      <div className="pi-body" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900">
+        {p.quoteSource && (
+          <span className="pi-ref-badge">{p.quoteSource}</span>
+        )}
+        <p className="pi-text">{p.quoteText}</p>
         <div className="pi-divider">
           <span className="pi-divider-line" />
           <i className="fas fa-circle pi-divider-dot" />

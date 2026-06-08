@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import { getToken } from './authClient'
+import { apiUrl } from '../lib/api'
 
 async function uploadFile(file) {
   const fd = new FormData()
   fd.append('file', file)
-  const res = await fetch('/api/upload', {
+  const res = await fetch(apiUrl('/api/upload'), {
     method: 'POST',
     headers: { Authorization: `Bearer ${getToken()}` },
     body: fd,

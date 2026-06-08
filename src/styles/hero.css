@@ -75,6 +75,10 @@
         height: 100vh;
         z-index: 10;
     }
+
+    .left-names {
+        display: none;
+    }
 }
 
 /* ================================================================
@@ -144,8 +148,6 @@
 
 /* ================================================================
    SECTION 1 — HERO / COVER  (#hapus-section)
-   Before click: shows background photo with dark overlay
-   After click: removed from DOM → video-bg becomes visible
 ================================================================ */
 #hapus-section {
     position: relative !important;
@@ -153,242 +155,195 @@
     background-color: #101010;
     background-size: cover !important;
     background-position: center center !important;
-    /* background-image is set dynamically by content-loader.js via data-bg-key */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Dark overlay on top of photo — keeps panel dark like original */
-#hapus-section::before {
-    content: '';
+.hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(16, 16, 16, 0.5);
+    background: linear-gradient(
+        to bottom,
+        rgba(10,10,10,0.3) 0%,
+        rgba(10,10,10,0.45) 50%,
+        rgba(10,10,10,0.65) 100%
+    );
     z-index: 0;
     pointer-events: none;
 }
 
-/* Top: invite title + couple names + date */
-.hero-top {
-    position: absolute;
-    top: 8%;
-    left: 0;
-    width: 100%;
+/* Single centered content block */
+.hero-content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
+    text-align: center;
+    padding: 0 32px;
     gap: 0;
-    padding: 0 16px;
+    width: 100%;
     box-sizing: border-box;
 }
 
 .hero-invite-title {
-    text-align: center;
-    color: #ffffff;
-    font-family: "time noww", sans-serif;
-    font-size: 17px;
-    font-weight: 200;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 20px;
-    margin: 0 0 8px 0;
-    letter-spacing: 1px;
+    color: rgba(255,255,255,0.7);
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    margin: 0 0 16px;
 }
 
-/* Names: two-row layout matching original Elementor structure */
+/* Ornamental divider */
+.hero-ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 55%;
+    margin-bottom: 16px;
+}
+.hero-orn-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.25);
+    display: block;
+}
+.hero-orn-diamond {
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Names — stacked vertically, centered */
 .hero-names {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0;
-}
-
-/* Row 1: name1 (bottom-aligned) + "and" (top-aligned) */
-.hero-names-top {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: stretch;
-    gap: 0;
+    margin-bottom: 12px;
 }
 
 .hero-name {
     font-family: "script icon", sans-serif;
-    font-size: clamp(28px, 10vw, 43px);
+    font-size: clamp(44px, 14vw, 64px);
     font-weight: 400;
     color: #ffffff;
     margin: 0;
-    line-height: 1.1;
-}
-
-.hero-name1 {
-    align-self: flex-end;
-    padding-right: 14px;
+    line-height: 1.05;
 }
 
 .hero-name-connector {
     font-family: "script icon", sans-serif;
-    font-size: clamp(13px, 4vw, 20px);
-    font-weight: 400;
-    color: #ffffff;
-    margin: 8px 0 0 0;
-    padding-left: 4px;
-    align-self: flex-start;
-}
-
-/* Row 2: name2 with left offset */
-.hero-names-bottom {
-    display: flex;
-    justify-content: center;
-    padding-left: 30px;
-    width: 100%;
-}
-
-.hero-name2 {
-    align-self: center;
+    font-size: clamp(16px, 5vw, 24px);
+    color: rgba(255,255,255,0.75);
+    margin: 4px 0;
+    line-height: 1;
 }
 
 .hero-date {
-    color: #ffffff;
-    font-family: "Abhaya Libre", sans-serif;
-    font-size: clamp(11px, 3.5vw, 17px);
-    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    font-family: "time noww", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    letter-spacing: clamp(1px, 0.5vw, 2.6px);
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 12px;
-    margin: 6px 0 0 0;
-    text-align: center;
-    overflow-wrap: break-word;
+    margin: 0 0 16px;
 }
 
-/* Middle: Dear + apology + open button */
-.hero-open-box {
-    position: absolute;
-    top: 59%;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-
-.hero-open-inner {
-    padding: 20px;
-    border-radius: 15px;
+/* Guest section */
+.hero-guest-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    margin: 8px 0 16px;
+    padding: 16px 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .hero-dear {
-    color: #ffffff;
-    font-family: "time now italic", sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
+    color: rgba(255,255,255,0.55);
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     margin: 0;
 }
 
 .hero-guest-name {
     color: #ffffff;
-    font-family: "time now", sans-serif;
-    font-size: 22px;
-    font-weight: 600;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
+    font-family: "time noww", sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
     margin: 2px 0 0;
-    letter-spacing: 0.03em;
 }
 
 .hero-apology {
-    color: #ffffff;
-    font-family: "time noww", sans-serif;
-    font-size: 17px;
-    font-weight: 500;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
+    color: rgba(255,255,255,0.4);
+    font-family: "ovo", sans-serif;
+    font-size: 11px;
+    margin: 6px 0 0;
+    line-height: 1.5;
 }
 
+/* Open button — elegant ghost pill */
 .hero-open-btn {
-    display: inline-block;
-    font-family: "inter", sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0;
-    color: #353535;
-    background-color: #E5E0D8;
-    border: none;
-    border-radius: 0;
-    padding: 11px 17px;
-    cursor: pointer;
-    text-decoration: none;
-    animation: pulsa 1.5s linear 0.5s infinite alternate;
-    margin-top: 4px;
-}
-
-.hero-open-btn:hover {
-    color: #ffffff;
-    background-color: #5E5E5E;
-}
-
-/* Bottom: scroll indicator */
-#hapus-section .scroll {
-    position: absolute;
-    bottom: 11%;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    z-index: 1;
-}
-
-#hapus-section .scroll i {
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     color: #ffffff;
-    font-size: 20px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 50px;
+    padding: 14px 36px;
+    cursor: pointer;
+    animation: hero-btn-pulse 2.5s ease-in-out infinite;
+    transition: background .25s, border-color .25s;
+}
+.hero-open-btn i {
+    font-size: 12px;
+    opacity: 0.8;
+}
+.hero-open-btn:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.75);
 }
 
-/* Mobile */
-@media (max-width: 767px) {
-    .hero-open-box {
-        top: 54%;
+@keyframes hero-btn-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(255,255,255,0.08); }
+}
+
+/* Staggered entrance animation — fade up */
+@keyframes hero-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
     }
-    .hero-open-inner {
-        width: 88%;
-        padding: 16px;
-    }
-    .hero-apology {
-        font-size: 13px;
-    }
-    .hero-dear {
-        font-size: 16px;
-    }
-    .hero-guest-name {
-        font-size: 19px;
-    }
-    #hapus-section .scroll {
-        bottom: 26%;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-/* Very small screens (≤ 380px) */
-@media (max-width: 380px) {
-    .hero-top {
-        top: 6%;
-    }
-    .hero-open-box {
-        top: 56%;
-    }
-    .hero-invite-title {
-        font-size: 14px;
-    }
+.hero-anim {
+    opacity: 0;
+    animation: hero-fade-up 900ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-delay: var(--d, 0ms);
 }

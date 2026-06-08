@@ -3,6 +3,17 @@ import { authFetch } from './authClient'
 
 const inviteLink = (slug) => `${window.location.origin}/?g=${slug}`
 
+const composeWhatsappMessage = (config, guest) => {
+  const template = config?.share?.whatsappTemplate?.trim()
+  const defaultText = `Kepada ${guest.name},\n\nBerikut link undangan pernikahan kami:\n${inviteLink(guest.slug)}`
+  const text = template
+    ? template
+        .replace(/\{\{name\}\}/g, guest.name || '')
+        .replace(/\{\{link\}\}/g, inviteLink(guest.slug))
+    : defaultText
+  return text
+}
+
 const CATEGORY_COLOR = {
   'Keluarga':    'blue',
   'Teman':       'green',
@@ -135,7 +146,7 @@ function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
   )
 }
 
-export default function GuestList() {
+export default function GuestList({ config }) {
   const [guests, setGuests]       = useState([])
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState(null)
@@ -249,6 +260,7 @@ export default function GuestList() {
   })
   const toggleOne  = id => setSelected(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
+  const totalGuests = guests.reduce((sum, g) => sum + (Number(g.rsvp_pax) || 0), 0)
   const categories = [...new Set(guests.map(g => g.category).filter(Boolean))]
   const sortProps  = { sortKey, sortDir, onSort: toggleSort }
 
@@ -263,6 +275,7 @@ export default function GuestList() {
             <h1 className="gl-header-title">Daftar Tamu</h1>
             <p className="gl-header-sub">
               <span className="gl-header-count">{guests.length}</span> tamu terdaftar
+              <span className="gl-header-total"> · total {totalGuests} tamu</span>
               {selected.size > 0 && <span className="gl-header-selected"> · {selected.size} dipilih</span>}
             </p>
           </div>
@@ -349,7 +362,7 @@ export default function GuestList() {
                 <SortTh col="notes"       label="Catatan"  {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_status" label="RSVP"      {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_pax"    label="Jml. Tamu" {...sortProps} className="gl-th--hide-sm gl-th--pax" />
-                <th className="gl-th gl-th--hide-sm">Link Undangan</th>
+                <th className="gl-th gl-th--hide-sm gl-th--link">Link</th>
                 <th className="gl-th gl-th--action" />
               </tr>
             </thead>
@@ -393,12 +406,12 @@ export default function GuestList() {
                         ? <span className="gl-pax-val"><i className="fas fa-user-friends" /> {g.rsvp_pax}</span>
                         : <span className="gl-empty-cell">—</span>}
                     </td>
-                    <td className="gl-td gl-td--hide-sm">
+                    <td className="gl-td gl-td--hide-sm gl-td--link">
                       {g.slug ? (
                         <div className="gl-invite-btns">
                           <CopyLinkBtn slug={g.slug} />
                           <a
-                            href={g.phone ? `https://wa.me/${g.phone.replace(/\D/g,'')}?text=${encodeURIComponent(`Kepada ${g.name},\n\nBerikut link undangan pernikahan kami:\n${inviteLink(g.slug)}`)}` : '#'}
+                            href={g.phone ? `https://wa.me/${g.phone.replace(/\D/g,'')}?text=${encodeURIComponent(composeWhatsappMessage(config, g))}` : '#'}
                             target="_blank" rel="noreferrer"
                             className={`gl-icon-btn gl-icon-btn--wa${!g.phone ? ' gl-icon-btn--disabled' : ''}`}
                             title={g.phone ? 'Kirim via WhatsApp' : 'Nomor WA belum diisi'}

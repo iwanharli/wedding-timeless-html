@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { authFetch, clearToken } from './authClient'
+import { apiUrl } from '../lib/api'
 import { CONTENT_SECTIONS } from './contentSchemas'
 import { setPath } from './utils'
 import SectionForm from './SectionForm'
@@ -9,6 +10,7 @@ import PreviewPanel from './PreviewPanel'
 import GuestList from './GuestList'
 import Dashboard from './Dashboard'
 import WishesList from './WishesList'
+import ShareSetup from './ShareSetup'
 import './edit.css'
 
 const NAV_ICON = {
@@ -79,7 +81,7 @@ export default function Editor() {
   const load = useCallback(async () => {
     setLoadError(null)
     try {
-      const res = await fetch('/api/config')
+      const res = await fetch(apiUrl('/api/config'))
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       setDraft(data)
@@ -197,6 +199,7 @@ export default function Editor() {
     activeId === 'layout'    ? 'Section Layout' :
     activeId === 'guests'    ? 'Daftar Tamu' :
     activeId === 'wishes'    ? 'Daftar Ucapan' :
+    activeId === 'share'     ? 'Share Setup' :
     (activeSection?.label || '')
 
   function navTo(id) {
@@ -274,6 +277,14 @@ export default function Editor() {
             <span className="edit-nav-item-icon"><i className="fas fa-comment-dots" /></span>
             Daftar Ucapan
           </button>
+          <button
+            type="button"
+            className={`edit-nav-item${activeId === 'share' ? ' active' : ''}`}
+            onClick={() => navTo('share')}
+          >
+            <span className="edit-nav-item-icon"><i className="fas fa-share-alt" /></span>
+            Share Setup
+          </button>
           <div className="edit-nav-divider" />
           <button
             type="button"
@@ -329,7 +340,7 @@ export default function Editor() {
             )}
           </div>
           <div className="edit-toolbar-right">
-            {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && (
+            {activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'share' && (
               <button
                 type="button"
                 className={`edit-preview-toggle-btn${previewVisible ? ' active' : ''}`}
@@ -348,9 +359,11 @@ export default function Editor() {
           ) : activeId === 'layout' ? (
             <LayoutPanel sections={draft.sections || []} onChange={updateSections} />
           ) : activeId === 'guests' ? (
-            <GuestList />
+            <GuestList config={draft} />
           ) : activeId === 'wishes' ? (
             <WishesList />
+          ) : activeId === 'share' ? (
+            <ShareSetup draft={draft} onFieldChange={updateField} />
           ) : activeSection ? (
             <SectionForm
               key={activeSection.id}
@@ -386,7 +399,7 @@ export default function Editor() {
 
       <PreviewPanel
         ref={iframeRef}
-        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes'}
+        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'share'}
         onRefresh={() => setRefreshKey(k => k + 1)}
         activeLabel={activeLabel}
         refreshKey={refreshKey}

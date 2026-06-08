@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { apiUrl } from '../lib/api'
 
 const AUTO_INTERVAL = 4000
 
@@ -9,7 +10,7 @@ export default function SectionWishes() {
   const timerRef = useRef(null)
 
   useEffect(() => {
-    fetch('/api/rsvp/public')
+    fetch(apiUrl('/api/rsvp/public'))
       .then(r => r.ok ? r.json() : [])
       .then(data => setWishes(data))
       .catch(() => {})

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import AOS from 'aos'
 import { useWeddingConfig } from '../data/useWeddingConfig'
+import { apiUrl } from '../lib/api'
+import defaultContent from '../data/content'
 
 import Preloader from './Preloader'
 import SectionHero from './SectionHero'
@@ -47,24 +49,32 @@ export default function PublicSite() {
   const [isOpen, setIsOpen] = useState(false)
   const [giftPopupOpen, setGiftPopupOpen] = useState(false)
   const [guestName, setGuestName] = useState('')
+  const [guestNotFound, setGuestNotFound] = useState(false)
 
   useEffect(() => {
     if (!guestSlug) return
-    fetch(`/api/guests/by-slug?g=${encodeURIComponent(guestSlug)}`)
-      .then(r => r.ok ? r.json() : null)
+    fetch(apiUrl(`/api/guests/by-slug?g=${encodeURIComponent(guestSlug)}`))
+      .then(async (res) => {
+        if (res.ok) return res.json()
+        if (res.status === 404) {
+          setGuestNotFound(true)
+          return null
+        }
+        throw new Error('Failed to resolve guest slug')
+      })
       .then(data => { if (data?.name) setGuestName(data.name) })
       .catch(() => {})
   }, [])
 
-  // Track page visit (skip in editor preview)
+  // Track page visit (skip in editor preview and invalid slug)
   useEffect(() => {
-    if (isPreview) return
-    fetch('/api/visits', {
+    if (isPreview || guestNotFound) return
+    fetch(apiUrl('/api/visits'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug: guestSlug || null }),
     }).catch(() => {})
-  }, [])
+  }, [guestNotFound])
 
   useEffect(() => {
     AOS.init({
@@ -76,16 +86,40 @@ export default function PublicSite() {
     })
   }, [])
 
+  useEffect(() => {
+    if (!content) return
+
+    const shareTitle = content.share?.ogTitle?.trim()
+    const shareDescription = content.share?.ogDescription?.trim()
+    const shareImage = content.share?.ogImage?.trim()
+
+    if (shareTitle) {
+      document.title = shareTitle
+      setMetaTag('og:title', shareTitle)
+      setMetaTag('twitter:title', shareTitle)
+    }
+    if (shareDescription) {
+      setMetaTag('og:description', shareDescription)
+      setMetaTag('twitter:description', shareDescription)
+    }
+    if (shareImage) {
+      setMetaTag('og:image', shareImage)
+      setMetaTag('twitter:image', shareImage)
+      setMetaTag('twitter:card', 'summary_large_image')
+    }
+  }, [content])
+
   // Replicate lockSection() / unlockSection() from original app.js
   useEffect(() => {
-    if (!content || isPreview) return
+    if (!content || isPreview || guestNotFound) return
     const isDesktop = window.matchMedia('(min-width: 801px)').matches
     if (!isOpen) {
       document.body.style.position = 'fixed'
       document.body.style.width = '100%'
       document.body.style.overflowY = 'scroll'
       document.body.style.height = '100vh'
-      document.getElementById('section-cover').style.width = isDesktop ? '700px' : '100%'
+      const sectionCover = document.getElementById('section-cover')
+      if (sectionCover) sectionCover.style.width = isDesktop ? '700px' : '100%'
       document.body.classList.remove('opened')
     } else {
       document.body.style.position = ''
@@ -128,6 +162,17 @@ export default function PublicSite() {
     return () => window.removeEventListener('message', handleMessage)
   }, [content])
 
+  function setMetaTag(name, contentValue) {
+    let tag = document.querySelector(`meta[property='${name}'], meta[name='${name}']`)
+    if (!tag) {
+      tag = document.createElement('meta')
+      if (name.startsWith('og:')) tag.setAttribute('property', name)
+      else tag.setAttribute('name', name)
+      document.head.appendChild(tag)
+    }
+    tag.setAttribute('content', contentValue)
+  }
+
   // IntersectionObserver — tell editor which section is visible
   useEffect(() => {
     if (!isPreview || !content) return
@@ -154,13 +199,35 @@ export default function PublicSite() {
     }, 600)
   }
 
-  if (loading || !content) return null
+  // Use fallback names while API is loading so preloader shows immediately
+  const preloaderContent = content || defaultContent
+
+  if (guestNotFound) {
+    return (
+      <div id="app-wrapper" className="not-found-page">
+        <div className="not-found-card">
+          <div className="not-found-badge">404</div>
+          <h1>Undangan tidak ditemukan</h1>
+          <p>Maaf, tautan undangan pribadi ini tidak valid atau sudah tidak tersedia.</p>
+          <a href="/" className="not-found-button">Kembali ke halaman utama</a>
+        </div>
+      </div>
+    )
+  }
+
+  if (loading || !content) {
+    return (
+      <div id="app-wrapper">
+        <Preloader content={preloaderContent} apiLoading={true} />
+      </div>
+    )
+  }
 
   const visibleSections = (content.sections || []).filter(s => s.visible)
 
   return (
     <div id="app-wrapper">
-      <Preloader content={content} />
+      <Preloader content={content} apiLoading={false} />
 
       <div
         id="section-cover"

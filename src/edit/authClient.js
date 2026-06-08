@@ -1,3 +1,5 @@
+import { apiUrl } from '../lib/api'
+
 const TOKEN_KEY = 'wedding_admin_token'
 
 export function getToken() {
@@ -24,7 +26,7 @@ export function isTokenValid(token) {
 
 export function authFetch(url, options = {}) {
   const token = getToken()
-  return fetch(url, {
+  return fetch(apiUrl(url), {
     ...options,
     headers: {
       ...(options.headers || {}),

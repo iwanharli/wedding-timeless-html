@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import defaultContent from './content'
 import { DEFAULT_SECTIONS } from './sectionDefaults'
+import { apiUrl } from '../lib/api'
 
 const FALLBACK = {
   ...defaultContent,
@@ -15,7 +16,7 @@ export function useWeddingConfig() {
   const refetch = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/config')
+      const res = await fetch(apiUrl('/api/config'))
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setData(await res.json())
       setError(null)

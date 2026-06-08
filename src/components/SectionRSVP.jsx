@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { apiUrl } from '../lib/api'
 
 export default function SectionRSVP({ content }) {
   const r = content.rsvp
@@ -40,7 +41,7 @@ export default function SectionRSVP({ content }) {
     setSubmitting(true)
     setSubmitError(null)
     try {
-      const res = await fetch('/api/rsvp', {
+      const res = await fetch(apiUrl('/api/rsvp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, attend: attendance, guests, wish: wishes, slug: slugRef.current }),
@@ -143,7 +144,7 @@ export default function SectionRSVP({ content }) {
 
           {/* Guest count */}
           <div className="rsvp-field">
-            <label htmlFor="field-guests">{guestLabel}</label>
+            <label>{guestLabel}</label>
             <div className="rsvp-stepper">
               <button
                 type="button"

@@ -164,6 +164,13 @@ export default function Dashboard() {
 
   return (
     <div className="db-wrap">
+      <div className="db-page-header">
+        <div>
+          <p className="db-page-label">Dashboard</p>
+          <h1 className="db-page-title">Ringkasan Pengelolaan Undangan</h1>
+          <p className="db-page-subtitle">Pantau respons RSVP, kunjungan, kategori tamu, dan ucapan terbaru dalam tampilan rapih dan profesional.</p>
+        </div>
+      </div>
 
       {/* ── Stat cards ── */}
       <div className="db-stat-grid">
@@ -175,8 +182,9 @@ export default function Dashboard() {
         />
         <StatCard
           icon="fa-calendar-check" iconBg="#eff6ff" iconColor="#2563eb"
-          label="RSVP Hadir" value={rsvp.attending}
-          sub={`${rsvp.totalPax} estimasi tamu datang`}
+          label="Konfirmasi Hadir"
+          value={rsvp.attending}
+          sub={rsvp.totalPax > 0 ? `${rsvp.totalPax} estimasi tamu datang` : 'Belum ada estimasi hadir'}
         />
         <StatCard
           icon="fa-clock" iconBg="#fffbeb" iconColor="#d97706"
@@ -187,7 +195,7 @@ export default function Dashboard() {
         <StatCard
           icon="fa-heart" iconBg="#fdf2f8" iconColor="#db2777"
           label="Ucapan Masuk" value={wishes.total}
-          sub={`dari ${rsvp.total} total RSVP`}
+          sub={`dari ${rsvp.total} respons RSVP`}
         />
       </div>
 

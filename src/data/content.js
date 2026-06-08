@@ -9,14 +9,14 @@ const content = {
     "backgroundImage": "/assets/images/Timeless-00025-1.jpg",
     "backgroundVideo": "/assets/media/Hanson-Catherine-CoupleSession.mp4",
     "previewImage": "/assets/images/Timeless-00025-1.jpg",
-    "date": "(Saturday, 02 March 202X)",
+    "date": "Saturday, 02 March 202X",
     "dear": "Dear",
     "apologyText": "We apologize if there is any misspelling of name or title",
     "vow": "we make an eternal vow\nAT THIS MOMENT"
   },
   "profile": {
-    "biblicalReference": "Mark 10:6-9",
-    "biblicalText": "“But at the beginning of creation God ‘made them male and female.’ ‘For this reason a man will leave his father and mother and be united to his wife, and the two will become one flesh.’ So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate.”",
+    "quoteSource": "Mark 10:6-9",
+    "quoteText": "But at the beginning of creation God ‘made them male and female.’ ‘For this reason a man will leave his father and mother and be united to his wife, and the two will become one flesh.’ So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate.",
     "coupleNames": "Hanson & Catherine",
     "coupleImage": "/assets/images/Timeless-00025-1.jpg"
   },

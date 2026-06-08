@@ -4,6 +4,45 @@
 ================================================================ */
 
 /* ================================================================
+   CONFETTI
+================================================================ */
+.confetti-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-10px) translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+    80% { opacity: 0.6; }
+    100% {
+        transform: translateY(110vh) translateX(var(--drift, 20px)) rotate(540deg);
+        opacity: 0;
+    }
+}
+
+.confetti-particle {
+    position: absolute;
+    top: -8px;
+    border-radius: 1px;
+    animation: confetti-fall linear infinite;
+}
+
+.confetti-circle {
+    border-radius: 50%;
+}
+
+.confetti-diamond {
+    transform-origin: center;
+    border-radius: 1px;
+}
+
+/* ================================================================
    SECTION 2 · INTRO SCREEN  (#pertama)
 ================================================================ */
 #pertama {
@@ -213,25 +252,15 @@
 ================================================================ */
 /* Profile Intro */
 .section-profile-intro {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    padding: 0;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
     background: #0e0d0c;
 }
 
-/* Photo — takes top 52% of section */
-.pi-photo-wrap {
-    position: relative;
-    width: 100%;
-    flex: 0 0 52%;
-    overflow: hidden;
-}
-
+/* Full-bleed photo */
 .pi-photo {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -239,48 +268,47 @@
     display: block;
 }
 
+/* Gradient: subtle at top, heavy at bottom */
 .pi-photo-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0) 50%,
-        rgba(14,13,12,0.75) 80%,
-        rgba(14,13,12,1) 100%
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0) 30%,
+        rgba(0,0,0,0.55) 60%,
+        rgba(0,0,0,0.88) 80%,
+        rgba(0,0,0,0.96) 100%
     );
 }
 
-/* Reference badge — sits at bottom-left of photo */
-.pi-ref-badge {
-    position: absolute;
-    bottom: 16px;
-    left: 20px;
-    color: rgba(255,255,255,0.85);
-    font-family: "script icon", sans-serif;
-    font-size: 22px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.5px;
-    pointer-events: none;
-}
-
-/* Body — sits below photo */
+/* Content pinned to bottom */
 .pi-body {
-    flex: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 16px 24px 20px;
     text-align: center;
+    padding: 0 28px 36px;
     gap: 0;
-    overflow: hidden;
+}
+
+.pi-ref-badge {
+    color: rgba(255,255,255,0.7);
+    font-family: "script icon", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
 }
 
 .pi-text {
-    color: rgba(255,255,255,0.82);
+    color: rgba(255,255,255,0.78);
     font-family: "ovo", sans-serif;
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 300;
     line-height: 1.9;
     text-align: center;
@@ -291,19 +319,19 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 70%;
-    margin: 0 auto 16px;
+    width: 65%;
+    margin: 0 auto 14px;
 }
 
 .pi-divider-line {
     flex: 1;
     height: 1px;
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.22);
     display: block;
 }
 
 .pi-divider-dot {
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.4);
     font-size: 4px;
 }
 
@@ -316,7 +344,7 @@
     letter-spacing: 4px;
     text-align: center;
     margin: 0;
-    opacity: 0.9;
+    opacity: 0.85;
 }
 
 /* ================================================================
@@ -770,162 +798,172 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 6%;
+    height: 100vh;
+    padding: 40px 28px;
     overflow: hidden;
     box-sizing: border-box;
-    gap: 0;
+    gap: 24px;
 }
 
-/* Decorative SVG monogram */
-.ev-icon {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 4px;
-    opacity: 0.9;
-}
-.ev-icon svg {
-    width: 130px;
-    height: 130px;
-    fill: #ffffff;
-    display: block;
-}
-
-/* Wedding date with ornamental lines */
-.ev-date-wrap {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    justify-content: center;
-    margin: 4px 0 24px;
-}
-.ev-date-line {
-    flex: 1;
-    max-width: 56px;
-    height: 1px;
-    background: rgba(255,255,255,0.35);
-}
-.ev-date {
-    color: #ffffff;
-    font-family: "time noww", sans-serif;
-    font-size: 22px;
-    font-weight: 500;
-    text-align: center;
-    margin: 0;
-    line-height: 1.3;
-    white-space: pre-line;
-}
-
-/* Glass card container */
-.ev-cards {
-    display: flex;
-    flex-direction: row;
-    gap: 0;
-    width: 100%;
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 18px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255,255,255,0.07);
-    overflow: hidden;
-}
-
-/* Vertical divider between the two cards */
-.ev-cards-divider {
-    width: 1px;
-    background: rgba(255,255,255,0.18);
-    align-self: stretch;
-    flex-shrink: 0;
-}
-
-.ev-card {
-    flex: 1;
+/* Header */
+.ev-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    padding: 24px 14px;
+    gap: 10px;
+    width: 100%;
 }
 
-/* Event name label */
-.ev-card-name {
-    color: rgba(255,255,255,0.55);
-    font-family: "inter", sans-serif;
+.ev-label {
+    color: rgba(255,255,255,0.45);
+    font-family: lausanne300, sans-serif;
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
+    letter-spacing: 3.5px;
     text-transform: uppercase;
-    text-align: center;
 }
 
-/* Time: most prominent */
-.ev-card-time {
+.ev-ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 55%;
+}
+.ev-orn-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    display: block;
+}
+.ev-orn-dot {
+    color: rgba(255,255,255,0.3);
+    font-size: 4px;
+}
+
+.ev-date {
     color: #ffffff;
     font-family: "time noww", sans-serif;
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 500;
     text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
     line-height: 1.4;
 }
 
-/* Venue name */
-.ev-card-venue {
-    color: rgba(255,255,255,0.92);
-    font-family: "time noww", sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    text-align: center;
+/* Single-column event cards */
+.ev-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
 }
 
-/* Address with pin icon */
-.ev-card-address {
-    color: rgba(255,255,255,0.6);
-    font-family: "ovo", sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    text-align: center;
-    margin: 2px 0 4px;
-    line-height: 1.5;
+.ev-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 22px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.ev-card-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.ev-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.35);
+    background: rgba(212,175,55,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: rgba(212,175,55,0.75);
+    font-size: 17px;
+}
+
+.ev-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.ev-card-name {
+    color: rgba(255,255,255,0.45);
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.ev-card-time {
+    color: rgba(255,255,255,0.9);
+    font-family: lausanne300, sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.ev-card-venue {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.ev-card-footer {
     display: flex;
     align-items: flex-start;
-    gap: 5px;
+    gap: 7px;
+    padding-top: 12px;
+    margin-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
 }
-.ev-card-address i {
-    color: rgba(255,255,255,0.4);
+.ev-card-footer i {
+    color: rgba(212,175,55,0.6);
     font-size: 11px;
     margin-top: 2px;
     flex-shrink: 0;
 }
 
-/* Google Maps button */
 .ev-maps-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: "inter", sans-serif;
-    font-size: 11px;
-    font-weight: 500;
+    gap: 5px;
+    margin-top: 10px;
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #ffffff;
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
     border-radius: 50px;
-    padding: 8px 14px;
+    padding: 7px 14px;
     text-decoration: none;
-    margin-top: 4px;
-    transition: background .2s;
+    transition: background .2s, color .2s;
+    white-space: nowrap;
+    align-self: flex-start;
 }
-.ev-maps-btn i { font-size: 11px; opacity: 0.75; }
-.ev-maps-btn:hover { background-color: rgba(255,255,255,0.18); }
-
-/* Mobile */
-@media (max-width: 767px) {
-    .section-event { padding: 20px 20px 100px 20px; }
-    .ev-cards { flex-direction: column; }
-    .ev-cards-divider { width: auto; height: 1px; }
+.ev-maps-btn i { font-size: 10px; }
+.ev-maps-btn:hover {
+    background: rgba(255,255,255,0.16);
+    color: #fff;
 }
 
 /* ================================================================
@@ -1241,14 +1279,14 @@
 .rsvp-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
     width: 100%;
 }
 
 .rsvp-field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .rsvp-field label {
@@ -1267,7 +1305,7 @@
     color: #ffffff;
     font-family: "inter", sans-serif;
     font-size: 15px;
-    padding: 6px 0;
+    padding: 8px 0;
     outline: none;
     width: 100%;
     box-sizing: border-box;
@@ -1277,36 +1315,48 @@
     border-bottom-color: rgba(255,255,255,0.7);
 }
 
-.rsvp-textarea { resize: none; min-height: 72px; }
+.rsvp-textarea {
+    resize: none;
+    min-height: 80px;
+    padding-bottom: 12px;
+}
 
+/* Radio — each option on its own row */
 .rsvp-radio-group {
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
 }
 
 .rsvp-radio-label {
     display: flex;
     align-items: center;
-    gap: 7px;
-    color: rgba(255,255,255,0.82);
+    gap: 10px;
+    color: rgba(255,255,255,0.7);
     font-family: "inter", sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     cursor: pointer;
     transition: color .15s;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background .15s, color .15s, border-color .15s;
 }
-.rsvp-radio-label:has(input:checked) { color: #ffffff; }
+.rsvp-radio-label:has(input:checked) {
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+}
 
 /* Custom radio */
 .rsvp-radio-label input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     border: 1.5px solid rgba(255,255,255,0.35);
     border-radius: 50%;
     flex-shrink: 0;
@@ -1319,7 +1369,7 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 7px; height: 7px;
+    width: 6px; height: 6px;
     border-radius: 50%;
     background: #ffffff;
     transition: transform .15s;
@@ -1340,13 +1390,13 @@
     align-self: flex-start;
 }
 .rsvp-stepper-btn {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.06);
     border: none;
     color: #ffffff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
-    width: 38px;
-    height: 36px;
+    width: 34px;
+    height: 32px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1354,14 +1404,14 @@
     transition: background .15s;
     line-height: 1;
 }
-.rsvp-stepper-btn:hover:not(:disabled) { background: rgba(255,255,255,0.18); }
+.rsvp-stepper-btn:hover:not(:disabled) { background: rgba(255,255,255,0.15); }
 .rsvp-stepper-btn:disabled { opacity: 0.3; cursor: default; }
 .rsvp-stepper-val {
     color: #ffffff;
     font-family: "inter", sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
-    min-width: 36px;
+    min-width: 32px;
     text-align: center;
     padding: 0 4px;
 }
@@ -1596,158 +1646,162 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100vh;
-    padding: 30px;
+    align-items: center;
+    height: 100vh;
+    padding: 40px 28px;
     overflow: hidden;
     box-sizing: border-box;
-    gap: 16px;
+    gap: 20px;
+}
+
+/* Header */
+.gift-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.gift-label {
+    color: rgba(255,255,255,0.45);
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+}
+
+.gift-ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 55%;
+}
+.gift-orn-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    display: block;
+}
+.gift-orn-dot {
+    color: rgba(255,255,255,0.3);
+    font-size: 4px;
 }
 
 .gift-title {
     color: #ffffff;
     font-family: "script icon", sans-serif;
-    font-size: 36px;
+    font-size: 42px;
     font-weight: 500;
-    text-align: left;
-    margin: 0 0 6px 0;
-    data-aos: fade;
+    margin: 0;
+    line-height: 1.2;
 }
 
 .gift-desc {
-    color: #ffffff;
+    color: rgba(255,255,255,0.6);
     font-family: "ovo", sans-serif;
-    font-size: 17px;
-    font-weight: 300;
-    text-align: left;
+    font-size: 13px;
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.7;
+    max-width: 300px;
 }
 
+/* Cards */
 .gift-accounts {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
 }
 
-/* Glass account card */
 .gift-account-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 18px 20px;
+    transition: background .2s;
+}
+.gift-account-card:hover { background: rgba(255,255,255,0.09); }
+
+.gift-account-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 16px 18px;
-    gap: 12px;
-    transition: background .2s;
-}
-.gift-account-card:hover { background: rgba(255,255,255,0.1); }
-
-.gift-account-card-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-    min-width: 0;
-}
-
-.gift-account-icon-wrap {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: rgba(255,255,255,0.6);
-    font-size: 15px;
-}
-
-.gift-account-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
+    margin-bottom: 4px;
 }
 
 .gift-account-bank {
-    color: rgba(255,255,255,0.45);
-    font-family: "inter", sans-serif;
+    color: rgba(212,175,55,0.85);
+    font-family: lausanne300, sans-serif;
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
 }
 
 .gift-account-number {
     color: #ffffff;
-    font-family: "inter", sans-serif;
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
+    font-family: lausanne300, sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
 }
 
 .gift-account-owner {
-    color: rgba(195, 175, 140, 0.85);
-    font-family: "inter", sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: rgba(255,255,255,0.5);
+    font-family: "ovo", sans-serif;
+    font-size: 12px;
 }
 
 /* Copy button */
 .gift-copy-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(255,255,255,0.18);
-    color: rgba(255,255,255,0.55);
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 50px;
+    color: rgba(255,255,255,0.6);
+    font-family: lausanne300, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
     cursor: pointer;
-    flex-shrink: 0;
-    transition: background .2s, color .2s, border-color .2s;
+    transition: background .2s, color .2s;
 }
-.gift-copy-btn:hover { background: rgba(255,255,255,0.15); color: #ffffff; }
+.gift-copy-btn i { font-size: 9px; }
+.gift-copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
 .gift-copy-btn--copied {
-    background: rgba(120, 180, 120, 0.2);
-    border-color: rgba(120, 180, 120, 0.4);
-    color: rgba(160, 220, 160, 0.9);
+    background: rgba(100,180,100,0.15);
+    border-color: rgba(100,180,100,0.35);
+    color: rgba(160,220,160,0.9);
 }
 
 .gift-confirm-btn {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-family: "inter", sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
+    width: 100%;
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: #ffffff;
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.28);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.22);
     border-radius: 50px;
-    padding: 13px 28px;
-    text-decoration: none;
-    align-self: stretch;
-    justify-content: center;
+    padding: 14px 28px;
+    cursor: pointer;
     transition: background .2s;
 }
 .gift-confirm-btn i { font-size: 11px; opacity: 0.7; }
-.gift-confirm-btn:hover { background-color: rgba(255,255,255,0.18); }
+.gift-confirm-btn:hover { background: rgba(255,255,255,0.15); }
 
 /* ================================================================
    SECTION 14 · GALLERY  (#gallery)

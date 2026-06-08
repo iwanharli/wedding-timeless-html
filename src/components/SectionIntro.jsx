@@ -1,7 +1,11 @@
+import Confetti from './Confetti'
+
 export default function SectionIntro({ content }) {
   return (
     <div id="pertama" className="section-intro child">
       <div id="home"></div>
+
+      <Confetti />
 
       {/* Vignette overlay for text contrast */}
       <div className="intro-vignette" />

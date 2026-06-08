@@ -17,6 +17,18 @@ export default function SectionGallery({ content }) {
   const swiperRef = useRef(null)
   const paginationRef = useRef(null)
   const lightboxRef = useRef(null)
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { entry.isIntersecting ? vid.play().catch(() => {}) : vid.pause() },
+      { threshold: 0.3 }
+    )
+    obs.observe(vid)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     const sw = new Swiper(swiperRef.current, {
@@ -39,6 +51,7 @@ export default function SectionGallery({ content }) {
     lb.style.display = 'block'
     setTimeout(() => { lb.style.opacity = '1' }, 10)
     document.body.style.overflow = 'hidden'
+    document.body.classList.add('lightbox-open')
   }
 
   function closeLightbox() {
@@ -47,6 +60,7 @@ export default function SectionGallery({ content }) {
     lb.style.opacity = '0'
     setTimeout(() => { lb.style.display = 'none' }, 300)
     document.body.style.overflow = ''
+    document.body.classList.remove('lightbox-open')
   }
 
   function navigate(dir) {
@@ -69,11 +83,15 @@ export default function SectionGallery({ content }) {
           <div className="gal-video-wrap">
             <div className="gallery-video-inner">
               <video
+                ref={videoRef}
                 className="gallery-video-frame"
                 src={gallery.videoFile}
                 poster={gallery.videoThumb || undefined}
-                controls
+                autoPlay
+                muted
+                loop
                 playsInline
+                controls
               />
             </div>
           </div>
@@ -100,7 +118,7 @@ export default function SectionGallery({ content }) {
                     </div>
                   ) : (
                     <div className="gal-img-wrap" onClick={() => openLightbox(i)}>
-                      <img decoding="async" src={src} alt="" />
+                      <img decoding="async" src={src || null} alt="" />
                     </div>
                   )}
                 </div>

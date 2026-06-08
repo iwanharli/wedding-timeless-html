@@ -2,11 +2,12 @@ import { useState } from 'react'
 import FieldInput from './FieldInput'
 import ArrayEditor from './ArrayEditor'
 import ImageListEditor from './ImageListEditor'
+import AudioTrimField from './AudioTrimField'
 import { getPath } from './utils'
 
 const FULL_WIDTH_TYPES = new Set(['textarea', 'image', 'video', 'audio'])
 
-function FieldGroup({ fields, arrays, imageLists, draft, onFieldChange, onArrayChange, columns }) {
+function FieldGroup({ fields, arrays, imageLists, audioTrim, draft, onFieldChange, onArrayChange, columns }) {
   const hasFields = (fields || []).length > 0
   const hasArrays = (arrays || []).length > 0
   const hasLists  = (imageLists || []).length > 0
@@ -53,6 +54,23 @@ function FieldGroup({ fields, arrays, imageLists, draft, onFieldChange, onArrayC
           onChange={items => onArrayChange(listSchema.path, items)}
         />
       ))}
+
+      {audioTrim && (
+        <>
+          <div className="edit-divider" />
+          <label className="edit-field edit-field--full">
+            <span className="edit-field-label">Trim / Loop Range</span>
+            <AudioTrimField
+              audioUrl={getPath(draft, audioTrim.trackPath)}
+              startTime={getPath(draft, audioTrim.startPath) || 0}
+              endTime={getPath(draft, audioTrim.endPath) || 0}
+              onChangeStart={v => onFieldChange(audioTrim.startPath, v)}
+              onChangeEnd={v => onFieldChange(audioTrim.endPath, v)}
+            />
+            <span className="edit-field-hint">Play lagu, geser ke posisi yang diinginkan, lalu klik 📍 untuk set start/end.</span>
+          </label>
+        </>
+      )}
     </>
   )
 }
@@ -135,6 +153,7 @@ export default function SectionForm({ schema, draft, onFieldChange, onArrayChang
                 fields={group.fields}
                 arrays={group.arrays}
                 imageLists={group.imageLists}
+                audioTrim={group.audioTrim}
                 draft={draft}
                 onFieldChange={onFieldChange}
                 onArrayChange={onArrayChange}

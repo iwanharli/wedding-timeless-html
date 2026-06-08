@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { getToken, setToken, isTokenValid } from './authClient'
+import { apiUrl } from '../lib/api'
 import './edit.css'
 
 export default function Login() {
@@ -20,7 +21,7 @@ export default function Login() {
     setSubmitting(true)
     setError(null)
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(apiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

@@ -25,24 +25,14 @@ export default function SectionThankYou({ content }) {
 
       <div className="ty-footer">
         <div className="ty-footer-sep" />
-        <p className="ty-credit">CREATED BY GROOVE PUBLIC</p>
+        <p className="ty-credit">CREATED BY <span style={{ textTransform: 'none' }}>RnA</span></p>
         <div className="ty-contacts">
-          <a className="ty-contact-link" href="https://wa.link/amk9ua" target="_blank" rel="noopener">
+          <a className="ty-contact-link" href="https://wa.me/6281249442476" target="_blank" rel="noopener">
             <i className="fab fa-whatsapp" />
-            <span>+62 813-2757-7133</span>
-          </a>
-          <span className="ty-contact-dot" />
-          <a className="ty-contact-link" href="https://www.instagram.com/groovepublic.id" target="_blank" rel="noopener">
-            <i className="fab fa-instagram" />
-            <span>GROOVEPUBLIC.ID</span>
-          </a>
-          <span className="ty-contact-dot" />
-          <a className="ty-contact-link" href="https://www.groovepublic.com" target="_blank" rel="noopener">
-            <i className="fas fa-globe" />
-            <span>GROOVEPUBLIC.COM</span>
+            <span>+62 812-4944-2476</span>
           </a>
         </div>
-        <p className="ty-copyright">&copy; All rights reserved by groovepublic</p>
+        <p className="ty-copyright">&copy; All rights reserved by <span style={{ textTransform: 'none' }}>RnA</span></p>
       </div>
 
     </div>
