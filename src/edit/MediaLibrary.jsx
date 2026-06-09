@@ -217,6 +217,7 @@ export default function MediaLibrary() {
         <select className="gl-input gl-select" value={filterFolder} onChange={e => setFilterFolder(e.target.value)}>
           <option value="">Semua Folder</option>
           <option value="images">images/</option>
+          <option value="media">media/</option>
           <option value="uploads">uploads/</option>
         </select>
         <select className="gl-input gl-select" value={filterType} onChange={e => setFilterType(e.target.value)}>

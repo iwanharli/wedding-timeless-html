@@ -44,7 +44,7 @@ export const mediaRouter = Router()
 // GET /api/media — list all assets
 mediaRouter.get('/', requireAuth, (req, res) => {
   const { folder, type } = req.query
-  const folders = folder ? [folder] : ['images', 'uploads']
+  const folders = folder ? [folder] : ['images', 'media', 'uploads']
   let files = folders.flatMap(scanFolder)
   if (type) files = files.filter(f => f.type === type)
   res.json(files)

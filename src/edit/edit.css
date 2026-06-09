@@ -4932,6 +4932,7 @@ video.edit-upload-thumb {
   letter-spacing: .04em;
 }
 .ml-folder-badge--images  { background: #eff6ff; color: #1d4ed8; }
+.ml-folder-badge--media   { background: #fdf4ff; color: #7e22ce; }
 .ml-folder-badge--uploads { background: #f0fdf4; color: #15803d; }
 .ml-card-size {
   font-size: 10px;
