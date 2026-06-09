@@ -85,21 +85,6 @@ const SIZE_LABELS = (bytes) => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
-function CopyBtn({ url }) {
-  const [copied, setCopied] = useState(false)
-  function copy() {
-    navigator.clipboard.writeText(url).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
-  return (
-    <button type="button" className={`ml-copy-btn${copied ? ' ml-copy-btn--done' : ''}`} onClick={copy} title="Salin URL">
-      <i className={`fas ${copied ? 'fa-check' : 'fa-copy'}`} />
-      <span>{copied ? 'Tersalin' : 'Salin URL'}</span>
-    </button>
-  )
-}
 
 function MediaCard({ file, onDelete, onPreview }) {
   const isUploads = file.folder === 'uploads'
@@ -127,7 +112,6 @@ function MediaCard({ file, onDelete, onPreview }) {
           <div className="ml-card-preview-hint"><i className="fas fa-expand-alt" /></div>
         )}
         <div className="ml-card-overlay" onClick={e => e.stopPropagation()}>
-          <CopyBtn url={file.url} />
           {isUploads && (
             delConfirm ? (
               <div className="ml-del-confirm">
