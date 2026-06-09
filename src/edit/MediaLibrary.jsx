@@ -267,7 +267,7 @@ function StagingArea({ pending, onRemove, onCancel, onSave, progress }) {
   )
 }
 
-export default function MediaLibrary() {
+export default function MediaLibrary({ onMenuOpen }) {
   const [files, setFiles]         = useState([])
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState(null)
@@ -432,21 +432,26 @@ export default function MediaLibrary() {
       )}
 
       {/* ── Header ── */}
-      <div className="ml-header">
-        <div className="ml-header-left">
-          <div className="ml-header-icon"><i className="fas fa-photo-video" /></div>
+      <div className="gl-header">
+        <button type="button" className="edit-hamburger" onClick={onMenuOpen} title="Toggle menu">
+          <i className="fas fa-bars" />
+        </button>
+        <div className="gl-header-left">
+          <div className="gl-header-icon"><i className="fas fa-photo-video" /></div>
           <div>
-            <h1 className="ml-header-title">Media Library</h1>
-            <p className="ml-header-sub">Repositori semua file media di folder assets.</p>
+            <h1 className="gl-header-title">Media Library</h1>
+            <p className="gl-header-sub">Repositori semua file media di folder assets.</p>
           </div>
         </div>
-        <button
-          type="button"
-          className="gl-btn gl-btn--primary"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <i className="fas fa-plus" /> Tambah File
-        </button>
+        <div className="gl-header-actions">
+          <button
+            type="button"
+            className="gl-btn gl-btn--primary"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <i className="fas fa-plus" /> Tambah File
+          </button>
+        </div>
         <input ref={fileInputRef} type="file" multiple accept="image/*,video/*,audio/*" style={{ display: 'none' }} onChange={handleFileInput} />
       </div>
 

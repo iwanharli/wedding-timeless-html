@@ -32,6 +32,10 @@ app.use('/api/rsvp', rsvpRouter)
 app.use('/api/visits', visitsRouter)
 app.use('/api/media', mediaRouter)
 
+app.use((req, res) => {
+  res.status(404).json({ error: `Cannot ${req.method} ${req.path}` })
+})
+
 app.use((err, req, res, next) => {
   console.error(err)
   res.status(500).json({ error: 'Internal server error' })

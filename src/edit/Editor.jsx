@@ -44,6 +44,7 @@ const EDITOR_TO_SECTION = {
 }
 
 const CONTENT_IDS = new Set(['general', 'hero', 'backdrop', 'profile', 'loveStory', 'event', 'dressCode', 'rsvp', 'gift', 'gallery', 'thankYou'])
+const SPECIAL_VIEWS = new Set(['dashboard', 'guests', 'wishes', 'share', 'media', 'layout', 'traffic-detail'])
 
 // Public site section ID → editor section ID
 const SECTION_TO_EDITOR = {
@@ -68,9 +69,19 @@ export default function Editor() {
   const { section, sectionId } = useParams()
   const navigate = useNavigate()
 
-  // Redirect /admin → /admin/dashboard
   useEffect(() => {
-    if (!section && !sectionId) navigate('/admin/dashboard', { replace: true })
+    if (!section && !sectionId) {
+      navigate('/admin/dashboard', { replace: true })
+    } else if (section) {
+      if (CONTENT_IDS.has(section)) {
+        // Old-style /admin/hero → redirect to /admin/section/hero
+        navigate(`/admin/section/${section}`, { replace: true })
+      } else if (!SPECIAL_VIEWS.has(section)) {
+        navigate('/404', { replace: true })
+      }
+    } else if (sectionId && !CONTENT_IDS.has(sectionId)) {
+      navigate('/404', { replace: true })
+    }
   }, [section, sectionId, navigate])
 
   const activeId = sectionId || section || 'layout'
@@ -198,12 +209,11 @@ export default function Editor() {
 
   // Preview → editor: sync active section when user scrolls
   // Guard: skip for special views that don't map to content sections
-  const SPECIAL_VIEWS = ['layout', 'dashboard', 'guests', 'wishes', 'traffic-detail', 'media']
   useEffect(() => {
     function handleMessage(e) {
       if (e.data?.type !== 'sectionVisible') return
       if (scrollingRef.current) return
-      if (SPECIAL_VIEWS.includes(activeId)) return
+      if (SPECIAL_VIEWS.has(activeId)) return
       const editorId = SECTION_TO_EDITOR[e.data.id]
       if (editorId) {
         const path = CONTENT_IDS.has(editorId) ? `/admin/section/${editorId}` : `/admin/${editorId}`
@@ -331,19 +341,19 @@ export default function Editor() {
           </button>
           <button
             type="button"
-            className={`edit-nav-item${activeId === 'share' ? ' active' : ''}`}
-            onClick={() => navTo('share')}
-          >
-            <span className="edit-nav-item-icon"><i className="fas fa-share-alt" /></span>
-            Share Setup
-          </button>
-          <button
-            type="button"
             className={`edit-nav-item${activeId === 'media' ? ' active' : ''}`}
             onClick={() => navTo('media')}
           >
             <span className="edit-nav-item-icon"><i className="fas fa-photo-video" /></span>
             Media Library
+          </button>
+          <button
+            type="button"
+            className={`edit-nav-item${activeId === 'share' ? ' active' : ''}`}
+            onClick={() => navTo('share')}
+          >
+            <span className="edit-nav-item-icon"><i className="fas fa-share-alt" /></span>
+            Share Setup
           </button>
           <div className="edit-nav-divider" />
           <button
@@ -455,7 +465,7 @@ export default function Editor() {
 
         <div className={`edit-scroll${(activeId === 'guests' || activeId === 'dashboard' || activeId === 'wishes' || activeId === 'traffic-detail' || activeId === 'media') ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
           {activeId === 'media' ? (
-            <MediaLibrary />
+            <MediaLibrary onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'dashboard' ? (
             <Dashboard />
           ) : activeId === 'traffic-detail' ? (
@@ -463,9 +473,9 @@ export default function Editor() {
           ) : activeId === 'layout' ? (
             <LayoutPanel sections={draft.sections || []} onChange={updateSections} />
           ) : activeId === 'guests' ? (
-            <GuestList config={draft} />
+            <GuestList config={draft} onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'wishes' ? (
-            <WishesList />
+            <WishesList onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'share' ? (
             <ShareSetup draft={draft} onFieldChange={updateField} />
           ) : activeSection ? (

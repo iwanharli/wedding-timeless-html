@@ -147,7 +147,7 @@ function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
   )
 }
 
-export default function GuestList({ config }) {
+export default function GuestList({ config, onMenuOpen }) {
   const [guests, setGuests]       = useState([])
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState(null)
@@ -288,6 +288,9 @@ export default function GuestList({ config }) {
 
       {/* ── Page header ── */}
       <div className="gl-header">
+        <button type="button" className="edit-hamburger" onClick={onMenuOpen} title="Toggle menu">
+          <i className="fas fa-bars" />
+        </button>
         <div className="gl-header-left">
           <div className="gl-header-icon"><i className="fas fa-users" /></div>
           <div>

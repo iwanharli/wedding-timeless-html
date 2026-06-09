@@ -3,6 +3,7 @@ import PublicSite from './components/PublicSite'
 import Login from './edit/Login'
 import RequireAuth from './edit/RequireAuth'
 import Editor from './edit/Editor'
+import NotFound from './NotFound'
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
             </RequireAuth>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

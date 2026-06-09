@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.nf {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 24px;
+}
+
+.nf-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, .08), 0 1px 4px rgba(0, 0, 0, .04);
+  padding: 56px 48px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+
+.nf-icon {
+  font-size: 28px;
+  color: #c9a87c;
+  margin-bottom: 20px;
+  opacity: .7;
+}
+
+.nf-code {
+  font-size: 88px;
+  font-weight: 700;
+  color: #c9a87c;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.nf-divider {
+  width: 44px;
+  height: 3px;
+  background: #c9a87c;
+  border-radius: 2px;
+  margin: 20px auto;
+  opacity: .4;
+}
+
+.nf-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.nf-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 36px;
+  line-height: 1.65;
+}
+
+.nf-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Override global app.css button defaults */
+.nf .nf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', -apple-system, sans-serif;
+  cursor: pointer;
+  transition: background .15s, box-shadow .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.nf .nf-btn--primary {
+  background: #111827;
+  color: #ffffff;
+  border: 1px solid #111827;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .12);
+}
+
+.nf .nf-btn--primary:hover {
+  background: #1f2937;
+  border-color: #1f2937;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
+}
+
+.nf .nf-btn--secondary {
+  background: transparent;
+  color: #4b5563;
+  border: 1.5px solid #e5e7eb;
+}
+
+.nf .nf-btn--secondary:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+@media (max-width: 480px) {
+  .nf-card {
+    padding: 40px 28px;
+  }
+
+  .nf-code {
+    font-size: 72px;
+  }
+
+  .nf-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nf .nf-btn {
+    justify-content: center;
+  }
+}

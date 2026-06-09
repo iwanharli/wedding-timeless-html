@@ -48,7 +48,7 @@ function VisibilityBtn({ visible, toggling, onToggle }) {
   )
 }
 
-export default function WishesList() {
+export default function WishesList({ onMenuOpen }) {
   const [entries, setEntries]       = useState([])
   const [loading, setLoading]       = useState(true)
   const [error, setError]           = useState(null)
@@ -125,6 +125,9 @@ export default function WishesList() {
 
       {/* ── Page header ── */}
       <div className="gl-header">
+        <button type="button" className="edit-hamburger" onClick={onMenuOpen} title="Toggle menu">
+          <i className="fas fa-bars" />
+        </button>
         <div className="gl-header-left">
           <div className="gl-header-icon"><i className="fas fa-comment-dots" /></div>
           <div>
