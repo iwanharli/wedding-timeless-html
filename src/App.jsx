@@ -9,9 +9,9 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PublicSite />} />
-        <Route path="/edit/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/edit"
+          path="/admin"
           element={
             <RequireAuth>
               <Editor />
@@ -19,7 +19,15 @@ export default function App() {
           }
         />
         <Route
-          path="/edit/:section"
+          path="/admin/:section"
+          element={
+            <RequireAuth>
+              <Editor />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/section/:sectionId"
           element={
             <RequireAuth>
               <Editor />

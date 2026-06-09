@@ -280,7 +280,7 @@ export default function Dashboard() {
               <i className="fas fa-chart-line" />
               <span>Traffic Kunjungan</span>
               <span className="db-card-header-badge">{traffic.allTime} total</span>
-              <Link to="/edit/traffic-detail" className="db-card-header-link" style={{ marginLeft: '10px', fontSize: '12.5px', color: 'var(--accent-dark)', fontWeight: '600', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <Link to="/admin/traffic-detail" className="db-card-header-link" style={{ marginLeft: '10px', fontSize: '12.5px', color: 'var(--accent-dark)', fontWeight: '600', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                 Lihat Detail <i className="fas fa-chevron-right" style={{ fontSize: '9px', margin: '0' }} />
               </Link>
             </div>

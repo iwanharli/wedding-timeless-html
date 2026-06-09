@@ -25,49 +25,47 @@ function Lightbox({ file, allPreviewable, onClose, onPrev, onNext }) {
 
   return (
     <div className="ml-lb-backdrop" onClick={onClose}>
-      <div className="ml-lb-box" onClick={e => e.stopPropagation()}>
 
-        {/* Top bar */}
-        <div className="ml-lb-topbar">
-          <div className="ml-lb-topbar-info">
-            <i className={`fas ${file.type === 'video' ? 'fa-film' : 'fa-image'}`} />
-            <span className="ml-lb-filename">{file.filename}</span>
-            <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
-          </div>
-          <div className="ml-lb-topbar-actions">
-            <a href={file.url} download={file.filename} className="ml-lb-action-btn" title="Download" onClick={e => e.stopPropagation()}>
-              <i className="fas fa-download" />
-            </a>
-            <button type="button" className="ml-lb-close" onClick={onClose} title="Tutup (Esc)">
-              <i className="fas fa-times" />
-            </button>
-          </div>
+      {/* Top bar */}
+      <div className="ml-lb-topbar">
+        <div className="ml-lb-topbar-info">
+          <i className={`fas ${file.type === 'video' ? 'fa-film' : 'fa-image'}`} />
+          <span className="ml-lb-filename">{file.filename}</span>
+          <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
         </div>
-
-        {/* Media */}
-        <div className="ml-lb-media">
-          {file.type === 'image' ? (
-            <img src={file.url} alt={file.filename} className="ml-lb-img" draggable={false} />
-          ) : (
-            <video ref={videoRef} src={file.url} className="ml-lb-video" controls autoPlay />
-          )}
+        <div className="ml-lb-topbar-actions">
+          <a href={file.url} download={file.filename} className="ml-lb-btn" onClick={e => e.stopPropagation()}>
+            <i className="fas fa-download" /> Download
+          </a>
+          <button type="button" className="ml-lb-btn ml-lb-btn--close" onClick={onClose}>
+            <i className="fas fa-times" /> Tutup
+          </button>
         </div>
-
-        {/* Nav arrows */}
-        {hasPrev && (
-          <button type="button" className="ml-lb-nav ml-lb-nav--prev" onClick={onPrev} title="Sebelumnya (←)">
-            <i className="fas fa-chevron-left" />
-          </button>
-        )}
-        {hasNext && (
-          <button type="button" className="ml-lb-nav ml-lb-nav--next" onClick={onNext} title="Berikutnya (→)">
-            <i className="fas fa-chevron-right" />
-          </button>
-        )}
-
-        {/* Counter */}
-        <div className="ml-lb-counter">{idx + 1} / {allPreviewable.length}</div>
       </div>
+
+      {/* Media */}
+      <div className="ml-lb-media" onClick={e => e.stopPropagation()}>
+        {file.type === 'image' ? (
+          <img src={file.url} alt={file.filename} className="ml-lb-img" draggable={false} />
+        ) : (
+          <video ref={videoRef} src={file.url} className="ml-lb-video" controls autoPlay />
+        )}
+      </div>
+
+      {/* Nav arrows */}
+      {hasPrev && (
+        <button type="button" className="ml-lb-nav ml-lb-nav--prev" onClick={e => { e.stopPropagation(); onPrev() }}>
+          <i className="fas fa-chevron-left" /> Sebelumnya
+        </button>
+      )}
+      {hasNext && (
+        <button type="button" className="ml-lb-nav ml-lb-nav--next" onClick={e => { e.stopPropagation(); onNext() }}>
+          Berikutnya <i className="fas fa-chevron-right" />
+        </button>
+      )}
+
+      {/* Counter */}
+      <div className="ml-lb-counter">{idx + 1} / {allPreviewable.length}</div>
     </div>
   )
 }
@@ -86,10 +84,87 @@ const SIZE_LABELS = (bytes) => {
 }
 
 
-function MediaCard({ file, onDelete, onPreview }) {
+function DeleteModal({ file, onConfirm, onCancel, deleting }) {
+  const hasUsage = file.usedIn && file.usedIn.length > 0
+
+  useEffect(() => {
+    function onKey(e) { if (e.key === 'Escape') onCancel() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  return (
+    <div className="ml-modal-backdrop" onClick={onCancel}>
+      <div className="ml-modal" onClick={e => e.stopPropagation()}>
+        <div className="ml-modal-header">
+          <div className="ml-modal-title-wrap">
+            <div className="ml-modal-icon ml-modal-icon--danger">
+              <i className="fas fa-trash-alt" />
+            </div>
+            <div>
+              <h3 className="ml-modal-title">Hapus File</h3>
+              <p className="ml-modal-sub">Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+          </div>
+          <button type="button" className="ml-modal-close" onClick={onCancel}>
+            <i className="fas fa-times" />
+          </button>
+        </div>
+
+        <div className="ml-modal-body">
+          <div className="ml-modal-file-row">
+            {file.type === 'image'
+              ? <img src={file.url} alt={file.filename} className="ml-modal-thumb" />
+              : <div className="ml-modal-thumb ml-modal-thumb--icon">
+                  <i className={`fas ${file.type === 'video' ? 'fa-film' : file.type === 'audio' ? 'fa-music' : 'fa-file'}`} />
+                </div>
+            }
+            <div className="ml-modal-file-info">
+              <span className="ml-modal-file-name">{file.filename}</span>
+              <div className="ml-modal-file-meta">
+                <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
+                <span className="ml-card-size">{SIZE_LABELS(file.size)}</span>
+              </div>
+            </div>
+          </div>
+
+          {hasUsage && (
+            <div className="ml-modal-warning">
+              <i className="fas fa-exclamation-triangle" />
+              <div>
+                <strong>File ini sedang digunakan di:</strong>
+                <div className="ml-modal-usage-list">
+                  {file.usedIn.map(label => (
+                    <span key={label} className="ml-usage-badge">{label}</span>
+                  ))}
+                </div>
+                <p className="ml-modal-warning-note">
+                  Menghapus file ini akan menyebabkan gambar kosong di section tersebut.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="ml-modal-footer">
+          <button type="button" className="gl-btn gl-btn--ghost" onClick={onCancel} disabled={deleting}>
+            Batal
+          </button>
+          <button type="button" className="gl-btn gl-btn--danger" onClick={onConfirm} disabled={deleting}>
+            {deleting
+              ? <><i className="fas fa-circle-notch fa-spin" /> Menghapus…</>
+              : <><i className="fas fa-trash-alt" /> {hasUsage ? 'Tetap Hapus' : 'Hapus'}</>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function MediaCard({ file, onRequestDelete, onPreview }) {
   const isUploads = file.folder === 'uploads'
   const canPreview = file.type === 'image' || file.type === 'video'
-  const [delConfirm, setDelConfirm] = useState(false)
 
   return (
     <div className="ml-card">
@@ -111,28 +186,82 @@ function MediaCard({ file, onDelete, onPreview }) {
         {canPreview && (
           <div className="ml-card-preview-hint"><i className="fas fa-expand-alt" /></div>
         )}
-        <div className="ml-card-overlay">
-          {isUploads && (
-            delConfirm ? (
-              <div className="ml-del-confirm" onClick={e => e.stopPropagation()}>
-                <span>Hapus?</span>
-                <button type="button" className="ml-del-yes" onClick={() => onDelete(file.filename)}>Ya</button>
-                <button type="button" className="ml-del-no" onClick={() => setDelConfirm(false)}>Tidak</button>
-              </div>
-            ) : (
-              <button type="button" className="ml-del-btn" onClick={e => { e.stopPropagation(); setDelConfirm(true) }} title="Hapus file">
-                <i className="fas fa-trash-alt" />
-              </button>
-            )
-          )}
-        </div>
+        <div className="ml-card-overlay" />
       </div>
       <div className="ml-card-info">
         <span className="ml-card-name" title={file.filename}>{file.filename}</span>
         <div className="ml-card-meta">
           <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
           <span className="ml-card-size">{SIZE_LABELS(file.size)}</span>
+          {isUploads && (
+            <button type="button" className="ml-card-del" onClick={() => onRequestDelete(file)} title="Hapus file">
+              <i className="fas fa-trash-alt" />
+            </button>
+          )}
         </div>
+        {file.usedIn && file.usedIn.length > 0 && (
+          <div className="ml-usage-badges">
+            {file.usedIn.map(label => (
+              <span key={label} className="ml-usage-badge">{label}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function getMediaType(file) {
+  if (file.type.startsWith('image/')) return 'image'
+  if (file.type.startsWith('video/')) return 'video'
+  if (file.type.startsWith('audio/')) return 'audio'
+  return 'other'
+}
+
+function StagingArea({ pending, onRemove, onCancel, onSave, progress }) {
+  return (
+    <div className="ml-staging">
+      <div className="ml-staging-header">
+        <div className="ml-staging-title">
+          <i className="fas fa-layer-group" />
+          <span>{pending.length} file siap diupload</span>
+        </div>
+        <div className="ml-staging-actions">
+          <button type="button" className="ml-staging-cancel" onClick={onCancel} disabled={!!progress}>
+            Batal
+          </button>
+          <button type="button" className="ml-staging-save" onClick={onSave} disabled={!!progress}>
+            {progress
+              ? <><i className="fas fa-circle-notch fa-spin" /> {progress.current}/{progress.total} — {progress.name}</>
+              : <><i className="fas fa-upload" /> Simpan</>
+            }
+          </button>
+        </div>
+      </div>
+      <div className="ml-staging-grid">
+        {pending.map(item => (
+          <div key={item.id} className="ml-staging-item">
+            <div className="ml-staging-thumb">
+              {item.mediaType === 'image'
+                ? <img src={item.previewUrl} alt={item.file.name} />
+                : <div className="ml-staging-thumb-icon">
+                    <i className={`fas ${item.mediaType === 'video' ? 'fa-film' : item.mediaType === 'audio' ? 'fa-music' : 'fa-file'}`} />
+                  </div>
+              }
+              <button
+                type="button"
+                className="ml-staging-remove"
+                onClick={() => onRemove(item.id)}
+                disabled={!!progress}
+                title="Hapus dari antrian"
+              >
+                <i className="fas fa-times" />
+              </button>
+            </div>
+            <div className="ml-staging-name" title={item.file.name}>{item.file.name}</div>
+            <div className="ml-staging-size">{SIZE_LABELS(item.file.size)}</div>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -145,9 +274,11 @@ export default function MediaLibrary() {
   const [search, setSearch]       = useState('')
   const [filterFolder, setFilterFolder] = useState('')
   const [filterType, setFilterType]     = useState('')
-  const [uploading, setUploading]       = useState(false)
-  const [uploadProgress, setUploadProgress] = useState(null)
-  const [lightbox, setLightbox]         = useState(null) // file object or null
+  const [pending, setPending]           = useState([])   // staged files
+  const [uploadProgress, setUploadProgress] = useState(null) // { current, total, name }
+  const [lightbox, setLightbox]         = useState(null)
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleting, setDeleting]         = useState(false)
   const fileInputRef = useRef(null)
   const dropRef = useRef(null)
   const [dragging, setDragging] = useState(false)
@@ -167,41 +298,77 @@ export default function MediaLibrary() {
 
   useEffect(() => { load() }, [load])
 
-  async function uploadFile(file) {
-    setUploading(true)
-    setUploadProgress(file.name)
-    try {
-      const form = new FormData()
-      form.append('file', file)
-      const res = await authFetch('/api/upload', { method: 'POST', body: form })
-      if (!res.ok) throw new Error((await res.json()).error)
-      await load()
-    } catch (e) { setError(e.message) }
-    finally { setUploading(false); setUploadProgress(null) }
+  function stageFiles(fileList) {
+    const items = [...fileList].map(file => ({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      file,
+      mediaType: getMediaType(file),
+      previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : null,
+    }))
+    setPending(prev => [...prev, ...items])
   }
 
-  async function handleFileInput(e) {
-    const files = [...e.target.files]
-    for (const f of files) await uploadFile(f)
+  function removePending(id) {
+    setPending(prev => {
+      const item = prev.find(x => x.id === id)
+      if (item?.previewUrl) URL.revokeObjectURL(item.previewUrl)
+      return prev.filter(x => x.id !== id)
+    })
+  }
+
+  function cancelPending() {
+    pending.forEach(item => { if (item.previewUrl) URL.revokeObjectURL(item.previewUrl) })
+    setPending([])
+  }
+
+  async function uploadAll() {
+    const total = pending.length
+    for (let i = 0; i < total; i++) {
+      const item = pending[i]
+      setUploadProgress({ current: i + 1, total, name: item.file.name })
+      try {
+        const form = new FormData()
+        form.append('file', item.file)
+        const res = await authFetch('/api/upload', { method: 'POST', body: form })
+        if (!res.ok) throw new Error((await res.json()).error)
+        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl)
+      } catch (e) {
+        setError(`Gagal upload ${item.file.name}: ${e.message}`)
+      }
+    }
+    setPending([])
+    setUploadProgress(null)
+    await load()
+  }
+
+  function handleFileInput(e) {
+    stageFiles(e.target.files)
     e.target.value = ''
   }
 
-  async function handleDelete(filename) {
+  async function handleDelete() {
+    if (!deleteTarget) return
+    setDeleting(true)
     const res = await authFetch('/api/media', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ filename }),
+      body: JSON.stringify({ filename: deleteTarget.filename }),
     })
-    if (res.ok) setFiles(f => f.filter(x => x.filename !== filename))
-    else setError('Gagal menghapus file')
+    setDeleting(false)
+    if (res.ok) {
+      setFiles(f => f.filter(x => x.filename !== deleteTarget.filename))
+      setDeleteTarget(null)
+    } else {
+      setError('Gagal menghapus file')
+      setDeleteTarget(null)
+    }
   }
 
   function onDragOver(e) { e.preventDefault(); setDragging(true) }
   function onDragLeave() { setDragging(false) }
-  async function onDrop(e) {
+  function onDrop(e) {
     e.preventDefault(); setDragging(false)
-    const dropped = [...e.dataTransfer.files]
-    for (const f of dropped) await uploadFile(f)
+    stageFiles(e.dataTransfer.files)
   }
 
   const filtered = files.filter(f => {
@@ -228,7 +395,9 @@ export default function MediaLibrary() {
     return acc
   }, {})
   const groupKeys = Object.keys(grouped).sort((a, b) => grouped[b].maxMtime - grouped[a].maxMtime)
-  const allPreviewable = filtered.filter(f => f.type === 'image' || f.type === 'video')
+  // Urutan navigasi lightbox harus sama persis dengan urutan visual grid
+  const orderedFiltered = groupKeys.flatMap(label => grouped[label].files)
+  const allPreviewable = orderedFiltered.filter(f => f.type === 'image' || f.type === 'video')
 
   const totalImages = files.filter(f => f.type === 'image').length
   const totalVideos = files.filter(f => f.type === 'video').length
@@ -237,6 +406,15 @@ export default function MediaLibrary() {
 
   return (
     <div className="ml-wrap">
+      {deleteTarget && (
+        <DeleteModal
+          file={deleteTarget}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteTarget(null)}
+          deleting={deleting}
+        />
+      )}
+
       {lightbox && (
         <Lightbox
           file={lightbox}
@@ -266,12 +444,8 @@ export default function MediaLibrary() {
           type="button"
           className="gl-btn gl-btn--primary"
           onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
         >
-          {uploading
-            ? <><i className="fas fa-circle-notch fa-spin" /> Mengupload…</>
-            : <><i className="fas fa-upload" /> Upload File</>
-          }
+          <i className="fas fa-plus" /> Tambah File
         </button>
         <input ref={fileInputRef} type="file" multiple accept="image/*,video/*,audio/*" style={{ display: 'none' }} onChange={handleFileInput} />
       </div>
@@ -294,9 +468,20 @@ export default function MediaLibrary() {
         onClick={() => fileInputRef.current?.click()}
       >
         <i className="fas fa-cloud-upload-alt" />
-        <span>{uploading ? `Mengupload ${uploadProgress}…` : 'Drag & drop file ke sini, atau klik untuk pilih'}</span>
-        <span className="ml-dropzone-sub">JPG, PNG, GIF, MP4, MP3, dll — maks. 80 MB</span>
+        <span>Drag &amp; drop file ke sini, atau klik untuk pilih</span>
+        <span className="ml-dropzone-sub">JPG, PNG, GIF, MP4, MP3, dll — pilih banyak sekaligus</span>
       </div>
+
+      {/* ── Staging Area ── */}
+      {pending.length > 0 && (
+        <StagingArea
+          pending={pending}
+          onRemove={removePending}
+          onCancel={cancelPending}
+          onSave={uploadAll}
+          progress={uploadProgress}
+        />
+      )}
 
       {error && <div className="gl-error"><i className="fas fa-exclamation-circle" /> {error}</div>}
 
@@ -352,7 +537,7 @@ export default function MediaLibrary() {
                 <MediaCard
                   key={`${f.folder}/${f.filename}`}
                   file={f}
-                  onDelete={handleDelete}
+                  onRequestDelete={setDeleteTarget}
                   onPreview={() => setLightbox(f)}
                 />
               ))}

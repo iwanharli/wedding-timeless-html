@@ -13,7 +13,7 @@ export default function Login() {
   const location = useLocation()
 
   if (isTokenValid(getToken())) {
-    return <Navigate to="/edit" replace />
+    return <Navigate to="/admin/dashboard" replace />
   }
 
   async function handleSubmit(e) {
@@ -29,7 +29,7 @@ export default function Login() {
       const body = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(body.error || 'Login failed')
       setToken(body.token)
-      navigate(location.state?.from || '/edit', { replace: true })
+      navigate(location.state?.from || '/admin/dashboard', { replace: true })
     } catch (err) {
       setError(err.message)
     } finally {

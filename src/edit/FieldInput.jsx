@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { getToken } from './authClient'
+import { useRef, useState, useEffect } from 'react'
+import { getToken, authFetch } from './authClient'
 import { apiUrl } from '../lib/api'
 
 async function uploadFile(file) {
@@ -15,11 +15,154 @@ async function uploadFile(file) {
   return body.url
 }
 
+const SIZE_FMT = b => b < 1048576 ? `${(b/1024).toFixed(1)} KB` : `${(b/1048576).toFixed(1)} MB`
+
+function MediaPickerModal({ type, onSelect, onClose }) {
+  const [files, setFiles]       = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [search, setSearch]     = useState('')
+  const [folder, setFolder]     = useState('')
+  const [activeType, setActiveType] = useState(type || '')
+
+  useEffect(() => {
+    async function load() {
+      setLoading(true)
+      const p = new URLSearchParams()
+      if (folder) p.set('folder', folder)
+      if (activeType) p.set('type', activeType)
+      const res = await authFetch(`/api/media?${p}`)
+      if (res.ok) setFiles(await res.json())
+      setLoading(false)
+    }
+    load()
+  }, [folder, activeType])
+
+  useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  const filtered = search
+    ? files.filter(f => f.filename.toLowerCase().includes(search.toLowerCase()))
+    : files
+
+  const TYPE_TABS = [
+    { value: '',       label: 'Semua' },
+    { value: 'image',  label: 'Gambar' },
+    { value: 'video',  label: 'Video' },
+    { value: 'audio',  label: 'Audio' },
+  ]
+
+  return (
+    <div className="mpm-backdrop" onClick={onClose}>
+      <div className="mpm-box" onClick={e => e.stopPropagation()}>
+
+        {/* Header */}
+        <div className="mpm-header">
+          <div className="mpm-header-top">
+            <div className="mpm-header-left">
+              <div className="mpm-header-icon"><i className="fas fa-photo-video" /></div>
+              <span className="mpm-header-title">Pilih dari Media Library</span>
+            </div>
+            <button type="button" className="mpm-close" onClick={onClose} title="Tutup (Esc)">
+              <i className="fas fa-times" />
+            </button>
+          </div>
+          <div className="mpm-header-controls">
+            <div className="mpm-type-tabs">
+              {TYPE_TABS.map(t => (
+                <button
+                  key={t.value}
+                  type="button"
+                  className={`mpm-type-tab${activeType === t.value ? ' mpm-type-tab--active' : ''}`}
+                  onClick={() => setActiveType(t.value)}
+                >{t.label}</button>
+              ))}
+            </div>
+            <div className="mpm-header-sep" />
+            <select className="mpm-select" value={folder} onChange={e => setFolder(e.target.value)}>
+              <option value="">Semua Folder</option>
+              <option value="images">images/</option>
+              <option value="media">media/</option>
+              <option value="uploads">uploads/</option>
+            </select>
+            <div className="mpm-search">
+              <i className="fas fa-search" />
+              <input
+                type="text"
+                placeholder="Cari nama file…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                autoFocus
+              />
+              {search && <button type="button" onClick={() => setSearch('')}><i className="fas fa-times" /></button>}
+            </div>
+          </div>
+        </div>
+
+        {/* Count bar */}
+        <div className="mpm-subbar">
+          <span className="mpm-count">{filtered.length} file</span>
+          <span className="mpm-hint">Klik file untuk memilih</span>
+        </div>
+
+        {/* Grid */}
+        <div className="mpm-body">
+          {loading ? (
+            <div className="mpm-empty"><i className="fas fa-circle-notch fa-spin" /><span>Memuat…</span></div>
+          ) : filtered.length === 0 ? (
+            <div className="mpm-empty"><i className="fas fa-inbox" /><span>Tidak ada file.</span></div>
+          ) : (
+            <div className="mpm-grid">
+              {filtered.map(f => (
+                <button
+                  key={`${f.folder}/${f.filename}`}
+                  type="button"
+                  className="mpm-card"
+                  onClick={() => onSelect(f.url)}
+                  title={f.filename}
+                >
+                  <div className="mpm-card-thumb">
+                    {f.type === 'image'
+                      ? <img src={f.url} alt={f.filename} loading="lazy" />
+                      : <div className={`mpm-card-icon${f.type === 'video' ? ' mpm-card-icon--video' : f.type === 'audio' ? ' mpm-card-icon--audio' : ''}`}>
+                          <i className={`fas ${f.type === 'video' ? 'fa-film' : f.type === 'audio' ? 'fa-music' : 'fa-file'}`} />
+                        </div>
+                    }
+                    <div className="mpm-card-hover">
+                      <i className="fas fa-check-circle" />
+                      <span>Pilih</span>
+                    </div>
+                  </div>
+                  <div className="mpm-card-info">
+                    <span className="mpm-card-name">{f.filename}</span>
+                    <div className="mpm-card-meta">
+                      <span className={`mpm-folder-badge mpm-folder-badge--${f.folder}`}>{f.folder}</span>
+                      <span className="mpm-card-size">{SIZE_FMT(f.size)}</span>
+                    </div>
+                    {f.usedIn && f.usedIn.length > 0 && (
+                      <div className="mpm-usage-row">
+                        {f.usedIn.map(l => <span key={l} className="mpm-usage-badge">{l}</span>)}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function MediaUpload({ value, onChange, accept, type }) {
   const inputRef = useRef(null)
-  const [uploading, setUploading] = useState(false)
-  const [error, setError] = useState(null)
-  const [dragOver, setDragOver] = useState(false)
+  const [uploading, setUploading]   = useState(false)
+  const [error, setError]           = useState(null)
+  const [dragOver, setDragOver]     = useState(false)
+  const [showPicker, setShowPicker] = useState(false)
 
   async function processFile(file) {
     if (!file) return
@@ -64,6 +207,14 @@ function MediaUpload({ value, onChange, accept, type }) {
 
   return (
     <div className="edit-upload-field">
+      {showPicker && (
+        <MediaPickerModal
+          type={type}
+          onSelect={url => { onChange(url); setShowPicker(false) }}
+          onClose={() => setShowPicker(false)}
+        />
+      )}
+
       {/* Audio preview */}
       {hasValue && isAudio && (
         <div className="edit-upload-audio">
@@ -80,6 +231,14 @@ function MediaUpload({ value, onChange, accept, type }) {
               >
                 <i className="fas fa-folder-open" />
                 {uploading ? ' Uploading…' : ' Change'}
+              </button>
+              <button
+                type="button"
+                className="edit-upload-change-btn edit-upload-change-btn--flat"
+                onClick={() => setShowPicker(true)}
+                title="Pilih dari library"
+              >
+                <i className="fas fa-th" /> Library
               </button>
               <button
                 type="button"
@@ -108,6 +267,13 @@ function MediaUpload({ value, onChange, accept, type }) {
             >
               <i className="fas fa-exchange-alt" />
               {uploading ? ' Uploading…' : ' Change'}
+            </button>
+            <button
+              type="button"
+              className="edit-upload-change-btn edit-upload-change-btn--flat"
+              onClick={() => setShowPicker(true)}
+            >
+              <i className="fas fa-th" /> Library
             </button>
             <button
               type="button"
@@ -146,6 +312,13 @@ function MediaUpload({ value, onChange, accept, type }) {
             </button>
             <button
               type="button"
+              className="edit-upload-change-btn"
+              onClick={() => setShowPicker(true)}
+            >
+              <i className="fas fa-th" /> Library
+            </button>
+            <button
+              type="button"
               className="edit-upload-remove-btn"
               onClick={() => onChange('')}
               title="Remove"
@@ -156,22 +329,32 @@ function MediaUpload({ value, onChange, accept, type }) {
         </div>
       )}
 
-      {/* Drop zone (shown when no value) */}
+      {/* Drop zone + library picker (shown when no value) */}
       {!hasValue && (
-        <button
-          type="button"
-          className={`edit-upload-dropzone${uploading ? ' uploading' : ''}${dragOver ? ' drag-over' : ''}`}
-          onClick={() => inputRef.current?.click()}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          disabled={uploading}
-        >
-          {uploading
-            ? <><i className="fas fa-circle-notch fa-spin" /> Uploading…</>
-            : <><i className={`fas ${dropIcon}`} />
-                <span>Click or drop {dropLabel} here</span></>}
-        </button>
+        <div className="edit-upload-empty">
+          <button
+            type="button"
+            className={`edit-upload-dropzone${uploading ? ' uploading' : ''}${dragOver ? ' drag-over' : ''}`}
+            onClick={() => inputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            disabled={uploading}
+          >
+            {uploading
+              ? <><i className="fas fa-circle-notch fa-spin" /> Uploading…</>
+              : <><i className={`fas ${dropIcon}`} /><span>Upload {dropLabel}</span></>}
+          </button>
+          <button
+            type="button"
+            className="edit-upload-pick-btn"
+            onClick={() => setShowPicker(true)}
+            disabled={uploading}
+          >
+            <i className="fas fa-th" />
+            <span>Pilih dari Library</span>
+          </button>
+        </div>
       )}
 
       {/* Upload spinner (when replacing existing) */}

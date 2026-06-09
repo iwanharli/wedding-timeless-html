@@ -43,6 +43,8 @@ const EDITOR_TO_SECTION = {
   thankYou:  'thankYou',
 }
 
+const CONTENT_IDS = new Set(['general', 'hero', 'backdrop', 'profile', 'loveStory', 'event', 'dressCode', 'rsvp', 'gift', 'gallery', 'thankYou'])
+
 // Public site section ID → editor section ID
 const SECTION_TO_EDITOR = {
   hero:         'hero',
@@ -63,15 +65,15 @@ const SECTION_TO_EDITOR = {
 }
 
 export default function Editor() {
-  const { section } = useParams()
+  const { section, sectionId } = useParams()
   const navigate = useNavigate()
 
-  // Redirect /edit → /edit/layout
+  // Redirect /admin → /admin/dashboard
   useEffect(() => {
-    if (!section) navigate('/edit/layout', { replace: true })
-  }, [section, navigate])
+    if (!section && !sectionId) navigate('/admin/dashboard', { replace: true })
+  }, [section, sectionId, navigate])
 
-  const activeId = section || 'layout'
+  const activeId = sectionId || section || 'layout'
   const hasToolbar = !['dashboard', 'guests', 'wishes', 'traffic-detail', 'media'].includes(activeId)
 
   const [draft, setDraft] = useState(null)
@@ -138,9 +140,13 @@ export default function Editor() {
     }
   }
 
+  function handleRevert() {
+    if (savedJson) setDraft(JSON.parse(savedJson))
+  }
+
   function handleLogout() {
     clearToken()
-    navigate('/edit/login', { replace: true })
+    navigate('/login', { replace: true })
   }
 
   const hasChanges = draft !== null && savedJson !== null && JSON.stringify(draft) !== savedJson
@@ -199,7 +205,10 @@ export default function Editor() {
       if (scrollingRef.current) return
       if (SPECIAL_VIEWS.includes(activeId)) return
       const editorId = SECTION_TO_EDITOR[e.data.id]
-      if (editorId) navigate(`/edit/${editorId}`, { replace: true })
+      if (editorId) {
+        const path = CONTENT_IDS.has(editorId) ? `/admin/section/${editorId}` : `/admin/${editorId}`
+        navigate(path, { replace: true })
+      }
     }
     window.addEventListener('message', handleMessage)
     return () => window.removeEventListener('message', handleMessage)
@@ -226,7 +235,7 @@ export default function Editor() {
   // Auto-redirect if trying to access an inactive section
   useEffect(() => {
     if (draft && !isSectionActive(activeId)) {
-      navigate('/edit/layout', { replace: true })
+      navigate('/admin/layout', { replace: true })
     }
   }, [activeId, draft, navigate, isSectionActive])
 
@@ -242,7 +251,8 @@ export default function Editor() {
     (activeSection?.label || '')
 
   function navTo(id) {
-    navigate(`/edit/${id}`)
+    if (CONTENT_IDS.has(id)) navigate(`/admin/section/${id}`)
+    else navigate(`/admin/${id}`)
     setSidebarOpen(false)
   }
 
@@ -347,7 +357,7 @@ export default function Editor() {
 
           <div className="edit-nav-divider" />
           <div className="edit-nav-section">
-            <span className="edit-nav-section-label">Content</span>
+            <span className="edit-nav-section-label">Section</span>
           </div>
           {CONTENT_SECTIONS.map(s => {
             const active = isSectionActive(s.id)
@@ -403,6 +413,18 @@ export default function Editor() {
                     <span className={`edit-status-toast edit-status-toast--${status.type}`}>
                       {status.message}
                     </span>
+                  )}
+                  {hasChanges && (
+                    <button
+                      type="button"
+                      className="edit-revert-btn"
+                      onClick={handleRevert}
+                      disabled={saving}
+                      title="Batalkan semua perubahan yang belum disimpan"
+                    >
+                      <i className="fas fa-undo" />
+                      <span className="edit-save-btn-label">Revert</span>
+                    </button>
                   )}
                   <button
                     type="button"
