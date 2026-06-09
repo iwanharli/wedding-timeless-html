@@ -70,7 +70,6 @@ async function createGuests(client) {
       name            TEXT        NOT NULL,
       phone           TEXT        DEFAULT '',
       category        TEXT        DEFAULT '',
-      table_number    TEXT        DEFAULT '',
       notes           TEXT        DEFAULT '',
       created_at      TIMESTAMPTZ DEFAULT now(),
       slug            TEXT        UNIQUE

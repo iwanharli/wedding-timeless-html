@@ -96,7 +96,7 @@ function Pagination({ page, totalPages, onChange }) {
   )
 }
 
-const EMPTY = { name: '', phone: '', category: '', table_number: '', notes: '' }
+const EMPTY = { name: '', phone: '', category: '', notes: '' }
 const CATEGORIES = ['Keluarga', 'Teman', 'Rekan Kerja', 'Lainnya']
 
 function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
@@ -104,7 +104,6 @@ function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
     name: initial.name || '',
     phone: initial.phone || '',
     category: initial.category || '',
-    table_number: initial.table_number || '',
     notes: initial.notes || '',
   }))
 
@@ -129,11 +128,6 @@ function GuestForm({ initial = EMPTY, onSave, onCancel, saving }) {
             <option value="">— Pilih Kategori —</option>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
-        </label>
-        <label className="gl-form-field">
-          <span className="gl-form-label">No. Meja</span>
-          <input type="text" className="gl-input" value={form.table_number}
-            onChange={e => set('table_number', e.target.value)} placeholder="Contoh: Meja A-3" />
         </label>
         <label className="gl-form-field gl-form-field--full">
           <span className="gl-form-label">Catatan</span>
@@ -248,9 +242,9 @@ export default function GuestList({ config }) {
   }
 
   function exportCsv() {
-    const header = 'No,Nama,WhatsApp,Kategori,No. Meja,Catatan,RSVP,Link Undangan'
+    const header = 'No,Nama,WhatsApp,Kategori,Catatan,RSVP,Link Undangan'
     const rows = sorted.map((g, i) =>
-      [i + 1, g.name, g.phone, g.category, g.table_number || '', g.notes, RSVP_CONFIG[g.rsvp_status]?.label || (g.rsvp_status || 'Belum RSVP'), g.slug ? inviteLink(g.slug) : '']
+      [i + 1, g.name, g.phone, g.category, g.notes, RSVP_CONFIG[g.rsvp_status]?.label || (g.rsvp_status || 'Belum RSVP'), g.slug ? inviteLink(g.slug) : '']
         .map(v => `"${String(v || '').replace(/"/g, '""')}"`)
         .join(',')
     )
@@ -365,7 +359,7 @@ export default function GuestList({ config }) {
             <i className="fas fa-search gl-search-icon" />
             <input
               type="text" className="gl-input gl-search"
-              placeholder="Cari nama, nomor, meja, catatan…"
+              placeholder="Cari nama, nomor, catatan…"
               value={search} onChange={e => setSearch(e.target.value)}
             />
             {search && (
@@ -409,7 +403,6 @@ export default function GuestList({ config }) {
                 <SortTh col="name"     label="Nama"     {...sortProps} />
                 <SortTh col="phone"    label="WhatsApp" {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="category" label="Kategori" {...sortProps} className="gl-th--hide-sm" />
-                <SortTh col="table_number" label="No. Meja" {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="notes"       label="Catatan"  {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_status" label="RSVP"      {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_pax"    label="Jml. Tamu" {...sortProps} className="gl-th--hide-sm gl-th--pax" />
@@ -439,11 +432,6 @@ export default function GuestList({ config }) {
                     <td className="gl-td gl-td--hide-sm">
                       {g.category
                         ? <span className={`gl-badge gl-badge--${CATEGORY_COLOR[g.category] || 'grey'}`}>{g.category}</span>
-                        : <span className="gl-empty-cell">—</span>}
-                    </td>
-                    <td className="gl-td gl-td--hide-sm">
-                      {g.table_number
-                        ? <span className="gl-table-number-val">{g.table_number}</span>
                         : <span className="gl-empty-cell">—</span>}
                     </td>
                     <td className="gl-td gl-td--hide-sm gl-td--notes">

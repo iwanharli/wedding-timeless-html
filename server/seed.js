@@ -52,22 +52,22 @@ async function seedWeddingConfig(client) {
 
 // ─── 3. Seed guests ─────────────────────────────────────────────────────────
 const GUESTS = [
-  { name: 'Iwan & Budi',       phone: '081249442476', category: 'Teman',       table_number: '', notes: '',                                slug: 'ClJM4No' },
-  { name: 'Budi Santoso',      phone: '081234567801', category: 'Keluarga',    table_number: '', notes: 'Paman dari pihak pengantin pria',  slug: 'FqERx0Q' },
-  { name: 'Dewi Rahayu',       phone: '081234567802', category: 'Keluarga',    table_number: '', notes: 'Bibi dari pihak pengantin wanita', slug: 'Hbc5rJs' },
-  { name: 'Andi Wijaya',       phone: '081234567803', category: 'Teman',       table_number: '', notes: '',                                slug: 'uTRrVUQ' },
-  { name: 'Sari Putri',        phone: '081234567804', category: 'Teman',       table_number: '', notes: 'Sahabat SMA pengantin wanita',     slug: 'wDQpDUA' },
-  { name: 'Reza Firmansyah',   phone: '081234567805', category: 'Teman',       table_number: '', notes: '',                                slug: 'oZ_KQWo' },
-  { name: 'Linda Kusuma',      phone: '081234567806', category: 'Rekan Kerja', table_number: '', notes: '',                                slug: 'UTD7i1k' },
-  { name: 'Hendra Pratama',    phone: '081234567807', category: 'Rekan Kerja', table_number: '', notes: 'Manager divisi Marketing',         slug: 'dKxRRpc' },
-  { name: 'Yuni Astuti',       phone: '081234567808', category: 'Rekan Kerja', table_number: '', notes: '',                                slug: 'W2prO_A' },
-  { name: 'Bambang Susilo',    phone: '',             category: 'Keluarga',    table_number: '', notes: 'Kakak pengantin pria',             slug: 'zUzBIb8' },
-  { name: 'Mega Lestari',      phone: '081234567810', category: 'Teman',       table_number: '', notes: 'Teman kuliah pengantin pria',      slug: 'Fi1ao1o' },
-  { name: 'Fajar Nugroho',     phone: '081234567811', category: 'Teman',       table_number: '', notes: '',                                slug: 'iN2Cb58' },
-  { name: 'Rina Marlina',      phone: '081234567812', category: 'Keluarga',    table_number: '', notes: 'Sepupu pengantin wanita',          slug: 'lpsBSiM' },
-  { name: 'Doni Saputra',      phone: '081234567813', category: 'Rekan Kerja', table_number: '', notes: '',                                slug: 'kXNd5S4' },
-  { name: 'Nita Andriani',     phone: '081234567814', category: 'Lainnya',     table_number: '', notes: 'Tetangga lama',                    slug: '9oxLors' },
-  { name: 'Wahyu Kurniawan',   phone: '081234567815', category: 'Lainnya',     table_number: '', notes: '',                                slug: '_lt3oek' },
+  { name: 'Iwan & Budi',       phone: '081249442476', category: 'Teman',       notes: '',                                slug: 'ClJM4No' },
+  { name: 'Budi Santoso',      phone: '081234567801', category: 'Keluarga',    notes: 'Paman dari pihak pengantin pria',  slug: 'FqERx0Q' },
+  { name: 'Dewi Rahayu',       phone: '081234567802', category: 'Keluarga',    notes: 'Bibi dari pihak pengantin wanita', slug: 'Hbc5rJs' },
+  { name: 'Andi Wijaya',       phone: '081234567803', category: 'Teman',       notes: '',                                slug: 'uTRrVUQ' },
+  { name: 'Sari Putri',        phone: '081234567804', category: 'Teman',       notes: 'Sahabat SMA pengantin wanita',     slug: 'wDQpDUA' },
+  { name: 'Reza Firmansyah',   phone: '081234567805', category: 'Teman',       notes: '',                                slug: 'oZ_KQWo' },
+  { name: 'Linda Kusuma',      phone: '081234567806', category: 'Rekan Kerja', notes: '',                                slug: 'UTD7i1k' },
+  { name: 'Hendra Pratama',    phone: '081234567807', category: 'Rekan Kerja', notes: 'Manager divisi Marketing',         slug: 'dKxRRpc' },
+  { name: 'Yuni Astuti',       phone: '081234567808', category: 'Rekan Kerja', notes: '',                                slug: 'W2prO_A' },
+  { name: 'Bambang Susilo',    phone: '',             category: 'Keluarga',    notes: 'Kakak pengantin pria',             slug: 'zUzBIb8' },
+  { name: 'Mega Lestari',      phone: '081234567810', category: 'Teman',       notes: 'Teman kuliah pengantin pria',      slug: 'Fi1ao1o' },
+  { name: 'Fajar Nugroho',     phone: '081234567811', category: 'Teman',       notes: '',                                slug: 'iN2Cb58' },
+  { name: 'Rina Marlina',      phone: '081234567812', category: 'Keluarga',    notes: 'Sepupu pengantin wanita',          slug: 'lpsBSiM' },
+  { name: 'Doni Saputra',      phone: '081234567813', category: 'Rekan Kerja', notes: '',                                slug: 'kXNd5S4' },
+  { name: 'Nita Andriani',     phone: '081234567814', category: 'Lainnya',     notes: 'Tetangga lama',                    slug: '9oxLors' },
+  { name: 'Wahyu Kurniawan',   phone: '081234567815', category: 'Lainnya',     notes: '',                                slug: '_lt3oek' },
 ]
 
 async function seedGuests(client) {
@@ -76,9 +76,9 @@ async function seedGuests(client) {
 
   for (const g of GUESTS) {
     await client.query(
-      `INSERT INTO guests (name, phone, category, table_number, notes, slug)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [g.name, g.phone, g.category, g.table_number, g.notes, g.slug]
+      `INSERT INTO guests (name, phone, category, notes, slug)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [g.name, g.phone, g.category, g.notes, g.slug]
     )
   }
 
