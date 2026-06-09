@@ -4796,6 +4796,46 @@ video.edit-upload-thumb {
 }
 
 /* Grid */
+.ml-date-group {
+  margin-bottom: 28px;
+}
+
+.ml-date-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ml-date-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.ml-date-divider-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ml-date-divider-label i {
+  font-size: 11px;
+  color: var(--accent);
+}
+.ml-date-divider-count {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
 .ml-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

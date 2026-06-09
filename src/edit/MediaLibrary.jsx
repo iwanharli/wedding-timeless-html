@@ -144,6 +144,25 @@ export default function MediaLibrary() {
     return f.filename.toLowerCase().includes(search.toLowerCase())
   })
 
+  // Group filtered files by date (YYYY-MM-DD based on mtime)
+  const dateLabel = (ms) => {
+    const d = new Date(ms)
+    const today = new Date()
+    const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1)
+    const sameDay = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+    if (sameDay(d, today)) return 'Hari Ini'
+    if (sameDay(d, yesterday)) return 'Kemarin'
+    return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+  }
+
+  const grouped = filtered.reduce((acc, f) => {
+    const label = dateLabel(f.mtime)
+    if (!acc[label]) acc[label] = []
+    acc[label].push(f)
+    return acc
+  }, {})
+  const groupKeys = Object.keys(grouped)
+
   const totalImages = files.filter(f => f.type === 'image').length
   const totalVideos = files.filter(f => f.type === 'video').length
   const totalAudio  = files.filter(f => f.type === 'audio').length
@@ -235,11 +254,24 @@ export default function MediaLibrary() {
       ) : filtered.length === 0 ? (
         <div className="gl-empty"><i className="fas fa-inbox" /><span>Tidak ada file yang cocok.</span></div>
       ) : (
-        <div className="ml-grid">
-          {filtered.map(f => (
-            <MediaCard key={`${f.folder}/${f.filename}`} file={f} onDelete={handleDelete} />
-          ))}
-        </div>
+        groupKeys.map(label => (
+          <div key={label} className="ml-date-group">
+            <div className="ml-date-divider">
+              <span className="ml-date-divider-line" />
+              <span className="ml-date-divider-label">
+                <i className="fas fa-calendar-alt" />
+                {label}
+                <span className="ml-date-divider-count">{grouped[label].length}</span>
+              </span>
+              <span className="ml-date-divider-line" />
+            </div>
+            <div className="ml-grid">
+              {grouped[label].map(f => (
+                <MediaCard key={`${f.folder}/${f.filename}`} file={f} onDelete={handleDelete} />
+              ))}
+            </div>
+          </div>
+        ))
       )}
     </div>
   )
