@@ -14,14 +14,21 @@ import { mediaRouter } from './media.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
+const DIST_DIR    = path.resolve(__dirname, '../dist')
+const PUBLIC_DIR  = path.resolve(__dirname, '../public')
 
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: '5mb' }))
 
-// Serve uploaded files directly from Express so they're available
-// regardless of when they were uploaded relative to the last build
+// Serve uploaded files (runtime uploads, not in dist)
 app.use('/assets/uploads', express.static(UPLOADS_DIR))
+
+// Serve public static assets (fonts, vendor libs, images, etc.)
+app.use(express.static(PUBLIC_DIR))
+
+// Serve built frontend (Vite dist output)
+app.use(express.static(DIST_DIR))
 
 app.use('/api/auth', authRouter)
 app.use('/api/config', configRouter)
@@ -32,8 +39,14 @@ app.use('/api/rsvp', rsvpRouter)
 app.use('/api/visits', visitsRouter)
 app.use('/api/media', mediaRouter)
 
-app.use((req, res) => {
+// Unknown API routes → JSON 404
+app.use('/api', (req, res) => {
   res.status(404).json({ error: `Cannot ${req.method} ${req.path}` })
+})
+
+// All other routes → SPA fallback (React Router handles 404 in-app)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 
 app.use((err, req, res, next) => {
