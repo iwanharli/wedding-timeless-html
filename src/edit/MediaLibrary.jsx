@@ -111,16 +111,16 @@ function MediaCard({ file, onDelete, onPreview }) {
         {canPreview && (
           <div className="ml-card-preview-hint"><i className="fas fa-expand-alt" /></div>
         )}
-        <div className="ml-card-overlay" onClick={e => e.stopPropagation()}>
+        <div className="ml-card-overlay">
           {isUploads && (
             delConfirm ? (
-              <div className="ml-del-confirm">
+              <div className="ml-del-confirm" onClick={e => e.stopPropagation()}>
                 <span>Hapus?</span>
                 <button type="button" className="ml-del-yes" onClick={() => onDelete(file.filename)}>Ya</button>
                 <button type="button" className="ml-del-no" onClick={() => setDelConfirm(false)}>Tidak</button>
               </div>
             ) : (
-              <button type="button" className="ml-del-btn" onClick={() => setDelConfirm(true)} title="Hapus file">
+              <button type="button" className="ml-del-btn" onClick={e => { e.stopPropagation(); setDelConfirm(true) }} title="Hapus file">
                 <i className="fas fa-trash-alt" />
               </button>
             )
