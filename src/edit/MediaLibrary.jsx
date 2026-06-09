@@ -1,6 +1,76 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { authFetch } from './authClient'
 
+function Lightbox({ file, allPreviewable, onClose, onPrev, onNext }) {
+  const videoRef = useRef(null)
+  const idx = allPreviewable.findIndex(f => f.url === file.url)
+  const hasPrev = idx > 0
+  const hasNext = idx < allPreviewable.length - 1
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape')     onClose()
+      if (e.key === 'ArrowLeft'  && hasPrev) onPrev()
+      if (e.key === 'ArrowRight' && hasNext) onNext()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [hasPrev, hasNext])
+
+  // Pause video when switching
+  useEffect(() => {
+    if (videoRef.current) { videoRef.current.pause(); videoRef.current.load() }
+  }, [file.url])
+
+  return (
+    <div className="ml-lb-backdrop" onClick={onClose}>
+      <div className="ml-lb-box" onClick={e => e.stopPropagation()}>
+
+        {/* Top bar */}
+        <div className="ml-lb-topbar">
+          <div className="ml-lb-topbar-info">
+            <i className={`fas ${file.type === 'video' ? 'fa-film' : 'fa-image'}`} />
+            <span className="ml-lb-filename">{file.filename}</span>
+            <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
+          </div>
+          <div className="ml-lb-topbar-actions">
+            <a href={file.url} download={file.filename} className="ml-lb-action-btn" title="Download" onClick={e => e.stopPropagation()}>
+              <i className="fas fa-download" />
+            </a>
+            <button type="button" className="ml-lb-close" onClick={onClose} title="Tutup (Esc)">
+              <i className="fas fa-times" />
+            </button>
+          </div>
+        </div>
+
+        {/* Media */}
+        <div className="ml-lb-media">
+          {file.type === 'image' ? (
+            <img src={file.url} alt={file.filename} className="ml-lb-img" draggable={false} />
+          ) : (
+            <video ref={videoRef} src={file.url} className="ml-lb-video" controls autoPlay />
+          )}
+        </div>
+
+        {/* Nav arrows */}
+        {hasPrev && (
+          <button type="button" className="ml-lb-nav ml-lb-nav--prev" onClick={onPrev} title="Sebelumnya (←)">
+            <i className="fas fa-chevron-left" />
+          </button>
+        )}
+        {hasNext && (
+          <button type="button" className="ml-lb-nav ml-lb-nav--next" onClick={onNext} title="Berikutnya (→)">
+            <i className="fas fa-chevron-right" />
+          </button>
+        )}
+
+        {/* Counter */}
+        <div className="ml-lb-counter">{idx + 1} / {allPreviewable.length}</div>
+      </div>
+    </div>
+  )
+}
+
 const TYPE_ICON = {
   image: 'fa-image',
   video: 'fa-film',
@@ -30,23 +100,32 @@ function CopyBtn({ url }) {
   )
 }
 
-function MediaCard({ file, onDelete }) {
+function MediaCard({ file, onDelete, onPreview }) {
   const isUploads = file.folder === 'uploads'
+  const canPreview = file.type === 'image' || file.type === 'video'
   const [delConfirm, setDelConfirm] = useState(false)
 
   return (
     <div className="ml-card">
-      <div className="ml-card-thumb">
+      <div
+        className={`ml-card-thumb${canPreview ? ' ml-card-thumb--clickable' : ''}`}
+        onClick={canPreview ? onPreview : undefined}
+      >
         {file.type === 'image' ? (
           <img src={file.url} alt={file.filename} loading="lazy" />
         ) : file.type === 'video' ? (
-          <div className="ml-card-thumb-icon"><i className="fas fa-film" /></div>
+          <div className="ml-card-thumb-icon ml-card-thumb-icon--video">
+            <i className="fas fa-play-circle" />
+          </div>
         ) : file.type === 'audio' ? (
           <div className="ml-card-thumb-icon"><i className="fas fa-music" /></div>
         ) : (
           <div className="ml-card-thumb-icon"><i className="fas fa-file" /></div>
         )}
-        <div className="ml-card-overlay">
+        {canPreview && (
+          <div className="ml-card-preview-hint"><i className="fas fa-expand-alt" /></div>
+        )}
+        <div className="ml-card-overlay" onClick={e => e.stopPropagation()}>
           <CopyBtn url={file.url} />
           {isUploads && (
             delConfirm ? (
@@ -83,6 +162,7 @@ export default function MediaLibrary() {
   const [filterType, setFilterType]     = useState('')
   const [uploading, setUploading]       = useState(false)
   const [uploadProgress, setUploadProgress] = useState(null)
+  const [lightbox, setLightbox]         = useState(null) // file object or null
   const fileInputRef = useRef(null)
   const dropRef = useRef(null)
   const [dragging, setDragging] = useState(false)
@@ -163,6 +243,7 @@ export default function MediaLibrary() {
     return acc
   }, {})
   const groupKeys = Object.keys(grouped).sort((a, b) => grouped[b].maxMtime - grouped[a].maxMtime)
+  const allPreviewable = filtered.filter(f => f.type === 'image' || f.type === 'video')
 
   const totalImages = files.filter(f => f.type === 'image').length
   const totalVideos = files.filter(f => f.type === 'video').length
@@ -171,6 +252,21 @@ export default function MediaLibrary() {
 
   return (
     <div className="ml-wrap">
+      {lightbox && (
+        <Lightbox
+          file={lightbox}
+          allPreviewable={allPreviewable}
+          onClose={() => setLightbox(null)}
+          onPrev={() => {
+            const i = allPreviewable.findIndex(f => f.url === lightbox.url)
+            if (i > 0) setLightbox(allPreviewable[i - 1])
+          }}
+          onNext={() => {
+            const i = allPreviewable.findIndex(f => f.url === lightbox.url)
+            if (i < allPreviewable.length - 1) setLightbox(allPreviewable[i + 1])
+          }}
+        />
+      )}
 
       {/* ── Header ── */}
       <div className="ml-header">
@@ -268,7 +364,12 @@ export default function MediaLibrary() {
             </div>
             <div className="ml-grid">
               {grouped[label].files.map(f => (
-                <MediaCard key={`${f.folder}/${f.filename}`} file={f} onDelete={handleDelete} />
+                <MediaCard
+                  key={`${f.folder}/${f.filename}`}
+                  file={f}
+                  onDelete={handleDelete}
+                  onPreview={() => setLightbox(f)}
+                />
               ))}
             </div>
           </div>
