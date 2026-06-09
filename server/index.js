@@ -1,6 +1,8 @@
 import './dotenv-loader.js'
 import express from 'express'
 import cors from 'cors'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { authRouter } from './auth.js'
 import { configRouter } from './config.js'
 import { uploadRouter } from './upload.js'
@@ -9,9 +11,16 @@ import { dashboardRouter } from './dashboard.js'
 import { rsvpRouter } from './rsvp.js'
 import { visitsRouter } from './visits.js'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
+
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: '5mb' }))
+
+// Serve uploaded files directly from Express so they're available
+// regardless of when they were uploaded relative to the last build
+app.use('/assets/uploads', express.static(UPLOADS_DIR))
 
 app.use('/api/auth', authRouter)
 app.use('/api/config', configRouter)
