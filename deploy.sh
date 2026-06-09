@@ -2,6 +2,13 @@
 # deploy.sh — Automation script for redeploying timeless-wedding on the production server
 set -e
 
+# Load NVM to ensure correct Node version (v22+) is used
+export NVM_DIR="$HOME/.nvm"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    . "$NVM_DIR/nvm.sh"
+    nvm use default || true
+fi
+
 echo "📥 Pulling latest changes from Git..."
 git pull origin react-v1
 
