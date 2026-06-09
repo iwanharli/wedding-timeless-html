@@ -157,11 +157,12 @@ export default function MediaLibrary() {
 
   const grouped = filtered.reduce((acc, f) => {
     const label = dateLabel(f.mtime)
-    if (!acc[label]) acc[label] = []
-    acc[label].push(f)
+    if (!acc[label]) acc[label] = { files: [], maxMtime: 0 }
+    acc[label].files.push(f)
+    if (f.mtime > acc[label].maxMtime) acc[label].maxMtime = f.mtime
     return acc
   }, {})
-  const groupKeys = Object.keys(grouped)
+  const groupKeys = Object.keys(grouped).sort((a, b) => grouped[b].maxMtime - grouped[a].maxMtime)
 
   const totalImages = files.filter(f => f.type === 'image').length
   const totalVideos = files.filter(f => f.type === 'video').length
@@ -261,12 +262,12 @@ export default function MediaLibrary() {
               <span className="ml-date-divider-label">
                 <i className="fas fa-calendar-alt" />
                 {label}
-                <span className="ml-date-divider-count">{grouped[label].length}</span>
+                <span className="ml-date-divider-count">{grouped[label].files.length}</span>
               </span>
               <span className="ml-date-divider-line" />
             </div>
             <div className="ml-grid">
-              {grouped[label].map(f => (
+              {grouped[label].files.map(f => (
                 <MediaCard key={`${f.folder}/${f.filename}`} file={f} onDelete={handleDelete} />
               ))}
             </div>
