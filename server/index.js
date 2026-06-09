@@ -14,8 +14,8 @@ import { mediaRouter } from './media.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
-const DIST_DIR    = path.resolve(__dirname, '../dist')
-const PUBLIC_DIR  = path.resolve(__dirname, '../public')
+const DIST_DIR = path.resolve(__dirname, '../dist')
+const PUBLIC_DIR = path.resolve(__dirname, '../public')
 
 const app = express()
 app.use(cors())
@@ -45,8 +45,8 @@ app.use('/api', (req, res) => {
 })
 
 // All other routes → SPA fallback (React Router handles 404 in-app)
-// Note: Express 5 does not support '*' wildcard — use regex instead
-app.get(/(.*)/, (req, res) => {
+// Use regex-based fallback for Express 5 compatible routing
+app.use(/.*/, (req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 

@@ -1,4 +1,3 @@
-
 /* ══════════════════════════════════════════════════════════
    DASHBOARD
 ══════════════════════════════════════════════════════════ */
@@ -173,7 +172,8 @@
   font-size: 14px;
   font-weight: 700;
   color: #0f172a;
-  background: #fbfaf8; /* Warm off-white header background */
+  background: #fbfaf8;
+  /* Warm off-white header background */
 }
 
 .edit-shell .db-card-header i {
@@ -310,6 +310,13 @@
   padding: 40px 20px;
 }
 
+.edit-shell .db-card-body--empty {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Category bars */
 .edit-shell .db-bars {
   display: flex;
@@ -417,7 +424,8 @@
 
 .edit-shell .db-rsvp-item {
   text-align: center;
-  padding: 22px 16px !important; /* Enlarged padding */
+  padding: 22px 16px !important;
+  /* Enlarged padding */
   border-radius: 14px !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid transparent;
@@ -448,7 +456,8 @@
 }
 
 .edit-shell .db-rsvp-num {
-  font-size: 32px !important; /* Enlarged font size */
+  font-size: 32px !important;
+  /* Enlarged font size */
   font-weight: 800;
   letter-spacing: -.04em;
   line-height: 1.1;
@@ -471,14 +480,16 @@
 }
 
 .edit-shell .db-rsvp-label {
-  font-size: 13px !important; /* Enlarged label size */
+  font-size: 13px !important;
+  /* Enlarged label size */
   font-weight: 700;
   margin-top: 4px;
   color: #475569;
 }
 
 .edit-shell .db-rsvp-pax {
-  font-size: 11.5px !important; /* Enlarged pax text */
+  font-size: 11.5px !important;
+  /* Enlarged pax text */
   color: #64748b;
   margin-top: 2px;
   font-weight: 500;
@@ -569,7 +580,8 @@
 }
 
 .edit-shell .db-wish-item:hover {
-  background-color: rgba(201, 168, 124, 0.03); /* Subtle gold tint on hover */
+  background-color: rgba(201, 168, 124, 0.03);
+  /* Subtle gold tint on hover */
 }
 
 .edit-shell .db-wish-avatar {
@@ -631,4 +643,3 @@
     grid-template-columns: 1fr;
   }
 }
-

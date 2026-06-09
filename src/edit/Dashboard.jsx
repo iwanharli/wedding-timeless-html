@@ -296,7 +296,7 @@ export default function Dashboard() {
               </select>
             </div>
           </div>
-          <div className="db-card-body db-card-body--chart">
+          <div className="db-card-body db-card-body--chart db-card-body--empty">
             {traffic.allTime === 0 ? (
               <p className="db-empty-text">Belum ada data kunjungan.</p>
             ) : (
@@ -315,7 +315,7 @@ export default function Dashboard() {
             <i className="fas fa-chart-bar" />
             <span>Kategori Tamu</span>
           </div>
-          <div className="db-card-body">
+          <div className={`db-card-body${guests.byCategory.length === 0 ? ' db-card-body--empty' : ''}`}>
             {guests.byCategory.length === 0 ? (
               <p className="db-empty-text">Belum ada data tamu.</p>
             ) : (
@@ -401,7 +401,7 @@ export default function Dashboard() {
           <span>Ucapan Terbaru</span>
           <span className="db-card-header-badge">{wishes.total} ucapan</span>
         </div>
-        <div className="db-card-body db-card-body--flush">
+        <div className={`db-card-body db-card-body--flush${wishes.recent.length === 0 ? ' db-card-body--empty' : ''}`}>
           {wishes.recent.length === 0 ? (
             <p className="db-empty-text" style={{ padding: '20px' }}>Belum ada ucapan masuk.</p>
           ) : (
