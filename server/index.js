@@ -10,6 +10,7 @@ import { guestsRouter } from './guests.js'
 import { dashboardRouter } from './dashboard.js'
 import { rsvpRouter } from './rsvp.js'
 import { visitsRouter } from './visits.js'
+import { mediaRouter } from './media.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
@@ -29,6 +30,7 @@ app.use('/api/guests', guestsRouter)
 app.use('/api/dashboard', dashboardRouter)
 app.use('/api/rsvp', rsvpRouter)
 app.use('/api/visits', visitsRouter)
+app.use('/api/media', mediaRouter)
 
 app.use((err, req, res, next) => {
   console.error(err)

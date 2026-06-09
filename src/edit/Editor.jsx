@@ -12,6 +12,7 @@ import Dashboard from './Dashboard'
 import WishesList from './WishesList'
 import ShareSetup from './ShareSetup'
 import TrafficDetail from './TrafficDetail'
+import MediaLibrary from './MediaLibrary'
 import './edit.css'
 
 const NAV_ICON = {
@@ -71,7 +72,7 @@ export default function Editor() {
   }, [section, navigate])
 
   const activeId = section || 'layout'
-  const hasToolbar = !['dashboard', 'guests', 'wishes', 'traffic-detail'].includes(activeId)
+  const hasToolbar = !['dashboard', 'guests', 'wishes', 'traffic-detail', 'media'].includes(activeId)
 
   const [draft, setDraft] = useState(null)
   const [savedJson, setSavedJson] = useState(null)
@@ -191,7 +192,7 @@ export default function Editor() {
 
   // Preview → editor: sync active section when user scrolls
   // Guard: skip for special views that don't map to content sections
-  const SPECIAL_VIEWS = ['layout', 'dashboard', 'guests', 'wishes', 'traffic-detail']
+  const SPECIAL_VIEWS = ['layout', 'dashboard', 'guests', 'wishes', 'traffic-detail', 'media']
   useEffect(() => {
     function handleMessage(e) {
       if (e.data?.type !== 'sectionVisible') return
@@ -232,6 +233,7 @@ export default function Editor() {
   const activeSection = CONTENT_SECTIONS.find(s => s.id === activeId)
   const activeLabel =
     activeId === 'dashboard' ? 'Dashboard' :
+    activeId === 'media' ? 'Media Library' :
     activeId === 'traffic-detail' ? 'Detail Kunjungan (Traffic)' :
     activeId === 'layout'    ? 'Section Layout' :
     activeId === 'guests'    ? 'Daftar Tamu' :
@@ -324,6 +326,14 @@ export default function Editor() {
           >
             <span className="edit-nav-item-icon"><i className="fas fa-share-alt" /></span>
             Share Setup
+          </button>
+          <button
+            type="button"
+            className={`edit-nav-item${activeId === 'media' ? ' active' : ''}`}
+            onClick={() => navTo('media')}
+          >
+            <span className="edit-nav-item-icon"><i className="fas fa-photo-video" /></span>
+            Media Library
           </button>
           <div className="edit-nav-divider" />
           <button
@@ -421,8 +431,10 @@ export default function Editor() {
           </header>
         )}
 
-        <div className={`edit-scroll${(activeId === 'guests' || activeId === 'dashboard' || activeId === 'wishes' || activeId === 'traffic-detail') ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
-          {activeId === 'dashboard' ? (
+        <div className={`edit-scroll${(activeId === 'guests' || activeId === 'dashboard' || activeId === 'wishes' || activeId === 'traffic-detail' || activeId === 'media') ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
+          {activeId === 'media' ? (
+            <MediaLibrary />
+          ) : activeId === 'dashboard' ? (
             <Dashboard />
           ) : activeId === 'traffic-detail' ? (
             <TrafficDetail />
@@ -448,7 +460,7 @@ export default function Editor() {
 
       <PreviewPanel
         ref={iframeRef}
-        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'traffic-detail' && activeId !== 'share'}
+        visible={previewVisible && activeId !== 'guests' && activeId !== 'dashboard' && activeId !== 'wishes' && activeId !== 'traffic-detail' && activeId !== 'share' && activeId !== 'media'}
         onRefresh={() => setRefreshKey(k => k + 1)}
         activeLabel={activeLabel}
         refreshKey={refreshKey}
