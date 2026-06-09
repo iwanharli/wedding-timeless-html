@@ -45,7 +45,8 @@ app.use('/api', (req, res) => {
 })
 
 // All other routes → SPA fallback (React Router handles 404 in-app)
-app.get('*', (req, res) => {
+// Note: Express 5 does not support '*' wildcard — use regex instead
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 
