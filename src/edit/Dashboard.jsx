@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { authFetch } from './authClient'
+import './Dashboard.css'
 import * as echarts from 'echarts'
 
 const CATEGORY_COLOR = {

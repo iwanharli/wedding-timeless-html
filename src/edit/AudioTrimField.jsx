@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import './AudioTrimField.css'
 
 function fmt(s) {
   if (!s && s !== 0) return '0:00'

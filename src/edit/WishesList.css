@@ -1,0 +1,295 @@
+
+/* ══════════════════════════════════════════════════════════
+   WISHES LIST  (.wl-*)
+══════════════════════════════════════════════════════════ */
+.wl-wrap {
+  width: 100%;
+}
+
+/* Stat strip */
+.wl-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 24px;
+  margin-bottom: 20px;
+}
+
+.wl-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.wl-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: #e5e7eb;
+}
+
+.wl-stat-num {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.wl-stat-num--blue {
+  color: #2563eb;
+}
+
+.wl-stat-num--amber {
+  color: #d97706;
+}
+
+.wl-stat-num--red {
+  color: #dc2626;
+}
+
+.wl-stat-num--purple {
+  color: #7c3aed;
+}
+
+.wl-stat-label {
+  font-size: 11.5px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* View toggle */
+.wl-view-toggle {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  gap: 2px;
+}
+
+.wl-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-600);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wl-view-btn:hover {
+  background: rgba(0,0,0,0.03);
+  color: var(--text-900);
+}
+
+.wl-view-btn.active {
+  background: var(--surface);
+  color: var(--accent-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Cards layout */
+.wl-cards {
+  padding: 16px;
+}
+
+.wl-section-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 12px;
+}
+
+.wl-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.wl-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow .15s;
+}
+
+.wl-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+}
+
+.wl-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wl-card-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.wl-card-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.wl-card-time {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+.wl-card-wish {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.55;
+  margin: 0;
+  font-style: italic;
+  border-left: 3px solid #e5e7eb;
+  padding-left: 12px;
+}
+
+.wl-card-pax {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+/* Visibility toggle button */
+.wl-vis-btn {
+  color: #9ca3af;
+}
+
+.wl-vis-btn:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.wl-vis-btn--hidden {
+  color: #d1d5db;
+}
+
+.wl-vis-btn--hidden:hover {
+  color: #6b7280;
+}
+
+/* Hidden card state */
+.wl-card--hidden {
+  opacity: .55;
+  background: #f9fafb;
+}
+
+.wl-card--hidden .wl-card-wish {
+  color: #9ca3af;
+}
+
+.wl-hidden-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Hidden row state */
+.wl-tr--hidden {
+  opacity: .5;
+  background: #fafbfc;
+}
+
+/* Stat strip new colors */
+.wl-stat-num--green {
+  color: #16a34a;
+}
+
+.wl-stat-num--grey {
+  color: #9ca3af;
+}
+
+/* RSVP-only list */
+.wl-rsvp-only-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wl-rsvp-only-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.wl-rsvp-only-name {
+  flex: 1;
+  font-size: 13.5px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.wl-rsvp-only-time {
+  font-size: 11.5px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+/* Avatar */
+.wl-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.wl-avatar--sm {
+  width: 28px;
+  height: 28px;
+  font-size: 10.5px;
+}
+
+/* Table view helpers */
+.wl-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wl-td--wish {
+  max-width: 340px;
+}
+
+.wl-wish-text {
+  font-size: 13px;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.wl-td--time {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}

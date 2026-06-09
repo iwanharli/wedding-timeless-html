@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { authFetch } from './authClient'
+import './WishesList.css'
 
 const RSVP_CONFIG = {
   'EXCITED TO ATTEND': { label: 'Hadir',      cls: 'green' },

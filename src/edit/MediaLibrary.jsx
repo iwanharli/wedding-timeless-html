@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { authFetch } from './authClient'
+import './MediaLibrary.css'
 
 function Lightbox({ file, allPreviewable, onClose, onPrev, onNext }) {
   const videoRef = useRef(null)

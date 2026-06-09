@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { authFetch } from './authClient'
+import './GuestList.css'
 
 const inviteLink = (slug) => `${window.location.origin}/?g=${slug}`
 
