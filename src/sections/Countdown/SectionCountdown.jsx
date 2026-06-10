@@ -3,48 +3,33 @@ import './countdown.css'
 
 function pad(n) { return String(n).padStart(2, '0') }
 
-function toICSDate(isoString) {
-  const d = new Date(isoString)
-  const y = d.getFullYear()
-  const mo = pad(d.getMonth() + 1)
-  const day = pad(d.getDate())
-  const h = pad(d.getHours())
-  const mi = pad(d.getMinutes())
-  return `${y}${mo}${day}T${h}${mi}00`
-}
-
 function coupleNames(content) {
   const h = content.hero || {}
   return [h.name1, h.connector, h.name2].filter(Boolean).join(' ') || 'The Couple'
 }
 
-function buildICS(content) {
-  const names = coupleNames(content)
+function buildGCalUrl(content) {
   const date = content.countdown?.date || ''
+  if (!date) return '#'
+  const names = coupleNames(content)
   const location = content.event?.ceremony?.mapsUrl || content.event?.reception?.mapsUrl || ''
-  const start = date ? toICSDate(date) : ''
-  const end = date ? toICSDate(new Date(new Date(date).getTime() + 3 * 3600000).toISOString()) : ''
-  const summary = `The Wedding of ${names}`
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'BEGIN:VEVENT',
-    `UID:wedding-${Date.now()}@groovepublic`,
-    `SUMMARY:${summary}`,
-    start ? `DTSTART;TZID=Asia/Jakarta:${start}` : '',
-    end   ? `DTEND;TZID=Asia/Jakarta:${end}`   : '',
-    location ? `LOCATION:${location}` : '',
-    'DESCRIPTION:Aktifkan peringatan 15 menit sebelumnya.',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].filter(Boolean).join('\r\n')
-  return 'data:text/calendar;charset=utf8,' + encodeURIComponent(ics)
+  const start = new Date(date)
+  const end = new Date(start.getTime() + 3 * 3600000)
+  const fmt = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `The Wedding of ${names}`,
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details: 'Aktifkan peringatan 15 menit sebelumnya.',
+    location,
+  })
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
 }
 
 export default function SectionCountdown({ content }) {
   const [time, setTime] = useState({ d: '00', h: '00', m: '00', s: '00' })
   const cd = content.countdown
-  const icsHref = useMemo(() => buildICS(content), [content])
+  const gcalHref = useMemo(() => buildGCalUrl(content), [content])
 
   useEffect(() => {
     const targetTs = new Date(cd.date).getTime()
@@ -101,8 +86,9 @@ export default function SectionCountdown({ content }) {
         <div className="cd-save-wrap" data-aos="fade" data-aos-delay="400" data-aos-duration="800">
           <a
             className="cd-save-btn"
-            download="save-the-date.ics"
-            href={icsHref}
+            href={gcalHref}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <i className="fas fa-calendar-plus" />
             <span>Save the Date</span>
