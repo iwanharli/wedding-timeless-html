@@ -26,8 +26,9 @@ function updateHtmlMetadata(config) {
   const description = share.ogDescription || 'Undangan pernikahan digital.'
   const image = toAbsoluteUrl(share.ogImage || '')
 
+  // Only rewrite the built dist/index.html — the template index.html is
+  // managed by git and must not be modified at runtime (would block git pull on deploy)
   const paths = [
-    path.join(__dirname, '../../index.html'),
     path.join(__dirname, '../../dist/index.html')
   ]
 
