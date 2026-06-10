@@ -89,20 +89,34 @@
     background-position: center;
 }
 
-/* Custom video poster — replaces unreliable browser poster attribute */
+/* Custom video poster — <img> based, play button absolutely overlaid */
 .gal-video-poster {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #111;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     cursor: pointer;
+    display: block;
+    background: #000;
+}
+
+.gal-thumb-img {
+    width: 100%;
+    display: block;
+    max-height: 60vh;
+    object-fit: contain;
+    background: #000;
+}
+
+.gal-thumb-fallback {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #111;
 }
 
 .gal-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -120,7 +134,7 @@
 }
 
 .gal-video-poster:hover .gal-play-btn {
-    transform: scale(1.12);
+    transform: translate(-50%, -50%) scale(1.12);
     background: rgba(0, 0, 0, 0.65);
 }
 

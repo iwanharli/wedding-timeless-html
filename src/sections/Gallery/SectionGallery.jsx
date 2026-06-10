@@ -122,11 +122,11 @@ export default function SectionGallery({ content }) {
           <div className="gal-video-wrap">
             <div className="gallery-video-inner">
               {!videoPlaying ? (
-                <div
-                  className="gal-video-poster"
-                  style={gallery.videoThumb ? { backgroundImage: `url(${gallery.videoThumb})` } : {}}
-                  onClick={handleVideoPlay}
-                >
+                <div className="gal-video-poster" onClick={handleVideoPlay}>
+                  {gallery.videoThumb
+                    ? <img src={gallery.videoThumb} alt="" className="gal-thumb-img" />
+                    : <div className="gal-thumb-fallback" />
+                  }
                   <button type="button" className="gal-play-btn" aria-label="Play video">
                     <i className="fas fa-play" />
                   </button>
