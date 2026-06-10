@@ -28,7 +28,7 @@ export default function SectionGroom({ content }) {
       <div className="profile-card">
 
         <div className="profile-photo-wrap" data-aos="fade" data-aos-delay="0" data-aos-duration="1200">
-          <img src={g.image} className="profile-photo" alt="" />
+          <img src={g.image} className="profile-photo" loading="lazy" alt="" />
           <div className="profile-photo-tint" />
           <div className="profile-photo-gradient" />
         </div>

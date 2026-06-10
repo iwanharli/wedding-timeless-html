@@ -121,7 +121,7 @@ export default function SectionGallery({ content }) {
                     </div>
                   ) : (
                     <div className="gal-img-wrap" onClick={() => openLightbox(i)}>
-                      <img decoding="async" src={src || null} alt="" />
+                      <img decoding="async" loading="lazy" src={src || null} alt="" />
                     </div>
                   )}
                 </div>

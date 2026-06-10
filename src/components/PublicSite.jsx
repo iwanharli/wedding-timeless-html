@@ -4,7 +4,7 @@ import { useWeddingConfig } from '../data/useWeddingConfig'
 import { apiUrl } from '../lib/api'
 import defaultContent from '../data/content'
 import { hexToRgba } from '../lib/color'
-import { collectImageUrls, preloadImages } from '../lib/preloadImages'
+import { collectCoverImageUrls, preloadImages } from '../lib/preloadImages'
 
 import Preloader from './Preloader'
 import SectionHero from '../sections/Hero/SectionHero'
@@ -195,12 +195,13 @@ export default function PublicSite() {
     }
   }, [content])
 
-  // Preload every image referenced in the content before hiding the preloader
+  // Preload only the cover-screen images before hiding the preloader.
+  // Other sections' images load lazily as the user scrolls.
   useEffect(() => {
     if (!content) return
     let cancelled = false
     setImagesReady(false)
-    preloadImages([...collectImageUrls(content)]).then(() => {
+    preloadImages([...collectCoverImageUrls(content)]).then(() => {
       if (!cancelled) setImagesReady(true)
     })
     return () => { cancelled = true }

@@ -1,20 +1,13 @@
-const IMAGE_EXT_RE = /\.(jpe?g|png|webp|gif|avif|svg)(\?.*)?$/i
-
-// Recursively walk the content object and collect every string value that
-// looks like an image path (used for hero/section/gallery backgrounds, etc.)
-export function collectImageUrls(value, found = new Set()) {
-  if (!value) return found
-  if (typeof value === 'string') {
-    if (IMAGE_EXT_RE.test(value)) found.add(value)
-    return found
-  }
-  if (Array.isArray(value)) {
-    value.forEach(v => collectImageUrls(v, found))
-    return found
-  }
-  if (typeof value === 'object') {
-    Object.values(value).forEach(v => collectImageUrls(v, found))
-  }
+// Only the images visible on the cover screen before the invitation is
+// opened. Everything else (gallery, profile photos, section backgrounds,
+// etc.) loads lazily as the user scrolls, so it shouldn't block the
+// preloader.
+export function collectCoverImageUrls(content) {
+  const found = new Set()
+  const hero = content?.hero || {}
+  if (hero.background?.type === 'image' && hero.background.value) found.add(hero.background.value)
+  if (hero.leftPanel?.type === 'image' && hero.leftPanel.image) found.add(hero.leftPanel.image)
+  if (hero.backgroundOverlayImage) found.add(hero.backgroundOverlayImage)
   return found
 }
 
