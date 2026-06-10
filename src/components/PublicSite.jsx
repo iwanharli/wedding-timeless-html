@@ -412,6 +412,7 @@ export default function PublicSite() {
               muted
               playsInline
               loop
+              fetchPriority="high"
             ></video>
           </div>
 

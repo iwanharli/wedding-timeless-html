@@ -2,10 +2,10 @@ import { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PublicSite from './components/PublicSite'
 import RequireAuth from './admin/auth/RequireAuth'
-import NotFound from './pages/NotFound/NotFound'
 
 const Login = lazy(() => import('./admin/auth/Login'))
 const Editor = lazy(() => import('./admin/shell/Editor'))
+const NotFound = lazy(() => import('./pages/NotFound/NotFound'))
 
 export default function App() {
   return (
