@@ -20,7 +20,7 @@ function buildGCalUrl(content) {
     action: 'TEMPLATE',
     text: `The Wedding of ${names}`,
     dates: `${fmt(start)}/${fmt(end)}`,
-    details: 'Aktifkan peringatan 15 menit sebelumnya.',
+    details: 'Aktifkan peringatan 1 hari sebelumnya.',
     location,
   })
   return `https://calendar.google.com/calendar/render?${params.toString()}`
