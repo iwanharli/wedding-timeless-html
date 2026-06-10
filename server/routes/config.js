@@ -37,6 +37,12 @@ function updateHtmlMetadata(config) {
     try {
       let html = fs.readFileSync(htmlPath, 'utf8')
 
+      // Replace meta description
+      html = html.replace(
+        /(<meta\s+name="description"\s+content=")[^"]*("\s*\/?>)/gi,
+        `$1${description.replace(/"/g, '&quot;')}$2`
+      )
+
       // Replace og:title
       html = html.replace(
         /(<meta\s+property="og:title"\s+content=")[^"]*("\s*\/?>)/gi,
