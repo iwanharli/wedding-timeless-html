@@ -62,7 +62,24 @@
     width: 100%;
     display: block;
     max-height: 60vh;
-    object-fit: cover;
+    object-fit: contain;
+    background: #000;
+}
+
+/* Fullscreen: landscape letterbox, no cropping */
+.gallery-video-frame:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    object-fit: contain;
+    background: #000;
+}
+.gallery-video-frame:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    object-fit: contain;
+    background: #000;
 }
 
 .gallery-video-thumb {

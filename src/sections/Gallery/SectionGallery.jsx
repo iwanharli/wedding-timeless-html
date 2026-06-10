@@ -18,7 +18,7 @@ export default function SectionGallery({ content }) {
   const lightboxRef = useRef(null)
   const videoRef = useRef(null)
 
-  // Re-attach audio ducking whenever the video element mounts (on first play)
+  // Re-attach audio ducking and fullscreen orientation lock when video mounts
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
@@ -29,15 +29,28 @@ export default function SectionGallery({ content }) {
     function restoreBackground() {
       if (bgAudioRef.current) bgAudioRef.current.volume = 1
     }
+    function handleFullscreenChange() {
+      const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement)
+      if (isFullscreen) {
+        screen.orientation?.lock?.('landscape').catch(() => {})
+      } else {
+        screen.orientation?.unlock?.()
+      }
+    }
 
     vid.addEventListener('play', duckBackground)
     vid.addEventListener('pause', restoreBackground)
     vid.addEventListener('ended', restoreBackground)
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
     return () => {
       vid.removeEventListener('play', duckBackground)
       vid.removeEventListener('pause', restoreBackground)
       vid.removeEventListener('ended', restoreBackground)
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
       restoreBackground()
+      screen.orientation?.unlock?.()
     }
   }, [videoPlaying])
 
