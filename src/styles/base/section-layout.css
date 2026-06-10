@@ -1,0 +1,223 @@
+/* ── app.css — inline styles extracted from index.html ── */
+
+/* Per-section background layer (image / color override) */
+.section-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Per-section dark overlay (opacity slider in /admin/layout) */
+.section-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Video: Fixed Background untuk Semua Section (Desktop & Mobile) ── */
+
+/* Video element: cover full container (#video-bg) */
+#video-bg video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
+}
+
+/* NOTE: #video-bg outer container positioning is in the desktop/mobile media queries below */
+
+/* #hapus-section (cover) punya background foto sendiri sebelum diklik */
+#hapus-section {
+    position: relative !important;
+    z-index: 3 !important;
+}
+
+/* Section terakhir (halaman 15): background sendiri menutup video background */
+
+/* ── Desktop Layout: Persistent Left Panel & Right Scrolling Panel ── */
+@media screen and (min-width: 801px) {
+
+    /* Left panel: fixed ke kiri sepanjang halaman */
+    #left-panel {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: calc(100vw - 700px) !important;
+        height: 100vh !important;
+        z-index: 10 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        /* Pastikan selalu muncul di desktop */
+    }
+
+    /* Pastikan background image tidak bergeser */
+    #left-panel::before {
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+
+    /* Seluruh konten undangan: di sisi kanan 700px */
+    #app-wrapper {
+        margin-left: calc(100vw - 700px) !important;
+        width: 700px !important;
+    }
+
+    /* KONTEN UTAMA KANAN: Berikan position relative agar child absolute di dalamnya sejajar di 700px kanan */
+    #right-panel {
+        position: relative !important;
+        width: 700px !important;
+    }
+
+    /* Video latar belakang: fixed terbatas di panel kanan 700px */
+    #video-bg {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 700px !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
+/* ── Mobile Layout: Full Screen Video & Content ── */
+@media screen and (max-width: 800px) {
+
+    /* Video fixed di layar penuh 100vw */
+    #video-bg {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
+/* ── Isolated section preview (?onlysection=…) ───────────────────────────
+   In the full site, sections use height/overflow constraints so scroll-snap
+   pages work cleanly. In isolated preview we show only one section, so those
+   constraints clip content that extends beyond one screen height.
+   Override here — full-site rendering is completely unaffected.          */
+
+/* Dark fallback when section type is video but no video URL is configured */
+.preview-isolated--dark { background: #111; }
+
+/* Video background rendered inline in isolated mode (replaces full-site #video-bg) */
+.preview-isolated-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Gift & Event use height:100vh (fixed) — make them grow with content */
+.preview-isolated .section-gift,
+.preview-isolated .section-event {
+  height: auto;
+  min-height: 100vh;
+}
+
+/* All four multi-part sections: lift overflow:hidden so content scrolls */
+.preview-isolated .section-gallery,
+.preview-isolated .section-wishes,
+.preview-isolated .section-gift,
+.preview-isolated .section-event {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ── 404 not-found ─────────────────────────────────────────────────── */
+.not-found-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+}
+
+.not-found-card {
+    width: min(540px, 100%);
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+}
+
+.not-found-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.not-found-card h1 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+}
+
+.not-found-card p {
+    margin: 0 0 1.75rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.not-found-button {
+    display: inline-block;
+    padding: 0.95rem 1.75rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.not-found-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(255, 255, 255, 0.18);
+    background: #f4f4f4;
+}
+
+@media screen and (max-width: 520px) {
+    .not-found-card {
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .not-found-badge {
+        width: 64px;
+        height: 64px;
+        font-size: 1.35rem;
+    }
+
+    .not-found-button {
+        width: 100%;
+        padding: 1rem 1.25rem;
+    }
+}
+

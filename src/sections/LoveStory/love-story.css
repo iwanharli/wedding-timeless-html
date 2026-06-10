@@ -1,0 +1,157 @@
+/* ================================================================
+   SECTION 6 · LOVE STORY
+================================================================ */
+.section-lovestory {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 90px 28px 56px;
+    gap: 0;
+    box-sizing: border-box;
+    width: 100%;
+    /* Inner scroll — section tetap 100vh agar snap system tidak terganggu */
+    height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.section-lovestory::-webkit-scrollbar { display: none; }
+
+/* ── Section header ── */
+.ls-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.ls-section-label {
+    font-family: "inter", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+}
+
+.ls-section-title {
+    font-family: "time noww", sans-serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+}
+
+.ls-header-line {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin-top: 4px;
+}
+
+/* ── Chapters list ── */
+.ls-chapters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* ── Single chapter ── */
+.ls-chapter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ls-chapter-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ls-chapter-index {
+    font-family: "time noww", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1px;
+}
+
+.ls-chapter-date {
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+}
+
+/* ── Photo ── */
+.ls-chapter-photo-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ls-chapter-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+/* ── Text body ── */
+.ls-chapter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ls-chapter-title {
+    font-family: "time noww", sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Elegant "tracking-in" reveal — letters ease from spaced-out to normal */
+[data-aos="ls-title-in"] {
+    opacity: 0;
+    letter-spacing: 0.35em;
+    transition-property: opacity, letter-spacing;
+    will-change: opacity, letter-spacing;
+}
+[data-aos="ls-title-in"].aos-animate {
+    opacity: 1;
+    letter-spacing: normal;
+}
+
+.ls-chapter-desc {
+    font-family: "ovo", sans-serif;
+    font-size: 14.5px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.85;
+    margin: 0;
+}
+
+/* ── Separator between chapters ── */
+.ls-chapter-sep {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 20px 0;
+}
+
+

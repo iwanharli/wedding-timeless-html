@@ -1,0 +1,107 @@
+/* ================================================================
+   SECTION 10 · DRESS CODE
+================================================================ */
+.section-dress-code {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.dc-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+}
+
+.dc-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 53px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 8px 0;
+}
+
+.dc-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 60%;
+    margin: 0 auto 28px;
+}
+.dc-divider::before,
+.dc-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.25);
+}
+.dc-divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+}
+
+/* Colour swatches */
+.dc-swatches {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+/* Each item: circle + label stacked */
+.dc-swatch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.dc-swatch {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    transition: transform .2s;
+}
+.dc-swatch-item:hover .dc-swatch { transform: translateY(-6px) scale(1.08); }
+
+.dc-swatch-label {
+    font-size: 9px;
+    font-family: "inter", sans-serif;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.dc-text {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    text-align: center;
+    max-width: 81%;
+    margin: 12px 0 0;
+    line-height: 1.7;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+

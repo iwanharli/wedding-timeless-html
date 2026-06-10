@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import lottie from 'lottie-web'
 import animData from '../assets/preloader-anim.json'
 
-export default function Preloader({ content, apiLoading }) {
+export default function Preloader({ content, apiLoading, assetsLoading }) {
   const [progress, setProgress] = useState(0)
   const [animDone, setAnimDone] = useState(false)
   const [hidden, setHidden] = useState(false)
@@ -34,13 +34,13 @@ export default function Preloader({ content, apiLoading }) {
     return () => anim.destroy()
   }, [])
 
-  // Fade out when animation done AND API has responded
+  // Fade out when animation done, API has responded, and all images are loaded
   useEffect(() => {
-    if (!animDone || apiLoading) return
+    if (!animDone || apiLoading || assetsLoading) return
     const t1 = setTimeout(() => setHidden(true), 150)
     const t2 = setTimeout(() => setRemoved(true), 1100)
     return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [animDone, apiLoading])
+  }, [animDone, apiLoading, assetsLoading])
 
   if (removed) return null
 

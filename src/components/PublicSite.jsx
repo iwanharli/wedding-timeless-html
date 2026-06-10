@@ -1,25 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import AOS from 'aos'
 import { useWeddingConfig } from '../data/useWeddingConfig'
 import { apiUrl } from '../lib/api'
 import defaultContent from '../data/content'
+import { hexToRgba } from '../lib/color'
+import { collectImageUrls, preloadImages } from '../lib/preloadImages'
 
 import Preloader from './Preloader'
-import SectionHero from './SectionHero'
-import SectionIntro from './SectionIntro'
-import SectionProfileIntro from './SectionProfileIntro'
-import SectionGroom from './SectionGroom'
-import SectionBride from './SectionBride'
-import SectionLoveStory from './SectionLoveStory'
-import SectionCountdown from './SectionCountdown'
-import SectionEvent from './SectionEvent'
-import SectionLivestream from './SectionLivestream'
-import SectionDressCode from './SectionDressCode'
-import SectionRSVP from './SectionRSVP'
-import SectionWishes from './SectionWishes'
-import SectionGift from './SectionGift'
-import SectionGallery from './SectionGallery'
-import SectionThankYou from './SectionThankYou'
+import SectionHero from '../sections/Hero/SectionHero'
+import SectionIntro from '../sections/Intro/SectionIntro'
+import SectionProfileIntro from '../sections/ProfileIntro/SectionProfileIntro'
+import SectionGroom from '../sections/GroomBride/SectionGroom'
+import SectionBride from '../sections/GroomBride/SectionBride'
+import SectionLoveStory from '../sections/LoveStory/SectionLoveStory'
+import SectionCountdown from '../sections/Countdown/SectionCountdown'
+import SectionEvent from '../sections/Event/SectionEvent'
+import SectionLivestream from '../sections/Livestream/SectionLivestream'
+import SectionDressCode from '../sections/DressCode/SectionDressCode'
+import SectionRSVP from '../sections/RSVP/SectionRSVP'
+import SectionWishes from '../sections/Wishes/SectionWishes'
+import SectionGift from '../sections/Gift/SectionGift'
+import SectionGallery from '../sections/Gallery/SectionGallery'
+import SectionThankYou from '../sections/ThankYou/SectionThankYou'
 import SideNav from './SideNav'
 import QROverlay from './QROverlay'
 import GiftPopup from './GiftPopup'
@@ -41,15 +43,99 @@ const SECTION_COMPONENTS = {
   SectionThankYou,
 }
 
-const isPreview = new URLSearchParams(window.location.search).has('preview')
-const guestSlug  = new URLSearchParams(window.location.search).get('g')
+const isPreview   = new URLSearchParams(window.location.search).has('preview')
+const guestSlug   = new URLSearchParams(window.location.search).get('g')
+const onlySection = new URLSearchParams(window.location.search).get('onlysection')
+
+// Render one section block with its background layers.
+function IsolatedSectionBlock({ sectionId, content }) {
+  const sectionDef = (content.sections || []).find(s => s.id === sectionId)
+  const Comp = sectionDef ? SECTION_COMPONENTS[sectionDef.component] : null
+  if (!Comp) return null
+
+  const bg = sectionDef.background || { type: 'video', value: '' }
+  const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
+  const bgLayerStyle =
+    bg.type === 'image' && bg.value
+      ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
+      : bg.type === 'color' && bg.value
+      ? { backgroundColor: bg.value }
+      : null
+  // In isolated mode #video-bg doesn't exist — render video inline.
+  const videoBg = bg.type === 'video' ? (content.hero?.backgroundVideo || '') : ''
+  const overlayOpacity = (bg.opacity || 0) / 100
+  const wrapperStyle = (bgLayerStyle || videoBg || overlayOpacity > 0) ? { position: 'relative' } : undefined
+  if (wrapperStyle && bg.type === 'image' && mediaOpacity < 1 && bg.bgColor) {
+    wrapperStyle.backgroundColor = bg.bgColor
+  }
+  if (!wrapperStyle && !videoBg && bg.type === 'video') {
+    // no video configured — ensure dark bg so white text stays readable
+    Object.assign(wrapperStyle ?? {}, { backgroundColor: '#111' })
+  }
+
+  return (
+    <div id={`ps-${sectionId}`} data-section-id={sectionId} style={wrapperStyle}>
+      {videoBg && (
+        <video className="preview-isolated-video-bg" src={videoBg} autoPlay muted playsInline loop />
+      )}
+      {bgLayerStyle && <div className="section-bg-layer" style={bgLayerStyle} />}
+      {overlayOpacity > 0 && (
+        <div className="section-bg-overlay" style={{ backgroundColor: hexToRgba(bg.overlayColor, overlayOpacity) }} />
+      )}
+      <Comp content={content} onOpenGiftPopup={() => {}} />
+    </div>
+  )
+}
+
+// Wrapper for isolated section preview — supports single id or comma-separated ids
+// (e.g. "groom,bride" for the Couple editor). Owns its own AOS.refresh() so the
+// animation trigger fires after this subtree is painted, not before.
+function IsolatedSectionPreview({ id, content }) {
+  useEffect(() => {
+    let raf1, raf2
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => AOS.refresh())
+    })
+    return () => { cancelAnimationFrame(raf1); cancelAnimationFrame(raf2) }
+  }, [])
+
+  if (id === 'hero') {
+    return (
+      <div id="app-wrapper" className="preview-isolated">
+        <SectionHero content={content} onOpen={() => {}} isOpen={false} guestName="Nama Tamu" />
+      </div>
+    )
+  }
+
+  const ids = id.split(',')
+  return (
+    <div id="app-wrapper" className="preview-isolated">
+      {ids.map(sectionId => (
+        <IsolatedSectionBlock key={sectionId} sectionId={sectionId} content={content} />
+      ))}
+    </div>
+  )
+}
 
 export default function PublicSite() {
-  const { data: content, loading } = useWeddingConfig()
+  const { data: rawContent, loading } = useWeddingConfig()
   const [isOpen, setIsOpen] = useState(false)
   const [giftPopupOpen, setGiftPopupOpen] = useState(false)
-  const [guestName, setGuestName] = useState('')
+  const [guestName, setGuestName] = useState(isPreview && !guestSlug ? 'Nama Tamu' : '')
   const [guestNotFound, setGuestNotFound] = useState(false)
+  const [previewOverride, setPreviewOverride] = useState(null)
+  const [imagesReady, setImagesReady] = useState(false)
+  const sentReadyRef = useRef(false)
+
+  // In preview mode, the editor can push live (unsaved) section/hero background edits
+  const content = useMemo(() => {
+    if (!rawContent || !previewOverride) return rawContent
+    return {
+      ...rawContent,
+      sections: previewOverride.sections || rawContent.sections,
+      hero: { ...rawContent.hero, background: previewOverride.heroBackground || rawContent.hero.background },
+    }
+  }, [rawContent, previewOverride])
 
   useEffect(() => {
     if (!guestSlug) return
@@ -109,6 +195,17 @@ export default function PublicSite() {
     }
   }, [content])
 
+  // Preload every image referenced in the content before hiding the preloader
+  useEffect(() => {
+    if (!content) return
+    let cancelled = false
+    setImagesReady(false)
+    preloadImages([...collectImageUrls(content)]).then(() => {
+      if (!cancelled) setImagesReady(true)
+    })
+    return () => { cancelled = true }
+  }, [content])
+
   // Replicate lockSection() / unlockSection() from original app.js
   useEffect(() => {
     if (!content || isPreview || guestNotFound) return
@@ -134,32 +231,62 @@ export default function PublicSite() {
   // Preview mode — activate scroll-snap and listen for editor messages
   useEffect(() => {
     if (!isPreview || !content) return
-    document.documentElement.style.scrollSnapType = 'y mandatory'
     document.body.classList.add('opened')
+    setIsOpen(true)   // SideNav requires isOpen:true to render
+
+    let refreshTimer = null
+    const debouncedRefresh = () => {
+      clearTimeout(refreshTimer)
+      refreshTimer = setTimeout(() => AOS.refresh(), 400)
+    }
+
     AOS.refresh()
 
-    window.addEventListener('scrollend', () => AOS.refresh(), { passive: true })
+    // Full preview only: scroll-snap + scroll-sync
+    if (!onlySection) {
+      document.documentElement.style.scrollSnapType = 'y mandatory'
+      window.addEventListener('scrollend', debouncedRefresh, { passive: true })
+    }
 
     function handleMessage(e) {
+      if (e.data?.type === 'previewConfig') {
+        setPreviewOverride({ sections: e.data.sections, heroBackground: e.data.heroBackground })
+        return
+      }
+      // Isolated mode: ignore scroll commands (section is already shown via URL param)
+      if (onlySection) return
       if (e.data?.type !== 'scrollToSection') return
       const { id } = e.data
       if (id === 'hero') {
         setIsOpen(false)
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          debouncedRefresh()
+        }, 80)
       } else if (id === 'backdrop') {
         setIsOpen(true)
         window.scrollTo({ top: 0, behavior: 'smooth' })
-        setTimeout(() => AOS.refresh(), 400)
+        debouncedRefresh()
       } else {
         setIsOpen(true)
         setTimeout(() => {
           document.getElementById(`ps-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          setTimeout(() => AOS.refresh(), 400)
+          debouncedRefresh()
         }, 80)
       }
     }
     window.addEventListener('message', handleMessage)
-    return () => window.removeEventListener('message', handleMessage)
+    if (!sentReadyRef.current) {
+      sentReadyRef.current = true
+      window.parent?.postMessage({ type: 'previewReady' }, window.location.origin)
+    }
+    return () => {
+      window.removeEventListener('message', handleMessage)
+      if (!onlySection) {
+        window.removeEventListener('scrollend', debouncedRefresh)
+        clearTimeout(refreshTimer)
+      }
+    }
   }, [content])
 
   function setMetaTag(name, contentValue) {
@@ -173,16 +300,25 @@ export default function PublicSite() {
     tag.setAttribute('content', contentValue)
   }
 
-  // IntersectionObserver — tell editor which section is visible
+  // IntersectionObserver — tell editor which section is visible (full preview only)
   useEffect(() => {
-    if (!isPreview || !content) return
+    if (!isPreview || !content || onlySection) return
+    const ratios = new Map()
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.dataset.sectionId
-          window.parent?.postMessage({ type: 'sectionVisible', id }, '*')
+        ratios.set(entry.target.dataset.sectionId, entry.isIntersecting ? entry.intersectionRatio : 0)
+      })
+      let bestId = null
+      let bestRatio = 0
+      ratios.forEach((ratio, id) => {
+        if (ratio > bestRatio) {
+          bestRatio = ratio
+          bestId = id
         }
       })
+      if (bestId) {
+        window.parent?.postMessage({ type: 'sectionVisible', id: bestId }, '*')
+      }
     }, { threshold: 0.4 })
 
     document.querySelectorAll('[data-section-id]').forEach(el => observer.observe(el))
@@ -218,16 +354,21 @@ export default function PublicSite() {
   if (loading || !content) {
     return (
       <div id="app-wrapper">
-        <Preloader content={preloaderContent} apiLoading={true} />
+        <Preloader content={preloaderContent} apiLoading={true} assetsLoading={true} />
       </div>
     )
+  }
+
+  // ── Isolated section preview (?onlysection=<id>) ──────────────────────────
+  if (onlySection && content) {
+    return <IsolatedSectionPreview id={onlySection} content={content} />
   }
 
   const visibleSections = (content.sections || []).filter(s => s.visible)
 
   return (
     <div id="app-wrapper">
-      <Preloader content={content} apiLoading={false} />
+      <Preloader content={content} apiLoading={false} assetsLoading={!imagesReady} />
 
       <div
         id="section-cover"
@@ -236,8 +377,22 @@ export default function PublicSite() {
         {/* Left panel */}
         <aside
           id="left-panel"
-          style={{ backgroundImage: `url(${content.hero.backgroundOverlayImage})` }}
+          style={
+            content.hero.leftPanel?.type === 'video'
+              ? undefined
+              : { backgroundImage: `url(${content.hero.leftPanel?.image || content.hero.backgroundOverlayImage})` }
+          }
         >
+          {content.hero.leftPanel?.type === 'video' && content.hero.leftPanel?.video && (
+            <video
+              className="left-panel-video"
+              src={content.hero.leftPanel.video}
+              autoPlay
+              muted
+              playsInline
+              loop
+            />
+          )}
           <div className="left-names">
             <h2 className="left-name">{content.hero.name1}</h2>
             <h2 className="left-connector">{content.hero.connector}</h2>
@@ -268,8 +423,23 @@ export default function PublicSite() {
           {visibleSections.map(s => {
             const SectionComponent = SECTION_COMPONENTS[s.component]
             if (!SectionComponent) return null
+            const bg = s.background || { type: 'video', value: '' }
+            const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
+            const bgLayerStyle =
+              bg.type === 'image' && bg.value
+                ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
+                : bg.type === 'color' && bg.value
+                ? { backgroundColor: bg.value }
+                : null
+            const overlayOpacity = (bg.opacity || 0) / 100
+            const wrapperStyle = (bgLayerStyle || overlayOpacity > 0) ? { position: 'relative' } : undefined
+            if (wrapperStyle && bg.type === 'image' && mediaOpacity < 1 && bg.bgColor) {
+              wrapperStyle.backgroundColor = bg.bgColor
+            }
             return (
-              <div key={s.id} id={`ps-${s.id}`} data-section-id={s.id}>
+              <div key={s.id} id={`ps-${s.id}`} data-section-id={s.id} style={wrapperStyle}>
+                {bgLayerStyle && <div className="section-bg-layer" style={bgLayerStyle} />}
+                {overlayOpacity > 0 && <div className="section-bg-overlay" style={{ backgroundColor: hexToRgba(bg.overlayColor, overlayOpacity) }} />}
                 <SectionComponent
                   content={content}
                   onOpenGiftPopup={() => setGiftPopupOpen(true)}

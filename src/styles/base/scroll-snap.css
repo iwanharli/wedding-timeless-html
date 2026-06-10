@@ -1,0 +1,53 @@
+/* ── Scroll behavior & child snap ── */
+body {
+    color: #000;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+}
+
+.child {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100vh;
+    will-change: transform;
+    /* Konten yang lebih tinggi dari layar (HP pendek) bisa di-scroll
+       di dalam section, bukan terpotong */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.child::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Hide scrollbar (2) ── */
+/* Menyembunyikan scrollbar tetapi tetap memungkinkan scroll */
+/* Hide scrollbar for Chrome, Safari, and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Cover animation & section lock ── */
+@keyframes blurSlideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+        filter: blur(10px);
+    }
+}
+
+#hapus-section.fade-out {
+    animation: blurSlideUp 0.5s ease forwards;
+}
+

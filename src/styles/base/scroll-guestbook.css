@@ -1,0 +1,239 @@
+/* ── Custom CSS (scroll, scrollbar, guestbook) ── */
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+    /* warna track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    /* warna thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+    /* warna thumb pas hover */
+}
+
+/*icon centang guest book*/
+/*icon centang*/
+i.fas.fa-check-circle {
+    visibility: hidden;
+}
+
+/*background comment guest book*/
+.guestbook {
+    background-color: #fff0;
+}
+
+/* ── Swiper – hide default arrows ── */
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+    display: none;
+}
+
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+    display: none;
+}
+
+/* ── Inline Style (5) ── */
+
+/* ── RSVP – Guest Count +/- buttons ── */
+.number-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 7px;
+}
+
+.number-input-wrapper input {
+    width: 100px;
+    /* Sesuaikan dengan kebutuhan */
+    text-align: center;
+    padding: 0 30px;
+    /* Ruang untuk teks - dan + */
+    box-sizing: border-box;
+}
+
+.number-input-wrapper .decrement-text,
+.number-input-wrapper .increment-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+@media (min-width: 1024px) {
+
+    .number-input-wrapper .decrement-text,
+    .number-input-wrapper .increment-text {
+        display: none;
+    }
+}
+
+.number-input-wrapper .decrement-text {
+    left: 0px;
+    /* Posisi - di kiri dalam input */
+    padding-left: 10px;
+    padding-right: 40px;
+}
+
+.number-input-wrapper .increment-text {
+    right: 0px;
+    /* Posisi + di kanan dalam input */
+    padding-right: 10px;
+    padding-left: 40px;
+}
+
+/* ── Guestbook – comment styling ── */
+
+/*NAMA PENGIRIM*/
+.komentar-item>strong {
+    font-family: time now italic;
+    font-weight: 500;
+    font-size: 25px;
+    color: #fff;
+
+}
+
+/*TEKS Komentar*/
+.komentar-item>p {
+    font-family: inter;
+    font-weight: 300;
+    font-size: 13px;
+    color: #fff;
+    width: 45%;
+
+}
+
+.komentar-item>small {
+    font-family: inter;
+    font-weight: 300;
+    font-size: 10px;
+    color: #888;
+}
+
+/*DIVIDER komentar*/
+.komentar-item {
+    border-bottom: 1px solid #fff0;
+    /* Ganti #ccc dengan warna yang diinginkan */
+    padding-bottom: 0px;
+    /* Menambahkan ruang di bawah komentar */
+    margin-bottom: 10px;
+    /* Menambahkan jarak antara komentar */
+}
+
+/*zigzag comment*/
+#komentar-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.komentar-item {
+    width: 100%;
+    /* Setiap item mengambil 100% lebar container */
+    margin-bottom: 10px;
+    /* Jarak antar item */
+}
+
+.komentar-item:nth-child(odd) {
+    text-align: left;
+    /* Konten di kiri */
+}
+
+.komentar-item:nth-child(even) {
+    text-align: right;
+    /* Konten di kanan */
+}
+
+.komentar-item p {
+    width: 40%;
+    /* Lebar <p> 45% */
+}
+
+.komentar-item:nth-child(even) p {
+    margin-left: auto;
+    /* Menjaga <p> di kanan */
+}
+
+/*scrollbar*/
+.miniscrollbar::-webkit-scrollbar {
+    width: 2px;
+    /* Menentukan lebar scrollbar */
+    height: 6px;
+    /* Menentukan tinggi scrollbar pada horizontal */
+}
+
+.miniscrollbar::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    /* Warna scrollbar */
+    border-radius: 10px;
+    /* Membuat scrollbar lebih bulat */
+}
+
+.miniscrollbar::-webkit-scrollbar-track {
+    background: #fff2;
+    /* Warna track scrollbar */
+}
+
+@media only screen and (max-width: 600px) {
+    .komentar-item p {
+        width: 80%;
+    }
+
+    .komentar-item>p {
+        font-size: 13px !important;
+    }
+}
+
+/* ── Guestbook – comment styling (2) ── */
+/* Semua komentar disembunyikan secara default dengan opacity */
+.komentar-item {
+
+    opacity: 0;
+    visibility: hidden;
+    /* Hilangkan secara visual tanpa menghapus dari tata letak */
+    position: absolute;
+    /* Hindari memengaruhi tata letak container */
+    top: 0;
+    /* Pastikan semua komentar dimulai dari atas */
+    left: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0s linear 0s;
+    /* Efek fade */
+}
+
+/* Komentar yang terlihat */
+.komentar-item.show {
+    opacity: 1;
+    visibility: visible;
+    /* Tampilkan kembali komentar */
+    position: relative;
+    /* Kembalikan ke relatif jika ditampilkan */
+    transition: opacity 0.7s ease-in-out, visibility 0s linear 0s;
+    /* Fade-in lebih cepat */
+}
+
+.komentar-item p {
+    width: 75%;
+}
+
+/* Tambahkan gaya untuk tombol disabled */
+#next-btn,
+#prev-Btn {
+    cursor: pointer;
+
+}
+

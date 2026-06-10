@@ -1,0 +1,274 @@
+/* ══════════════════════════════════════════════════════════
+   PREVIEW TOGGLE BUTTON
+══════════════════════════════════════════════════════════ */
+.edit-shell .edit-preview-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-400);
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color .12s, color .12s, background .12s;
+}
+
+.edit-shell .edit-preview-toggle-btn:hover,
+.edit-shell .edit-preview-toggle-btn.active {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--accent-light);
+}
+
+/* ══════════════════════════════════════════════════════════
+   PREVIEW PANEL
+══════════════════════════════════════════════════════════ */
+.edit-preview-panel {
+  width: 420px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* Header */
+.edit-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.edit-preview-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.edit-preview-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.edit-preview-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--text-600);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.edit-preview-section-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-dark);
+  background: var(--accent-light);
+  border: 1px solid var(--accent-ring);
+  border-radius: 20px;
+  padding: 2px 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.edit-shell .edit-preview-ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-500);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .12s, color .12s, background .12s;
+}
+
+.edit-shell .edit-preview-ctrl-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--accent-light);
+}
+
+.edit-shell .edit-preview-ctrl-btn.spinning i {
+  animation: spin .6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Device viewport switcher bar */
+.edit-preview-devices-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 14px;
+  height: 36px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.edit-preview-devices-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-400);
+  letter-spacing: .04em;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.edit-preview-device-btn {
+  padding: 2px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-500);
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: .02em;
+  line-height: 1.6;
+  transition: border-color .12s, color .12s, background .12s;
+}
+
+.edit-preview-device-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--accent-light);
+}
+
+.edit-preview-device-btn.active {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--accent-light);
+}
+
+/* Stage — gray background holding the phone */
+.edit-preview-stage {
+  flex: 1;
+  min-height: 0;
+  background: #e8e9ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+
+/* Phone chassis — aspect-ratio and height are set inline per selected device.
+   Height is proportional to device.w so smaller devices show a smaller frame. */
+.edit-preview-phone {
+  width: auto;
+  max-width: 92%;
+  background: #151515;
+  border-radius: 44px;
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, .12),
+    0 0 0 3px #1a1a1a,
+    0 28px 80px rgba(0, 0, 0, .55),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
+  position: relative;
+  overflow: visible;
+}
+
+/* Side hardware buttons (decorative) */
+.edit-preview-phone-vol-up,
+.edit-preview-phone-vol-down,
+.edit-preview-phone-power {
+  position: absolute;
+  background: #2a2a2a;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.edit-preview-phone-vol-up {
+  left: -3px;
+  top: 90px;
+  width: 3px;
+  height: 36px;
+}
+
+.edit-preview-phone-vol-down {
+  left: -3px;
+  top: 138px;
+  width: 3px;
+  height: 36px;
+}
+
+.edit-preview-phone-power {
+  right: -3px;
+  top: 110px;
+  width: 3px;
+  height: 52px;
+}
+
+/* Screen — fills the full phone interior (same aspect ratio, no gap) */
+.edit-preview-phone-screen {
+  position: absolute;
+  inset: 0;
+  border-radius: 44px;
+  overflow: hidden;
+  background: #000;
+}
+
+.edit-preview-iframe {
+  border: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Dynamic island — absolute overlay inside screen */
+.edit-preview-phone-island {
+  position: absolute;
+  top: 1.4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 27%;
+  height: 3.4%;
+  background: #000;
+  border-radius: 100px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Home indicator — absolute overlay inside screen */
+.edit-preview-phone-bar {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 4px;
+  background: rgba(255, 255, 255, .35);
+  border-radius: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+

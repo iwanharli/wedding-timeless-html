@@ -1,0 +1,113 @@
+/* ══════════════════════════════════════════════════════════
+   LOGIN PAGE
+══════════════════════════════════════════════════════════ */
+.edit-login {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--surface);
+}
+
+.edit-login-left {
+  flex: 1;
+  background: var(--sidebar-bg);
+  background-image:
+    radial-gradient(ellipse at 25% 40%, rgba(201, 168, 124, .22) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 75%, rgba(201, 168, 124, .12) 0%, transparent 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+.edit-login-brand {
+  text-align: center;
+  color: #fff;
+}
+
+.edit-login-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: 18px;
+  margin: 0 auto 24px;
+  box-shadow: 0 6px 24px rgba(201, 168, 124, .45);
+  font-size: 26px;
+  color: #fff;
+}
+
+.edit-login-brand h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  margin: 0 0 12px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.edit-login-brand p {
+  font-size: 14px;
+  color: var(--sidebar-text);
+  line-height: 1.65;
+  max-width: 300px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.edit-login-right {
+  width: 460px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 56px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+}
+
+.edit-login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-login-form h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-900);
+  letter-spacing: -.03em;
+  margin: 0 0 6px;
+  font-family: 'Inter', sans-serif;
+}
+
+.edit-login-form>p {
+  font-size: 14px;
+  color: var(--text-600);
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+.edit-login-form .edit-field {
+  margin-bottom: 18px;
+}
+
+/* login submit — 0,2,0 specificity */
+.edit-login .edit-save-btn {
+  margin-top: 8px;
+}
+
+@media (max-width: 720px) {
+  .edit-login-left {
+    display: none;
+  }
+
+  .edit-login-right {
+    width: 100%;
+    border: none;
+    padding: 48px 28px;
+  }
+}
+

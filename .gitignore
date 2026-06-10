@@ -3,3 +3,5 @@ node_modules/
 dist/
 .env
 .env.development
+test-results/
+db_dump.sql

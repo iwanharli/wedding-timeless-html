@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS — gunakan HANYA variable di bawah ini.
+   Jangan pakai nama lain (misal --text-primary tidak ada).
+
+   Warna teks :
+     --text-900   #111827   (judul / teks utama)
+     --text-600   #4b5563   (teks sekunder)
+     --text-400   #9ca3af   (placeholder / disabled)
+
+   Surface / border :
+     --surface    #ffffff   (card background)
+     --bg         #f3f4f6   (page background)
+     --border     #e5e7eb   (border tipis)
+     --border-mid #d1d5db   (border sedang)
+
+   Aksen (emas/warm) :
+     --accent       #c9a87c
+     --accent-dark  #b8935f
+     --accent-light #fdf6ec
+     --accent-ring  rgba(201,168,124,.22)
+
+   Status :
+     --green    #059669   --green-bg  #ecfdf5   --green-bd  #a7f3d0
+     --red      #dc2626   --red-bg    #fef2f2   --red-bd    #fca5a5
+     --amber    #d97706   --amber-bg  #fffbeb   --amber-bd  #fde68a
+
+   Radius : --r-sm 6px  --r-md 10px  --r-lg 14px
+   Shadow : --shadow-xs  --shadow-sm  --shadow-md
+
+   ⚠  .edit-shell button { all: unset } — semua button di dalam
+      .edit-shell di-reset total. Selalu set ulang display, padding,
+      background, border-radius, dll di class button kamu.
+══════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════
+   SCOPED RESET
+   Specificity 0,1,1 overrides app.css [type=button] (0,1,0)
+   and button (0,0,1) — kills the pink #c36 border bleed
+══════════════════════════════════════════════════════════ */
+/* :where() makes specificity (0,0,1) so any class override (0,1,0) wins */
+:where(.edit-shell, .edit-login) button {
+  all: unset;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+:where(.edit-shell, .edit-login) input,
+:where(.edit-shell, .edit-login) textarea,
+:where(.edit-shell, .edit-login) select {
+  all: unset;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  color: inherit;
+  line-height: 1.5;
+}
+
+.edit-shell a,
+.edit-login a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════════ */
+.edit-shell,
+.edit-login {
+  --sidebar-bg: #111827;
+  --sidebar-hover: rgba(255, 255, 255, .07);
+  --sidebar-active-bg: rgba(255, 255, 255, .10);
+  --sidebar-bar: #c9a87c;
+  --sidebar-text: #9ca3af;
+  --sidebar-text-on: #f9fafb;
+  --sidebar-border: rgba(255, 255, 255, .08);
+
+  --accent: #c9a87c;
+  --accent-dark: #b8935f;
+  --accent-light: #fdf6ec;
+  --accent-ring: rgba(201, 168, 124, .22);
+
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --border-mid: #d1d5db;
+
+  --text-900: #111827;
+  --text-600: #4b5563;
+  --text-400: #9ca3af;
+
+  --green: #059669;
+  --green-bg: #ecfdf5;
+  --green-bd: #a7f3d0;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-bd: #fca5a5;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-bd: #fde68a;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .06);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, .09), 0 2px 6px rgba(0, 0, 0, .05);
+}
+

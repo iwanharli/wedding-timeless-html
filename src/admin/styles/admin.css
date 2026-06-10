@@ -1,0 +1,18 @@
+/* Editor styles — split per component. Order matters: later files
+   can override earlier ones at equal specificity. */
+@import './tokens.css';
+@import './login.css';
+@import './shell.css';
+@import './toolbar.css';
+@import './buttons.css';
+@import './form-fields.css';
+@import './upload-field.css';
+@import './color-field.css';
+@import './array-editor.css';
+@import './layout-panel.css';
+@import './loading-error.css';
+@import './preview-panel.css';
+@import './responsive.css';
+@import './media-picker.css';
+@import './share-page.css';
+@import './page-header.css';

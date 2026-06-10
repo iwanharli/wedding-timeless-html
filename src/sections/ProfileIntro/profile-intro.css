@@ -1,0 +1,88 @@
+/* ================================================================
+   SECTION 3 · PROFILE INTRO
+================================================================ */
+/* Profile Intro */
+.section-profile-intro {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient: subtle at top, heavy at bottom */
+.pi-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0) 30%,
+        rgba(0,0,0,0.55) 60%,
+        rgba(0,0,0,0.88) 80%,
+        rgba(0,0,0,0.96) 100%
+    );
+}
+
+/* Content pinned to bottom */
+.pi-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 28px 36px;
+    gap: 0;
+}
+
+.pi-ref-badge {
+    color: rgba(255,255,255,0.7);
+    font-family: "script icon", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+.pi-text {
+    color: rgba(255,255,255,0.85);
+    font-family: "ovo", sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    text-align: center;
+    margin: 0 0 18px 0;
+}
+
+.pi-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 65%;
+    margin: 0 auto 14px;
+}
+
+.pi-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.22);
+    display: block;
+}
+
+.pi-divider-dot {
+    color: rgba(255,255,255,0.4);
+    font-size: 4px;
+}
+
+.pi-names {
+    color: #fff;
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-align: center;
+    margin: 0;
+    opacity: 0.9;
+}
+

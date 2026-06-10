@@ -1,0 +1,175 @@
+/* ================================================================
+   SECTION 2 · INTRO SCREEN  (#pertama)
+================================================================ */
+#pertama {
+    display: flex;
+    justify-content: center;
+    align-items: safe center;
+    padding: 30px;
+    position: relative;
+}
+
+#pertama #home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Vignette: radial dark center for text contrast, keeps video visible at edges */
+.intro-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 85% 75% at 50% 45%,
+        rgba(0,0,0,0.45) 0%,
+        rgba(0,0,0,0.1) 60%,
+        rgba(0,0,0,0) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Content box: centered vertically, slightly above middle */
+.intro-content {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-55%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    z-index: 1;
+}
+
+.intro-invite-title {
+    color: rgba(255,255,255,0.85);
+    font-family: "time noww", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin: 0 0 10px 0;
+}
+
+/* Ornamental divider */
+.intro-ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 60%;
+    margin: 0 auto 12px;
+}
+
+.intro-orn-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.35);
+    display: block;
+}
+
+.intro-orn-diamond {
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.6);
+    transform: rotate(45deg);
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Two-row names */
+.intro-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 12px;
+}
+
+.intro-name {
+    font-family: "script icon", sans-serif;
+    font-size: clamp(42px, 15vw, 60px);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+
+.intro-name-connector {
+    font-family: "script icon", sans-serif;
+    font-size: clamp(19px, 7vw, 27px);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 4px 0;
+    line-height: 1;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+
+.intro-date {
+    color: rgba(255,255,255,0.9);
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin: 0;
+}
+
+.intro-vow {
+    color: rgba(255,255,255,0.65);
+    font-family: lausanne300, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 32px;
+    margin: 10px 0 0 0;
+    line-height: 1.7;
+    letter-spacing: 0.5px;
+}
+
+/* Scroll indicator — fixed at bottom center */
+.intro-scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    cursor: pointer;
+    padding: 12px;
+}
+
+@keyframes float-up {
+    0%   { transform: translateY(0);   opacity: 0.5; }
+    50%  { transform: translateY(-7px); opacity: 1; }
+    100% { transform: translateY(0);   opacity: 0.5; }
+}
+
+.intro-scroll-icon {
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    animation: float-up 1.8s ease-in-out infinite;
+    display: block;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .intro-name {
+        width: 100%;
+        text-align: center;
+    }
+}
+

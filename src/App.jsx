@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PublicSite from './components/PublicSite'
-import Login from './edit/Login'
-import RequireAuth from './edit/RequireAuth'
-import Editor from './edit/Editor'
-import NotFound from './NotFound'
+import Login from './admin/auth/Login'
+import RequireAuth from './admin/auth/RequireAuth'
+import Editor from './admin/shell/Editor'
+import NotFound from './pages/NotFound/NotFound'
 
 export default function App() {
   return (

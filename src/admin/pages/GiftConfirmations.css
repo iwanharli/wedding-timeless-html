@@ -1,0 +1,106 @@
+.gc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.gc-loading,
+.gc-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 56px 24px;
+  color: var(--text-400);
+  font-size: 13px;
+}
+
+.gc-empty i {
+  font-size: 28px;
+  opacity: .35;
+}
+
+.gc-total-amount {
+  font-size: 18px !important;
+  letter-spacing: -.02em;
+}
+
+/* Name cell */
+.gc-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gc-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: .03em;
+}
+
+.gc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-900);
+}
+
+/* Bank badge */
+.gc-bank-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-ring);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Amount */
+.gc-amount {
+  font-size: 13px;
+  font-weight: 700;
+  color: #16a34a;
+  white-space: nowrap;
+}
+
+/* Note */
+.gc-note {
+  font-size: 12.5px;
+  color: var(--text-600);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.gc-empty-cell {
+  color: var(--text-300);
+}
+
+/* Row number */
+.gc-td-num {
+  color: var(--text-300);
+  font-size: 12px;
+  width: 36px;
+}
+
+/* Time */
+.gc-td-time {
+  white-space: nowrap;
+  color: var(--text-400);
+  font-size: 12px;
+}

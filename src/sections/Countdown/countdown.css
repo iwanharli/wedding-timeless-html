@@ -1,0 +1,152 @@
+/* ================================================================
+   SECTION 7 · COUNTDOWN + SAVE THE DATE
+================================================================ */
+.section-countdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    min-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.section-countdown::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.45) 40%,
+        rgba(0,0,0,0.5) 70%,
+        rgba(0,0,0,0.6) 100%
+    );
+    z-index: 0;
+}
+
+.section-countdown > * { position: relative; z-index: 1; }
+
+/* ── Content body at bottom ── */
+.cd-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 0 30px;
+}
+
+/* ── Top: message + names ── */
+.cd-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.cd-message {
+    color: #ffffff;
+    font-family: "signature fed", sans-serif;
+    font-size: 38px;
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.cd-names-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.6);
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.cd-names { color: rgba(255,255,255,0.8); }
+.cd-dot-sep { opacity: 0.4; }
+.cd-date {}
+
+/* ── Timer ── */
+.cd-timer {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+}
+
+.cd-digits {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 52px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+
+.cd-label {
+    color: rgba(255,255,255,0.5);
+    font-family: "inter", sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+}
+
+.cd-sep {
+    color: rgba(255,255,255,0.3);
+    font-family: "time noww", sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1;
+    margin-top: 4px;
+    align-self: flex-start;
+}
+
+/* ── Save the Date button ── */
+.cd-save-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cd-save-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 40px;
+    text-decoration: none;
+    padding: 11px 24px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.cd-save-btn:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.4);
+    color: #fff;
+}
+.cd-save-btn i { font-size: 12px; }
+

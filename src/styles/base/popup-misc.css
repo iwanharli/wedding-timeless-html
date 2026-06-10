@@ -1,0 +1,207 @@
+/* ── Preloader & Popup ── */
+
+/* Gallery video embed */
+.gallery-video-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.gallery-video-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+.gallery-video-play .fas.fa-play {
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+/* Base button */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.btn-content-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form base */
+.popup-form .popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.popup-form .popup-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.popup-form .popup-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    padding: 6px 0;
+    font-size: 13px;
+    outline: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.preloader-hidden {
+    opacity: 0;
+}
+
+/* Popup form styles */
+.popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popup-label {
+    font-family: inter, sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #333;
+}
+
+.popup-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 0;
+    font-size: 13px;
+    font-family: inter, sans-serif;
+    outline: none;
+    background: transparent;
+}
+
+.popup-select {
+    appearance: none;
+    cursor: pointer;
+}
+
+.popup-submit {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-family: inter, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.popup-submit:hover {
+    background: #555;
+}
+
+/* ── Nav list styles ── */
+.nav-list.nav-list.nav-inline {
+    margin-right: -8px;
+    margin-left: -8px
+}
+
+.nav-list.nav-list.nav-inline .nav-item {
+    margin-right: 8px;
+    margin-left: 8px
+}
+
+.nav-list.nav-list.nav-inline .nav-item:after {
+    width: auto;
+    left: auto;
+    right: auto;
+    position: relative;
+    height: 100%;
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+    border-left-width: 1px;
+    border-style: solid;
+    right: -8px
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0
+}
+
+.nav-item {
+    margin: 0;
+    padding: 0;
+    position: relative
+}
+
+.nav-item:after {
+    position: absolute;
+    bottom: 0;
+    width: 100%
+}
+
+.nav-item,
+.nav-item a {
+    display: flex;
+    font-size: inherit;
+    align-items: var(--icon-vertical-align, center)
+}
+
+.nav-icon+.nav-text {
+    align-self: center;
+    padding-inline-start: 5px
+}
+
+.nav-icon {
+    display: flex;
+    position: relative;
+    top: var(--icon-vertical-offset, initial)
+}
+
+.nav-icon svg {
+    width: var(--e-icon-list-icon-size, 1em);
+    height: var(--e-icon-list-icon-size, 1em)
+}
+
+.nav-icon i {
+    width: 1.25em;
+    font-size: var(--e-icon-list-icon-size)
+}
+

@@ -1,0 +1,376 @@
+/* ══════════════════════════════════════════════════════════
+   UPLOAD FIELD  (FieldInput image/video)
+══════════════════════════════════════════════════════════ */
+.edit-upload-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Profile layout: photo pinned left, detail fields in 2-col grid on right */
+.edit-field-profile-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.edit-field-profile-photo {
+  position: sticky;
+  top: 16px;
+}
+
+.edit-field-profile-photo .edit-field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-400);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.edit-field-profile-photo .edit-upload-thumb {
+  height: auto;
+}
+
+.edit-field-profile-photo .edit-upload-dropzone {
+  min-height: 320px;
+}
+
+@media (max-width: 700px) {
+  .edit-field-profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .edit-field-profile-photo {
+    position: static;
+  }
+}
+
+/* Compact media field — batasi tinggi preview & dropzone */
+.edit-field--compact-media .edit-upload-dropzone {
+  min-height: 110px;
+}
+.edit-field--compact-media .edit-upload-preview {
+  max-height: 600px;
+  overflow: hidden;
+}
+.edit-field--compact-media .edit-upload-thumb {
+  max-height: 600px;
+  object-fit: cover;
+}
+
+/* Drop zone */
+.edit-shell .edit-upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 110px;
+  background: var(--bg);
+  border: 2px dashed var(--border-mid);
+  border-radius: var(--r-md);
+  color: var(--text-400);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+}
+
+.edit-shell .edit-upload-dropzone:hover:not([disabled]),
+.edit-shell .edit-upload-dropzone.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.edit-shell .edit-upload-dropzone.drag-over {
+  border-style: solid;
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.edit-shell .edit-upload-dropzone.uploading {
+  cursor: default;
+  color: var(--text-400);
+}
+
+.edit-shell .edit-upload-dropzone i {
+  font-size: 22px;
+}
+
+.edit-upload-hint {
+  font-size: 11.5px;
+  color: var(--text-400);
+  margin-top: -2px;
+}
+
+/* Preview block */
+.edit-upload-video-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: #000;
+}
+
+.edit-upload-video-wrap video.edit-upload-thumb {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  background: #000;
+  border-radius: 0;
+}
+
+.edit-upload-video-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.edit-upload-preview {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+}
+
+.edit-upload-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+video.edit-upload-thumb {
+  max-height: 260px;
+  background: #000;
+}
+
+.edit-upload-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity .18s;
+}
+
+.edit-upload-preview:hover .edit-upload-overlay {
+  opacity: 1;
+}
+
+.edit-shell .edit-upload-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, .15);
+  border-radius: var(--r-sm);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .12s;
+  border: 1.5px solid rgba(255, 255, 255, .3);
+  backdrop-filter: blur(4px);
+}
+
+.edit-shell .edit-upload-view-btn:hover {
+  background: rgba(255, 255, 255, .3);
+}
+
+.edit-shell .edit-upload-change-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-900);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.edit-shell .edit-upload-change-btn:hover:not([disabled]) {
+  background: var(--accent-light);
+}
+
+.edit-shell .edit-upload-change-btn[disabled] {
+  opacity: .5;
+  cursor: default;
+}
+
+.edit-shell .edit-upload-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(220, 38, 38, .85);
+  border: none;
+  border-radius: var(--r-sm);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.edit-shell .edit-upload-remove-btn:hover {
+  background: var(--red);
+}
+
+.edit-upload-progress {
+  font-size: 12.5px;
+  color: var(--text-400);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-upload-error {
+  font-size: 12px;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Audio preview */
+.edit-upload-audio {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.edit-upload-audio-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.edit-upload-audio-icon {
+  width: 34px;
+  height: 34px;
+  background: var(--accent-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-dark);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.edit-upload-audio-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  text-transform: capitalize;
+}
+
+.edit-upload-audio-player {
+  width: 100%;
+  height: 36px;
+  border-radius: var(--r-sm);
+  accent-color: var(--accent);
+}
+
+.edit-upload-audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.edit-shell .edit-upload-change-btn--flat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-600);
+  cursor: pointer;
+  transition: border-color .12s, color .12s;
+}
+
+.edit-shell .edit-upload-change-btn--flat:hover:not([disabled]) {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.edit-shell .edit-upload-change-btn--flat[disabled] {
+  opacity: .4;
+  cursor: default;
+}
+
+.edit-shell .edit-upload-remove-btn--flat {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  color: var(--text-400);
+  cursor: pointer;
+  transition: border-color .12s, color .12s, background .12s;
+}
+
+.edit-shell .edit-upload-remove-btn--flat:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-bg);
+}
+
+/* URL input below preview */
+.edit-shell .edit-upload-url-input {
+  display: block;
+  width: 100%;
+  padding: 7px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-600);
+  background: var(--bg);
+  outline: none;
+  transition: border-color .15s;
+}
+
+.edit-shell .edit-upload-url-input:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  color: var(--text-900);
+}
+

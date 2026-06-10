@@ -1,0 +1,129 @@
+/* ── Preloader Page & Overrides ── */
+#preloader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    z-index: 9999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+#preloader.hide {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Preloader content */
+.preloader-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.preloader-lottie {
+    width: 90vw !important;
+    max-width: 680px !important;
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+}
+
+.preloader-lottie svg {
+    width: 100% !important;
+    height: 100% !important;
+    filter: brightness(3) !important;
+}
+
+/* Names below animation */
+@keyframes pre-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.preloader-names {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 12px !important;
+    margin-top: -8px !important;
+    animation: pre-fade-up 1s cubic-bezier(0.22, 0.61, 0.36, 1) 600ms both !important;
+}
+
+.preloader-name1,
+.preloader-name2 {
+    font-family: 'script icon', cursive !important;
+    color: #fff !important;
+    font-size: clamp(32px, 9vw, 60px) !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.preloader-connector {
+    font-family: 'script icon', cursive !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: clamp(16px, 4vw, 28px) !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+.preloader-ornament {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: clamp(100px, 30vw, 160px) !important;
+    margin-top: 10px !important;
+    animation: pre-fade-up 1s cubic-bezier(0.22, 0.61, 0.36, 1) 900ms both !important;
+}
+
+.preloader-orn-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    display: block !important;
+}
+
+.preloader-orn-dot {
+    color: rgba(255, 255, 255, 0.35) !important;
+    font-size: 4px !important;
+}
+
+/* Progress bar — thin line at very bottom */
+.preloader-bar-wrap {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.preloader-bar {
+    height: 100% !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+    transition: width 0.12s linear !important;
+    border-radius: 0 1px 1px 0 !important;
+}
+
+/* ── Inline Style (8) ── */
+/* opsional buat sembunyikan QR */
+.hidden-qr {
+    display: none
+}
+

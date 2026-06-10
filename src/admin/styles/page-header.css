@@ -1,0 +1,89 @@
+/* ══════════════════════════════════════════════════════════
+   PAGE TOPBAR  (.gl-header)
+   Shared by Dashboard, GuestList, WishesList, MediaLibrary.
+   Full-bleed: negates the edit-scroll--full horizontal padding
+   (24px) so the bar spans edge-to-edge like the EditorToolbar.
+══════════════════════════════════════════════════════════ */
+
+.gl-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  margin: 0 -24px 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.gl-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.gl-header-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 3px 10px rgba(201, 168, 124, .22), inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+.gl-header-icon i {
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900 !important;
+}
+
+.gl-header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-900);
+  letter-spacing: -.025em;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.gl-header-sub {
+  font-size: 12px;
+  color: var(--text-400);
+  margin: 2px 0 0;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gl-header-count {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  border: 1px solid var(--accent-ring);
+  padding: 1px 7px;
+  border-radius: 99px;
+  font-weight: 700;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.gl-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}

@@ -1,0 +1,150 @@
+/* ================================================================
+   SECTION 12 · GUEST WISHES DISPLAY
+================================================================ */
+.section-wishes {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.wishes-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+/* Card: quote + message + author */
+.wishes-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    animation: wishes-fadein .5s ease;
+}
+
+@keyframes wishes-fadein {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.wishes-quote-mark {
+    font-family: "script icon", serif;
+    font-size: 96px;
+    line-height: 0.6;
+    color: rgba(255,255,255,0.15);
+    display: block;
+    user-select: none;
+}
+
+.wishes-message {
+    color: rgba(255,255,255,0.9);
+    font-family: "time now italic", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 85%;
+}
+
+.wishes-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.wishes-author-line {
+    width: 28px;
+    height: 1px;
+    background: rgba(255,255,255,0.35);
+    flex-shrink: 0;
+}
+.wishes-name {
+    color: rgba(195, 175, 140, 0.9);
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Footer: arrow + counter + arrow */
+.wishes-footer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.wishes-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+.wishes-arrow:hover { background: rgba(255,255,255,0.15); color: #ffffff; }
+.wishes-arrow--disabled {
+    opacity: 0.2;
+    cursor: default;
+    pointer-events: none;
+}
+
+.wishes-counter-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 60px;
+}
+
+.wishes-counter {
+    color: rgba(255,255,255,0.4);
+    font-family: "inter", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.wishes-progress-bar {
+    width: 60px;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.wishes-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: rgba(255,255,255,0.5);
+    animation: wishes-progress 4s linear forwards;
+}
+
+@keyframes wishes-progress {
+    from { width: 0%; }
+    to   { width: 100%; }
+}
+
+.wishes-empty {
+    color: rgba(255,255,255,0.4);
+    font-family: "time now italic", sans-serif;
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+}
+

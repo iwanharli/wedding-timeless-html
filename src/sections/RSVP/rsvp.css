@@ -1,0 +1,266 @@
+/* ================================================================
+   SECTION 11 · RSVP  (#rsvp)
+================================================================ */
+.section-rsvp {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    min-height: 100vh;
+    padding: 48px 24px 48px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.rsvp-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rsvp-title {
+    color: #ffffff;
+    font-family: "time now italic", sans-serif;
+    font-size: 30px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+}
+
+.rsvp-desc {
+    color: rgba(255,255,255,0.55);
+    font-family: "ovo", sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: left;
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+}
+
+/* Glass card wrapping the form */
+.rsvp-form-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 24px 20px;
+}
+
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.rsvp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rsvp-field label {
+    color: rgba(255,255,255,0.45);
+    font-family: "inter", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.rsvp-input, .rsvp-textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 15px;
+    padding: 8px 0;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color .2s;
+}
+.rsvp-input:focus, .rsvp-textarea:focus {
+    border-bottom-color: rgba(255,255,255,0.7);
+}
+
+.rsvp-textarea {
+    resize: none;
+    min-height: 80px;
+    padding-bottom: 12px;
+}
+
+/* Radio — each option on its own row */
+.rsvp-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rsvp-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.7);
+    font-family: "inter", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: color .15s;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background .15s, color .15s, border-color .15s;
+}
+.rsvp-radio-label:has(input:checked) {
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+}
+
+/* Custom radio */
+.rsvp-radio-label input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    cursor: pointer;
+    transition: border-color .15s;
+}
+.rsvp-radio-label input[type="radio"]::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: transform .15s;
+}
+.rsvp-radio-label input[type="radio"]:checked { border-color: #ffffff; }
+.rsvp-radio-label input[type="radio"]:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Guest stepper */
+.rsvp-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 8px;
+    overflow: hidden;
+    align-self: flex-start;
+}
+.rsvp-stepper-btn {
+    background: rgba(255,255,255,0.06);
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 300;
+    width: 34px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s;
+    line-height: 1;
+}
+.rsvp-stepper-btn:hover:not(:disabled) { background: rgba(255,255,255,0.15); }
+.rsvp-stepper-btn:disabled { opacity: 0.3; cursor: default; }
+.rsvp-stepper-val {
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 32px;
+    text-align: center;
+    padding: 0 4px;
+}
+
+/* Submit button */
+.rsvp-submit {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 13px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+    transition: background .2s;
+}
+.rsvp-submit:hover:not(:disabled) { background: rgba(255,255,255,0.22); }
+.rsvp-submit:disabled { opacity: 0.5; cursor: default; }
+
+/* Success state */
+.rsvp-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 20px;
+    text-align: center;
+}
+.rsvp-success i {
+    font-size: 36px;
+    color: rgba(255,255,255,0.7);
+}
+.rsvp-success p {
+    color: #ffffff;
+    font-family: "ovo", sans-serif;
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.rsvp-error {
+    color: rgba(255,160,160,0.9);
+    font-family: "inter", sans-serif;
+    font-size: 12px;
+    margin: 0;
+}
+
+.rsvp-field-error {
+    color: rgba(210, 80, 80, 0.85);
+    font-family: "time now italic", sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+    animation: rsvp-fadein .25s ease;
+}
+
+@keyframes rsvp-fadein {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.rsvp-input--error {
+    border-bottom-color: rgba(210, 80, 80, 0.5);
+}
+
+.rsvp-radio-group--error .rsvp-radio-label {
+    color: rgba(210, 80, 80, 0.75);
+}
+.rsvp-radio-group--error .rsvp-radio-label input[type="radio"] {
+    border-color: rgba(210, 80, 80, 0.5);
+}
+

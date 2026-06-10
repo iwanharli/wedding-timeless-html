@@ -1,0 +1,77 @@
+/* ══════════════════════════════════════════════════════════
+   COLOR FIELD
+══════════════════════════════════════════════════════════ */
+.edit-color-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.edit-color-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.edit-color-swatch input[type="color"] {
+  width: 150%;
+  height: 150%;
+  border: none;
+  padding: 0;
+  margin: -25%;
+  cursor: pointer;
+  background: none;
+}
+
+.edit-color-field input[type="text"] {
+  min-width: 0;
+  width: 110px;
+  flex: 1 0 0%;
+}
+
+/* ── Radio / Segmented Toggle ──────────────────────────── */
+.edit-radio-group {
+  display: inline-flex;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.edit-shell .edit-radio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-400);
+  cursor: pointer;
+  transition: background .12s, color .12s, box-shadow .12s;
+  white-space: nowrap;
+}
+
+.edit-shell .edit-radio-btn:hover {
+  color: var(--text-900);
+}
+
+.edit-shell .edit-radio-btn.active {
+  background: #fff;
+  color: var(--text-900);
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
+.edit-media-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+

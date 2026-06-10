@@ -1,0 +1,374 @@
+
+/* ══════════════════════════════════════════════════════════
+   WISHES LIST  (.wl-*)
+══════════════════════════════════════════════════════════ */
+.wl-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* View toggle */
+.wl-view-toggle {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  gap: 2px;
+}
+
+.wl-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-600);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wl-view-btn:hover {
+  background: rgba(0,0,0,0.03);
+  color: var(--text-900);
+}
+
+.wl-view-btn.active {
+  background: var(--surface);
+  color: var(--accent-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Cards layout */
+.wl-cards {
+  padding: 16px;
+}
+
+.wl-section-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 12px;
+}
+
+.wl-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 1200px) {
+  .wl-card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .wl-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .wl-card-grid { grid-template-columns: 1fr; }
+}
+
+.wl-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow .15s;
+}
+
+.wl-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+}
+
+.wl-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wl-card-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.wl-card-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.wl-card-time {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+.wl-card-wish {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.55;
+  margin: 0;
+  font-style: italic;
+  border-left: 3px solid #e5e7eb;
+  padding-left: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.wl-card-wish--expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.wl-wish-toggle {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: -4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+.wl-wish-toggle:hover {
+  text-decoration: underline;
+}
+
+/* Card header actions */
+.wl-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.edit-shell .wl-card-actions .gl-icon-btn {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 11px !important;
+}
+
+.wl-card-pax {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+/* Visibility toggle button */
+.wl-vis-btn {
+  color: #9ca3af;
+}
+
+.wl-vis-btn:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.wl-vis-btn--hidden {
+  color: #d1d5db;
+}
+
+.wl-vis-btn--hidden:hover {
+  color: #6b7280;
+}
+
+/* Hidden card state */
+.wl-card--hidden {
+  opacity: .55;
+  background: #f9fafb;
+}
+
+.wl-card--hidden .wl-card-wish {
+  color: #9ca3af;
+}
+
+.wl-hidden-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Hidden row state */
+.wl-tr--hidden {
+  opacity: .5;
+  background: #fafbfc;
+}
+
+/* RSVP-only list */
+.wl-rsvp-only-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wl-rsvp-only-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.wl-rsvp-only-name {
+  flex: 1;
+  font-size: 13.5px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.wl-rsvp-only-time {
+  font-size: 11.5px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+/* Avatar */
+.wl-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.wl-avatar--sm {
+  width: 28px;
+  height: 28px;
+  font-size: 10.5px;
+}
+
+/* Table view helpers */
+.wl-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wl-td--wish {
+  max-width: 340px;
+}
+
+.wl-wish-text {
+  font-size: 13px;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.wl-td--time {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+/* ── Delete confirmation modal ── */
+.wl-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 9100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: wl-confirm-in .15s ease;
+}
+@keyframes wl-confirm-in {
+  from { opacity: 0; transform: scale(.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.wl-confirm-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  padding: 28px 24px 20px;
+  text-align: center;
+}
+.wl-confirm-icon {
+  width: 52px; height: 52px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--red-bg);
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.wl-confirm-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-900);
+  margin: 0 0 4px;
+}
+.wl-confirm-sub {
+  font-size: 12.5px;
+  color: var(--text-400);
+  margin: 0 0 18px;
+}
+.wl-confirm-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px;
+  margin-bottom: 20px;
+}
+.wl-confirm-preview-body {
+  min-width: 0;
+  flex: 1;
+}
+.wl-confirm-preview-name {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-900);
+  margin-bottom: 4px;
+}
+.wl-confirm-preview-wish {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--text-600);
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.wl-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.wl-confirm-actions .gl-btn {
+  flex: 1;
+  justify-content: center;
+}

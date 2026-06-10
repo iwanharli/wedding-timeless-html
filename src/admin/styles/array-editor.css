@@ -1,0 +1,484 @@
+/* ══════════════════════════════════════════════════════════
+   ARRAY EDITOR
+══════════════════════════════════════════════════════════ */
+.edit-array-wrap {
+  margin-bottom: 28px;
+}
+
+.edit-array-wrap:last-child {
+  margin-bottom: 0;
+}
+
+.edit-array-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.edit-array-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-array-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-array-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-900);
+}
+
+.edit-array-count {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-600);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.edit-array-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-array-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  transition: border-color .15s, box-shadow .15s, opacity .15s;
+}
+
+.edit-array-item:hover {
+  border-color: var(--border-mid);
+  box-shadow: var(--shadow-xs);
+}
+
+.edit-array-item.is-dragging {
+  opacity: .4;
+}
+
+.edit-array-item.drop-target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
+.edit-array-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: #fafbfc;
+  cursor: pointer;
+  user-select: none;
+  transition: background .12s;
+}
+
+.edit-array-item-header:hover {
+  background: #f3f4f6;
+}
+
+.edit-array-item.open>.edit-array-item-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.edit-array-chevron {
+  font-size: 11px;
+  color: var(--text-400);
+  transition: transform .2s ease;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.edit-array-chevron.open {
+  transform: rotate(180deg);
+}
+
+.edit-array-handle {
+  color: var(--text-400);
+  cursor: grab;
+  flex-shrink: 0;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color .12s;
+}
+
+.edit-array-handle:hover {
+  color: var(--text-600);
+}
+
+.edit-array-index {
+  width: 22px;
+  height: 22px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edit-array-item-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-array-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-array-item-body {
+  padding: 14px 12px;
+}
+
+.edit-array-item-body .edit-field {
+  margin-bottom: 14px;
+}
+
+.edit-array-item-body .edit-field:last-child {
+  margin-bottom: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   IMAGE LIST
+══════════════════════════════════════════════════════════ */
+.edit-image-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  transition: border-color .15s;
+}
+
+.edit-image-row:hover {
+  border-color: var(--border-mid);
+}
+
+.edit-image-row.is-dragging {
+  opacity: .4;
+}
+
+.edit-image-row.drop-target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
+.edit-imgrow-thumb-wrap {
+  position: relative;
+  width: 72px;
+  height: 52px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  background: var(--bg);
+  border: 1.5px dashed var(--border-mid);
+  transition: border-color .12s;
+}
+
+.edit-imgrow-thumb-wrap:hover {
+  border-color: var(--accent);
+}
+
+.edit-imgrow-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.edit-imgrow-thumb--video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: #1a1a2e;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
+}
+
+.edit-imgrow-video-label {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.edit-imgrow-thumb-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--text-400);
+  font-size: 11px;
+}
+
+.edit-imgrow-thumb-empty i {
+  font-size: 13px;
+}
+
+.edit-imgrow-thumb-spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, .7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.edit-imgrow-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.edit-imgrow-thumb-wrap:hover .edit-imgrow-thumb-overlay {
+  opacity: 1;
+}
+
+/* 0,2,0 beats reset .edit-shell input (0,1,1) */
+.edit-shell .edit-imgrow-url {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  padding: 6px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-600);
+  background: var(--bg);
+  outline: none;
+  transition: border-color .15s;
+}
+
+.edit-shell .edit-imgrow-url:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+  color: var(--text-900);
+}
+
+/* ── Media Grid (ImageListEditor) ──────────────────────── */
+.edit-imagelist-wrap { width: 100%; }
+
+.edit-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.edit-media-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: grab;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  transition: border-color .15s;
+}
+
+.edit-media-card:active { cursor: grabbing; }
+
+.edit-media-card.is-dragging { opacity: .35; }
+
+.edit-media-card.drop-target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
+.edit-media-card-thumb {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.edit-media-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.edit-media-card-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #111827;
+  color: rgba(255,255,255,.6);
+  font-size: 22px;
+}
+
+.edit-media-card-video span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,.35);
+}
+
+.edit-media-card-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-300);
+  font-size: 20px;
+}
+
+.edit-media-card-spinner {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.edit-media-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.5) 0%, transparent 45%, transparent 55%, rgba(0,0,0,.35) 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 6px;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.edit-media-card:hover .edit-media-card-overlay { opacity: 1; }
+
+.edit-media-card-handle {
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.5));
+  cursor: grab;
+}
+
+.edit-shell .edit-media-card-remove {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(220,38,38,.85);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.edit-shell .edit-media-card-remove:hover { background: #dc2626; }
+
+.edit-media-card-index {
+  position: absolute;
+  bottom: 5px;
+  left: 7px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  text-shadow: 0 1px 3px rgba(0,0,0,.6);
+  pointer-events: none;
+}
+
+.edit-shell .edit-media-card-add {
+  aspect-ratio: 3 / 4;
+  border: 1.5px dashed var(--border-mid);
+  border-radius: 8px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-400);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+
+.edit-shell .edit-media-card-add:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.edit-shell .edit-media-card-add i { font-size: 16px; }
+
+.edit-media-grid-empty {
+  font-size: 12px;
+  color: var(--text-400);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Empty state */
+.edit-array-empty {
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-400);
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  border: 1.5px dashed var(--border-mid);
+}
+
+/* ══════════════════════════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════════════════════════ */
+.edit-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+

@@ -1,0 +1,182 @@
+/* ══════════════════════════════════════════════════════════
+   BUTTONS  — all scoped to 0,2,0+ to beat reset 0,1,1
+══════════════════════════════════════════════════════════ */
+.edit-shell .edit-save-btn,
+.edit-login .edit-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 22px;
+  background: var(--text-900);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background .15s, box-shadow .15s, opacity .15s;
+  letter-spacing: -.015em;
+  white-space: nowrap;
+}
+
+.edit-shell .edit-save-btn:hover:not([disabled]),
+.edit-login .edit-save-btn:hover:not([disabled]) {
+  background: #1f2937;
+  box-shadow: var(--shadow-md);
+  color: #fff;
+}
+
+.edit-shell .edit-save-btn[disabled],
+.edit-login .edit-save-btn[disabled] {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* Toolbar Save Button Wrap */
+.edit-toolbar-save-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.edit-toolbar-save-wrap .edit-save-btn {
+  padding: 8px 18px;
+  font-size: 13px;
+  border-radius: var(--r-sm);
+  background: var(--text-900);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background .15s, box-shadow .15s, opacity .15s;
+  letter-spacing: -.015em;
+  white-space: nowrap;
+}
+
+.edit-toolbar-save-wrap .edit-save-btn:hover:not([disabled]) {
+  background: #1f2937;
+  box-shadow: var(--shadow-md);
+}
+
+.edit-toolbar-save-wrap .edit-save-btn[disabled] {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.edit-toolbar-save-wrap .edit-status-toast {
+  animation: toastInRight .2s ease;
+}
+
+.edit-shell .edit-revert-btn {
+  all: revert;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--text-500);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  letter-spacing: -.015em;
+  white-space: nowrap;
+  animation: toastIn .15s ease;
+}
+
+.edit-shell .edit-revert-btn:hover:not([disabled]) {
+  background: var(--red-bg);
+  border-color: var(--red-bd);
+  color: var(--red);
+}
+
+.edit-shell .edit-revert-btn[disabled] {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+@keyframes toastInRight {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Icon button */
+.edit-shell .edit-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text-400);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+  flex-shrink: 0;
+}
+
+.edit-shell .edit-icon-btn:hover:not([disabled]) {
+  background: var(--bg);
+  border-color: var(--border-mid);
+  color: var(--text-900);
+}
+
+.edit-shell .edit-icon-btn[disabled] {
+  opacity: .25;
+  cursor: default;
+}
+
+.edit-shell .edit-icon-btn.edit-icon-btn--danger:hover:not([disabled]) {
+  background: var(--red-bg);
+  border-color: var(--red-bd);
+  color: var(--red);
+}
+
+/* Array add button */
+.edit-shell .edit-array-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  background: var(--surface);
+  color: var(--text-900);
+  border: 1.5px solid var(--border-mid);
+  border-radius: var(--r-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+  white-space: nowrap;
+}
+
+.edit-shell .edit-array-add-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.edit-shell .edit-array-add-btn--secondary {
+  background: transparent;
+  color: var(--text-600);
+  border-color: var(--border);
+}
+
+.edit-shell .edit-array-add-btn--secondary:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+

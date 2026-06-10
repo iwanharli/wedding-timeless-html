@@ -1,0 +1,154 @@
+/* ================================================================
+   SECTION 9 · LIVESTREAMING  (#livestreaming)
+================================================================ */
+.section-livestream {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: stretch;
+    min-height: 100vh;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Photo: full-width, tall, with gradient overlay */
+.ls9-photo-wrap {
+    width: 100%;
+    height: 56vh;
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.ls9-photo {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+.ls9-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.1) 50%,
+        rgba(16,16,16,0.92) 100%);
+}
+
+/* LIVE badge — top-left corner of photo */
+.ls9-live-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(210, 45, 45, 0.88);
+    color: #ffffff;
+    font-family: "inter", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+}
+.ls9-live-dot {
+    width: 6px;
+    height: 6px;
+    background: #ffffff;
+    border-radius: 50%;
+    animation: ls9-pulse 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+@keyframes ls9-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* Content block below the photo */
+.ls9-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 28px 28px 48px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: -2px;
+}
+
+/* "Streaming Event" label */
+.ls9-label {
+    color: rgba(255,255,255,0.4);
+    font-family: "inter", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Title */
+.ls9-title {
+    color: #ffffff;
+    font-family: "time noww", sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    text-align: left;
+    margin: 0;
+    line-height: 1.25;
+}
+
+/* Date row with calendar icon */
+.ls9-date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+}
+.ls9-date-row i {
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.ls9-date {
+    color: rgba(255,255,255,0.65);
+    font-family: "time noww", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+/* Join Now button */
+.ls9-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: "inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50px;
+    padding: 11px 22px;
+    text-decoration: none;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.ls9-btn i { font-size: 14px; opacity: 0.8; }
+.ls9-btn:hover { background-color: rgba(255,255,255,0.18); }
+
+/* Mobile */
+@media (max-width: 767px) {
+    .section-livestream { padding: 10% 5%; }
+    .ls9-photo-wrap { height: 180px; }
+    .ls9-photo { height: 180px !important; }
+}
+

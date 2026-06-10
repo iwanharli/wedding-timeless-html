@@ -1,45 +1,164 @@
 # Timeless Wedding Invitation
 
-Undangan pernikahan digital berbasis **React + Vite** (frontend) dan **Express + PostgreSQL** (backend API), dilengkapi dengan CMS editor untuk mengelola konten, daftar tamu, RSVP, dan statistik kunjungan.
+Undangan pernikahan digital berbasis **React + Vite** (frontend) dan **Express + PostgreSQL** (backend API), dilengkapi dengan CMS editor (`/admin`) untuk mengelola seluruh konten, urutan/visibilitas section, daftar tamu (dengan link undangan personal), RSVP & ucapan, media library, serta statistik kunjungan.
 
 ## Tech Stack
 
 | Layer | Teknologi |
 |-------|-----------|
-| Frontend | React 19, Vite 8, React Router 7, Swiper, AOS |
-| Backend | Express 5, PostgreSQL, JWT Auth, Multer |
+| Frontend | React 19, Vite 8, React Router 7, Swiper, AOS, ECharts, Lottie |
+| Backend | Express 5, PostgreSQL (`pg`), JWT Auth, bcrypt, Multer |
+| Tooling | ESLint 10 (flat config), Playwright (smoke test) |
 | Production | Nginx (reverse proxy + static), PM2 (process manager) |
 
 ## Struktur Proyek
 
 ```
 timeless-wedding/
-├── public/                 # Static assets (images, media, uploads)
+├── public/                      # Static assets yang disajikan apa adanya
 │   └── assets/
-├── src/                    # React frontend source
-│   ├── components/         # Reusable components
-│   ├── data/               # Content defaults & section configs
-│   └── pages/              # Route pages (PublicSite, CMS Editor)
-├── server/                 # Express backend
-│   ├── index.js            # Server entrypoint
-│   ├── db.js               # PostgreSQL pool
-│   ├── migrate.js          # Database migrations (all tables)
-│   ├── seed.js             # Database seeder (production data)
-│   ├── data/               # Seed data files
-│   │   └── wedding-config.json
-│   ├── auth.js             # JWT login & middleware
-│   ├── config.js           # Wedding config CRUD
-│   ├── guests.js           # Guest list management
-│   ├── rsvp.js             # RSVP & wishes
-│   ├── dashboard.js        # Dashboard statistics
-│   ├── visits.js           # Page visit tracking
-│   └── upload.js           # Media upload handler
-├── dist/                   # Vite build output
-├── .env                    # Environment variables (local)
-├── .env.example            # Template env
+│       ├── uploads/              # File hasil upload via Media Library (runtime)
+│       └── ...                   # Font, vendor lib, gambar/video bawaan
+│
+├── src/                          # React frontend source
+│   ├── main.jsx                  # Entry point (mount <App/>, import global CSS)
+│   ├── App.jsx                   # Router: "/", "/login", "/admin", "/admin/:section",
+│   │                              #   "/admin/section/:sectionId", "*" (404)
+│   │
+│   ├── components/                # Komponen shared di public site
+│   │   ├── PublicSite.jsx          # Orkestrator halaman publik (preloader, section list, side nav)
+│   │   ├── Preloader.jsx
+│   │   ├── SideNav.jsx
+│   │   ├── QROverlay.jsx
+│   │   └── GiftPopup.jsx
+│   │
+│   ├── sections/                  # Setiap section publik = folder berisi JSX + CSS co-located
+│   │   ├── Hero/                   #   SectionHero.jsx + hero.css
+│   │   ├── Intro/
+│   │   ├── ProfileIntro/
+│   │   ├── GroomBride/             #   SectionGroom.jsx, SectionBride.jsx + groom-bride.css
+│   │   ├── LoveStory/
+│   │   ├── Countdown/
+│   │   ├── Event/
+│   │   ├── Livestream/
+│   │   ├── DressCode/
+│   │   ├── RSVP/
+│   │   ├── Wishes/
+│   │   ├── Gift/
+│   │   ├── Gallery/
+│   │   └── ThankYou/
+│   │   # 14 section + Hero (selalu tampil sebagai cover) — urutan & visibilitas
+│   │   # diatur lewat field `sections` di wedding_config (bisa diubah dari /admin/layout)
+│   │
+│   ├── pages/                     # Halaman route-level di luar admin & section publik
+│   │   └── NotFound/                # NotFound.jsx + NotFound.css (404 page)
+│   │
+│   ├── admin/                     # CMS editor ("/admin") — terproteksi JWT
+│   │   ├── auth/                    # Login.jsx, RequireAuth.jsx (route guard), authClient.js
+│   │   ├── shell/                   # Kerangka editor: Editor.jsx (root + routing internal),
+│   │   │                            #   EditorSidebar, EditorToolbar, PreviewPanel, NavGuardModal,
+│   │   │                            #   usePreviewSync (sinkron live-preview via postMessage)
+│   │   ├── fields/                  # Form field generik: SectionForm, FieldInput, ArrayEditor,
+│   │   │                            #   ImageListEditor, AudioTrimField, contentSchemas.js
+│   │   │                            #   (skema field per section)
+│   │   ├── pages/                   # Halaman admin non-section: Dashboard, GuestList,
+│   │   │                            #   WishesList, MediaLibrary, LayoutPanel, ShareSetup,
+│   │   │                            #   TrafficDetail (+ CSS masing-masing co-located)
+│   │   ├── styles/                  # admin.css (aggregator @import) + 15 file CSS modular
+│   │   │                            #   (tokens, shell, toolbar, form-fields, dll — flat,
+│   │   │                            #    sengaja tidak dipecah lagi karena class lintas file)
+│   │   └── utils.js                 # Helper khusus admin (mis. setPath untuk update nested config)
+│   │
+│   ├── data/                       # Default content & data hooks
+│   │   ├── content.js                # Default/fallback content (dipakai saat API gagal)
+│   │   ├── sectionDefaults.js        # Default urutan & visibilitas section + hero background
+│   │   └── useWeddingConfig.js       # Hook fetch GET /api/config (dipakai PublicSite)
+│   │
+│   ├── lib/                         # Helper murni, dipakai lintas frontend
+│   │   ├── api.js                     # apiUrl() — resolve base URL backend (VITE_API_BE_URL)
+│   │   └── color.js                   # hexToRgba() — konversi warna untuk overlay section
+│   │
+│   ├── styles/                     # Global styles untuk public site
+│   │   ├── app.css                   # Aggregator (@import seluruh file di base/, urutan penting)
+│   │   └── base/                     # 12 file CSS per concern: reset, fonts (x2), section-layout,
+│   │                                  #   scroll-snap, scroll-guestbook, side-nav, side-menu-toggle,
+│   │                                  #   preloader, popup-misc, gallery-qr, gift-popup
+│   │
+│   └── assets/                     # Aset yang di-bundle Vite (bukan static public/)
+│       └── preloader-anim.json       # Lottie animation untuk Preloader
+│
+├── server/                       # Express backend (ESM)
+│   ├── index.js                    # Entry point: middleware, mount routes, static serving, SPA fallback
+│   ├── dotenv-loader.js            # Load .env.development (dev) lalu .env (selalu)
+│   │
+│   ├── db/                         # Database layer
+│   │   ├── db.js                     # PostgreSQL connection pool (pg.Pool)
+│   │   ├── migrate.js                # Migration: buat/perbarui semua tabel + index (idempotent)
+│   │   ├── seed.js                   # Seed data production (admin, config, guests, rsvp, visits)
+│   │   ├── seed-dummy.js             # Seed data dummy/sample untuk development
+│   │   ├── migrate-gallery-images.js # Skrip migrasi one-off (riwayat, tidak dijalankan otomatis)
+│   │   └── data/
+│   │       └── wedding-config.json   # Sumber data untuk seed.js
+│   │
+│   └── routes/                     # Express route modules (semua di-mount di index.js)
+│       ├── auth.js                   # JWT login & middleware requireAuth
+│       ├── config.js                 # GET/PUT wedding_config + update meta tag di index.html
+│       ├── guests.js                 # CRUD daftar tamu + resolve slug → nama (publik)
+│       ├── rsvp.js                   # Submit RSVP (publik) + list/toggle visibility (admin)
+│       ├── dashboard.js              # Statistik ringkasan untuk halaman Dashboard
+│       ├── visits.js                 # Tracking & statistik kunjungan halaman
+│       ├── media.js                  # List & hapus file di Media Library
+│       └── upload.js                 # Upload file (Multer) ke public/assets/uploads
+│
+├── dist/                          # Hasil build Vite (production, di-gitignore)
+├── .env                           # Environment variables (lokal, di-gitignore)
+├── .env.example                   # Template environment variables
+├── .gitignore
+├── deploy.sh                      # Script redeploy (pull, install, migrate, build, restart PM2)
+├── eslint.config.js               # ESLint flat config (browser globals utk src/, node globals utk server/)
 ├── package.json
-└── vite.config.js
+└── vite.config.js                 # Vite config + proxy /api → http://localhost:4000
 ```
+
+### Routing Frontend (`src/App.jsx`)
+
+| Path | Komponen | Akses |
+|------|----------|-------|
+| `/` | `PublicSite` | Publik |
+| `/login` | `Login` | Publik |
+| `/admin`, `/admin/:section` | `Editor` | Login (JWT) |
+| `/admin/section/:sectionId` | `Editor` (form section spesifik) | Login (JWT) |
+| `*` | `NotFound` | Publik (404) |
+
+`Editor.jsx` sendiri menangani sub-halaman admin secara internal: Dashboard, Layout (urutan/visibilitas section), per-section form (Hero, Intro, Love Story, dst.), Guest List, Wishes List, Media Library, Share Setup, dan Traffic Detail.
+
+## API Endpoints (`server/routes/`)
+
+| Method & Path | Auth | Fungsi |
+|---------------|------|--------|
+| `POST /api/auth/login` | - | Login admin (username + password → JWT) |
+| `GET /api/auth/me` | ✅ | Cek validitas token aktif |
+| `GET /api/config` | - | Ambil seluruh konten undangan (`wedding_config`) |
+| `PUT /api/config` | ✅ | Simpan perubahan konten + update meta tag share di `index.html`/`dist/index.html` |
+| `GET /api/guests/by-slug?g=` | - | Resolve slug tamu → nama (untuk halaman undangan personal) |
+| `GET /api/guests` | ✅ | List tamu (search & filter kategori) + status RSVP terakhir |
+| `POST /api/guests` | ✅ | Tambah tamu (auto-generate slug unik) |
+| `PUT /api/guests/:id` | ✅ | Update data tamu |
+| `DELETE /api/guests/:id` | ✅ | Hapus satu tamu |
+| `DELETE /api/guests` | ✅ | Hapus banyak tamu sekaligus (`{ ids: [] }`) |
+| `POST /api/rsvp` | - | Submit RSVP + ucapan (publik) |
+| `GET /api/rsvp/public` | - | Daftar ucapan yang `visible = true` (untuk section Wishes) |
+| `GET /api/rsvp` | ✅ | List semua RSVP (admin) |
+| `PATCH /api/rsvp/:id` | ✅ | Toggle visibilitas ucapan |
+| `GET /api/dashboard` | ✅ | Statistik ringkasan (jumlah tamu, RSVP, kunjungan, dll.) |
+| `POST /api/visits` | - | Catat kunjungan halaman (slug, IP, user-agent → device/browser/OS) |
+| `GET /api/visits/stats` | ✅ | Statistik kunjungan 30 hari terakhir |
+| `GET /api/visits/details` | ✅ | Detail kunjungan + breakdown device/browser/OS |
+| `GET /api/media` | ✅ | List file di Media Library |
+| `DELETE /api/media` | ✅ | Hapus file media |
+| `POST /api/upload` | ✅ | Upload file (gambar/video/audio, max 80MB) |
+
+Endpoint API yang tidak dikenali (`/api/...` lainnya) mengembalikan `404 JSON`. Semua route non-API di-fallback ke `dist/index.html` (SPA routing).
 
 ## Database
 
@@ -48,22 +167,24 @@ timeless-wedding/
 | Tabel | Deskripsi |
 |-------|-----------|
 | `admins` | Admin users (username + bcrypt password hash) |
-| `wedding_config` | Singleton JSONB config (semua konten undangan) |
-| `guests` | Daftar tamu dengan personal slug untuk link undangan |
-| `rsvp` | Response RSVP + ucapan/wishes dari tamu |
-| `page_visits` | Tracking kunjungan halaman undangan |
+| `wedding_config` | Singleton JSONB config (semua konten undangan, termasuk `sections` order/visibility) |
+| `guests` | Daftar tamu dengan personal slug (unik) untuk link undangan |
+| `rsvp` | Response RSVP + ucapan/wishes dari tamu, terhubung ke `guests` via `slug` |
+| `page_visits` | Tracking kunjungan halaman undangan (IP, device, browser, OS) |
 | `wishes` | Standalone wishes (legacy) |
 
 ### ERD Singkat
 
 ```
 admins (1 row: admin user)
-wedding_config (1 row: semua konten)
+wedding_config (1 row: semua konten + urutan/visibilitas section)
 guests ──┐ slug
          ├──── rsvp (linked via slug)
          └──── page_visits (linked via slug)
-wishes (standalone)
+wishes (standalone, legacy)
 ```
+
+`server/db/migrate.js` membuat seluruh tabel + index di atas secara idempotent (`CREATE TABLE IF NOT EXISTS`, `ADD COLUMN IF NOT EXISTS`) — aman dijalankan berulang kali, termasuk saat redeploy untuk mengaplikasikan perubahan schema baru.
 
 ---
 
@@ -95,6 +216,7 @@ Edit `.env`:
 DATABASE_URL=postgresql://localhost:5432/db_wedding
 JWT_SECRET=change-me-to-a-long-random-string
 PORT=4000
+VITE_API_BE_URL=http://localhost:4000
 ```
 
 ### 3. Buat Database
@@ -109,8 +231,11 @@ createdb db_wedding
 # Buat semua tabel
 npm run migrate
 
-# Seed data (admin, config, guests, rsvp, visits)
+# Seed data production
 npm run seed
+
+# Atau seed data dummy untuk development
+npm run seed:dummy
 ```
 
 ### 5. Jalankan Development Server
@@ -124,19 +249,21 @@ npm run dev          # Frontend di http://localhost:5173
 npm run dev:server   # Backend di http://localhost:4000
 ```
 
-Vite otomatis proxy `/api/*` ke backend (port 4000).
+Vite otomatis proxy `/api/*` ke backend (port 4000), lihat `vite.config.js`.
 
 ### NPM Scripts
 
 | Script | Deskripsi |
 |--------|-----------|
-| `npm start` | Jalankan frontend + backend bersamaan |
+| `npm start` | Jalankan frontend + backend bersamaan (`concurrently`) |
 | `npm run dev` | Vite dev server saja |
-| `npm run dev:server` | Express dev server saja (auto-reload) |
+| `npm run dev:server` | Express dev server saja (`--watch`, auto-reload) |
 | `npm run build` | Build production frontend ke `dist/` |
-| `npm run migrate` | Jalankan database migration |
-| `npm run seed` | Seed database dengan data production |
-| `npm run lint` | ESLint check |
+| `npm run migrate` | Jalankan database migration (`server/db/migrate.js`) |
+| `npm run seed` | Seed database dengan data production (`server/db/seed.js`) |
+| `npm run seed:dummy` | Seed database dengan data dummy (`server/db/seed-dummy.js`) |
+| `npm run lint` | ESLint check (frontend + backend) |
+| `npm run preview` | Preview hasil build Vite secara lokal |
 
 ---
 
@@ -344,7 +471,13 @@ npm run build
 pm2 restart wedding-api
 ```
 
-Bisa juga dijadikan script `deploy.sh`:
+Atau jalankan langsung script `deploy.sh` yang sudah disediakan di root proyek:
+
+```bash
+./deploy.sh
+```
+
+Isi `deploy.sh`:
 
 ```bash
 #!/bin/bash
@@ -367,11 +500,6 @@ echo "🔄 Restarting backend..."
 pm2 restart wedding-api
 
 echo "✅ Deploy complete!"
-```
-
-```bash
-chmod +x deploy.sh
-./deploy.sh
 ```
 
 ---
@@ -434,11 +562,12 @@ npm run seed
 | `DATABASE_URL` | ✅ | PostgreSQL connection string |
 | `JWT_SECRET` | ✅ | Secret key untuk JWT token |
 | `PORT` | ❌ | Port backend API (default: 4000) |
-| `SEED_ADMIN_PASSWORD` | ❌ | Password admin saat seed (default: admin) |
+| `SEED_ADMIN_PASSWORD` | ❌ | Password admin saat seed (default: `admin`) |
+| `VITE_API_BE_URL` | ❌ | Base URL backend untuk frontend (kosongkan jika frontend & backend satu domain) |
 
 ## Login CMS
 
-Setelah seed, akses CMS editor di `/edit` dengan:
+Setelah seed, akses CMS editor di `/admin` dengan:
 
 - **Username:** `admin`
 - **Password:** sesuai `SEED_ADMIN_PASSWORD` (default: `admin`)

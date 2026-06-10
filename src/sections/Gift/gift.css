@@ -1,0 +1,165 @@
+/* ================================================================
+   SECTION 13 · WEDDING GIFT  (#weddinggift)
+================================================================ */
+.section-gift {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    align-items: center;
+    height: 100vh;
+    padding: 40px 28px;
+    overflow: hidden;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+/* Header */
+.gift-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.gift-label {
+    color: rgba(255,255,255,0.45);
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+}
+
+.gift-ornament {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 55%;
+}
+.gift-orn-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    display: block;
+}
+.gift-orn-dot {
+    color: rgba(255,255,255,0.3);
+    font-size: 4px;
+}
+
+.gift-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 42px;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.gift-desc {
+    color: rgba(255,255,255,0.6);
+    font-family: "ovo", sans-serif;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.7;
+    max-width: 300px;
+}
+
+/* Cards */
+.gift-accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.gift-account-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 18px 20px;
+    transition: background .2s;
+}
+.gift-account-card:hover { background: rgba(255,255,255,0.09); }
+
+.gift-account-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.gift-account-bank {
+    color: rgba(212,175,55,0.85);
+    font-family: lausanne300, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.gift-account-number {
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+}
+
+.gift-account-owner {
+    color: rgba(255,255,255,0.5);
+    font-family: "ovo", sans-serif;
+    font-size: 12px;
+}
+
+/* Copy button */
+.gift-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 50px;
+    color: rgba(255,255,255,0.6);
+    font-family: lausanne300, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+.gift-copy-btn i { font-size: 9px; }
+.gift-copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.gift-copy-btn--copied {
+    background: rgba(100,180,100,0.15);
+    border-color: rgba(100,180,100,0.35);
+    color: rgba(160,220,160,0.9);
+}
+
+.gift-confirm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 50px;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.gift-confirm-btn i { font-size: 11px; opacity: 0.7; }
+.gift-confirm-btn:hover { background: rgba(255,255,255,0.15); }
+

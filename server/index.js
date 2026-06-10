@@ -3,14 +3,15 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { authRouter } from './auth.js'
-import { configRouter } from './config.js'
-import { uploadRouter } from './upload.js'
-import { guestsRouter } from './guests.js'
-import { dashboardRouter } from './dashboard.js'
-import { rsvpRouter } from './rsvp.js'
-import { visitsRouter } from './visits.js'
-import { mediaRouter } from './media.js'
+import { authRouter } from './routes/auth.js'
+import { configRouter } from './routes/config.js'
+import { uploadRouter } from './routes/upload.js'
+import { guestsRouter } from './routes/guests.js'
+import { dashboardRouter } from './routes/dashboard.js'
+import { rsvpRouter } from './routes/rsvp.js'
+import { visitsRouter } from './routes/visits.js'
+import { mediaRouter } from './routes/media.js'
+import { giftsRouter } from './routes/gifts.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
@@ -38,6 +39,7 @@ app.use('/api/dashboard', dashboardRouter)
 app.use('/api/rsvp', rsvpRouter)
 app.use('/api/visits', visitsRouter)
 app.use('/api/media', mediaRouter)
+app.use('/api/gifts', giftsRouter)
 
 // Unknown API routes → JSON 404
 app.use('/api', (req, res) => {
@@ -50,7 +52,7 @@ app.use(/.*/, (req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err)
   res.status(500).json({ error: 'Internal server error' })
 })

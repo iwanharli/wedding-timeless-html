@@ -1,0 +1,260 @@
+/* ── Wedding Gift Popup ── */
+#wedding-gift-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.gift-popup-inner {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    padding: 32px 28px 28px;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 22px;
+    position: relative;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.45);
+}
+
+/* Gold accent line at top */
+.gift-popup-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 28px;
+    right: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    border-radius: 1px;
+}
+
+/* Close button */
+.gift-popup-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.gift-popup-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.gift-popup-label {
+    color: rgba(255, 255, 255, 0.35);
+    font-family: lausanne300, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+}
+
+.gift-popup-title {
+    color: #ffffff;
+    font-family: "script icon", sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    margin: 0 0 22px;
+    line-height: 1.15;
+}
+
+#wedding_gift {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.gift-popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.gift-popup-field-label {
+    color: rgba(255, 255, 255, 0.38);
+    font-family: lausanne300, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.gift-popup-optional {
+    color: rgba(255, 255, 255, 0.22);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 9.5px;
+}
+
+.gift-popup-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 15px;
+    padding: 8px 0;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color .2s;
+}
+
+.gift-popup-input:focus {
+    border-bottom-color: rgba(212, 175, 55, 0.6);
+}
+
+.gift-popup-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Select wrapper */
+.gift-popup-select-wrap {
+    position: relative;
+}
+
+.gift-popup-select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+.gift-popup-select-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 9px;
+    pointer-events: none;
+}
+
+.gift-popup-input option {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Amount with Rp prefix */
+.gift-popup-amount-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 8px 0;
+    transition: border-color .2s;
+}
+
+.gift-popup-amount-wrap:focus-within {
+    border-bottom-color: rgba(212, 175, 55, 0.6);
+}
+
+.gift-popup-currency {
+    color: rgba(212, 175, 55, 0.7);
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.gift-popup-amount-input {
+    border: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+.gift-popup-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background .2s;
+}
+
+.gift-popup-submit i {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.gift-popup-submit:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.gift-popup-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.gift-popup-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 32px 16px;
+    text-align: center;
+    color: #fff;
+}
+
+.gift-popup-success i {
+    font-size: 40px;
+    color: #86efac;
+}
+
+.gift-popup-success p {
+    font-family: lausanne300, sans-serif;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+.gift-popup-error {
+    font-family: lausanne300, sans-serif;
+    font-size: 11px;
+    color: #fca5a5;
+    text-align: center;
+    margin: 4px 0 8px;
+    letter-spacing: 1px;
+}
