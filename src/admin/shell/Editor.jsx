@@ -89,7 +89,7 @@ export default function Editor() {
         whatsappTemplate: data.share?.whatsappTemplate || "Halo {{name}},\n\nKami mengundangmu untuk hadir di pernikahan kami. Silakan buka undangan lewat link berikut:\n{{link}}\n\nTolong konfirmasi ya, kami menantikan kehadiranmu.",
         ogTitle: data.share?.ogTitle || "Undangan Pernikahan",
         ogDescription: data.share?.ogDescription || "Kami mengundangmu untuk merayakan hari istimewa kami. Klik tautan undangan untuk melihat detail acara dan RSVP.",
-        ogImage: data.share?.ogImage || "/assets/images/Timeless-00036.jpg"
+        ogImage: data.share?.ogImage || ""
       }
 
       // Auto-initialize background field for sections that don't have it yet

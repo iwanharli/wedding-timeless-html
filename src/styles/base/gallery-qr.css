@@ -37,36 +37,3 @@
     height: 100%;
 }
 
-/* ── QR Overlay ── */
-.qr-overlay-wrap {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(16, 16, 16, 0.9);
-    z-index: 9998;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.dqr {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    font-family: inter, sans-serif;
-    letter-spacing: 1px;
-    background: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.selebaran-wrapper {
-    background-color: #EBE3DA;
-}
-

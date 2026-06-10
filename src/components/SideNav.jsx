@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { bgAudioRef } from '../lib/bgAudioRef'
 
 const NAV_LABELS = {
   intro:        'Home',
@@ -56,6 +57,7 @@ export default function SideNav({ content, isOpen: invitationOpen }) {
     player.loop = !endTime  // only native-loop when no end marker
     if (startTime) player.currentTime = startTime
     playerRef.current = player
+    bgAudioRef.current = player
 
     function onTimeUpdate() {
       if (endTime > 0 && player.currentTime >= endTime) {
@@ -63,7 +65,11 @@ export default function SideNav({ content, isOpen: invitationOpen }) {
       }
     }
     player.addEventListener('timeupdate', onTimeUpdate)
-    return () => { player.pause(); player.removeEventListener('timeupdate', onTimeUpdate) }
+    return () => {
+      player.pause()
+      player.removeEventListener('timeupdate', onTimeUpdate)
+      bgAudioRef.current = null
+    }
   }, [audioUrl, startTime, endTime])
 
   function playAudio() {

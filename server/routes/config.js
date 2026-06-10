@@ -14,7 +14,7 @@ function updateHtmlMetadata(share) {
   
   const title = share.ogTitle || 'WE INVITE YOU TO CELEBRATE'
   const description = share.ogDescription || 'Undangan pernikahan digital.'
-  const image = share.ogImage || '/assets/images/Timeless-00036.jpg'
+  const image = share.ogImage || ''
 
   const paths = [
     path.join(__dirname, '../../index.html'),

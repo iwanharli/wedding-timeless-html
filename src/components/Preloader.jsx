@@ -2,12 +2,15 @@ import { useState, useEffect, useRef } from 'react'
 import lottie from 'lottie-web'
 import animData from '../assets/preloader-anim.json'
 
-export default function Preloader({ content, apiLoading, assetsLoading }) {
-  const [progress, setProgress] = useState(0)
+export default function Preloader({ content, apiLoading, assetsLoading, loadProgress = 0 }) {
   const [animDone, setAnimDone] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [removed, setRemoved] = useState(false)
   const lottieRef = useRef(null)
+
+  // Progress bar reflects real loading work (config fetch + cover images),
+  // not the decorative animation's playback position.
+  const progress = Math.max(loadProgress, animDone ? 100 : 0)
 
   useEffect(() => {
     if (!lottieRef.current) return
@@ -21,13 +24,7 @@ export default function Preloader({ content, apiLoading, assetsLoading }) {
 
     anim.setSpeed(2)
 
-    anim.addEventListener('enterFrame', () => {
-      const pct = Math.round((anim.currentFrame / anim.totalFrames) * 100)
-      setProgress(Math.min(pct, 100))
-    })
-
     anim.addEventListener('complete', () => {
-      setProgress(100)
       setAnimDone(true)
     })
 
@@ -44,7 +41,10 @@ export default function Preloader({ content, apiLoading, assetsLoading }) {
 
   if (removed) return null
 
-  const { name1, connector, name2 } = content?.hero || {}
+  // Only show the names once the real config has loaded — the fallback
+  // content's placeholder names differ from the actual ones, which would
+  // otherwise flash/change visibly on slow connections.
+  const { name1, connector, name2 } = apiLoading ? {} : (content?.hero || {})
 
   return (
     <div id="preloader" className={hidden ? 'hide' : ''}>

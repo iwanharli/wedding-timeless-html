@@ -13,13 +13,21 @@ export function collectCoverImageUrls(content) {
 
 // Preload a list of image URLs, resolving once every image has either
 // loaded or failed (a broken URL must not block the preloader forever).
-export function preloadImages(urls) {
-  if (!urls.length) return Promise.resolve()
+// `onProgress(done, total)` is called after each image settles, so callers
+// can drive a real progress bar instead of a fake one.
+export function preloadImages(urls, onProgress) {
+  const total = urls.length
+  if (!total) {
+    onProgress?.(1, 1)
+    return Promise.resolve()
+  }
+  let done = 0
   return Promise.all(
     urls.map(url => new Promise(resolve => {
       const img = new Image()
-      img.onload = resolve
-      img.onerror = resolve
+      const settle = () => { done += 1; onProgress?.(done, total); resolve() }
+      img.onload = settle
+      img.onerror = settle
       img.src = url
     }))
   )

@@ -23,7 +23,6 @@ import SectionGift from '../sections/Gift/SectionGift'
 import SectionGallery from '../sections/Gallery/SectionGallery'
 import SectionThankYou from '../sections/ThankYou/SectionThankYou'
 import SideNav from './SideNav'
-import QROverlay from './QROverlay'
 import GiftPopup from './GiftPopup'
 
 const SECTION_COMPONENTS = {
@@ -118,14 +117,19 @@ function IsolatedSectionPreview({ id, content }) {
 }
 
 export default function PublicSite() {
-  const { data: rawContent, loading } = useWeddingConfig()
+  const { data: rawContent, loading, fetchProgress } = useWeddingConfig()
   const [isOpen, setIsOpen] = useState(false)
   const [giftPopupOpen, setGiftPopupOpen] = useState(false)
   const [guestName, setGuestName] = useState(isPreview && !guestSlug ? 'Nama Tamu' : '')
   const [guestNotFound, setGuestNotFound] = useState(false)
   const [previewOverride, setPreviewOverride] = useState(null)
   const [imagesReady, setImagesReady] = useState(false)
+  const [imageProgress, setImageProgress] = useState(0)
   const sentReadyRef = useRef(false)
+
+  // Real preloader progress: 0-50% covers the /api/config download,
+  // 50-100% covers preloading the cover-screen images.
+  const loadProgress = Math.round(fetchProgress * 0.5 + imageProgress * 0.5)
 
   // In preview mode, the editor can push live (unsaved) section/hero background edits
   const content = useMemo(() => {
@@ -201,7 +205,10 @@ export default function PublicSite() {
     if (!content) return
     let cancelled = false
     setImagesReady(false)
-    preloadImages([...collectCoverImageUrls(content)]).then(() => {
+    setImageProgress(0)
+    preloadImages([...collectCoverImageUrls(content)], (done, total) => {
+      if (!cancelled) setImageProgress(Math.round((done / total) * 100))
+    }).then(() => {
       if (!cancelled) setImagesReady(true)
     })
     return () => { cancelled = true }
@@ -355,7 +362,7 @@ export default function PublicSite() {
   if (loading || !content) {
     return (
       <div id="app-wrapper">
-        <Preloader content={preloaderContent} apiLoading={true} assetsLoading={true} />
+        <Preloader content={preloaderContent} apiLoading={true} assetsLoading={true} loadProgress={loadProgress} />
       </div>
     )
   }
@@ -369,7 +376,7 @@ export default function PublicSite() {
 
   return (
     <div id="app-wrapper">
-      <Preloader content={content} apiLoading={false} assetsLoading={!imagesReady} />
+      <Preloader content={content} apiLoading={false} assetsLoading={!imagesReady} loadProgress={loadProgress} />
 
       <div
         id="section-cover"
@@ -379,9 +386,9 @@ export default function PublicSite() {
         <aside
           id="left-panel"
           style={
-            content.hero.leftPanel?.type === 'video'
+            content.hero.leftPanel?.type === 'video' || !content.hero.leftPanel?.image
               ? undefined
-              : { backgroundImage: `url(${content.hero.leftPanel?.image || content.hero.backgroundOverlayImage})` }
+              : { backgroundImage: `url(${content.hero.leftPanel.image})` }
           }
         >
           {content.hero.leftPanel?.type === 'video' && content.hero.leftPanel?.video && (
@@ -402,7 +409,7 @@ export default function PublicSite() {
         </aside>
 
         {/* Right panel */}
-        <div id="right-panel">
+        <main id="right-panel">
           {/* Video background */}
           <div id="video-bg">
             <video
@@ -449,12 +456,11 @@ export default function PublicSite() {
               </div>
             )
           })}
-        </div>
+        </main>
       </div>
 
       {/* Floating elements */}
       <SideNav content={content} isOpen={isOpen} />
-      <QROverlay />
       <GiftPopup isOpen={giftPopupOpen} onClose={() => setGiftPopupOpen(false)} gift={content.gift || {}} />
     </div>
   )

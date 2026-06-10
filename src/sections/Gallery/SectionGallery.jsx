@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import Swiper from 'swiper'
 import { Autoplay, Pagination } from 'swiper/modules'
+import { bgAudioRef } from '../../lib/bgAudioRef'
 import './gallery.css'
+
+const BG_DUCK_VOLUME = 0.15
 
 function isVideo(src) {
   return /\.(mp4|mov|webm|ogg)(\?|$)/i.test(src || '')
@@ -9,11 +12,7 @@ function isVideo(src) {
 
 export default function SectionGallery({ content }) {
   const gallery = content.gallery
-  const allImages = gallery.images || [
-    ...(gallery.columns?.[0]?.images || []),
-    ...(gallery.columns?.[1]?.images || []),
-    ...(gallery.columns?.[2]?.images || []),
-  ]
+  const allImages = gallery.images || []
 
   const swiperRef = useRef(null)
   const paginationRef = useRef(null)
@@ -23,12 +22,23 @@ export default function SectionGallery({ content }) {
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
-    const obs = new IntersectionObserver(
-      ([entry]) => { entry.isIntersecting ? vid.play().catch(() => {}) : vid.pause() },
-      { threshold: 0.3 }
-    )
-    obs.observe(vid)
-    return () => obs.disconnect()
+
+    function duckBackground() {
+      if (bgAudioRef.current) bgAudioRef.current.volume = BG_DUCK_VOLUME
+    }
+    function restoreBackground() {
+      if (bgAudioRef.current) bgAudioRef.current.volume = 1
+    }
+
+    vid.addEventListener('play', duckBackground)
+    vid.addEventListener('pause', restoreBackground)
+    vid.addEventListener('ended', restoreBackground)
+    return () => {
+      vid.removeEventListener('play', duckBackground)
+      vid.removeEventListener('pause', restoreBackground)
+      vid.removeEventListener('ended', restoreBackground)
+      restoreBackground()
+    }
   }, [])
 
   useEffect(() => {
@@ -90,11 +100,9 @@ export default function SectionGallery({ content }) {
                 className="gallery-video-frame"
                 src={gallery.videoFile}
                 poster={gallery.videoThumb || undefined}
-                autoPlay
-                muted
-                loop
                 playsInline
                 controls
+                preload="none"
               />
             </div>
           </div>

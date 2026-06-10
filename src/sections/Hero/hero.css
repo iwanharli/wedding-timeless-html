@@ -113,7 +113,7 @@
     height: 100vh;
     z-index: 0;
     overflow: hidden;
-    background: url('/assets/images/Timeless-00036.jpg') 50% 50% / cover;
+    background-color: #101010;
 }
 
 #video-bg::before {

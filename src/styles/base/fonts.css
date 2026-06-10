@@ -2,6 +2,7 @@
 @font-face {
     font-family: 'script icon';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/New-Icon-Script.woff2') format('woff2'),
          url('/assets/fonts/New-Icon-Script.ttf') format('truetype');
 }
@@ -9,6 +10,7 @@
 @font-face {
     font-family: 'lausanne300';
     font-weight: 300;
+    font-display: swap;
     src: url('/assets/fonts/Lausanne-300.woff2') format('woff2'),
          url('/assets/fonts/Lausanne-300.ttf') format('truetype');
 }
@@ -16,6 +18,7 @@
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 700;
+    font-display: swap;
     src: url('/assets/fonts/CormorantUpright-Bold.woff2') format('woff2'),
          url('/assets/fonts/CormorantUpright-Bold.ttf') format('truetype');
 }
@@ -23,6 +26,7 @@
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 600;
+    font-display: swap;
     src: url('/assets/fonts/CormorantUpright-SemiBold.woff2') format('woff2'),
          url('/assets/fonts/CormorantUpright-SemiBold.ttf') format('truetype');
 }
@@ -30,6 +34,7 @@
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/CormorantUpright-Regular.woff2') format('woff2'),
          url('/assets/fonts/CormorantUpright-Regular.ttf') format('truetype');
 }
@@ -37,6 +42,7 @@
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 500;
+    font-display: swap;
     src: url('/assets/fonts/CormorantUpright-Medium.woff2') format('woff2'),
          url('/assets/fonts/CormorantUpright-Medium.ttf') format('truetype');
 }
@@ -44,6 +50,7 @@
 @font-face {
     font-family: 'CormorantUpright';
     font-weight: 300;
+    font-display: swap;
     src: url('/assets/fonts/CormorantUpright-Light.woff2') format('woff2'),
          url('/assets/fonts/CormorantUpright-Light.ttf') format('truetype');
 }
@@ -51,6 +58,7 @@
 @font-face {
     font-family: 'time now italic';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/TimesNow-SemiLightItalic.woff2') format('woff2'),
          url('/assets/fonts/TimesNow-SemiLightItalic.ttf') format('truetype');
 }
@@ -58,6 +66,7 @@
 @font-face {
     font-family: 'time now italic';
     font-weight: 300;
+    font-display: swap;
     src: url('/assets/fonts/TimesNow-LightItalic.woff2') format('woff2'),
          url('/assets/fonts/TimesNow-LightItalic.ttf') format('truetype');
 }
@@ -65,6 +74,7 @@
 @font-face {
     font-family: 'time noww';
     font-weight: 600;
+    font-display: swap;
     src: url('/assets/fonts/TimesNow-SemiBold.woff2') format('woff2'),
          url('/assets/fonts/TimesNow-SemiBold.ttf') format('truetype');
 }
@@ -72,6 +82,7 @@
 @font-face {
     font-family: 'time noww';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/TimesNow-SemiLight.woff2') format('woff2'),
          url('/assets/fonts/TimesNow-SemiLight.ttf') format('truetype');
 }
@@ -79,6 +90,7 @@
 @font-face {
     font-family: 'time noww';
     font-weight: 300;
+    font-display: swap;
     src: url('/assets/fonts/TimesNow-Light.woff2') format('woff2'),
          url('/assets/fonts/TimesNow-Light.ttf') format('truetype');
 }
@@ -86,6 +98,7 @@
 @font-face {
     font-family: 'ovo';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/Ovo-Regular.woff2') format('woff2'),
          url('/assets/fonts/Ovo-Regular.ttf') format('truetype');
 }
@@ -93,6 +106,7 @@
 @font-face {
     font-family: 'signature fed';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/FrederickFree.woff2') format('woff2'),
          url('/assets/fonts/FrederickFree.otf') format('OpenType');
 }
@@ -100,6 +114,7 @@
 @font-face {
     font-family: 'Thesignature';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/Thesignature.woff2') format('woff2'),
          url('/assets/fonts/Thesignature.ttf') format('truetype');
 }
@@ -107,12 +122,7 @@
 @font-face {
     font-family: 'inter';
     font-weight: 400;
+    font-display: swap;
     src: url('/assets/fonts/Inter-VariableFont_slntwght.woff2') format('woff2'),
          url('/assets/fonts/Inter-VariableFont_slntwght.ttf') format('truetype');
-}
-
-/* ── Background Images ── */
-#video-bg {
-    background: url("../images/Timeless-00036.jpg") 50% 50%;
-    background-size: cover;
 }
