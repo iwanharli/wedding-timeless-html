@@ -6,11 +6,33 @@ export default function Preloader({ content, apiLoading, assetsLoading, loadProg
   const [animDone, setAnimDone] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [removed, setRemoved] = useState(false)
+  const [displayProgress, setDisplayProgress] = useState(0)
   const lottieRef = useRef(null)
+  const targetProgressRef = useRef(loadProgress)
 
   // Progress bar reflects real loading work (config fetch + cover images),
-  // not the decorative animation's playback position.
-  const progress = Math.max(loadProgress, animDone ? 100 : 0)
+  // not the decorative animation's playback position. It's animated so it
+  // always counts up smoothly (1, 2, 3, ...) and never jumps straight to
+  // 100% on a fast connection, but it never shows ahead of real progress.
+  targetProgressRef.current = loadProgress
+  const progress = Math.round(displayProgress)
+
+  useEffect(() => {
+    let raf
+    let last = performance.now()
+    const tick = now => {
+      const dt = now - last
+      last = now
+      setDisplayProgress(prev => {
+        const target = targetProgressRef.current
+        if (prev >= target) return prev
+        return Math.min(target, prev + dt / 18)
+      })
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   useEffect(() => {
     if (!lottieRef.current) return
@@ -31,13 +53,14 @@ export default function Preloader({ content, apiLoading, assetsLoading, loadProg
     return () => anim.destroy()
   }, [])
 
-  // Fade out when animation done, API has responded, and all images are loaded
+  // Fade out when animation done, API has responded, all images are loaded,
+  // and the progress counter has visually caught up to 100%
   useEffect(() => {
-    if (!animDone || apiLoading || assetsLoading) return
+    if (!animDone || apiLoading || assetsLoading || progress < 100) return
     const t1 = setTimeout(() => setHidden(true), 150)
     const t2 = setTimeout(() => setRemoved(true), 1100)
     return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [animDone, apiLoading, assetsLoading])
+  }, [animDone, apiLoading, assetsLoading, progress])
 
   if (removed) return null
 
@@ -55,15 +78,17 @@ export default function Preloader({ content, apiLoading, assetsLoading, loadProg
           <span className="preloader-connector">{connector}</span>
           <span className="preloader-name2">{name2}</span>
         </div>
+        <div className="preloader-progress">
+          <div className="preloader-progress-bar-wrap">
+            <div className="preloader-progress-bar" style={{ width: `${progress}%` }} />
+          </div>
+          <span className="preloader-progress-percent">{progress}%</span>
+        </div>
         <div className="preloader-ornament">
           <span className="preloader-orn-line" />
           <i className="fas fa-circle preloader-orn-dot" />
           <span className="preloader-orn-line" />
         </div>
-      </div>
-
-      <div className="preloader-bar-wrap">
-        <div className="preloader-bar" style={{ width: `${progress}%` }} />
       </div>
     </div>
   )
