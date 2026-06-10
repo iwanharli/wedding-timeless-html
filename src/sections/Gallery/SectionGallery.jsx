@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { bgAudioRef } from '../../lib/bgAudioRef'
 import './gallery.css'
 
@@ -12,11 +12,13 @@ export default function SectionGallery({ content }) {
   const gallery = content.gallery
   const allImages = gallery.images || []
 
+  const [videoPlaying, setVideoPlaying] = useState(false)
   const swiperRef = useRef(null)
   const paginationRef = useRef(null)
   const lightboxRef = useRef(null)
   const videoRef = useRef(null)
 
+  // Re-attach audio ducking whenever the video element mounts (on first play)
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
@@ -37,7 +39,7 @@ export default function SectionGallery({ content }) {
       vid.removeEventListener('ended', restoreBackground)
       restoreBackground()
     }
-  }, [])
+  }, [videoPlaying])
 
   useEffect(() => {
     let sw
@@ -58,6 +60,13 @@ export default function SectionGallery({ content }) {
     )
     return () => sw?.destroy()
   }, [])
+
+  function handleVideoPlay() {
+    setVideoPlaying(true)
+    requestAnimationFrame(() => {
+      videoRef.current?.play().catch(() => {})
+    })
+  }
 
   function openLightbox(index) {
     const lb = lightboxRef.current
@@ -80,7 +89,7 @@ export default function SectionGallery({ content }) {
     document.body.classList.remove('lightbox-open')
   }
 
-  function navigate(dir) {
+  function navigateLightbox(dir) {
     const lb = lightboxRef.current
     if (!lb) return
     lb._index = (lb._index + dir + allImages.length) % allImages.length
@@ -96,30 +105,32 @@ export default function SectionGallery({ content }) {
           <h2 className="gal-title" style={{ whiteSpace: 'pre-line' }}>{gallery.title}</h2>
         </div>
 
-        {gallery.videoFile ? (
+        {gallery.videoFile && (
           <div className="gal-video-wrap">
             <div className="gallery-video-inner">
-              <video
-                ref={videoRef}
-                className="gallery-video-frame"
-                src={gallery.videoFile}
-                poster={gallery.videoThumb || undefined}
-                playsInline
-                controls
-                preload="none"
-              />
+              {!videoPlaying ? (
+                <div
+                  className="gal-video-poster"
+                  style={gallery.videoThumb ? { backgroundImage: `url(${gallery.videoThumb})` } : {}}
+                  onClick={handleVideoPlay}
+                >
+                  <button type="button" className="gal-play-btn" aria-label="Play video">
+                    <i className="fas fa-play" />
+                  </button>
+                </div>
+              ) : (
+                <video
+                  ref={videoRef}
+                  className="gallery-video-frame"
+                  src={gallery.videoFile}
+                  playsInline
+                  controls
+                  preload="auto"
+                />
+              )}
             </div>
           </div>
-        ) : gallery.videoThumb ? (
-          <div className="gal-video-wrap">
-            <div className="gallery-video-inner">
-              <div
-                className="gallery-video-thumb"
-                style={{ backgroundImage: `url(${gallery.videoThumb})`, cursor: 'default' }}
-              />
-            </div>
-          </div>
-        ) : null}
+        )}
 
         {/* Single auto slider */}
         <div className="gal-slider-wrap">
@@ -170,10 +181,10 @@ export default function SectionGallery({ content }) {
             style={{ width: '100%', maxHeight: '90vh', display: 'block', margin: '0 auto', objectFit: 'contain' }}
           />
         </div>
-        <button onClick={() => navigate(-1)} className="lb-btn lb-btn--prev">
+        <button onClick={() => navigateLightbox(-1)} className="lb-btn lb-btn--prev">
           <i className="fas fa-chevron-left" />
         </button>
-        <button onClick={() => navigate(1)} className="lb-btn lb-btn--next">
+        <button onClick={() => navigateLightbox(1)} className="lb-btn lb-btn--next">
           <i className="fas fa-chevron-right" />
         </button>
         <button onClick={closeLightbox} className="lb-btn lb-btn--close">
