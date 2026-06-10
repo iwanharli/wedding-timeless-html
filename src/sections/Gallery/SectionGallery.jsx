@@ -16,38 +16,41 @@ export default function SectionGallery({ content }) {
   const paginationRef = useRef(null)
   const lightboxRef = useRef(null)
   const videoRef = useRef(null)
+  const sectionRef = useRef(null)
 
+  // Mute bg music and unmute video when gallery section is in view; restore when leaving
   useEffect(() => {
+    const section = sectionRef.current
     const vid = videoRef.current
-    if (!vid) return
+    if (!section) return
 
-    function duckBackground() {
-      if (bgAudioRef.current) bgAudioRef.current.volume = BG_DUCK_VOLUME
-    }
-    function restoreBackground() {
-      if (bgAudioRef.current) bgAudioRef.current.volume = 1
-    }
     function handleFullscreenChange() {
       const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement)
-      if (isFullscreen) {
-        screen.orientation?.lock?.('landscape').catch(() => {})
-      } else {
-        screen.orientation?.unlock?.()
-      }
+      if (isFullscreen) screen.orientation?.lock?.('landscape').catch(() => {})
+      else screen.orientation?.unlock?.()
     }
-
-    vid.addEventListener('play', duckBackground)
-    vid.addEventListener('pause', restoreBackground)
-    vid.addEventListener('ended', restoreBackground)
     document.addEventListener('fullscreenchange', handleFullscreenChange)
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (bgAudioRef.current) bgAudioRef.current.volume = 0
+          if (vid) { vid.muted = false; vid.play().catch(() => {}) }
+        } else {
+          if (bgAudioRef.current) bgAudioRef.current.volume = 1
+          if (vid) { vid.muted = true; vid.pause() }
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(section)
+
     return () => {
-      vid.removeEventListener('play', duckBackground)
-      vid.removeEventListener('pause', restoreBackground)
-      vid.removeEventListener('ended', restoreBackground)
+      observer.disconnect()
       document.removeEventListener('fullscreenchange', handleFullscreenChange)
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
-      restoreBackground()
+      if (bgAudioRef.current) bgAudioRef.current.volume = 1
       screen.orientation?.unlock?.()
     }
   }, [])
@@ -102,7 +105,7 @@ export default function SectionGallery({ content }) {
   }
 
   return (
-    <div id="gallery" className="section-gallery child">
+    <div id="gallery" className="section-gallery child" ref={sectionRef}>
       <div className="gal-inner">
         <div className="gal-title-wrap">
           <span className="gal-label">Gallery</span>
