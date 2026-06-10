@@ -7,7 +7,6 @@ export function collectCoverImageUrls(content) {
   const hero = content?.hero || {}
   if (hero.background?.type === 'image' && hero.background.value) found.add(hero.background.value)
   if (hero.leftPanel?.type === 'image' && hero.leftPanel.image) found.add(hero.leftPanel.image)
-  if (hero.backgroundOverlayImage) found.add(hero.backgroundOverlayImage)
   return found
 }
 
