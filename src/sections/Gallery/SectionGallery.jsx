@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { bgAudioRef } from '../../lib/bgAudioRef'
 import './gallery.css'
 
-const BG_DUCK_VOLUME = 0.15
+const BG_DUCK_VOLUME = 0
 
 function isVideo(src) {
   return /\.(mp4|mov|webm|ogg)(\?|$)/i.test(src || '')
