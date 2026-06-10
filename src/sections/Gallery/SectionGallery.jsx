@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { bgAudioRef } from '../../lib/bgAudioRef'
 import './gallery.css'
 
@@ -12,13 +12,11 @@ export default function SectionGallery({ content }) {
   const gallery = content.gallery
   const allImages = gallery.images || []
 
-  const [videoPlaying, setVideoPlaying] = useState(false)
   const swiperRef = useRef(null)
   const paginationRef = useRef(null)
   const lightboxRef = useRef(null)
   const videoRef = useRef(null)
 
-  // Re-attach audio ducking and fullscreen orientation lock when video mounts
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
@@ -52,7 +50,7 @@ export default function SectionGallery({ content }) {
       restoreBackground()
       screen.orientation?.unlock?.()
     }
-  }, [videoPlaying])
+  }, [])
 
   useEffect(() => {
     let sw
@@ -73,13 +71,6 @@ export default function SectionGallery({ content }) {
     )
     return () => sw?.destroy()
   }, [])
-
-  function handleVideoPlay() {
-    setVideoPlaying(true)
-    requestAnimationFrame(() => {
-      videoRef.current?.play().catch(() => {})
-    })
-  }
 
   function openLightbox(index) {
     const lb = lightboxRef.current
@@ -121,26 +112,16 @@ export default function SectionGallery({ content }) {
         {gallery.videoFile && (
           <div className="gal-video-wrap">
             <div className="gallery-video-inner">
-              {!videoPlaying ? (
-                <div className="gal-video-poster" onClick={handleVideoPlay}>
-                  {gallery.videoThumb
-                    ? <img src={gallery.videoThumb} alt="" className="gal-thumb-img" />
-                    : <div className="gal-thumb-fallback" />
-                  }
-                  <button type="button" className="gal-play-btn" aria-label="Play video">
-                    <i className="fas fa-play" />
-                  </button>
-                </div>
-              ) : (
-                <video
-                  ref={videoRef}
-                  className="gallery-video-frame"
-                  src={gallery.videoFile}
-                  playsInline
-                  controls
-                  preload="auto"
-                />
-              )}
+              <video
+                ref={videoRef}
+                className="gallery-video-frame"
+                src={gallery.videoFile}
+                autoPlay
+                muted
+                playsInline
+                controls
+                preload="auto"
+              />
             </div>
           </div>
         )}
