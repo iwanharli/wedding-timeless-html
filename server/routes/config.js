@@ -16,8 +16,11 @@ function toAbsoluteUrl(url) {
   return SITE_URL + (url.startsWith('/') ? url : '/' + url)
 }
 
-function updateHtmlMetadata(share) {
-  if (!share) return
+// Accepts the full wedding config object
+function updateHtmlMetadata(config) {
+  if (!config) return
+  const share = config.share || config  // backward compat if only share is passed
+  const heroImageUrl = config.hero?.background?.value || ''
 
   const title = share.ogTitle || 'WE INVITE YOU TO CELEBRATE'
   const description = share.ogDescription || 'Undangan pernikahan digital.'
@@ -80,6 +83,17 @@ function updateHtmlMetadata(share) {
         `$1${title.replace(/</g, '&lt;')}$2`
       )
 
+      // Write LCP preload tag for hero background image so browser discovers it early
+      if (heroImageUrl) {
+        const absHeroUrl = toAbsoluteUrl(heroImageUrl)
+        const preloadTag = `<link rel="preload" as="image" fetchpriority="high" href="${absHeroUrl}">`
+        if (html.includes('<!--LCP_PRELOAD-->')) {
+          html = html.replace('<!--LCP_PRELOAD-->', preloadTag)
+        } else {
+          html = html.replace(/<link[^>]*fetchpriority="high"[^>]*>/gi, preloadTag)
+        }
+      }
+
       fs.writeFileSync(htmlPath, html, 'utf8')
       console.log(`Updated HTML metadata in: ${htmlPath}`)
     } catch (e) {
@@ -109,8 +123,7 @@ configRouter.put('/', requireAuth, async (req, res) => {
     [data]
   )
 
-  // Automatically sync metadata changes to index.html on disk
-  updateHtmlMetadata(data.share)
+  updateHtmlMetadata(data)
 
   res.json({ ok: true })
 })
@@ -119,7 +132,7 @@ configRouter.put('/', requireAuth, async (req, res) => {
 export async function initHtmlMetadata() {
   try {
     const result = await pool.query('SELECT data FROM wedding_config WHERE id = 1')
-    if (result.rows[0]) updateHtmlMetadata(result.rows[0].data?.share)
+    if (result.rows[0]) updateHtmlMetadata(result.rows[0].data)
   } catch (e) {
     console.error('initHtmlMetadata failed:', e.message)
   }

@@ -18,18 +18,34 @@ const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
 const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
 
+const ONE_YEAR = 60 * 60 * 24 * 365
+
 const app = express()
 app.use(cors())
 app.use(express.json({ limit: '5mb' }))
 
-// Serve uploaded files (runtime uploads, not in dist)
-app.use('/assets/uploads', express.static(UPLOADS_DIR))
+// Uploads: timestamp-named files, safe to cache 1 year
+app.use('/assets/uploads', express.static(UPLOADS_DIR, { maxAge: ONE_YEAR * 1000, immutable: true }))
 
-// Serve public static assets (fonts, vendor libs, images, etc.)
-app.use(express.static(PUBLIC_DIR))
+// Public vendor assets (fonts, FA CSS — all content-addressed): 1 year
+app.use(express.static(PUBLIC_DIR, {
+  setHeaders(res, filePath) {
+    if (filePath.includes('/assets/')) {
+      res.setHeader('Cache-Control', `public, max-age=${ONE_YEAR}, immutable`)
+    }
+  }
+}))
 
-// Serve built frontend (Vite dist output)
-app.use(express.static(DIST_DIR))
+// Dist: hashed JS/CSS → 1 year; index.html → no-cache (rewritten dynamically)
+app.use(express.static(DIST_DIR, {
+  setHeaders(res, filePath) {
+    if (filePath.includes('/assets/')) {
+      res.setHeader('Cache-Control', `public, max-age=${ONE_YEAR}, immutable`)
+    } else {
+      res.setHeader('Cache-Control', 'no-cache')
+    }
+  }
+}))
 
 app.use('/api/auth', authRouter)
 app.use('/api/config', configRouter)
