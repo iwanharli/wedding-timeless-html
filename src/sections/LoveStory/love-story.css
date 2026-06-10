@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 90px 28px 56px;
+    padding: 56px 28px 56px;
     gap: 0;
     box-sizing: border-box;
     width: 100%;
@@ -24,14 +24,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 28px;
+    gap: 6px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
 .ls-section-label {
     font-family: "inter", sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 400;
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -40,7 +40,7 @@
 
 .ls-section-title {
     font-family: "time noww", sans-serif;
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 400;
     color: #ffffff;
     margin: 0;
