@@ -1,20 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { getToken, authFetch } from '../auth/authClient'
-import { apiUrl } from '../../lib/api'
-
-async function uploadFile(file) {
-  const fd = new FormData()
-  fd.append('file', file)
-  const res = await fetch(apiUrl('/api/upload'), {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${getToken()}` },
-    body: fd,
-  })
-  const body = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(body.error || `Upload failed (${res.status})`)
-  return body.url
-}
+import { authFetch } from '../auth/authClient'
+import { uploadFileWithProgress } from '../lib/uploadFile'
 
 const SIZE_FMT = b => b < 1048576 ? `${(b/1024).toFixed(1)} KB` : `${(b/1048576).toFixed(1)} MB`
 
@@ -291,22 +278,23 @@ export function MediaPickerModal({ type, onSelect, onClose }) {
 
 export function MediaUpload({ value, onChange, accept, type }) {
   const inputRef = useRef(null)
-  const [uploading, setUploading]   = useState(false)
+  const [progress, setProgress]     = useState(null) // { phase: 'uploading'|'processing', percent }
   const [error, setError]           = useState(null)
   const [dragOver, setDragOver]     = useState(false)
   const [showPicker, setShowPicker] = useState(false)
+  const uploading = !!progress
 
   async function processFile(file) {
     if (!file) return
-    setUploading(true)
+    setProgress({ phase: 'uploading', percent: 0 })
     setError(null)
     try {
-      const url = await uploadFile(file)
+      const url = await uploadFileWithProgress(file, setProgress)
       onChange(url)
     } catch (err) {
       setError(err.message)
     } finally {
-      setUploading(false)
+      setProgress(null)
     }
   }
 
@@ -333,6 +321,17 @@ export function MediaUpload({ value, onChange, accept, type }) {
   const hasValue = !!value
   const isAudio = type === 'audio'
   const isVideo = type === 'video'
+
+  const progressLabel = progress
+    ? progress.phase === 'uploading'
+      ? `Uploading… ${progress.percent}%`
+      : 'Compressing…'
+    : null
+  const progressLabelShort = progress
+    ? progress.phase === 'uploading'
+      ? ` ${progress.percent}%`
+      : ' Compressing…'
+    : null
 
   const dropIcon = isAudio ? 'fa-music' : isVideo ? 'fa-file-video' : 'fa-image'
   const dropLabel = isAudio ? 'audio / music' : isVideo ? 'video' : 'image'
@@ -362,7 +361,7 @@ export function MediaUpload({ value, onChange, accept, type }) {
                 title="Change file"
               >
                 <i className="fas fa-folder-open" />
-                {uploading ? ' Uploading…' : ' Change'}
+                {uploading ? progressLabelShort : ' Change'}
               </button>
               <button
                 type="button"
@@ -398,7 +397,7 @@ export function MediaUpload({ value, onChange, accept, type }) {
               disabled={uploading}
             >
               <i className="fas fa-exchange-alt" />
-              {uploading ? ' Uploading…' : ' Change'}
+              {uploading ? progressLabelShort : ' Change'}
             </button>
             <button
               type="button"
@@ -440,7 +439,7 @@ export function MediaUpload({ value, onChange, accept, type }) {
               disabled={uploading}
             >
               <i className="fas fa-camera" />
-              {uploading ? ' Uploading…' : ' Change'}
+              {uploading ? progressLabelShort : ' Change'}
             </button>
             <button
               type="button"
@@ -474,7 +473,17 @@ export function MediaUpload({ value, onChange, accept, type }) {
             disabled={uploading}
           >
             {uploading
-              ? <><i className="fas fa-circle-notch fa-spin" /> Uploading…</>
+              ? (
+                <div className="edit-upload-progress-inline">
+                  <i className="fas fa-circle-notch fa-spin" />
+                  <span>{progressLabel}</span>
+                  {progress.phase === 'uploading' && (
+                    <div className="edit-upload-progress-bar">
+                      <div className="edit-upload-progress-bar-fill" style={{ width: `${progress.percent}%` }} />
+                    </div>
+                  )}
+                </div>
+              )
               : <><i className={`fas ${dropIcon}`} /><span>Upload {dropLabel}</span></>}
           </button>
           <button
@@ -489,10 +498,15 @@ export function MediaUpload({ value, onChange, accept, type }) {
         </div>
       )}
 
-      {/* Upload spinner (when replacing existing) */}
+      {/* Upload progress (when replacing existing) */}
       {hasValue && uploading && (
         <div className="edit-upload-progress">
-          <i className="fas fa-circle-notch fa-spin" /> Uploading…
+          <i className="fas fa-circle-notch fa-spin" /> {progressLabel}
+          {progress.phase === 'uploading' && (
+            <div className="edit-upload-progress-bar">
+              <div className="edit-upload-progress-bar-fill" style={{ width: `${progress.percent}%` }} />
+            </div>
+          )}
         </div>
       )}
 

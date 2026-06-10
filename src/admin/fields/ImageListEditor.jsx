@@ -1,20 +1,6 @@
 import { useRef, useState } from 'react'
-import { getToken } from '../auth/authClient'
-import { apiUrl } from '../../lib/api'
 import { MediaPickerModal } from './FieldInput'
-
-async function uploadFile(file) {
-  const fd = new FormData()
-  fd.append('file', file)
-  const res = await fetch(apiUrl('/api/upload'), {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${getToken()}` },
-    body: fd,
-  })
-  const body = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(body.error || `Upload failed (${res.status})`)
-  return body.url
-}
+import { uploadFileWithProgress } from '../lib/uploadFile'
 
 function isVideoSrc(src) {
   return /\.(mp4|mov|webm|ogg)(\?|$)/i.test(src || '')
@@ -22,20 +8,21 @@ function isVideoSrc(src) {
 
 function MediaCard({ src, index, accept, isDragging, isDropTarget, onUpdate, onRemove, onDragStart, onDragEnd, onDragOver, onDrop }) {
   const inputRef = useRef(null)
-  const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState(null) // { phase: 'uploading'|'processing', percent }
+  const uploading = !!progress
   const isVideo = isVideoSrc(src)
 
   async function handleFile(e) {
     const file = e.target.files?.[0]
     if (!file) return
-    setUploading(true)
+    setProgress({ phase: 'uploading', percent: 0 })
     try {
-      const url = await uploadFile(file)
+      const url = await uploadFileWithProgress(file, setProgress)
       onUpdate(url)
     } catch {
       // keep existing on error
     } finally {
-      setUploading(false)
+      setProgress(null)
       e.target.value = ''
     }
   }
@@ -67,6 +54,7 @@ function MediaCard({ src, index, accept, isDragging, isDropTarget, onUpdate, onR
         {uploading && (
           <div className="edit-media-card-spinner">
             <i className="fas fa-circle-notch fa-spin" />
+            <span>{progress.phase === 'uploading' ? `${progress.percent}%` : 'Compressing…'}</span>
           </div>
         )}
       </div>
@@ -113,7 +101,7 @@ export default function ImageListEditor({ label, items, onChange, accept }) {
     if (!files.length) return
     const urls = await Promise.all(
       files.map(async file => {
-        try { return await uploadFile(file) } catch { return null }
+        try { return await uploadFileWithProgress(file) } catch { return null }
       })
     )
     onChange([...items, ...urls.filter(Boolean)])

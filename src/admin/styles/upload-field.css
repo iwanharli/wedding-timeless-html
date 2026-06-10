@@ -238,6 +238,31 @@ video.edit-upload-thumb {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
+}
+
+.edit-upload-progress-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-400);
+}
+
+.edit-upload-progress-bar {
+  width: 100%;
+  max-width: 160px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.edit-upload-progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width .15s ease;
 }
 
 .edit-upload-error {

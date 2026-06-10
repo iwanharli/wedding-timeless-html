@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { authFetch } from '../auth/authClient'
+import { uploadFileWithProgress } from '../lib/uploadFile'
 import './MediaLibrary.css'
 
 function Lightbox({ file, allPreviewable, onClose, onPrev, onNext }) {
@@ -235,7 +236,10 @@ function StagingArea({ pending, onRemove, onCancel, onSave, progress }) {
           </button>
           <button type="button" className="ml-staging-save" onClick={onSave} disabled={!!progress}>
             {progress
-              ? <><i className="fas fa-circle-notch fa-spin" /> {progress.current}/{progress.total} — {progress.name}</>
+              ? <>
+                  <i className="fas fa-circle-notch fa-spin" /> {progress.current}/{progress.total} — {progress.name}
+                  {' '}({progress.phase === 'uploading' ? `${progress.percent}%` : 'Compressing…'})
+                </>
               : <><i className="fas fa-upload" /> Simpan</>
             }
           </button>
@@ -329,12 +333,11 @@ export default function MediaLibrary({ onMenuOpen }) {
     const total = pending.length
     for (let i = 0; i < total; i++) {
       const item = pending[i]
-      setUploadProgress({ current: i + 1, total, name: item.file.name })
+      setUploadProgress({ current: i + 1, total, name: item.file.name, phase: 'uploading', percent: 0 })
       try {
-        const form = new FormData()
-        form.append('file', item.file)
-        const res = await authFetch('/api/upload', { method: 'POST', body: form })
-        if (!res.ok) throw new Error((await res.json()).error)
+        await uploadFileWithProgress(item.file, p => {
+          setUploadProgress({ current: i + 1, total, name: item.file.name, phase: p.phase, percent: p.percent })
+        })
         if (item.previewUrl) URL.revokeObjectURL(item.previewUrl)
       } catch (e) {
         setError(`Gagal upload ${item.file.name}: ${e.message}`)
