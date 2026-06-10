@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react'
 import AOS from 'aos'
 import { useWeddingConfig } from '../data/useWeddingConfig'
 import { apiUrl } from '../lib/api'
@@ -8,22 +8,23 @@ import { collectCoverImageUrls, preloadImages } from '../lib/preloadImages'
 
 import Preloader from './Preloader'
 import SectionHero from '../sections/Hero/SectionHero'
-import SectionIntro from '../sections/Intro/SectionIntro'
-import SectionProfileIntro from '../sections/ProfileIntro/SectionProfileIntro'
-import SectionGroom from '../sections/GroomBride/SectionGroom'
-import SectionBride from '../sections/GroomBride/SectionBride'
-import SectionLoveStory from '../sections/LoveStory/SectionLoveStory'
-import SectionCountdown from '../sections/Countdown/SectionCountdown'
-import SectionEvent from '../sections/Event/SectionEvent'
-import SectionLivestream from '../sections/Livestream/SectionLivestream'
-import SectionDressCode from '../sections/DressCode/SectionDressCode'
-import SectionRSVP from '../sections/RSVP/SectionRSVP'
-import SectionWishes from '../sections/Wishes/SectionWishes'
-import SectionGift from '../sections/Gift/SectionGift'
-import SectionGallery from '../sections/Gallery/SectionGallery'
-import SectionThankYou from '../sections/ThankYou/SectionThankYou'
 import SideNav from './SideNav'
 import GiftPopup from './GiftPopup'
+
+const SectionIntro        = lazy(() => import('../sections/Intro/SectionIntro'))
+const SectionProfileIntro = lazy(() => import('../sections/ProfileIntro/SectionProfileIntro'))
+const SectionGroom        = lazy(() => import('../sections/GroomBride/SectionGroom'))
+const SectionBride        = lazy(() => import('../sections/GroomBride/SectionBride'))
+const SectionLoveStory    = lazy(() => import('../sections/LoveStory/SectionLoveStory'))
+const SectionCountdown    = lazy(() => import('../sections/Countdown/SectionCountdown'))
+const SectionEvent        = lazy(() => import('../sections/Event/SectionEvent'))
+const SectionLivestream   = lazy(() => import('../sections/Livestream/SectionLivestream'))
+const SectionDressCode    = lazy(() => import('../sections/DressCode/SectionDressCode'))
+const SectionRSVP         = lazy(() => import('../sections/RSVP/SectionRSVP'))
+const SectionWishes       = lazy(() => import('../sections/Wishes/SectionWishes'))
+const SectionGift         = lazy(() => import('../sections/Gift/SectionGift'))
+const SectionGallery      = lazy(() => import('../sections/Gallery/SectionGallery'))
+const SectionThankYou     = lazy(() => import('../sections/ThankYou/SectionThankYou'))
 
 const SECTION_COMPONENTS = {
   SectionIntro,
@@ -429,33 +430,35 @@ export default function PublicSite() {
           </div>
 
           {/* All content sections, driven by editable order/visibility */}
-          {visibleSections.map(s => {
-            const SectionComponent = SECTION_COMPONENTS[s.component]
-            if (!SectionComponent) return null
-            const bg = s.background || { type: 'video', value: '' }
-            const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
-            const bgLayerStyle =
-              bg.type === 'image' && bg.value
-                ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
-                : bg.type === 'color' && bg.value
-                ? { backgroundColor: bg.value }
-                : null
-            const overlayOpacity = (bg.opacity || 0) / 100
-            const wrapperStyle = (bgLayerStyle || overlayOpacity > 0) ? { position: 'relative' } : undefined
-            if (wrapperStyle && bg.type === 'image' && mediaOpacity < 1 && bg.bgColor) {
-              wrapperStyle.backgroundColor = bg.bgColor
-            }
-            return (
-              <div key={s.id} id={`ps-${s.id}`} data-section-id={s.id} style={wrapperStyle}>
-                {bgLayerStyle && <div className="section-bg-layer" style={bgLayerStyle} />}
-                {overlayOpacity > 0 && <div className="section-bg-overlay" style={{ backgroundColor: hexToRgba(bg.overlayColor, overlayOpacity) }} />}
-                <SectionComponent
-                  content={content}
-                  onOpenGiftPopup={() => setGiftPopupOpen(true)}
-                />
-              </div>
-            )
-          })}
+          <Suspense fallback={null}>
+            {visibleSections.map(s => {
+              const SectionComponent = SECTION_COMPONENTS[s.component]
+              if (!SectionComponent) return null
+              const bg = s.background || { type: 'video', value: '' }
+              const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
+              const bgLayerStyle =
+                bg.type === 'image' && bg.value
+                  ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
+                  : bg.type === 'color' && bg.value
+                  ? { backgroundColor: bg.value }
+                  : null
+              const overlayOpacity = (bg.opacity || 0) / 100
+              const wrapperStyle = (bgLayerStyle || overlayOpacity > 0) ? { position: 'relative' } : undefined
+              if (wrapperStyle && bg.type === 'image' && mediaOpacity < 1 && bg.bgColor) {
+                wrapperStyle.backgroundColor = bg.bgColor
+              }
+              return (
+                <div key={s.id} id={`ps-${s.id}`} data-section-id={s.id} style={wrapperStyle}>
+                  {bgLayerStyle && <div className="section-bg-layer" style={bgLayerStyle} />}
+                  {overlayOpacity > 0 && <div className="section-bg-overlay" style={{ backgroundColor: hexToRgba(bg.overlayColor, overlayOpacity) }} />}
+                  <SectionComponent
+                    content={content}
+                    onOpenGiftPopup={() => setGiftPopupOpen(true)}
+                  />
+                </div>
+              )
+            })}
+          </Suspense>
         </main>
       </div>
 

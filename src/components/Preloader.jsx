@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import lottie from 'lottie-web'
 import animData from '../assets/preloader-anim.json'
 
 export default function Preloader({ content, apiLoading, assetsLoading, loadProgress = 0 }) {
@@ -35,22 +34,21 @@ export default function Preloader({ content, apiLoading, assetsLoading, loadProg
   }, [])
 
   useEffect(() => {
-    if (!lottieRef.current) return
-    const anim = lottie.loadAnimation({
-      container: lottieRef.current,
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      animationData: animData,
+    let cancelled = false
+    let anim
+    import('lottie-web').then(({ default: lottie }) => {
+      if (cancelled || !lottieRef.current) return
+      anim = lottie.loadAnimation({
+        container: lottieRef.current,
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        animationData: animData,
+      })
+      anim.setSpeed(2)
+      anim.addEventListener('complete', () => setAnimDone(true))
     })
-
-    anim.setSpeed(2)
-
-    anim.addEventListener('complete', () => {
-      setAnimDone(true)
-    })
-
-    return () => anim.destroy()
+    return () => { cancelled = true; anim?.destroy() }
   }, [])
 
   // Fade out when animation done, API has responded, all images are loaded,

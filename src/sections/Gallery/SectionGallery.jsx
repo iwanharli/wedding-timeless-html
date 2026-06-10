@@ -1,6 +1,4 @@
 import { useEffect, useRef } from 'react'
-import Swiper from 'swiper'
-import { Autoplay, Pagination } from 'swiper/modules'
 import { bgAudioRef } from '../../lib/bgAudioRef'
 import './gallery.css'
 
@@ -42,17 +40,23 @@ export default function SectionGallery({ content }) {
   }, [])
 
   useEffect(() => {
-    const sw = new Swiper(swiperRef.current, {
-      modules: [Autoplay, Pagination],
-      loop: true,
-      slidesPerView: 1,
-      autoplay: { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true },
-      pagination: { el: paginationRef.current, clickable: true },
-      speed: 700,
-      observer: true,
-      observeParents: true,
-    })
-    return () => sw.destroy()
+    let sw
+    Promise.all([import('swiper'), import('swiper/modules')]).then(
+      ([{ default: Swiper }, { Autoplay, Pagination }]) => {
+        if (!swiperRef.current) return
+        sw = new Swiper(swiperRef.current, {
+          modules: [Autoplay, Pagination],
+          loop: true,
+          slidesPerView: 1,
+          autoplay: { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true },
+          pagination: { el: paginationRef.current, clickable: true },
+          speed: 700,
+          observer: true,
+          observeParents: true,
+        })
+      }
+    )
+    return () => sw?.destroy()
   }, [])
 
   function openLightbox(index) {

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { authFetch } from '../auth/authClient'
 import './Dashboard.css'
-import * as echarts from 'echarts'
 
 const CATEGORY_COLOR = {
   'Keluarga':    '#2563eb',
@@ -76,7 +75,9 @@ function TrafficChart({ daily, days = 7 }) {
     const personalData = filled.map(d => d.personal)
     const publicData = filled.map(d => d.public)
 
-    const chart = echarts.init(chartRef.current)
+    let cancelled = false
+    let chart
+    let resizeObserver
 
     const option = {
       tooltip: {
@@ -165,16 +166,18 @@ function TrafficChart({ daily, days = 7 }) {
       ]
     }
 
-    chart.setOption(option)
-
-    const resizeObserver = new ResizeObserver(() => {
-      chart.resize()
+    import('echarts').then(({ default: echarts }) => {
+      if (cancelled || !chartRef.current) return
+      chart = echarts.init(chartRef.current)
+      chart.setOption(option)
+      resizeObserver = new ResizeObserver(() => chart.resize())
+      resizeObserver.observe(chartRef.current)
     })
-    resizeObserver.observe(chartRef.current)
 
     return () => {
-      chart.dispose()
-      resizeObserver.disconnect()
+      cancelled = true
+      chart?.dispose()
+      resizeObserver?.disconnect()
     }
   }, [daily, days])
 

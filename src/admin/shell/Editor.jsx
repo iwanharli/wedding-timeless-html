@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { authFetch, clearToken } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
@@ -18,16 +18,17 @@ import { usePreviewSync } from './usePreviewSync'
 import EditorSidebar from './EditorSidebar'
 import EditorToolbar from './EditorToolbar'
 import NavGuardModal from './NavGuardModal'
-import SectionForm from '../fields/SectionForm'
-import LayoutPanel from '../pages/LayoutPanel'
-import PreviewPanel from './PreviewPanel'
-import GuestList from '../pages/GuestList'
-import Dashboard from '../pages/Dashboard'
-import WishesList from '../pages/WishesList'
-import ShareSetup from '../pages/ShareSetup'
-import TrafficDetail from '../pages/TrafficDetail'
-import MediaLibrary from '../pages/MediaLibrary'
-import GiftConfirmations from '../pages/GiftConfirmations'
+
+const SectionForm      = lazy(() => import('../fields/SectionForm'))
+const LayoutPanel      = lazy(() => import('../pages/LayoutPanel'))
+const PreviewPanel     = lazy(() => import('./PreviewPanel'))
+const GuestList        = lazy(() => import('../pages/GuestList'))
+const Dashboard        = lazy(() => import('../pages/Dashboard'))
+const WishesList       = lazy(() => import('../pages/WishesList'))
+const ShareSetup       = lazy(() => import('../pages/ShareSetup'))
+const TrafficDetail    = lazy(() => import('../pages/TrafficDetail'))
+const MediaLibrary     = lazy(() => import('../pages/MediaLibrary'))
+const GiftConfirmations = lazy(() => import('../pages/GiftConfirmations'))
 import '../styles/admin.css'
 
 export default function Editor() {
@@ -351,6 +352,7 @@ export default function Editor() {
         )}
 
         <div className={`edit-scroll${SCROLL_FULL_VIEWS.has(activeId) ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
+          <Suspense fallback={null}>
           {activeId === 'media' ? (
             <MediaLibrary onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'dashboard' ? (
@@ -384,9 +386,11 @@ export default function Editor() {
               onTabChange={handleTabChange}
             />
           ) : null}
+          </Suspense>
         </div>
       </main>
 
+      <Suspense fallback={null}>
       <PreviewPanel
         ref={iframeRef}
         visible={previewVisible && !PREVIEW_HIDDEN_VIEWS.has(activeId)}
@@ -399,6 +403,7 @@ export default function Editor() {
             : (EDITOR_TO_SECTION[activeId] ?? null)
         }
       />
+      </Suspense>
 
       {pendingNav !== null && (
         <NavGuardModal
