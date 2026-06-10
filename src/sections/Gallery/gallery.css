@@ -101,9 +101,7 @@
 .gal-thumb-img {
     width: 100%;
     display: block;
-    max-height: 60vh;
-    object-fit: contain;
-    background: #000;
+    height: auto;
 }
 
 .gal-thumb-fallback {
