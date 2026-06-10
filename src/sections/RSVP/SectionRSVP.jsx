@@ -19,18 +19,32 @@ export default function SectionRSVP({ content }) {
   const [errors, setErrors] = useState({})
   const slugRef = useRef(null)
 
+  const notAttending = attendance === 'Tidak Hadir'
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const nameParam = params.get('to')
     if (nameParam) setName(decodeURIComponent(nameParam))
 
-    slugRef.current = params.get('g') || null
+    const slug = params.get('g') || null
+    slugRef.current = slug
 
     const maxParam = params.get('max')
     const resolvedMax = maxParam ? parseInt(maxParam, 10) : defaultMax
     setMaxGuests(resolvedMax)
     setGuestLabel(`${defaultLabel} (Max ${resolvedMax})`)
+
+    // Restore submitted state so guest can't re-send by refreshing
+    const key = `rsvp_done_${slug || 'open'}`
+    if (sessionStorage.getItem(key)) setSubmitted(true)
   }, [])
+
+  function handleAttendanceChange(value) {
+    setAttendance(value)
+    setErrors(v => ({ ...v, attendance: undefined }))
+    if (value === 'Tidak Hadir') setGuests(0)
+    else if (guests === 0) setGuests(1)
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -49,6 +63,8 @@ export default function SectionRSVP({ content }) {
       })
       if (!res.ok) throw new Error((await res.json()).error || 'Gagal mengirim')
       setSubmitted(true)
+      const key = `rsvp_done_${slugRef.current || 'open'}`
+      sessionStorage.setItem(key, '1')
     } catch (err) {
       setSubmitError(err.message)
     } finally {
@@ -113,7 +129,7 @@ export default function SectionRSVP({ content }) {
                   id="field-attendance-yes"
                   name="attendance"
                   checked={attendance === 'EXCITED TO ATTEND'}
-                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
+                  onChange={e => handleAttendanceChange(e.target.value)}
                 />
                 <span>{r.attendanceLabel}</span>
               </label>
@@ -124,7 +140,7 @@ export default function SectionRSVP({ content }) {
                   id="field-attendance-maybe"
                   name="attendance"
                   checked={attendance === 'Mungkin Datang'}
-                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
+                  onChange={e => handleAttendanceChange(e.target.value)}
                 />
                 <span>{r.maybeLabel || 'Mungkin Datang'}</span>
               </label>
@@ -135,7 +151,7 @@ export default function SectionRSVP({ content }) {
                   id="field-attendance-no"
                   name="attendance"
                   checked={attendance === 'Tidak Hadir'}
-                  onChange={e => { setAttendance(e.target.value); setErrors(v => ({ ...v, attendance: undefined })) }}
+                  onChange={e => handleAttendanceChange(e.target.value)}
                 />
                 <span>{r.unableLabel}</span>
               </label>
@@ -143,8 +159,8 @@ export default function SectionRSVP({ content }) {
             {errors.attendance && <span className="rsvp-field-error">{errors.attendance}</span>}
           </div>
 
-          {/* Guest count */}
-          <div className="rsvp-field">
+          {/* Guest count — hidden when not attending */}
+          {!notAttending && <div className="rsvp-field">
             <label>{guestLabel}</label>
             <div className="rsvp-stepper">
               <button
@@ -161,7 +177,7 @@ export default function SectionRSVP({ content }) {
                 disabled={guests >= maxGuests}
               >+</button>
             </div>
-          </div>
+          </div>}
 
           {/* Wishes */}
           <div className="rsvp-field">

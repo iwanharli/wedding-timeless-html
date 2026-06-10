@@ -6,15 +6,22 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const SITE_URL = (process.env.SITE_URL || '').replace(/\/+$/, '')
 
 export const configRouter = Router()
 
+function toAbsoluteUrl(url) {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  return SITE_URL + (url.startsWith('/') ? url : '/' + url)
+}
+
 function updateHtmlMetadata(share) {
   if (!share) return
-  
+
   const title = share.ogTitle || 'WE INVITE YOU TO CELEBRATE'
   const description = share.ogDescription || 'Undangan pernikahan digital.'
-  const image = share.ogImage || ''
+  const image = toAbsoluteUrl(share.ogImage || '')
 
   const paths = [
     path.join(__dirname, '../../index.html'),
@@ -59,6 +66,14 @@ function updateHtmlMetadata(share) {
         `$1${image}$2`
       )
 
+      // Replace og:url (if present)
+      if (SITE_URL) {
+        html = html.replace(
+          /(<meta\s+property="og:url"\s+content=")[^"]*("\s*\/?>)/gi,
+          `$1${SITE_URL}/$2`
+        )
+      }
+
       // Replace <title>
       html = html.replace(
         /(<title>)[^<]*(<\/title>)/gi,
@@ -99,3 +114,13 @@ configRouter.put('/', requireAuth, async (req, res) => {
 
   res.json({ ok: true })
 })
+
+// Called once on server startup so HTML metadata is up-to-date with DB + env SITE_URL
+export async function initHtmlMetadata() {
+  try {
+    const result = await pool.query('SELECT data FROM wedding_config WHERE id = 1')
+    if (result.rows[0]) updateHtmlMetadata(result.rows[0].data?.share)
+  } catch (e) {
+    console.error('initHtmlMetadata failed:', e.message)
+  }
+}

@@ -4,7 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { authRouter } from './routes/auth.js'
-import { configRouter } from './routes/config.js'
+import { configRouter, initHtmlMetadata } from './routes/config.js'
 import { uploadRouter } from './routes/upload.js'
 import { guestsRouter } from './routes/guests.js'
 import { dashboardRouter } from './routes/dashboard.js'
@@ -58,6 +58,7 @@ app.use((err, req, res, _next) => {
 })
 
 const port = process.env.PORT || 4000
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`API server listening on http://localhost:${port}`)
+  await initHtmlMetadata()
 })
