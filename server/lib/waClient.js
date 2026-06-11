@@ -144,6 +144,20 @@ function humanDelay() {
 // Status codes that signal WhatsApp is rate-limiting/restricting this account
 const BAN_SIGNAL_CODES = [403, 429, 463]
 
+// Self-imposed cap on messages sent per rolling hour to mimic human usage
+const HOURLY_SEND_LIMIT = 40
+const HOUR_MS = 60 * 60 * 1000
+
+// Sleep in 1s steps so an abort request takes effect quickly
+async function sleepWithAbort(ms) {
+  let remaining = ms
+  while (remaining > 0 && !sendAbort) {
+    const step = Math.min(1000, remaining)
+    await new Promise(r => setTimeout(r, step))
+    remaining -= step
+  }
+}
+
 // Format phone → WA JID
 function toJid(phone) {
   const digits = String(phone).replace(/\D/g, '')
@@ -161,6 +175,8 @@ export async function sendBulk(guests, templateFn, onProgress) {
   sendAbort = false
   const results = { sent: [], failed: [], skipped: [] }
   let cachedPreview = null
+  let sentThisHour = 0
+  let windowStart = Date.now()
 
   for (let i = 0; i < guests.length; i++) {
     if (sendAbort) break
@@ -170,6 +186,22 @@ export async function sendBulk(guests, templateFn, onProgress) {
       results.skipped.push({ id: guest.id, name: guest.name, reason: 'no_phone' })
       onProgress({ type: 'skip', index: i, total: guests.length, guest })
       continue
+    }
+
+    // Hourly send cap reached — pause until the rolling window resets
+    if (sentThisHour >= HOURLY_SEND_LIMIT) {
+      const waitMs = windowStart + HOUR_MS - Date.now()
+      if (waitMs > 0) {
+        onProgress({
+          type: 'rate_limit_pause',
+          limit: HOURLY_SEND_LIMIT,
+          waitSeconds: Math.ceil(waitMs / 1000),
+        })
+        await sleepWithAbort(waitMs)
+      }
+      sentThisHour = 0
+      windowStart = Date.now()
+      if (sendAbort) break
     }
 
     const jid = toJid(guest.phone)
@@ -195,9 +227,11 @@ export async function sendBulk(guests, templateFn, onProgress) {
       await sock.sendMessage(jid, { text: message, linkPreview })
       results.sent.push({ id: guest.id, name: guest.name })
       onProgress({ type: 'sent', index: i, total: guests.length, guest })
+      sentThisHour++
     } catch (err) {
       results.failed.push({ id: guest.id, name: guest.name, reason: err.message })
       onProgress({ type: 'failed', index: i, total: guests.length, guest, error: err.message })
+      sentThisHour++
 
       // Ban/restriction signal from WhatsApp — stop immediately
       const code = new Boom(err)?.output?.statusCode

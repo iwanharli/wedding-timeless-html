@@ -30,6 +30,13 @@ function formatTime(iso) {
   return new Date(iso).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
 }
 
+function formatDuration(seconds) {
+  if (seconds < 60) return `${seconds}d`
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return s > 0 ? `${m}m ${s}d` : `${m}m`
+}
+
 export default function WhatsApp({ config, onMenuOpen }) {
   const [waState, setWaState] = useState('disconnected')
   const [account, setAccount] = useState(null)
@@ -43,6 +50,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const [sendTarget, setSendTarget] = useState(null) // null | 'bulk' | guestId
   const [progress, setProgress] = useState(null) // { index, total }
   const [waitSeconds, setWaitSeconds] = useState(null)
+  const [rateLimitPause, setRateLimitPause] = useState(null) // { limit, waitSeconds }
   const [results, setResults] = useState(null)   // { sent, failed, skipped }
   const [log, setLog] = useState([])
   const [error, setError] = useState(null)
@@ -51,6 +59,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const [guestsLoading, setGuestsLoading] = useState(true)
 
   const countdownRef = useRef(null)
+  const rateLimitRef = useRef(null)
 
   const pushLog = useCallback((entry) => {
     setLog(prev => [entry, ...prev].slice(0, 50))
@@ -90,11 +99,15 @@ export default function WhatsApp({ config, onMenuOpen }) {
       const data = JSON.parse(e.data)
       if (data.type === 'waiting') {
         setWaitSeconds(data.delay)
+      } else if (data.type === 'rate_limit_pause') {
+        setWaitSeconds(null)
+        setRateLimitPause({ limit: data.limit, waitSeconds: data.waitSeconds })
       } else if (data.type === 'done') {
         setSending(false)
         setSendTarget(null)
         setProgress(null)
         setWaitSeconds(null)
+        setRateLimitPause(null)
         setResults(data.results)
         loadGuests()
       } else if (data.type === 'error') {
@@ -102,11 +115,13 @@ export default function WhatsApp({ config, onMenuOpen }) {
         setSendTarget(null)
         setProgress(null)
         setWaitSeconds(null)
+        setRateLimitPause(null)
         setError(data.message)
       } else if (data.type === 'ban_warning') {
         setError(data.message)
       } else {
         setWaitSeconds(null)
+        setRateLimitPause(null)
         setProgress({ index: data.index, total: data.total })
         if (data.type === 'sent') {
           pushLog({ type: 'sent', name: data.guest.name })
@@ -132,6 +147,18 @@ export default function WhatsApp({ config, onMenuOpen }) {
     }, 1000)
     return () => clearInterval(countdownRef.current)
   }, [waitSeconds == null])
+
+  // Local 1s countdown for the hourly rate-limit pause
+  useEffect(() => {
+    if (rateLimitPause == null) {
+      clearInterval(rateLimitRef.current)
+      return
+    }
+    rateLimitRef.current = setInterval(() => {
+      setRateLimitPause(p => (p && p.waitSeconds > 0 ? { ...p, waitSeconds: p.waitSeconds - 1 } : p))
+    }, 1000)
+    return () => clearInterval(rateLimitRef.current)
+  }, [rateLimitPause == null])
 
   async function handleConnect() {
     setConnecting(true)
@@ -317,6 +344,12 @@ export default function WhatsApp({ config, onMenuOpen }) {
                 </span>
               )}
             </div>
+            {rateLimitPause && (
+              <div className="wa-progress-pause">
+                <i className="fas fa-pause-circle" /> Batas {rateLimitPause.limit} pesan/jam tercapai. Pengiriman dijeda otomatis,
+                lanjut dalam {formatDuration(Math.max(rateLimitPause.waitSeconds, 0))}.
+              </div>
+            )}
           </div>
         )}
 
