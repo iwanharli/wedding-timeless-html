@@ -3,6 +3,8 @@ import makeWASocket, {
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
+  getUrlInfo,
+  extractUrlFromText,
 } from '@whiskeysockets/baileys'
 import { Boom } from '@hapi/boom'
 import { EventEmitter } from 'events'
@@ -125,6 +127,7 @@ export async function sendBulk(guests, templateFn, onProgress) {
   isSending = true
   sendAbort = false
   const results = { sent: [], failed: [], skipped: [] }
+  let cachedPreview = null
 
   for (let i = 0; i < guests.length; i++) {
     if (sendAbort) break
@@ -145,7 +148,18 @@ export async function sendBulk(guests, templateFn, onProgress) {
       await new Promise(r => setTimeout(r, 1000 + Math.random() * 2000))
       await sock.sendPresenceUpdate('paused', jid)
 
-      await sock.sendMessage(jid, { text: message })
+      let linkPreview
+      const url = extractUrlFromText(message)
+      if (url) {
+        try {
+          if (!cachedPreview) cachedPreview = await getUrlInfo(url)
+          linkPreview = { ...cachedPreview, 'canonical-url': url, 'matched-text': url }
+        } catch {
+          // ignore — send without preview if it can't be fetched
+        }
+      }
+
+      await sock.sendMessage(jid, { text: message, linkPreview })
       results.sent.push({ id: guest.id, name: guest.name })
       onProgress({ type: 'sent', index: i, total: guests.length, guest })
     } catch (err) {
