@@ -28,17 +28,33 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const [onlyUnsent, setOnlyUnsent] = useState(true)
 
   const [sending, setSending] = useState(false)
+  const [sendTarget, setSendTarget] = useState(null) // null | 'bulk' | guestId
   const [progress, setProgress] = useState(null) // { index, total }
   const [waitSeconds, setWaitSeconds] = useState(null)
   const [results, setResults] = useState(null)   // { sent, failed, skipped }
   const [log, setLog] = useState([])
   const [error, setError] = useState(null)
 
+  const [guests, setGuests] = useState([])
+  const [guestsLoading, setGuestsLoading] = useState(true)
+
   const countdownRef = useRef(null)
 
   const pushLog = useCallback((entry) => {
     setLog(prev => [entry, ...prev].slice(0, 50))
   }, [])
+
+  const loadGuests = useCallback(async () => {
+    try {
+      const res = await authFetch('/api/guests')
+      if (!res.ok) return
+      setGuests(await res.json())
+    } catch { /* ignore */ } finally {
+      setGuestsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { loadGuests() }, [loadGuests])
 
   // ── SSE: live status / QR / progress ──────────────────────────────────
   useEffect(() => {
@@ -62,11 +78,14 @@ export default function WhatsApp({ config, onMenuOpen }) {
         setWaitSeconds(data.delay)
       } else if (data.type === 'done') {
         setSending(false)
+        setSendTarget(null)
         setProgress(null)
         setWaitSeconds(null)
         setResults(data.results)
+        loadGuests()
       } else if (data.type === 'error') {
         setSending(false)
+        setSendTarget(null)
         setProgress(null)
         setWaitSeconds(null)
         setError(data.message)
@@ -84,7 +103,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
     })
 
     return () => es.close()
-  }, [pushLog])
+  }, [pushLog, loadGuests])
 
   // Local 1s countdown so the "menunggu..." display ticks down smoothly
   useEffect(() => {
@@ -121,7 +140,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
     }
   }
 
-  async function handleSendBulk() {
+  async function handleSend(target, guestIds) {
     if (!template.trim()) {
       setError('Template pesan tidak boleh kosong.')
       return
@@ -130,12 +149,13 @@ export default function WhatsApp({ config, onMenuOpen }) {
     setResults(null)
     setLog([])
     setSending(true)
+    setSendTarget(target)
     setProgress({ index: 0, total: 0 })
     try {
       const res = await authFetch('/api/wa/send-bulk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ onlyUnsent, template }),
+        body: JSON.stringify(guestIds ? { guestIds, template } : { onlyUnsent, template }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Gagal memulai pengiriman')
@@ -143,6 +163,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
     } catch (e) {
       setError(e.message)
       setSending(false)
+      setSendTarget(null)
       setProgress(null)
     }
   }
@@ -155,6 +176,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
 
   const isConnected = waState === 'connected'
   const pct = progress?.total ? Math.round(((progress.index + (sending ? 1 : 0)) / progress.total) * 100) : 0
+  const pendingGuests = guests.filter(g => g.phone && !g.wa_sent)
 
   return (
     <div className="wa-wrap">
@@ -243,7 +265,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
               <i className="fas fa-stop" /> Hentikan Pengiriman
             </button>
           ) : (
-            <button type="button" className="gl-btn gl-btn--primary" onClick={handleSendBulk} disabled={!isConnected}>
+            <button type="button" className="gl-btn gl-btn--primary" onClick={() => handleSend('bulk')} disabled={!isConnected}>
               <i className="fas fa-paper-plane" /> Kirim Sekarang
             </button>
           )}
@@ -322,6 +344,43 @@ export default function WhatsApp({ config, onMenuOpen }) {
               ))}
             </ul>
           </div>
+        )}
+      </div>
+
+      {/* ── Pending guests ── */}
+      <div className="gl-card wa-pending-card">
+        <div className="wa-send-header">
+          <h2 className="wa-send-title"><i className="fas fa-user-clock" /> Tamu Belum Dikirim Pesan</h2>
+          <span className="wa-pending-count">{pendingGuests.length} tamu</span>
+        </div>
+
+        {guestsLoading ? (
+          <div className="gl-empty"><i className="fas fa-spinner fa-spin" /> Memuat data tamu…</div>
+        ) : pendingGuests.length === 0 ? (
+          <div className="gl-empty"><i className="fas fa-check-circle" /> Semua tamu dengan no. WhatsApp sudah dikirim pesan.</div>
+        ) : (
+          <ul className="wa-pending-list">
+            {pendingGuests.map(g => (
+              <li key={g.id} className="wa-pending-item">
+                <div className="wa-pending-info">
+                  <span className="wa-pending-name">{g.name}</span>
+                  <span className="wa-pending-phone">{g.phone}</span>
+                </div>
+                <button
+                  type="button"
+                  className="gl-btn gl-btn--ghost wa-pending-send"
+                  onClick={() => handleSend(g.id, [g.id])}
+                  disabled={!isConnected || sending}
+                >
+                  {sendTarget === g.id ? (
+                    <><i className="fas fa-circle-notch fa-spin" /> Mengirim…</>
+                  ) : (
+                    <><i className="fas fa-paper-plane" /> Kirim</>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
       </div>
