@@ -72,9 +72,13 @@ async function createGuests(client) {
       category        TEXT        DEFAULT '',
       notes           TEXT        DEFAULT '',
       created_at      TIMESTAMPTZ DEFAULT now(),
-      slug            TEXT        UNIQUE
+      slug            TEXT        UNIQUE,
+      wa_sent         BOOLEAN     NOT NULL DEFAULT false
     )
   `)
+
+  // Backward-compat: add wa_sent if missing (existing installs)
+  await client.query('ALTER TABLE guests ADD COLUMN IF NOT EXISTS wa_sent BOOLEAN NOT NULL DEFAULT false')
 
   // Index for slug lookups (public invitation links)
   await client.query(`

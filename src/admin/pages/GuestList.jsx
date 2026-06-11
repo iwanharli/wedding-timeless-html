@@ -421,6 +421,21 @@ export default function GuestList({ config, onMenuOpen }) {
     finally { setSaving(false) }
   }
 
+  async function handleToggleWaSent(id, current) {
+    const next = !current
+    setGuests(g => g.map(x => x.id === id ? { ...x, wa_sent: next } : x))
+    try {
+      await authFetch(`/api/guests/${id}/wa-sent`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wa_sent: next }),
+      })
+    } catch {
+      // revert on failure
+      setGuests(g => g.map(x => x.id === id ? { ...x, wa_sent: current } : x))
+    }
+  }
+
   async function handleDelete(id) {
     if (!confirm('Hapus tamu ini?')) return
     await authFetch(`/api/guests/${id}`, { method: 'DELETE' })
@@ -615,6 +630,7 @@ export default function GuestList({ config, onMenuOpen }) {
                 <SortTh col="rsvp_status" label="RSVP"      {...sortProps} className="gl-th--hide-sm" />
                 <SortTh col="rsvp_pax"    label="Jml. Tamu" {...sortProps} className="gl-th--hide-sm gl-th--pax" />
                 <th className="gl-th gl-th--hide-sm">Link Undangan</th>
+                <th className="gl-th gl-th--hide-sm gl-th--sent" title="Status pengiriman WhatsApp">Terkirim</th>
                 <th className="gl-th gl-th--action" />
               </tr>
             </thead>
@@ -666,12 +682,25 @@ export default function GuestList({ config, onMenuOpen }) {
                             target="_blank" rel="noreferrer"
                             className={`gl-icon-btn gl-icon-btn--wa${!g.phone ? ' gl-icon-btn--disabled' : ''}`}
                             title={g.phone ? 'Kirim via WhatsApp' : 'Nomor WA belum diisi'}
-                            onClick={e => { if (!g.phone) e.preventDefault() }}
+                            onClick={e => {
+                              if (!g.phone) { e.preventDefault(); return }
+                              if (!g.wa_sent) handleToggleWaSent(g.id, false)
+                            }}
                           >
                             <i className="fab fa-whatsapp" />
                           </a>
                         </div>
                       ) : <span className="gl-empty-cell">—</span>}
+                    </td>
+                    <td className="gl-td gl-td--hide-sm gl-td--sent">
+                      <button
+                        type="button"
+                        className={`gl-sent-btn${g.wa_sent ? ' gl-sent-btn--sent' : ''}`}
+                        onClick={() => handleToggleWaSent(g.id, g.wa_sent)}
+                        title={g.wa_sent ? 'Tandai belum terkirim' : 'Tandai sudah terkirim'}
+                      >
+                        <i className={`fas ${g.wa_sent ? 'fa-check-circle' : 'fa-circle'}`} />
+                      </button>
                     </td>
                     <td className="gl-td gl-td--action">
                       <div className="gl-row-actions">

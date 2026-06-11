@@ -96,6 +96,18 @@ guestsRouter.delete('/', requireAuth, async (req, res) => {
   res.status(204).end()
 })
 
+// PATCH /api/guests/:id/wa-sent — toggle wa_sent flag
+guestsRouter.patch('/:id/wa-sent', requireAuth, async (req, res) => {
+  const { wa_sent } = req.body
+  if (typeof wa_sent !== 'boolean') return res.status(400).json({ error: 'wa_sent must be boolean' })
+  const result = await pool.query(
+    'UPDATE guests SET wa_sent=$1 WHERE id=$2 RETURNING id, wa_sent',
+    [wa_sent, req.params.id]
+  )
+  if (!result.rows.length) return res.status(404).json({ error: 'Not found' })
+  res.json(result.rows[0])
+})
+
 // POST /api/guests/bulk — import CSV rows, skip duplicates by phone
 guestsRouter.post('/bulk', requireAuth, async (req, res) => {
   const rows = req.body?.guests

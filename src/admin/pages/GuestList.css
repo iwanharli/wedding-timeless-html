@@ -828,6 +828,33 @@
   gap: 16px;
 }
 
+/* ── WA Sent column ── */
+.gl-th--sent,
+.gl-td--sent {
+  width: 72px;
+  text-align: center;
+}
+.gl-sent-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 18px;
+  color: var(--border, #e2e8f0);
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+.gl-sent-btn:hover {
+  color: #22c55e;
+  transform: scale(1.15);
+}
+.gl-sent-btn--sent {
+  color: #22c55e;
+}
+.gl-sent-btn--sent:hover {
+  color: #16a34a;
+}
+
 /* ── Import CSV Modal ── */
 .gl-modal-backdrop {
   position: fixed;
