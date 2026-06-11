@@ -22,6 +22,7 @@ let connectionState = 'disconnected' // disconnected | connecting | qr | connect
 let lastQrDataUrl = null
 let isSending = false
 let sendAbort = false
+let manualDisconnect = false
 
 export function getWaStatus() {
   return { state: connectionState, hasQr: !!lastQrDataUrl }
@@ -34,6 +35,7 @@ export function abortSend() { sendAbort = true }
 
 export async function connectWA() {
   if (sock && connectionState === 'connected') return
+  manualDisconnect = false
   connectionState = 'connecting'
   waEvents.emit('status', { state: 'connecting' })
 
@@ -73,7 +75,7 @@ export async function connectWA() {
 
     if (connection === 'close') {
       const code = new Boom(lastDisconnect?.error)?.output?.statusCode
-      const shouldReconnect = code !== DisconnectReason.loggedOut
+      const shouldReconnect = !manualDisconnect && code !== DisconnectReason.loggedOut
       connectionState = shouldReconnect ? 'connecting' : 'disconnected'
       lastQrDataUrl = null
       sock = null
@@ -86,6 +88,7 @@ export async function connectWA() {
 }
 
 export async function disconnectWA() {
+  manualDisconnect = true
   if (sock) {
     await sock.logout().catch(() => {})
     sock = null

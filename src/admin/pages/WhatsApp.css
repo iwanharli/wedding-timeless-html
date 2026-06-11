@@ -5,60 +5,6 @@
   width: 100%;
 }
 
-/* ── Buttons (shared gl-btn family, kept local in case GuestList.css hasn't loaded) ── */
-.edit-shell .gl-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 16px;
-  height: 38px;
-  border-radius: var(--r-sm);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-  border: none;
-  line-height: 1;
-}
-.edit-shell .gl-btn:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-.edit-shell .gl-btn--primary {
-  background: var(--text-900);
-  color: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.08);
-}
-.edit-shell .gl-btn--primary:hover:not(:disabled) {
-  background: #1f2937;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-.edit-shell .gl-btn--ghost {
-  background: var(--surface);
-  color: var(--text-600);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-xs);
-}
-.edit-shell .gl-btn--ghost:hover:not(:disabled) {
-  border-color: var(--accent-dark);
-  background: var(--accent-light);
-  color: var(--accent-dark);
-}
-.edit-shell .gl-btn--danger {
-  background: var(--red-bg);
-  color: var(--red);
-  border: 1px solid var(--red-bd);
-}
-.edit-shell .gl-btn--danger:hover:not(:disabled) {
-  background: var(--red);
-  color: #fff;
-  border-color: var(--red);
-  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.15);
-}
-
 /* ── Status badge ── */
 .wa-status-badge {
   display: inline-flex;
