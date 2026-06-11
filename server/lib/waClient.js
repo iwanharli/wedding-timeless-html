@@ -1,5 +1,4 @@
 import makeWASocket, {
-  useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
@@ -9,12 +8,8 @@ import makeWASocket, {
 import { Boom } from '@hapi/boom'
 import { EventEmitter } from 'events'
 import { toDataURL } from 'qrcode'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import pino from 'pino'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const SESSION_DIR = path.resolve(__dirname, '../wa-session')
+import { useDbAuthState, clearAuthState } from './dbAuthState.js'
 
 export const waEvents = new EventEmitter()
 waEvents.setMaxListeners(50)
@@ -42,7 +37,7 @@ export async function connectWA() {
   connectionState = 'connecting'
   waEvents.emit('status', { state: 'connecting' })
 
-  const { state, saveCreds } = await useMultiFileAuthState(SESSION_DIR)
+  const { state, saveCreds } = await useDbAuthState()
   const { version } = await fetchLatestBaileysVersion()
 
   const logger = pino({ level: 'silent' })
@@ -95,11 +90,18 @@ export async function connectWA() {
 
     if (connection === 'close') {
       const code = new Boom(lastDisconnect?.error)?.output?.statusCode
-      const shouldReconnect = !manualDisconnect && code !== DisconnectReason.loggedOut
+      const loggedOut = code === DisconnectReason.loggedOut
+      const shouldReconnect = !manualDisconnect && !loggedOut
       connectionState = shouldReconnect ? 'connecting' : 'disconnected'
       lastQrDataUrl = null
       accountInfo = null
       sock = null
+
+      // Stale/invalid session — remove it so the next "Hubungkan" generates a fresh QR
+      if (loggedOut && !manualDisconnect) {
+        await clearAuthState()
+      }
+
       waEvents.emit('status', { state: connectionState })
       if (shouldReconnect) {
         setTimeout(connectWA, 3000)
@@ -119,9 +121,7 @@ export async function disconnectWA() {
   accountInfo = null
   waEvents.emit('status', { state: 'disconnected' })
 
-  // Remove session files
-  const { rm } = await import('fs/promises')
-  await rm(SESSION_DIR, { recursive: true, force: true })
+  await clearAuthState()
 }
 
 // Human-like delay: 5–12s base, 15% chance of 20–40s pause

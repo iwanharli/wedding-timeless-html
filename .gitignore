@@ -5,4 +5,3 @@ dist/
 .env.development
 test-results/
 db_dump.sql
-server/wa-session/

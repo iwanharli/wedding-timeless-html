@@ -15,6 +15,7 @@
  *   5. page_visits     — page view tracking
  *   6. wishes               — standalone guest wishes (legacy)
  *   7. gift_confirmations   — gift transfer confirmations from guests
+ *   8. wa_session           — WhatsApp (Baileys) auth session, key/value store
  */
 
 import '../dotenv-loader.js'
@@ -182,6 +183,18 @@ async function createGiftConfirmations(client) {
   log('gift_confirmations table ready')
 }
 
+// ─── 8. wa_session ──────────────────────────────────────────────────────────
+async function createWaSession(client) {
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS wa_session (
+      key             TEXT        NOT NULL PRIMARY KEY,
+      value           JSONB       NOT NULL,
+      "updatedAt"     TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `)
+  log('wa_session table ready')
+}
+
 // ─── Run all migrations ─────────────────────────────────────────────────────
 async function migrate() {
   console.log('\n🔧 Running database migrations...\n')
@@ -197,6 +210,7 @@ async function migrate() {
     await createPageVisits(client)
     await createWishes(client)
     await createGiftConfirmations(client)
+    await createWaSession(client)
 
     await client.query('COMMIT')
     console.log('\n✅ All migrations completed successfully!\n')
