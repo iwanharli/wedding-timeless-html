@@ -12,10 +12,10 @@ const STATE_LABEL = {
 }
 
 const STATE_ICON = {
-  disconnected: 'fa-link-slash',
+  disconnected: 'fa-unlink',
   connecting:   'fa-circle-notch fa-spin',
   qr:           'fa-qrcode',
-  connected:    'fa-circle-check',
+  connected:    'fa-check-circle',
 }
 
 export default function WhatsApp({ config, onMenuOpen }) {
@@ -201,7 +201,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
           </div>
         ) : (
           <div className="wa-connected">
-            <div className="wa-connected-icon wa-connected-icon--off"><i className="fas fa-link-slash" /></div>
+            <div className="wa-connected-icon wa-connected-icon--off"><i className="fas fa-unlink" /></div>
             <div className="wa-connected-body">
               <div className="wa-connected-title">WhatsApp belum terhubung</div>
               <div className="wa-connected-sub">Hubungkan untuk menampilkan kode QR.</div>
