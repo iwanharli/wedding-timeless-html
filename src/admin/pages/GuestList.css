@@ -828,6 +828,65 @@
   gap: 16px;
 }
 
+/* ── Stat cards ── */
+.gl-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.gl-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 22px 24px;
+  min-height: 110px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.05), 0 2px 4px -1px rgba(0,0,0,.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gl-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 168, 124, 0.4);
+  box-shadow: 0 12px 20px -3px rgba(201,168,124,.12), 0 4px 6px -2px rgba(201,168,124,.05);
+}
+.gl-stat-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.gl-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.gl-stat-value {
+  font-size: 28px;
+  font-weight: 850;
+  color: #0f172a;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+.gl-stat-label {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.gl-stat-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
 /* ── WA Sent column ── */
 .gl-th--sent,
 .gl-td--sent {
@@ -1064,6 +1123,12 @@
 }
 
 /* ── Responsiveness ── */
+@media (max-width: 900px) {
+  .gl-stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .gl-stat-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 768px) {
   .gl-toolbar {
     flex-direction: column;

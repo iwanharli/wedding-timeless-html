@@ -525,45 +525,45 @@ export default function GuestList({ config, onMenuOpen }) {
       </div>
 
       {/* ── Stats ── */}
-      <div className="db-stat-grid">
-        <div className="db-stat-card">
-          <div className="db-stat-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}>
+      <div className="gl-stat-grid">
+        <div className="gl-stat-card">
+          <div className="gl-stat-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}>
             <i className="fas fa-users" />
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-value">{statTotal}</div>
-            <div className="db-stat-label">Total Tamu</div>
-            <div className="db-stat-sub">undangan terdaftar</div>
+          <div className="gl-stat-body">
+            <div className="gl-stat-value">{statTotal}</div>
+            <div className="gl-stat-label">Total Tamu</div>
+            <div className="gl-stat-sub">undangan terdaftar</div>
           </div>
         </div>
-        <div className="db-stat-card">
-          <div className="db-stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
+        <div className="gl-stat-card">
+          <div className="gl-stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
             <i className="fas fa-calendar-check" />
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-value">{statHadirPax}</div>
-            <div className="db-stat-label">Konfirmasi Hadir</div>
-            <div className="db-stat-sub">{statHadirTamu} undangan · {statHadirPax} pax</div>
+          <div className="gl-stat-body">
+            <div className="gl-stat-value">{statHadirPax}</div>
+            <div className="gl-stat-label">Konfirmasi Hadir</div>
+            <div className="gl-stat-sub">{statHadirTamu} undangan · {statHadirPax} pax</div>
           </div>
         </div>
-        <div className="db-stat-card">
-          <div className="db-stat-icon" style={{ background: '#fffbeb', color: '#d97706' }}>
+        <div className="gl-stat-card">
+          <div className="gl-stat-icon" style={{ background: '#fffbeb', color: '#d97706' }}>
             <i className="fas fa-question-circle" />
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-value">{statMungkin + statTidak}</div>
-            <div className="db-stat-label">Mungkin / Batal</div>
-            <div className="db-stat-sub">{statMungkin} mungkin · {statTidak} batal</div>
+          <div className="gl-stat-body">
+            <div className="gl-stat-value">{statMungkin + statTidak}</div>
+            <div className="gl-stat-label">Mungkin / Batal</div>
+            <div className="gl-stat-sub">{statMungkin} mungkin · {statTidak} batal</div>
           </div>
         </div>
-        <div className="db-stat-card">
-          <div className="db-stat-icon" style={{ background: '#fdf2f8', color: '#db2777' }}>
+        <div className="gl-stat-card">
+          <div className="gl-stat-icon" style={{ background: '#fdf2f8', color: '#db2777' }}>
             <i className="fas fa-clock" />
           </div>
-          <div className="db-stat-body">
-            <div className="db-stat-value">{statBelum}</div>
-            <div className="db-stat-label">Belum RSVP</div>
-            <div className="db-stat-sub">
+          <div className="gl-stat-body">
+            <div className="gl-stat-value">{statBelum}</div>
+            <div className="gl-stat-label">Belum RSVP</div>
+            <div className="gl-stat-sub">
               {statTotal > 0 ? Math.round(((statTotal - statBelum) / statTotal) * 100) : 0}% tamu sudah respons
             </div>
           </div>
