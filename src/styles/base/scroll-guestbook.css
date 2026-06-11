@@ -25,7 +25,7 @@ html {
 
 /*icon centang guest book*/
 /*icon centang*/
-i.fas.fa-check-circle {
+.rsvp-success i.fas.fa-check-circle {
     visibility: hidden;
 }
 
