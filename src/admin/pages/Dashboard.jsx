@@ -166,7 +166,7 @@ function TrafficChart({ daily, days = 7 }) {
       ]
     }
 
-    import('echarts').then(({ default: echarts }) => {
+    import('echarts').then((echarts) => {
       if (cancelled || !chartRef.current) return
       chart = echarts.init(chartRef.current)
       chart.setOption(option)
