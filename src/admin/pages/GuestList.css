@@ -840,12 +840,11 @@
   cursor: pointer;
   padding: 4px;
   font-size: 18px;
-  color: var(--border, #e2e8f0);
+  color: #ef4444;
   transition: color 0.15s, transform 0.15s;
   line-height: 1;
 }
 .gl-sent-btn:hover {
-  color: #22c55e;
   transform: scale(1.15);
 }
 .gl-sent-btn--sent {

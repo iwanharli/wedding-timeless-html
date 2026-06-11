@@ -699,7 +699,7 @@ export default function GuestList({ config, onMenuOpen }) {
                         onClick={() => handleToggleWaSent(g.id, g.wa_sent)}
                         title={g.wa_sent ? 'Tandai belum terkirim' : 'Tandai sudah terkirim'}
                       >
-                        <i className={`fas ${g.wa_sent ? 'fa-check-circle' : 'fa-circle'}`} />
+                        <i className={`fas ${g.wa_sent ? 'fa-check-circle' : 'fa-times-circle'}`} />
                       </button>
                     </td>
                     <td className="gl-td gl-td--action">
