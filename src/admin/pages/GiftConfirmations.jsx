@@ -162,7 +162,7 @@ export default function GiftConfirmations({ onMenuOpen }) {
           <div className="gl-search-wrap">
             <i className="fas fa-search gl-search-icon" />
             <input
-              className="gl-search"
+              className="gl-input gl-search"
               placeholder="Cari nama, bank, atau catatan…"
               value={search}
               onChange={e => setSearch(e.target.value)}

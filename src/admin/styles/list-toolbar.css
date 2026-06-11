@@ -74,11 +74,11 @@
   align-items: center;
 }
 .edit-shell .gl-filter-cat {
-  width: 160px;
+  width: 160px !important;
   flex-shrink: 0;
 }
 .edit-shell .gl-per-page {
-  width: 96px;
+  width: 96px !important;
   flex-shrink: 0;
 }
 
@@ -205,4 +205,24 @@
   gap: 10px;
   font-weight: 500;
   box-shadow: var(--shadow-xs);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .gl-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .gl-search-wrap {
+    min-width: 100%;
+  }
+  .gl-toolbar-filters {
+    justify-content: space-between;
+  }
+}
+@media (max-width: 600px) {
+  .gl-th--hide-sm,
+  .gl-td--hide-sm {
+    display: none;
+  }
 }

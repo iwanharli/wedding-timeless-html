@@ -929,23 +929,7 @@
 @media (max-width: 500px) {
   .gl-stat-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 768px) {
-  .gl-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .gl-search-wrap {
-    min-width: 100%;
-  }
-  .gl-toolbar-filters {
-    justify-content: space-between;
-  }
-}
 @media (max-width: 600px) {
-  .gl-th--hide-sm,
-  .gl-td--hide-sm {
-    display: none;
-  }
   .gl-drawer {
     width: 100%;
   }
