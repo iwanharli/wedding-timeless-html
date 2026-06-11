@@ -10,8 +10,9 @@ export async function useDbAuthState() {
   const readData = async (key) => {
     const { rows } = await pool.query('SELECT value FROM wa_session WHERE key = $1', [key])
     if (!rows.length) return null
-    // value is stored as a JSON string so BufferJSON.reviver can restore Buffers/Uint8Arrays
-    return JSON.parse(rows[0].value, BufferJSON.reviver)
+    // pg returns jsonb already parsed to a plain object — round-trip through
+    // JSON so BufferJSON.reviver can restore Buffers/Uint8Arrays
+    return JSON.parse(JSON.stringify(rows[0].value), BufferJSON.reviver)
   }
 
   const writeData = async (key, data) => {
