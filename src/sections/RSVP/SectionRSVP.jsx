@@ -186,7 +186,7 @@ export default function SectionRSVP({ content }) {
               name="wishes"
               id="field-wishes"
               className="rsvp-textarea"
-              rows="4"
+              rows="3"
               value={wishes}
               onChange={e => setWishes(e.target.value)}
             ></textarea>
