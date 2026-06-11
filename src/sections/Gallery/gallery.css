@@ -50,7 +50,7 @@
 .gal-video-wrap {
     width: 100%;
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: 5px;
 }
 
 .gallery-video-inner {
@@ -168,7 +168,7 @@
     font-weight: 400;
     line-height: 1.4;
     text-align: center;
-    margin: 16px 0 0 0;
+    margin: 7px 0 0 0;
     padding: 0 8px;
 }
 
