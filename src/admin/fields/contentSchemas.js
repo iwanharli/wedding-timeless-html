@@ -226,11 +226,11 @@ export const CONTENT_SECTIONS = [
     columns: 2,
     layout: 'profile',
     fields: [
-      { path: 'livestream.image', label: 'Foto', type: 'image' },
+      { path: 'livestream.image', label: 'Foto', type: 'image', hint: 'Hanya dipakai jika "Tautan Siaran" bukan link YouTube. Untuk YouTube, thumbnail diambil otomatis dari videonya.' },
       { path: 'livestream.title', label: 'Judul', type: 'text', hint: 'Contoh: "Saksikan Siaran Langsung"' },
       { path: 'livestream.buttonText', label: 'Teks Tombol', type: 'text', hint: 'Contoh: "Tonton Siaran"' },
       { path: 'livestream.date', label: 'Tanggal Siaran', type: 'date-text', hint: 'Contoh: Sabtu, 12 Oktober 2024' },
-      { path: 'livestream.url', label: 'Tautan Siaran', type: 'url', span: 2, hint: 'URL YouTube Live, Zoom, atau platform siaran lainnya' },
+      { path: 'livestream.url', label: 'Tautan Siaran', type: 'url', span: 2, hint: 'URL YouTube Live (thumbnail otomatis), Zoom, atau platform siaran lainnya' },
     ],
   },
 

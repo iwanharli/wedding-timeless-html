@@ -1,11 +1,13 @@
 import './livestream.css'
+import { getYoutubeThumbnail } from '../../lib/youtube'
 
 export default function SectionLivestream({ content }) {
   const ls = content.livestream
+  const photoSrc = getYoutubeThumbnail(ls.url) || ls.image
   return (
     <div id="livestreaming" className="section-livestream child">
       <div className="ls9-photo-wrap">
-        <img src={ls.image} className="ls9-photo" loading="lazy" alt="" />
+        <img src={photoSrc} className="ls9-photo" loading="lazy" alt="" />
         <div className="ls9-photo-overlay" />
         <span className="ls9-live-badge">
           <span className="ls9-live-dot" />
