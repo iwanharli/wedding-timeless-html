@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { authFetch, getToken } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
+import WhatsAppPreview, { WA_SAMPLE_NAME } from '../components/WhatsAppPreview'
 import './WhatsApp.css'
 
 const STATE_LABEL = {
@@ -179,6 +180,8 @@ export default function WhatsApp({ config, onMenuOpen }) {
 
       {error && <div className="gl-error"><i className="fas fa-exclamation-circle" /> {error}</div>}
 
+      <div className="wa-grid">
+      <div className="wa-main">
       {/* ── Connection card ── */}
       <div className="gl-card wa-connect-card">
         {isConnected ? (
@@ -320,6 +323,24 @@ export default function WhatsApp({ config, onMenuOpen }) {
             </ul>
           </div>
         )}
+      </div>
+      </div>
+
+      {/* ── Preview panel ── */}
+      <div className="share-preview-panel">
+        <div className="share-preview-panel-label">
+          <i className="fas fa-eye" /> Pratinjau Pesan
+        </div>
+        <WhatsAppPreview
+          template={template}
+          ogImage={config?.share?.ogImage}
+          ogTitle={config?.share?.ogTitle}
+          ogDescription={config?.share?.ogDescription}
+        />
+        <p className="share-preview-panel-note">
+          Contoh tampilan dengan nama tamu "<strong>{WA_SAMPLE_NAME}</strong>"
+        </p>
+      </div>
       </div>
     </div>
   )
