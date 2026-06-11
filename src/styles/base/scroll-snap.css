@@ -13,6 +13,11 @@ html {
     scroll-snap-align: start;
     scroll-snap-stop: always;
     height: 100vh;
+    /* 100vh on mobile Chrome/Safari uses the viewport size with browser
+       chrome (address bar) hidden, so the section ends up taller than what's
+       actually visible — bottom content looks "cut off". 100dvh tracks the
+       real visible viewport. */
+    height: 100dvh;
     will-change: transform;
     /* Konten yang lebih tinggi dari layar (HP pendek) bisa di-scroll
        di dalam section, bukan terpotong */
