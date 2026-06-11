@@ -219,7 +219,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
       <div className="wa-grid">
       <div className="wa-main">
       {/* ── Connection card ── */}
-      <div className="gl-card wa-connect-card">
+      <div className={`gl-card wa-connect-card${isConnected ? ' wa-connect-card--connected' : ''}`}>
         {isConnected ? (
           <div className="wa-connected">
             {account?.profilePic ? (

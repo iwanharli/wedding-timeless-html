@@ -60,6 +60,11 @@
   padding: 24px;
 }
 
+.wa-connect-card--connected {
+  background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
+  border-color: transparent;
+}
+
 .wa-connected {
   display: flex;
   align-items: center;
@@ -79,6 +84,11 @@
   color: #16a34a;
 }
 
+.wa-connect-card--connected .wa-connected-icon {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
 .wa-connected-icon--off {
   background: #f8fafc;
   color: #94a3b8;
@@ -93,6 +103,10 @@
   background: #f8fafc;
 }
 
+.wa-connect-card--connected .wa-connected-avatar {
+  border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
 .wa-connected-body {
   flex: 1;
   min-width: 0;
@@ -104,10 +118,30 @@
   color: #0f172a;
 }
 
+.wa-connect-card--connected .wa-connected-title {
+  color: #fff;
+}
+
 .wa-connected-sub {
   font-size: 12.5px;
   color: #64748b;
   margin-top: 2px;
+}
+
+.wa-connect-card--connected .wa-connected-sub {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.wa-grid .wa-connect-card--connected .gl-btn--ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.wa-grid .wa-connect-card--connected .gl-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
 }
 
 .wa-qr-box {
