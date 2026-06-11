@@ -7,8 +7,10 @@
     flex-direction: column;
     justify-content: safe center;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: 48px 24px 48px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
 }
 
