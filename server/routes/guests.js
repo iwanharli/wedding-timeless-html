@@ -95,3 +95,47 @@ guestsRouter.delete('/', requireAuth, async (req, res) => {
   await pool.query('DELETE FROM guests WHERE id = ANY($1)', [ids])
   res.status(204).end()
 })
+
+// POST /api/guests/bulk — import CSV rows, skip duplicates by phone
+guestsRouter.post('/bulk', requireAuth, async (req, res) => {
+  const rows = req.body?.guests
+  if (!Array.isArray(rows) || !rows.length) return res.status(400).json({ error: 'guests array required' })
+
+  // Fetch all existing phones in one query
+  const existing = await pool.query('SELECT phone FROM guests WHERE phone IS NOT NULL AND phone <> \'\'')
+  const existingPhones = new Set(existing.rows.map(r => r.phone.replace(/\D/g, '')))
+
+  const added = []
+  const skipped = []
+
+  for (const row of rows) {
+    const name = row.name?.trim()
+    const phone = row.phone?.trim() || ''
+    const category = row.category?.trim() || ''
+    const notes = row.notes?.trim() || ''
+
+    if (!name || !phone) continue
+
+    const normalizedPhone = phone.replace(/\D/g, '')
+    if (existingPhones.has(normalizedPhone)) {
+      skipped.push({ name, phone })
+      continue
+    }
+
+    let slug = generateSlug()
+    for (let i = 0; i < 5; i++) {
+      const exists = await pool.query('SELECT 1 FROM guests WHERE slug=$1', [slug])
+      if (!exists.rows.length) break
+      slug = generateSlug()
+    }
+
+    const result = await pool.query(
+      'INSERT INTO guests (name, phone, category, notes, slug) VALUES ($1,$2,$3,$4,$5) RETURNING *',
+      [name, phone, category, notes, slug]
+    )
+    added.push(result.rows[0])
+    existingPhones.add(normalizedPhone)
+  }
+
+  res.status(201).json({ added, skipped })
+})

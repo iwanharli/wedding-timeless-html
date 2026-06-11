@@ -1,6 +1,201 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { authFetch } from '../auth/authClient'
 import './GuestList.css'
+
+const CSV_TEMPLATE = `Nama,WhatsApp,Kategori,Catatan\nContoh Tamu,081234567890,Keluarga,Saudara mempelai\n`
+
+function parseCsv(text) {
+  const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n')
+  if (!lines.length) return []
+
+  // Detect header row
+  const firstLine = lines[0].toLowerCase()
+  const hasHeader = firstLine.includes('nama') || firstLine.includes('name') || firstLine.includes('whatsapp')
+  const dataLines = hasHeader ? lines.slice(1) : lines
+
+  const results = []
+  for (const raw of dataLines) {
+    const line = raw.trim()
+    if (!line) continue
+    // Simple CSV parse (handles quoted fields)
+    const cols = []
+    let cur = '', inQuote = false
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i]
+      if (ch === '"') { inQuote = !inQuote }
+      else if (ch === ',' && !inQuote) { cols.push(cur.trim()); cur = '' }
+      else cur += ch
+    }
+    cols.push(cur.trim())
+    const [name = '', phone = '', category = '', notes = ''] = cols
+    results.push({ name: name.replace(/^"|"$/g, '').trim(), phone: phone.replace(/^"|"$/g, '').trim(), category: category.replace(/^"|"$/g, '').trim(), notes: notes.replace(/^"|"$/g, '').trim() })
+  }
+  return results
+}
+
+const VALID_CATEGORIES = new Set(['Keluarga', 'Teman', 'Rekan Kerja', 'Lainnya', ''])
+
+function ImportModal({ onClose, onImported }) {
+  const [step, setStep] = useState('upload') // upload | preview | result
+  const [rows, setRows] = useState([])
+  const [result, setResult] = useState(null)
+  const [importing, setImporting] = useState(false)
+  const [fileError, setFileError] = useState('')
+  const fileRef = useRef(null)
+
+  function downloadTemplate() {
+    const blob = new Blob([CSV_TEMPLATE], { type: 'text/csv' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = 'template-tamu.csv'
+    a.click()
+  }
+
+  function handleFile(file) {
+    if (!file) return
+    if (!file.name.endsWith('.csv') && file.type !== 'text/csv') {
+      setFileError('File harus berformat .csv'); return
+    }
+    setFileError('')
+    const reader = new FileReader()
+    reader.onload = e => {
+      const parsed = parseCsv(e.target.result)
+      const valid = parsed.filter(r => r.name && r.phone)
+      if (!valid.length) { setFileError('Tidak ada baris valid (Nama & WhatsApp wajib diisi).'); return }
+      setRows(valid)
+      setStep('preview')
+    }
+    reader.readAsText(file, 'UTF-8')
+  }
+
+  async function handleImport() {
+    setImporting(true)
+    try {
+      const res = await authFetch('/api/guests/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guests: rows }),
+      })
+      const data = await res.json()
+      setResult(data)
+      setStep('result')
+      onImported(data.added)
+    } catch {
+      setFileError('Gagal import. Coba lagi.')
+    } finally {
+      setImporting(false)
+    }
+  }
+
+  return (
+    <div className="gl-modal-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="gl-modal">
+        <div className="gl-modal-header">
+          <div className="gl-modal-title">
+            <i className="fas fa-file-import" />
+            <h2>Import Tamu dari CSV</h2>
+          </div>
+          <button type="button" className="gl-drawer-close-btn" onClick={onClose}><i className="fas fa-times" /></button>
+        </div>
+
+        <div className="gl-modal-body">
+          {step === 'upload' && (
+            <>
+              <p className="gl-modal-desc">
+                Upload file CSV dengan kolom: <strong>Nama</strong>, <strong>WhatsApp</strong>, Kategori, Catatan.<br />
+                Tamu yang nomornya sudah terdaftar akan dilewati secara otomatis.
+              </p>
+              <button type="button" className="gl-btn gl-btn--ghost gl-template-btn" onClick={downloadTemplate}>
+                <i className="fas fa-download" /> Download Template CSV
+              </button>
+              <div
+                className="gl-dropzone"
+                onClick={() => fileRef.current?.click()}
+                onDragOver={e => e.preventDefault()}
+                onDrop={e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]) }}
+              >
+                <i className="fas fa-cloud-upload-alt gl-dropzone-icon" />
+                <p className="gl-dropzone-text">Klik atau drag &amp; drop file CSV di sini</p>
+                <p className="gl-dropzone-hint">Format: .csv, maks 5MB</p>
+                <input ref={fileRef} type="file" accept=".csv,text/csv" style={{ display: 'none' }}
+                  onChange={e => handleFile(e.target.files[0])} />
+              </div>
+              {fileError && <p className="gl-modal-error"><i className="fas fa-exclamation-circle" /> {fileError}</p>}
+            </>
+          )}
+
+          {step === 'preview' && (
+            <>
+              <p className="gl-modal-desc">
+                <strong>{rows.length} baris</strong> valid ditemukan. Periksa data sebelum mengimpor.
+              </p>
+              <div className="gl-preview-table-wrap">
+                <table className="gl-preview-table">
+                  <thead>
+                    <tr>
+                      <th>#</th><th>Nama</th><th>WhatsApp</th><th>Kategori</th><th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r, i) => (
+                      <tr key={i} className={!VALID_CATEGORIES.has(r.category) ? 'gl-preview-row--warn' : ''}>
+                        <td>{i + 1}</td>
+                        <td>{r.name}</td>
+                        <td>{r.phone}</td>
+                        <td>{r.category || <span className="gl-empty-cell">—</span>}</td>
+                        <td>{r.notes || <span className="gl-empty-cell">—</span>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {fileError && <p className="gl-modal-error"><i className="fas fa-exclamation-circle" /> {fileError}</p>}
+              <div className="gl-modal-actions">
+                <button type="button" className="gl-btn gl-btn--ghost" onClick={() => { setStep('upload'); setRows([]) }}>
+                  <i className="fas fa-arrow-left" /> Kembali
+                </button>
+                <button type="button" className="gl-btn gl-btn--primary" onClick={handleImport} disabled={importing}>
+                  {importing
+                    ? <><i className="fas fa-circle-notch fa-spin" /> Mengimpor…</>
+                    : <><i className="fas fa-check" /> Import {rows.length} Tamu</>}
+                </button>
+              </div>
+            </>
+          )}
+
+          {step === 'result' && result && (
+            <>
+              <div className="gl-import-result">
+                <div className="gl-import-result-item gl-import-result-item--success">
+                  <i className="fas fa-check-circle" />
+                  <div>
+                    <strong>{result.added.length} tamu berhasil ditambahkan</strong>
+                  </div>
+                </div>
+                {result.skipped.length > 0 && (
+                  <div className="gl-import-result-item gl-import-result-item--warn">
+                    <i className="fas fa-exclamation-triangle" />
+                    <div>
+                      <strong>{result.skipped.length} tamu dilewati</strong> (nomor sudah terdaftar)
+                      <ul className="gl-skipped-list">
+                        {result.skipped.map((s, i) => <li key={i}>{s.name} · {s.phone}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="gl-modal-actions">
+                <button type="button" className="gl-btn gl-btn--primary" onClick={onClose}>
+                  <i className="fas fa-check" /> Selesai
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const inviteLink = (slug) => `${window.location.origin}/?g=${slug}`
 
@@ -162,6 +357,7 @@ export default function GuestList({ config, onMenuOpen }) {
   const [sortDir, setSortDir]     = useState('asc')
   const [page, setPage]           = useState(1)
   const [perPage, setPerPage]     = useState(10)
+  const [importOpen, setImportOpen] = useState(false)
 
   function toggleSort(key) {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
@@ -303,6 +499,9 @@ export default function GuestList({ config, onMenuOpen }) {
         <div className="gl-header-actions">
           <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
             <i className="fas fa-download" /> Export CSV
+          </button>
+          <button type="button" className="gl-btn gl-btn--ghost" onClick={() => setImportOpen(true)}>
+            <i className="fas fa-file-import" /> Import CSV
           </button>
           <button type="button" className="gl-btn gl-btn--primary" onClick={() => { setAdding(true); setEditId(null) }}>
             <i className="fas fa-plus" /> Tambah Tamu
@@ -529,6 +728,14 @@ export default function GuestList({ config, onMenuOpen }) {
             </div>
           </div>
         </>
+      )}
+
+      {/* ── Import CSV Modal ── */}
+      {importOpen && (
+        <ImportModal
+          onClose={() => setImportOpen(false)}
+          onImported={newGuests => setGuests(g => [...g, ...newGuests])}
+        />
       )}
 
       {/* ── Floating Bulk Action Bar ── */}
