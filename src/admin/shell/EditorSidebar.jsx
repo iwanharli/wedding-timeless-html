@@ -40,6 +40,14 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
         </button>
         <button
           type="button"
+          className={`edit-nav-item${activeId === 'whatsapp' ? ' active' : ''}`}
+          onClick={() => navTo('whatsapp')}
+        >
+          <span className="edit-nav-item-icon"><i className="fab fa-whatsapp" /></span>
+          Kirim WhatsApp
+        </button>
+        <button
+          type="button"
           className={`edit-nav-item${activeId === 'wishes' ? ' active' : ''}${!isSectionActive('wishes') ? ' disabled' : ''}`}
           onClick={() => {
             if (isSectionActive('wishes')) navTo('wishes')

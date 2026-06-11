@@ -29,6 +29,7 @@ const ShareSetup       = lazy(() => import('../pages/ShareSetup'))
 const TrafficDetail    = lazy(() => import('../pages/TrafficDetail'))
 const MediaLibrary     = lazy(() => import('../pages/MediaLibrary'))
 const GiftConfirmations = lazy(() => import('../pages/GiftConfirmations'))
+const WhatsApp          = lazy(() => import('../pages/WhatsApp'))
 import '../styles/admin.css'
 
 export default function Editor() {
@@ -64,11 +65,12 @@ export default function Editor() {
     activeId === 'traffic-detail' ? 'Detail Kunjungan (Traffic)' :
     activeId === 'layout'         ? 'Section Layout' :
     activeId === 'guests'         ? 'Tamu Undangan' :
+    activeId === 'whatsapp'       ? 'Kirim WhatsApp' :
     activeId === 'wishes'         ? 'Daftar Ucapan' :
     activeId === 'gifts'          ? 'Daftar Hadiah' :
     activeId === 'share'          ? 'Share Setup' :
     (activeSection?.label || '')
-  const hasToolbar = !['dashboard', 'guests', 'wishes', 'gifts', 'traffic-detail', 'media'].includes(activeId)
+  const hasToolbar = !['dashboard', 'guests', 'whatsapp', 'wishes', 'gifts', 'traffic-detail', 'media'].includes(activeId)
 
   const [draft, setDraft] = useState(null)
   const [savedJson, setSavedJson] = useState(null)
@@ -370,6 +372,8 @@ export default function Editor() {
             />
           ) : activeId === 'guests' ? (
             <GuestList config={draft} onMenuOpen={() => setSidebarOpen(true)} />
+          ) : activeId === 'whatsapp' ? (
+            <WhatsApp config={draft} onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'wishes' ? (
             <WishesList onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'gifts' ? (

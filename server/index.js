@@ -12,6 +12,7 @@ import { rsvpRouter } from './routes/rsvp.js'
 import { visitsRouter } from './routes/visits.js'
 import { mediaRouter } from './routes/media.js'
 import { giftsRouter } from './routes/gifts.js'
+import { whatsappRouter } from './routes/whatsapp.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const UPLOADS_DIR = path.resolve(__dirname, '../public/assets/uploads')
@@ -56,6 +57,7 @@ app.use('/api/rsvp', rsvpRouter)
 app.use('/api/visits', visitsRouter)
 app.use('/api/media', mediaRouter)
 app.use('/api/gifts', giftsRouter)
+app.use('/api/wa', whatsappRouter)
 
 // Unknown API routes → JSON 404
 app.use('/api', (req, res) => {

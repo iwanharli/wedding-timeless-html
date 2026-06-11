@@ -1,0 +1,163 @@
+import makeWASocket, {
+  useMultiFileAuthState,
+  DisconnectReason,
+  fetchLatestBaileysVersion,
+  makeCacheableSignalKeyStore,
+} from '@whiskeysockets/baileys'
+import { Boom } from '@hapi/boom'
+import { EventEmitter } from 'events'
+import { toDataURL } from 'qrcode'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import pino from 'pino'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const SESSION_DIR = path.resolve(__dirname, '../wa-session')
+
+export const waEvents = new EventEmitter()
+waEvents.setMaxListeners(50)
+
+let sock = null
+let connectionState = 'disconnected' // disconnected | connecting | qr | connected
+let lastQrDataUrl = null
+let isSending = false
+let sendAbort = false
+
+export function getWaStatus() {
+  return { state: connectionState, hasQr: !!lastQrDataUrl }
+}
+
+export function getLastQr() { return lastQrDataUrl }
+export function isConnected() { return connectionState === 'connected' }
+export function isBusy() { return isSending }
+export function abortSend() { sendAbort = true }
+
+export async function connectWA() {
+  if (sock && connectionState === 'connected') return
+  connectionState = 'connecting'
+  waEvents.emit('status', { state: 'connecting' })
+
+  const { state, saveCreds } = await useMultiFileAuthState(SESSION_DIR)
+  const { version } = await fetchLatestBaileysVersion()
+
+  const logger = pino({ level: 'silent' })
+
+  sock = makeWASocket({
+    version,
+    auth: {
+      creds: state.creds,
+      keys: makeCacheableSignalKeyStore(state.keys, logger),
+    },
+    logger,
+    printQRInTerminal: false,
+    generateHighQualityLinkPreview: false,
+    syncFullHistory: false,
+    markOnlineOnConnect: false,
+  })
+
+  sock.ev.on('creds.update', saveCreds)
+
+  sock.ev.on('connection.update', async ({ connection, lastDisconnect, qr }) => {
+    if (qr) {
+      lastQrDataUrl = await toDataURL(qr, { width: 300 })
+      connectionState = 'qr'
+      waEvents.emit('qr', lastQrDataUrl)
+      waEvents.emit('status', { state: 'qr' })
+    }
+
+    if (connection === 'open') {
+      lastQrDataUrl = null
+      connectionState = 'connected'
+      waEvents.emit('status', { state: 'connected' })
+    }
+
+    if (connection === 'close') {
+      const code = new Boom(lastDisconnect?.error)?.output?.statusCode
+      const shouldReconnect = code !== DisconnectReason.loggedOut
+      connectionState = shouldReconnect ? 'connecting' : 'disconnected'
+      lastQrDataUrl = null
+      sock = null
+      waEvents.emit('status', { state: connectionState })
+      if (shouldReconnect) {
+        setTimeout(connectWA, 3000)
+      }
+    }
+  })
+}
+
+export async function disconnectWA() {
+  if (sock) {
+    await sock.logout().catch(() => {})
+    sock = null
+  }
+  connectionState = 'disconnected'
+  lastQrDataUrl = null
+  waEvents.emit('status', { state: 'disconnected' })
+
+  // Remove session files
+  const { rm } = await import('fs/promises')
+  await rm(SESSION_DIR, { recursive: true, force: true })
+}
+
+// Human-like delay: 5–12s base, 15% chance of 20–40s pause
+function humanDelay() {
+  const base = 5000 + Math.random() * 7000
+  const longPause = Math.random() < 0.15 ? 20000 + Math.random() * 20000 : 0
+  return base + longPause
+}
+
+// Format phone → WA JID
+function toJid(phone) {
+  const digits = String(phone).replace(/\D/g, '')
+  let normalized = digits
+  if (digits.startsWith('0')) normalized = '62' + digits.slice(1)
+  else if (digits.startsWith('8')) normalized = '62' + digits
+  return normalized + '@s.whatsapp.net'
+}
+
+export async function sendBulk(guests, templateFn, onProgress) {
+  if (!sock || connectionState !== 'connected') throw new Error('WhatsApp belum terhubung')
+  if (isSending) throw new Error('Pengiriman sedang berjalan')
+
+  isSending = true
+  sendAbort = false
+  const results = { sent: [], failed: [], skipped: [] }
+
+  for (let i = 0; i < guests.length; i++) {
+    if (sendAbort) break
+
+    const guest = guests[i]
+    if (!guest.phone) {
+      results.skipped.push({ id: guest.id, name: guest.name, reason: 'no_phone' })
+      onProgress({ type: 'skip', index: i, total: guests.length, guest })
+      continue
+    }
+
+    const jid = toJid(guest.phone)
+    const message = templateFn(guest)
+
+    try {
+      // Simulate typing presence (1–3 seconds)
+      await sock.sendPresenceUpdate('composing', jid)
+      await new Promise(r => setTimeout(r, 1000 + Math.random() * 2000))
+      await sock.sendPresenceUpdate('paused', jid)
+
+      await sock.sendMessage(jid, { text: message })
+      results.sent.push({ id: guest.id, name: guest.name })
+      onProgress({ type: 'sent', index: i, total: guests.length, guest })
+    } catch (err) {
+      results.failed.push({ id: guest.id, name: guest.name, reason: err.message })
+      onProgress({ type: 'failed', index: i, total: guests.length, guest, error: err.message })
+    }
+
+    // Human-like delay before next message (skip after last)
+    if (i < guests.length - 1 && !sendAbort) {
+      const delay = humanDelay()
+      onProgress({ type: 'waiting', index: i, total: guests.length, delay: Math.round(delay / 1000) })
+      await new Promise(r => setTimeout(r, delay))
+    }
+  }
+
+  isSending = false
+  return results
+}

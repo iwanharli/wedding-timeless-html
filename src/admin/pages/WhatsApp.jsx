@@ -1,0 +1,325 @@
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { authFetch, getToken } from '../auth/authClient'
+import { apiUrl } from '../../lib/api'
+import WhatsAppRichEditor from './WhatsAppRichEditor'
+import './WhatsApp.css'
+
+const STATE_LABEL = {
+  disconnected: 'Belum terhubung',
+  connecting:   'Menghubungkan…',
+  qr:           'Pindai kode QR',
+  connected:    'Terhubung',
+}
+
+const STATE_ICON = {
+  disconnected: 'fa-link-slash',
+  connecting:   'fa-circle-notch fa-spin',
+  qr:           'fa-qrcode',
+  connected:    'fa-circle-check',
+}
+
+export default function WhatsApp({ config, onMenuOpen }) {
+  const [waState, setWaState] = useState('disconnected')
+  const [qr, setQr] = useState(null)
+  const [connecting, setConnecting] = useState(false)
+
+  const [template, setTemplate] = useState(config?.share?.whatsappTemplate || '')
+  const [onlyUnsent, setOnlyUnsent] = useState(true)
+
+  const [sending, setSending] = useState(false)
+  const [progress, setProgress] = useState(null) // { index, total }
+  const [waitSeconds, setWaitSeconds] = useState(null)
+  const [results, setResults] = useState(null)   // { sent, failed, skipped }
+  const [log, setLog] = useState([])
+  const [error, setError] = useState(null)
+
+  const countdownRef = useRef(null)
+
+  const pushLog = useCallback((entry) => {
+    setLog(prev => [entry, ...prev].slice(0, 50))
+  }, [])
+
+  // ── SSE: live status / QR / progress ──────────────────────────────────
+  useEffect(() => {
+    const token = getToken()
+    const es = new EventSource(apiUrl(`/api/wa/events?token=${encodeURIComponent(token || '')}`))
+
+    es.addEventListener('status', (e) => {
+      const data = JSON.parse(e.data)
+      setWaState(data.state)
+      if (data.state !== 'qr') setQr(null)
+      if (data.state === 'connected' || data.state === 'disconnected') setConnecting(false)
+    })
+
+    es.addEventListener('qr', (e) => {
+      setQr(JSON.parse(e.data))
+    })
+
+    es.addEventListener('progress', (e) => {
+      const data = JSON.parse(e.data)
+      if (data.type === 'waiting') {
+        setWaitSeconds(data.delay)
+      } else if (data.type === 'done') {
+        setSending(false)
+        setProgress(null)
+        setWaitSeconds(null)
+        setResults(data.results)
+      } else if (data.type === 'error') {
+        setSending(false)
+        setProgress(null)
+        setWaitSeconds(null)
+        setError(data.message)
+      } else {
+        setWaitSeconds(null)
+        setProgress({ index: data.index, total: data.total })
+        if (data.type === 'sent') {
+          pushLog({ type: 'sent', name: data.guest.name })
+        } else if (data.type === 'failed') {
+          pushLog({ type: 'failed', name: data.guest.name, reason: data.error })
+        } else if (data.type === 'skip') {
+          pushLog({ type: 'skip', name: data.guest.name })
+        }
+      }
+    })
+
+    return () => es.close()
+  }, [pushLog])
+
+  // Local 1s countdown so the "menunggu..." display ticks down smoothly
+  useEffect(() => {
+    if (waitSeconds == null) {
+      clearInterval(countdownRef.current)
+      return
+    }
+    countdownRef.current = setInterval(() => {
+      setWaitSeconds(s => (s != null && s > 0 ? s - 1 : 0))
+    }, 1000)
+    return () => clearInterval(countdownRef.current)
+  }, [waitSeconds == null])
+
+  async function handleConnect() {
+    setConnecting(true)
+    setError(null)
+    try {
+      const res = await authFetch('/api/wa/connect', { method: 'POST' })
+      if (!res.ok) throw new Error((await res.json()).error || 'Gagal menghubungkan')
+    } catch (e) {
+      setError(e.message)
+      setConnecting(false)
+    }
+  }
+
+  async function handleDisconnect() {
+    setError(null)
+    try {
+      const res = await authFetch('/api/wa/disconnect', { method: 'POST' })
+      if (!res.ok) throw new Error((await res.json()).error || 'Gagal memutuskan koneksi')
+      setQr(null)
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
+  async function handleSendBulk() {
+    if (!template.trim()) {
+      setError('Template pesan tidak boleh kosong.')
+      return
+    }
+    setError(null)
+    setResults(null)
+    setLog([])
+    setSending(true)
+    setProgress({ index: 0, total: 0 })
+    try {
+      const res = await authFetch('/api/wa/send-bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onlyUnsent, template }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Gagal memulai pengiriman')
+      setProgress({ index: 0, total: data.total })
+    } catch (e) {
+      setError(e.message)
+      setSending(false)
+      setProgress(null)
+    }
+  }
+
+  async function handleAbort() {
+    try {
+      await authFetch('/api/wa/abort', { method: 'POST' })
+    } catch { /* ignore */ }
+  }
+
+  const isConnected = waState === 'connected'
+  const pct = progress?.total ? Math.round(((progress.index + (sending ? 1 : 0)) / progress.total) * 100) : 0
+
+  return (
+    <div className="wa-wrap">
+      {/* ── Page header ── */}
+      <div className="gl-header">
+        <button type="button" className="edit-hamburger" onClick={onMenuOpen} title="Toggle menu">
+          <i className="fas fa-bars" />
+        </button>
+        <div className="gl-header-left">
+          <div className="gl-header-icon"><i className="fab fa-whatsapp" /></div>
+          <div>
+            <h1 className="gl-header-title">Kirim WhatsApp</h1>
+            <p className="gl-header-sub">Kirim undangan ke tamu secara otomatis dengan jeda alami</p>
+          </div>
+        </div>
+        <div className="gl-header-actions">
+          <span className={`wa-status-badge wa-status-badge--${waState}`}>
+            <i className={`fas ${STATE_ICON[waState]}`} />
+            {STATE_LABEL[waState] || waState}
+          </span>
+        </div>
+      </div>
+
+      {error && <div className="gl-error"><i className="fas fa-exclamation-circle" /> {error}</div>}
+
+      {/* ── Connection card ── */}
+      <div className="gl-card wa-connect-card">
+        {isConnected ? (
+          <div className="wa-connected">
+            <div className="wa-connected-icon"><i className="fas fa-check-circle" /></div>
+            <div className="wa-connected-body">
+              <div className="wa-connected-title">WhatsApp terhubung</div>
+              <div className="wa-connected-sub">Perangkat siap mengirim pesan secara otomatis.</div>
+            </div>
+            <button type="button" className="gl-btn gl-btn--ghost" onClick={handleDisconnect}>
+              <i className="fas fa-power-off" /> Putuskan
+            </button>
+          </div>
+        ) : qr ? (
+          <div className="wa-qr-box">
+            <img src={qr} alt="QR WhatsApp" className="wa-qr-img" />
+            <div className="wa-qr-hint">
+              Buka WhatsApp di HP &rarr; <strong>Perangkat Tertaut</strong> &rarr; <strong>Tautkan Perangkat</strong>, lalu pindai kode ini.
+            </div>
+          </div>
+        ) : (
+          <div className="wa-connected">
+            <div className="wa-connected-icon wa-connected-icon--off"><i className="fas fa-link-slash" /></div>
+            <div className="wa-connected-body">
+              <div className="wa-connected-title">WhatsApp belum terhubung</div>
+              <div className="wa-connected-sub">Hubungkan untuk menampilkan kode QR.</div>
+            </div>
+            <button type="button" className="gl-btn gl-btn--primary" onClick={handleConnect} disabled={connecting || waState === 'connecting'}>
+              <i className="fas fa-link" /> Hubungkan
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ── Bulk send card ── */}
+      <div className="gl-card wa-send-card">
+        <div className="wa-send-header">
+          <h2 className="wa-send-title"><i className="fas fa-paper-plane" /> Kirim Pesan ke Tamu</h2>
+          <label className="wa-checkbox">
+            <input
+              type="checkbox"
+              checked={onlyUnsent}
+              onChange={e => setOnlyUnsent(e.target.checked)}
+              disabled={sending}
+            />
+            Hanya kirim ke yang belum "Terkirim"
+          </label>
+        </div>
+
+        <WhatsAppRichEditor value={template} onChange={setTemplate} rows={6} />
+        <p className="wa-template-hint">
+          Gunakan <code>{'{{name}}'}</code> untuk nama tamu dan <code>{'{{link}}'}</code> untuk link undangan.
+        </p>
+
+        <div className="wa-send-actions">
+          {sending ? (
+            <button type="button" className="gl-btn gl-btn--danger" onClick={handleAbort}>
+              <i className="fas fa-stop" /> Hentikan Pengiriman
+            </button>
+          ) : (
+            <button type="button" className="gl-btn gl-btn--primary" onClick={handleSendBulk} disabled={!isConnected}>
+              <i className="fas fa-paper-plane" /> Kirim Sekarang
+            </button>
+          )}
+          {!isConnected && (
+            <span className="wa-send-hint">Hubungkan WhatsApp terlebih dahulu untuk mengirim pesan.</span>
+          )}
+        </div>
+
+        {/* ── Progress ── */}
+        {progress && (
+          <div className="wa-progress">
+            <div className="wa-progress-bar">
+              <div className="wa-progress-fill" style={{ width: `${pct}%` }} />
+            </div>
+            <div className="wa-progress-meta">
+              {progress.total > 0 ? (
+                <span>{Math.min(progress.index + (sending ? 1 : 0), progress.total)} / {progress.total} tamu diproses</span>
+              ) : (
+                <span>Mempersiapkan pengiriman…</span>
+              )}
+              {waitSeconds != null && waitSeconds > 0 && (
+                <span className="wa-progress-wait">
+                  <i className="fas fa-hourglass-half" /> Jeda {waitSeconds}s sebelum pesan berikutnya
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Results ── */}
+        {results && (
+          <div className="wa-results db-stat-grid">
+            <div className="db-stat-card">
+              <div className="db-stat-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}>
+                <i className="fas fa-check" />
+              </div>
+              <div className="db-stat-body">
+                <div className="db-stat-value">{results.sent.length}</div>
+                <div className="db-stat-label">Terkirim</div>
+              </div>
+            </div>
+            <div className="db-stat-card">
+              <div className="db-stat-icon" style={{ background: '#fef2f2', color: '#dc2626' }}>
+                <i className="fas fa-times" />
+              </div>
+              <div className="db-stat-body">
+                <div className="db-stat-value">{results.failed.length}</div>
+                <div className="db-stat-label">Gagal</div>
+              </div>
+            </div>
+            <div className="db-stat-card">
+              <div className="db-stat-icon" style={{ background: '#f8fafc', color: '#64748b' }}>
+                <i className="fas fa-forward" />
+              </div>
+              <div className="db-stat-body">
+                <div className="db-stat-value">{results.skipped.length}</div>
+                <div className="db-stat-label">Dilewati</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Activity log ── */}
+        {log.length > 0 && (
+          <div className="wa-log">
+            <div className="wa-log-title">Aktivitas Terbaru</div>
+            <ul className="wa-log-list">
+              {log.map((l, i) => (
+                <li key={i} className={`wa-log-item wa-log-item--${l.type}`}>
+                  <i className={`fas ${l.type === 'sent' ? 'fa-check' : l.type === 'failed' ? 'fa-times' : 'fa-forward'}`} />
+                  <span className="wa-log-name">{l.name}</span>
+                  {l.type === 'sent' && <span className="wa-log-status">terkirim</span>}
+                  {l.type === 'skip' && <span className="wa-log-status">dilewati (no. WA kosong)</span>}
+                  {l.type === 'failed' && <span className="wa-log-status" title={l.reason}>gagal</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
