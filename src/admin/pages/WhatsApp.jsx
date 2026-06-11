@@ -19,8 +19,20 @@ const STATE_ICON = {
   connected:    'fa-check-circle',
 }
 
+function formatPhone(number) {
+  const digits = String(number).replace(/\D/g, '')
+  if (!digits.startsWith('62')) return `+${digits}`
+  const rest = digits.slice(2)
+  return `+62 ${rest.replace(/(\d{4})(?=\d)/g, '$1-')}`
+}
+
+function formatTime(iso) {
+  return new Date(iso).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+}
+
 export default function WhatsApp({ config, onMenuOpen }) {
   const [waState, setWaState] = useState('disconnected')
+  const [account, setAccount] = useState(null)
   const [qr, setQr] = useState(null)
   const [connecting, setConnecting] = useState(false)
 
@@ -66,6 +78,8 @@ export default function WhatsApp({ config, onMenuOpen }) {
       setWaState(data.state)
       if (data.state !== 'qr') setQr(null)
       if (data.state === 'connected' || data.state === 'disconnected') setConnecting(false)
+      if (data.state === 'connected') setAccount(data.account || null)
+      else setAccount(null)
     })
 
     es.addEventListener('qr', (e) => {
@@ -208,10 +222,19 @@ export default function WhatsApp({ config, onMenuOpen }) {
       <div className="gl-card wa-connect-card">
         {isConnected ? (
           <div className="wa-connected">
-            <div className="wa-connected-icon"><i className="fas fa-check-circle" /></div>
+            {account?.profilePic ? (
+              <img className="wa-connected-avatar" src={account.profilePic} alt="" />
+            ) : (
+              <div className="wa-connected-icon"><i className="fas fa-check-circle" /></div>
+            )}
             <div className="wa-connected-body">
-              <div className="wa-connected-title">WhatsApp terhubung</div>
-              <div className="wa-connected-sub">Perangkat siap mengirim pesan secara otomatis.</div>
+              <div className="wa-connected-title">{account?.name || 'WhatsApp terhubung'}</div>
+              <div className="wa-connected-sub">
+                {account?.number && formatPhone(account.number)}
+                {account?.number && account?.connectedAt && ' · '}
+                {account?.connectedAt && `Terhubung sejak ${formatTime(account.connectedAt)}`}
+                {!account?.number && !account?.connectedAt && 'Perangkat siap mengirim pesan secara otomatis.'}
+              </div>
             </div>
             <button type="button" className="gl-btn gl-btn--ghost" onClick={handleDisconnect}>
               <i className="fas fa-power-off" /> Putuskan

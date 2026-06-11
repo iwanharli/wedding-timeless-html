@@ -84,6 +84,15 @@
   color: #94a3b8;
 }
 
+.wa-connected-avatar {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  object-fit: cover;
+  background: #f8fafc;
+}
+
 .wa-connected-body {
   flex: 1;
   min-width: 0;

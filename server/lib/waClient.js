@@ -25,9 +25,10 @@ let lastQrDataUrl = null
 let isSending = false
 let sendAbort = false
 let manualDisconnect = false
+let accountInfo = null // { name, number, profilePic, connectedAt }
 
 export function getWaStatus() {
-  return { state: connectionState, hasQr: !!lastQrDataUrl }
+  return { state: connectionState, hasQr: !!lastQrDataUrl, account: accountInfo }
 }
 
 export function getLastQr() { return lastQrDataUrl }
@@ -72,7 +73,24 @@ export async function connectWA() {
     if (connection === 'open') {
       lastQrDataUrl = null
       connectionState = 'connected'
-      waEvents.emit('status', { state: 'connected' })
+
+      const jid = sock.user?.id || ''
+      const number = jid.split(/[:@]/)[0] || ''
+      let profilePic = null
+      try {
+        profilePic = await sock.profilePictureUrl(jid, 'image')
+      } catch {
+        // user has no profile picture or it's not accessible
+      }
+
+      accountInfo = {
+        name: sock.user?.name || sock.user?.notify || '',
+        number,
+        profilePic,
+        connectedAt: new Date().toISOString(),
+      }
+
+      waEvents.emit('status', { state: 'connected', account: accountInfo })
     }
 
     if (connection === 'close') {
@@ -80,6 +98,7 @@ export async function connectWA() {
       const shouldReconnect = !manualDisconnect && code !== DisconnectReason.loggedOut
       connectionState = shouldReconnect ? 'connecting' : 'disconnected'
       lastQrDataUrl = null
+      accountInfo = null
       sock = null
       waEvents.emit('status', { state: connectionState })
       if (shouldReconnect) {
@@ -97,6 +116,7 @@ export async function disconnectWA() {
   }
   connectionState = 'disconnected'
   lastQrDataUrl = null
+  accountInfo = null
   waEvents.emit('status', { state: 'disconnected' })
 
   // Remove session files
