@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { authFetch, getToken } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
-import WhatsAppRichEditor from './WhatsAppRichEditor'
 import './WhatsApp.css'
 
 const STATE_LABEL = {
@@ -23,7 +23,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const [qr, setQr] = useState(null)
   const [connecting, setConnecting] = useState(false)
 
-  const [template, setTemplate] = useState(config?.share?.whatsappTemplate || '')
+  const template = config?.share?.whatsappTemplate || ''
   const [onlyUnsent, setOnlyUnsent] = useState(true)
 
   const [sending, setSending] = useState(false)
@@ -228,9 +228,10 @@ export default function WhatsApp({ config, onMenuOpen }) {
           </label>
         </div>
 
-        <WhatsAppRichEditor value={template} onChange={setTemplate} rows={6} />
+        <div className="wa-template-preview">{template || '(Template pesan belum diatur)'}</div>
         <p className="wa-template-hint">
-          Gunakan <code>{'{{name}}'}</code> untuk nama tamu dan <code>{'{{link}}'}</code> untuk link undangan.
+          Template pesan diatur di{' '}
+          <Link to="/admin/share">Share Setup</Link>.
         </p>
 
         <div className="wa-send-actions">
