@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { pool } from '../db/db.js'
-import { requireAuth } from './auth.js'
+import { requireAuth, requireAdmin } from './auth.js'
 
 export const dashboardRouter = Router()
 
-dashboardRouter.get('/', requireAuth, async (req, res) => {
+dashboardRouter.get('/', requireAuth, requireAdmin, async (req, res) => {
   const [
     guestTotal,
     guestByCategory,

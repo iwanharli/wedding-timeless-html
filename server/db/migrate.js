@@ -37,6 +37,10 @@ async function createAdmins(client) {
       "createdAt"     TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
   `)
+
+  // role: 'admin' (full access) or 'user' (limited to guests/wishes/gifts/share/whatsapp)
+  await client.query(`ALTER TABLE admins ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'admin'`)
+
   log('admins table ready')
 
   // Seed default admin (admin / admin) — password should be changed via SEED_ADMIN_PASSWORD

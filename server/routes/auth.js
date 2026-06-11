@@ -14,7 +14,7 @@ authRouter.post('/login', async (req, res) => {
     return res.status(400).json({ error: 'username and password are required' })
   }
 
-  const result = await pool.query('SELECT id, username, "passwordHash" FROM admins WHERE username = $1', [username])
+  const result = await pool.query('SELECT id, username, "passwordHash", role FROM admins WHERE username = $1', [username])
   const admin = result.rows[0]
   if (!admin) {
     return res.status(401).json({ error: 'Invalid username or password' })
@@ -25,12 +25,12 @@ authRouter.post('/login', async (req, res) => {
     return res.status(401).json({ error: 'Invalid username or password' })
   }
 
-  const token = jwt.sign({ sub: admin.id, username: admin.username }, JWT_SECRET, { expiresIn: TOKEN_TTL })
-  res.json({ token, username: admin.username })
+  const token = jwt.sign({ sub: admin.id, username: admin.username, role: admin.role }, JWT_SECRET, { expiresIn: TOKEN_TTL })
+  res.json({ token, username: admin.username, role: admin.role })
 })
 
 authRouter.get('/me', requireAuth, (req, res) => {
-  res.json({ username: req.user.username })
+  res.json({ username: req.user.username, role: req.user.role })
 })
 
 export function requireAuth(req, res, next) {
@@ -46,4 +46,12 @@ export function requireAuth(req, res, next) {
   } catch {
     res.status(401).json({ error: 'Invalid or expired token' })
   }
+}
+
+// Restricts to the 'admin' role — call after requireAuth
+export function requireAdmin(req, res, next) {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ error: 'Forbidden: admin role required' })
+  }
+  next()
 }

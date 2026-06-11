@@ -123,6 +123,19 @@ configRouter.put('/', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Request body must be a JSON object' })
   }
 
+  // Non-admin roles (e.g. 'user') may only update the Share Setup section
+  if (req.user.role !== 'admin') {
+    const result = await pool.query('SELECT data FROM wedding_config WHERE id = 1')
+    const current = result.rows[0]?.data || {}
+    const keys = new Set([...Object.keys(current), ...Object.keys(data)])
+    for (const key of keys) {
+      if (key === 'share') continue
+      if (JSON.stringify(current[key]) !== JSON.stringify(data[key])) {
+        return res.status(403).json({ error: 'Forbidden: your role can only update Share settings' })
+      }
+    }
+  }
+
   await pool.query(
     `INSERT INTO wedding_config (id, data, "updatedAt")
      VALUES (1, $1, now())

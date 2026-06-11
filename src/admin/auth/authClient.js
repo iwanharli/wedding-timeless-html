@@ -24,6 +24,17 @@ export function isTokenValid(token) {
   }
 }
 
+export function getRole() {
+  const token = getToken()
+  if (!token) return null
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.role || 'admin'
+  } catch {
+    return null
+  }
+}
+
 export function authFetch(url, options = {}) {
   const token = getToken()
   return fetch(apiUrl(url), {

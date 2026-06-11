@@ -1,7 +1,10 @@
 import { CONTENT_SECTIONS } from '../fields/contentSchemas'
 import { NAV_ICON } from './editorConstants'
+import { getRole } from '../auth/authClient'
 
 export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionActive, handleLogout }) {
+  const isUserRole = getRole() === 'user'
+
   return (
     <aside className={`edit-sidebar${sidebarOpen ? ' open' : ''}`}>
       <div className="edit-sidebar-header">
@@ -22,6 +25,7 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
         <div className="edit-nav-section">
           <span className="edit-nav-section-label">Overview</span>
         </div>
+        {!isUserRole && (
         <button
           type="button"
           className={`edit-nav-item${activeId === 'dashboard' ? ' active' : ''}`}
@@ -30,6 +34,7 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
           <span className="edit-nav-item-icon"><i className="fas fa-chart-pie" /></span>
           Dashboard
         </button>
+        )}
         <button
           type="button"
           className={`edit-nav-item${activeId === 'guests' ? ' active' : ''}`}
@@ -57,6 +62,8 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
           <span className="edit-nav-item-icon"><i className="fas fa-gift" /></span>
           Daftar Hadiah
         </button>
+        {!isUserRole && (
+        <>
         <div className="edit-nav-divider" />
         <button
           type="button"
@@ -83,6 +90,8 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
           <span className="edit-nav-item-icon"><i className="fas fa-sliders-h" /></span>
           Main Setup
         </button>
+        </>
+        )}
         <button
           type="button"
           className={`edit-nav-item${activeId === 'share' ? ' active' : ''}`}
@@ -100,6 +109,8 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
           Kirim WhatsApp
         </button>
 
+        {!isUserRole && (
+        <>
         <div className="edit-nav-divider" />
         <div className="edit-nav-section">
           <span className="edit-nav-section-label">Section</span>
@@ -121,6 +132,8 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
             </button>
           )
         })}
+        </>
+        )}
       </nav>
 
       <div className="edit-sidebar-footer">

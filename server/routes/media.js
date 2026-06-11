@@ -2,7 +2,7 @@ import { Router } from 'express'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
-import { requireAuth } from './auth.js'
+import { requireAuth, requireAdmin } from './auth.js'
 import { pool } from '../db/db.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -92,7 +92,7 @@ function scanFolder(relFolder) {
 export const mediaRouter = Router()
 
 // GET /api/media — list all assets with usage info
-mediaRouter.get('/', requireAuth, async (req, res) => {
+mediaRouter.get('/', requireAuth, requireAdmin, async (req, res) => {
   const { folder, type } = req.query
   const folders = folder ? [folder] : ['images', 'media', 'uploads']
   let files = folders.flatMap(scanFolder)
@@ -105,7 +105,7 @@ mediaRouter.get('/', requireAuth, async (req, res) => {
 })
 
 // DELETE /api/media — delete an uploaded file (uploads/ only)
-mediaRouter.delete('/', requireAuth, (req, res) => {
+mediaRouter.delete('/', requireAuth, requireAdmin, (req, res) => {
   const { filename } = req.body
   if (!filename || filename.includes('..') || filename.includes('/')) {
     return res.status(400).json({ error: 'Invalid filename' })

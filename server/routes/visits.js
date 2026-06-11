@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { pool } from '../db/db.js'
-import { requireAuth } from './auth.js'
+import { requireAuth, requireAdmin } from './auth.js'
 
 export const visitsRouter = Router()
 
@@ -60,7 +60,7 @@ visitsRouter.post('/', async (req, res) => {
 })
 
 // GET /api/visits/stats — admin only, last 30 days grouped by date
-visitsRouter.get('/stats', requireAuth, async (req, res) => {
+visitsRouter.get('/stats', requireAuth, requireAdmin, async (req, res) => {
   const { rows } = await pool.query(`
     SELECT
       TO_CHAR(DATE(visited_at AT TIME ZONE 'Asia/Jakarta'), 'YYYY-MM-DD') AS date,
@@ -77,7 +77,7 @@ visitsRouter.get('/stats', requireAuth, async (req, res) => {
 })
 
 // GET /api/visits/details — admin only, detailed list of page visits with charts stats
-visitsRouter.get('/details', requireAuth, async (req, res) => {
+visitsRouter.get('/details', requireAuth, requireAdmin, async (req, res) => {
   const limit = parseInt(req.query.limit) || 100
   const offset = parseInt(req.query.offset) || 0
   

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { authFetch, clearToken } from '../auth/authClient'
+import { authFetch, clearToken, getRole } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
 import { CONTENT_SECTIONS } from '../fields/contentSchemas'
 import { setPath } from '../utils'
@@ -12,6 +12,7 @@ import {
   EDITOR_TO_SECTION,
   PREVIEW_HIDDEN_VIEWS,
   SCROLL_FULL_VIEWS,
+  USER_ROLE_VIEWS,
   getSectionTopKeys,
 } from './editorConstants'
 import { usePreviewSync } from './usePreviewSync'
@@ -35,27 +36,36 @@ import '../styles/admin.css'
 export default function Editor() {
   const { section, sectionId } = useParams()
   const navigate = useNavigate()
+  const role = getRole()
+  const isUserRole = role === 'user'
 
   useEffect(() => {
     if (!section && !sectionId) {
-      navigate('/admin/dashboard', { replace: true })
+      navigate(isUserRole ? '/admin/guests' : '/admin/dashboard', { replace: true })
     } else if (section) {
       if (CONTENT_IDS.has(section)) {
         // Old-style /admin/hero → redirect to /admin/section/hero
-        navigate(`/admin/section/${section}`, { replace: true })
+        if (isUserRole) navigate('/admin/guests', { replace: true })
+        else navigate(`/admin/section/${section}`, { replace: true })
       } else if (!SPECIAL_VIEWS.has(section)) {
         navigate('/404', { replace: true })
+      } else if (isUserRole && !USER_ROLE_VIEWS.has(section)) {
+        navigate('/admin/guests', { replace: true })
       }
-    } else if (sectionId && !CONTENT_IDS.has(sectionId)) {
-      // Public site section ID (e.g. profileIntro, groom) → map to editor ID
-      const redirectTo = SECTION_TO_EDITOR[sectionId]
-      if (redirectTo && CONTENT_IDS.has(redirectTo)) {
-        navigate(`/admin/section/${redirectTo}`, { replace: true })
-      } else {
-        navigate('/404', { replace: true })
+    } else if (sectionId) {
+      if (isUserRole) {
+        navigate('/admin/guests', { replace: true })
+      } else if (!CONTENT_IDS.has(sectionId)) {
+        // Public site section ID (e.g. profileIntro, groom) → map to editor ID
+        const redirectTo = SECTION_TO_EDITOR[sectionId]
+        if (redirectTo && CONTENT_IDS.has(redirectTo)) {
+          navigate(`/admin/section/${redirectTo}`, { replace: true })
+        } else {
+          navigate('/404', { replace: true })
+        }
       }
     }
-  }, [section, sectionId, navigate])
+  }, [section, sectionId, navigate, isUserRole])
 
   const activeId = sectionId || section || 'layout'
   const activeSection = CONTENT_SECTIONS.find(s => s.id === activeId)

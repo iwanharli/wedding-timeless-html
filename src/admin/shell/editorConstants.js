@@ -35,6 +35,9 @@ export const EDITOR_TO_SECTION = {
 
 export const CONTENT_IDS = new Set(['mainSetup', 'hero', 'intro', 'profile', 'couple', 'loveStory', 'countdown', 'event', 'livestream', 'dressCode', 'rsvp', 'gift', 'gallery', 'thankYou'])
 export const SPECIAL_VIEWS = new Set(['dashboard', 'guests', 'whatsapp', 'wishes', 'gifts', 'share', 'media', 'layout', 'traffic-detail'])
+
+// Views the 'user' role is allowed to access (everything else redirects to 'guests')
+export const USER_ROLE_VIEWS = new Set(['guests', 'wishes', 'gifts', 'share', 'whatsapp'])
 // Editor sections with no unique 1:1 public-section target — auto-navigate-on-scroll
 // would otherwise bounce these back to 'hero' (or wherever) once the scroll guard expires
 export const NON_SCROLLABLE_VIEWS = new Set(['mainSetup'])
