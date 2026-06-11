@@ -131,28 +131,27 @@ export default function SectionGallery({ content }) {
 
         {/* Single auto slider */}
         <div className="gal-slider-wrap">
-          <div className="gal-slider-frame">
-            <div className="swiper-container" ref={swiperRef}>
-              <div className="swiper-wrapper">
-                {allImages.map((src, i) => (
-                  <div className="swiper-slide" key={src + i}>
-                    {isVideo(src) ? (
-                      <div className="gal-img-wrap gal-img-wrap--video">
-                        <video src={src} controls playsInline preload="metadata" className="gal-slide-video" />
-                      </div>
-                    ) : (
-                      <div className="gal-img-wrap" onClick={() => openLightbox(i)}>
-                        <img decoding="async" loading="lazy" src={src || null} alt="" />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+          <div className="swiper-container" ref={swiperRef}>
+            <div className="swiper-wrapper">
+              {allImages.map((src, i) => (
+                <div className="swiper-slide" key={src + i}>
+                  {isVideo(src) ? (
+                    <div className="gal-img-wrap gal-img-wrap--video">
+                      <video src={src} controls playsInline preload="metadata" className="gal-slide-video" />
+                    </div>
+                  ) : (
+                    <div className="gal-img-wrap" onClick={() => openLightbox(i)}>
+                      <img decoding="async" loading="lazy" src={src || null} alt="" />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-            {gallery.quote && <p className="gal-quote">{gallery.quote}</p>}
           </div>
           <div className="gal-pagination" ref={paginationRef} />
         </div>
+
+        {gallery.quote && <p className="gal-quote">{gallery.quote}</p>}
       </div>
 
       {/* Lightbox */}
