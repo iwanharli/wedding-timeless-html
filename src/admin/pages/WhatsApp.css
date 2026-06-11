@@ -426,6 +426,36 @@
   font-size: 12.5px !important;
 }
 
+.wa-pending-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.wa-pending-status--queued {
+  color: #94a3b8;
+}
+
+.wa-pending-status--sending {
+  color: #d97706;
+}
+
+.wa-pending-status--sent {
+  color: #16a34a;
+}
+
+.wa-pending-status--failed {
+  color: #dc2626;
+}
+
+.wa-pending-status--skip {
+  color: #94a3b8;
+}
+
 @media (max-width: 600px) {
   .wa-results.db-stat-grid {
     grid-template-columns: 1fr;

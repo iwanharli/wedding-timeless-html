@@ -52,6 +52,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const [waitSeconds, setWaitSeconds] = useState(null)
   const [rateLimitPause, setRateLimitPause] = useState(null) // { limit, waitSeconds }
   const [results, setResults] = useState(null)   // { sent, failed, skipped }
+  const [sendStatus, setSendStatus] = useState({}) // { [guestId]: 'sent' | 'failed' | 'skip' }
   const [log, setLog] = useState([])
   const [error, setError] = useState(null)
 
@@ -125,10 +126,13 @@ export default function WhatsApp({ config, onMenuOpen }) {
         setProgress({ index: data.index, total: data.total })
         if (data.type === 'sent') {
           pushLog({ type: 'sent', name: data.guest.name })
+          setSendStatus(s => ({ ...s, [data.guest.id]: 'sent' }))
         } else if (data.type === 'failed') {
           pushLog({ type: 'failed', name: data.guest.name, reason: data.error })
+          setSendStatus(s => ({ ...s, [data.guest.id]: 'failed' }))
         } else if (data.type === 'skip') {
           pushLog({ type: 'skip', name: data.guest.name })
+          setSendStatus(s => ({ ...s, [data.guest.id]: 'skip' }))
         }
       }
     })
@@ -191,6 +195,7 @@ export default function WhatsApp({ config, onMenuOpen }) {
     setError(null)
     setResults(null)
     setLog([])
+    setSendStatus({})
     setSending(true)
     setSendTarget(target)
     setProgress({ index: 0, total: 0 })
@@ -220,6 +225,9 @@ export default function WhatsApp({ config, onMenuOpen }) {
   const isConnected = waState === 'connected'
   const pct = progress?.total ? Math.round(((progress.index + (sending ? 1 : 0)) / progress.total) * 100) : 0
   const pendingGuests = guests.filter(g => g.phone && !g.wa_sent)
+  const currentGuestId = sending && sendTarget === 'bulk'
+    ? pendingGuests.find(g => !sendStatus[g.id])?.id
+    : null
 
   return (
     <div className="wa-wrap">
@@ -424,6 +432,15 @@ export default function WhatsApp({ config, onMenuOpen }) {
                   <span className="wa-pending-name">{g.name}</span>
                   <span className="wa-pending-phone">{g.phone}</span>
                 </div>
+                {(sendStatus[g.id] || (sending && sendTarget === 'bulk')) && (
+                  <span className={`wa-pending-status wa-pending-status--${sendStatus[g.id] || (currentGuestId === g.id ? 'sending' : 'queued')}`}>
+                    {sendStatus[g.id] === 'sent' && <><i className="fas fa-check-circle" /> Terkirim</>}
+                    {sendStatus[g.id] === 'failed' && <><i className="fas fa-times-circle" /> Gagal</>}
+                    {sendStatus[g.id] === 'skip' && <><i className="fas fa-forward" /> Dilewati</>}
+                    {!sendStatus[g.id] && currentGuestId === g.id && <><i className="fas fa-circle-notch fa-spin" /> Mengirim…</>}
+                    {!sendStatus[g.id] && currentGuestId !== g.id && <><i className="fas fa-clock" /> Menunggu</>}
+                  </span>
+                )}
                 <button
                   type="button"
                   className="gl-btn gl-btn--ghost wa-pending-send"
