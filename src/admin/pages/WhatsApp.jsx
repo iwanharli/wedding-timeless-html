@@ -103,6 +103,8 @@ export default function WhatsApp({ config, onMenuOpen }) {
         setProgress(null)
         setWaitSeconds(null)
         setError(data.message)
+      } else if (data.type === 'ban_warning') {
+        setError(data.message)
       } else {
         setWaitSeconds(null)
         setProgress({ index: data.index, total: data.total })

@@ -102,6 +102,16 @@ export async function connectWA() {
         await clearAuthState()
       }
 
+      // Connection dropped mid-send — could be a ban/restriction signal, stop immediately
+      if (isSending) {
+        sendAbort = true
+        waEvents.emit('progress', {
+          type: 'ban_warning',
+          code,
+          message: `Koneksi WhatsApp terputus saat pengiriman (kode ${code ?? '?'}). Pengiriman dihentikan otomatis untuk mengurangi risiko pemblokiran.`,
+        })
+      }
+
       waEvents.emit('status', { state: connectionState })
       if (shouldReconnect) {
         setTimeout(connectWA, 3000)
@@ -130,6 +140,9 @@ function humanDelay() {
   const longPause = Math.random() < 0.15 ? 20000 + Math.random() * 20000 : 0
   return base + longPause
 }
+
+// Status codes that signal WhatsApp is rate-limiting/restricting this account
+const BAN_SIGNAL_CODES = [403, 429, 463]
 
 // Format phone → WA JID
 function toJid(phone) {
@@ -185,6 +198,17 @@ export async function sendBulk(guests, templateFn, onProgress) {
     } catch (err) {
       results.failed.push({ id: guest.id, name: guest.name, reason: err.message })
       onProgress({ type: 'failed', index: i, total: guests.length, guest, error: err.message })
+
+      // Ban/restriction signal from WhatsApp — stop immediately
+      const code = new Boom(err)?.output?.statusCode
+      if (BAN_SIGNAL_CODES.includes(code)) {
+        sendAbort = true
+        onProgress({
+          type: 'ban_warning',
+          code,
+          message: `WhatsApp menolak pengiriman dengan kode ${code}, kemungkinan tanda pembatasan. Pengiriman dihentikan otomatis.`,
+        })
+      }
     }
 
     // Human-like delay before next message (skip after last)
