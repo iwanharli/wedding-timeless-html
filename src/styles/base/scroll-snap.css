@@ -30,6 +30,20 @@ html {
     display: none;
 }
 
+/* Sections taller than one viewport scroll internally first (overflow-y:
+   auto above). `scroll-snap-stop: always` forces a hard stop at every one
+   of these, which fights with that internal scroll's momentum and feels
+   like the page "cuts" mid-scroll. Relax to `normal` so the snap can
+   follow through smoothly while still landing on the section start. */
+.section-gallery,
+.section-gift,
+.section-event,
+.section-rsvp,
+.section-wishes,
+.section-lovestory {
+    scroll-snap-stop: normal;
+}
+
 /* ── Hide scrollbar (2) ── */
 /* Menyembunyikan scrollbar tetapi tetap memungkinkan scroll */
 /* Hide scrollbar for Chrome, Safari, and Opera */
