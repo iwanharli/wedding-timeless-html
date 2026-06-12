@@ -4,7 +4,7 @@ import { useWeddingConfig } from '../data/useWeddingConfig'
 import { apiUrl } from '../lib/api'
 import defaultContent from '../data/content'
 import { hexToRgba } from '../lib/color'
-import { collectCoverImageUrls, preloadImages } from '../lib/preloadImages'
+import { collectCoverImageUrls, collectCoverVideoUrls, preloadImages } from '../lib/preloadImages'
 import { imgSrc } from '../lib/image'
 
 import Preloader from './Preloader'
@@ -201,14 +201,15 @@ export default function PublicSite() {
     }
   }, [content])
 
-  // Preload only the cover-screen images before hiding the preloader.
-  // Other sections' images load lazily as the user scrolls.
+  // Preload only the cover-screen images and the shared background video
+  // before hiding the preloader. Other sections' media load lazily as
+  // the user scrolls.
   useEffect(() => {
     if (!content) return
     let cancelled = false
     setImagesReady(false)
     setImageProgress(0)
-    preloadImages([...collectCoverImageUrls(content)], (done, total) => {
+    preloadImages([...collectCoverImageUrls(content), ...collectCoverVideoUrls(content)], (done, total) => {
       if (!cancelled) setImageProgress(Math.round((done / total) * 100))
     }).then(() => {
       if (!cancelled) setImagesReady(true)

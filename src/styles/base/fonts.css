@@ -2,7 +2,7 @@
 @font-face {
     font-family: 'script icon';
     font-weight: 400;
-    font-display: swap;
+    font-display: block;
     src: url('/assets/fonts/New-Icon-Script.woff2') format('woff2'),
          url('/assets/fonts/New-Icon-Script.ttf') format('truetype');
 }
@@ -10,7 +10,7 @@
 @font-face {
     font-family: 'lausanne300';
     font-weight: 300;
-    font-display: swap;
+    font-display: block;
     src: url('/assets/fonts/Lausanne-300.woff2') format('woff2'),
          url('/assets/fonts/Lausanne-300.ttf') format('truetype');
 }
