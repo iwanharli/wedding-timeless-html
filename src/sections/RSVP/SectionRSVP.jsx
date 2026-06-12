@@ -79,8 +79,8 @@ export default function SectionRSVP({ content }) {
           className="rsvp-title field-hidden"
           data-aos="fade"
           data-aos-offset="0"
-          data-aos-delay="400"
-          data-aos-duration="1000"
+          data-aos-delay="160"
+          data-aos-duration="500"
         >
           {r.title}
         </h2>
@@ -89,8 +89,8 @@ export default function SectionRSVP({ content }) {
           className="rsvp-desc"
           data-aos="fade"
           data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
+          data-aos-delay="80"
+          data-aos-duration="500"
         >
           {r.description}
         </p>

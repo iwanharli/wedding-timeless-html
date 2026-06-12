@@ -15,7 +15,7 @@ export default function SectionGift({ content, onOpenGiftPopup }) {
   return (
     <div id="weddinggift" className="section-gift child">
 
-      <div className="gift-header" data-aos="fade" data-aos-offset="0" data-aos-duration="900">
+      <div className="gift-header" data-aos="fade" data-aos-offset="0" data-aos-duration="500">
         <span className="gift-label">Wedding Gift</span>
         <div className="gift-ornament">
           <span className="gift-orn-line" />
@@ -26,7 +26,7 @@ export default function SectionGift({ content, onOpenGiftPopup }) {
         <p className="gift-desc">{g.description}</p>
       </div>
 
-      <div className="gift-accounts" data-aos="fade-up" data-aos-offset="0" data-aos-delay="200" data-aos-duration="800">
+      <div className="gift-accounts" data-aos="fade-up" data-aos-offset="0" data-aos-delay="80" data-aos-duration="500">
         {(g.accounts || []).map((account, i) => (
           <div className="gift-account-card" key={i}>
             <div className="gift-account-header">
@@ -49,7 +49,7 @@ export default function SectionGift({ content, onOpenGiftPopup }) {
       <button
         className="gift-confirm-btn"
         onClick={onOpenGiftPopup}
-        data-aos="fade" data-aos-offset="0" data-aos-delay="300" data-aos-duration="800"
+        data-aos="fade" data-aos-offset="0" data-aos-delay="120" data-aos-duration="500"
       >
         <i className="fas fa-paper-plane" />
         {g.confirmButtonText || 'Confirm Gift'}

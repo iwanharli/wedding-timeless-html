@@ -46,8 +46,8 @@ export default function SectionWishes() {
         className="wishes-inner"
         data-aos="fade"
         data-aos-offset="0"
-        data-aos-delay="200"
-        data-aos-duration="1000"
+        data-aos-delay="80"
+        data-aos-duration="500"
       >
         {total === 0 ? (
           <p className="wishes-empty">Jadilah yang pertama memberikan ucapan.</p>

@@ -28,26 +28,26 @@ export default function SectionGroom({ content }) {
     <div id="profile" className="section-profile child">
       <div className="profile-card">
 
-        <div className="profile-photo-wrap" data-aos="fade" data-aos-delay="0" data-aos-duration="1200">
+        <div className="profile-photo-wrap" data-aos="fade" data-aos-delay="0" data-aos-duration="500">
           <img src={imgSrc(g.image)} onError={handleImgError} className="profile-photo" loading="lazy" alt="" />
           <div className="profile-photo-tint" />
           <div className="profile-photo-gradient" />
         </div>
 
         <div className="profile-body">
-          <span className="profile-role" data-aos="fade-up" data-aos-delay="150" data-aos-duration="900">{g.title || content.hero.titlePrefix1}</span>
+          <span className="profile-role" data-aos="fade-up" data-aos-delay="60" data-aos-duration="500">{g.title || content.hero.titlePrefix1}</span>
 
-          <div className="profile-names" data-aos="fade-up" data-aos-delay="250" data-aos-duration="900">
+          <div className="profile-names" data-aos="fade-up" data-aos-delay="100" data-aos-duration="500">
             <h2 className="profile-firstname">{g.firstName || content.hero.firstName1}</h2>
             <h2 className="profile-lastname">{g.lastName || content.hero.lastName1}</h2>
           </div>
 
-          <div className="profile-divider" data-aos="fade-up" data-aos-delay="350" data-aos-duration="900" />
+          <div className="profile-divider" data-aos="fade-up" data-aos-delay="140" data-aos-duration="500" />
 
-          <p className="profile-relation" data-aos="fade-up" data-aos-delay="400" data-aos-duration="900">{g.relation}</p>
-          <p className="profile-relation-desc" data-aos="fade-up" data-aos-delay="450" data-aos-duration="900">{g.relationDescription}</p>
+          <p className="profile-relation" data-aos="fade-up" data-aos-delay="160" data-aos-duration="500">{g.relation}</p>
+          <p className="profile-relation-desc" data-aos="fade-up" data-aos-delay="180" data-aos-duration="500">{g.relationDescription}</p>
 
-          <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="900">
+          <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="500">
             <SocialLinks person={g} />
           </div>
         </div>

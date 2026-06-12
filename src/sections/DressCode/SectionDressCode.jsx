@@ -8,20 +8,20 @@ export default function SectionDressCode({ content }) {
         className="dc-inner"
         data-aos="fade"
         data-aos-offset="0"
-        data-aos-delay="100"
-        data-aos-duration="1000"
+        data-aos-delay="40"
+        data-aos-duration="500"
       >
         <h2
           className="dc-title"
           data-aos="fade"
           data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="800"
+          data-aos-delay="80"
+          data-aos-duration="500"
         >
           {dc.title}
         </h2>
 
-        <div className="dc-divider" data-aos="fade" data-aos-delay="300" data-aos-duration="800">
+        <div className="dc-divider" data-aos="fade" data-aos-delay="120" data-aos-duration="500">
           <span className="dc-divider-dot" />
         </div>
 
@@ -31,8 +31,8 @@ export default function SectionDressCode({ content }) {
               key={i}
               className="dc-swatch-item"
               data-aos="zoom-in"
-              data-aos-delay={200 + i * 150}
-              data-aos-duration="900"
+              data-aos-delay={80 + i * 60}
+              data-aos-duration="500"
             >
               <div
                 className="dc-swatch"
@@ -49,8 +49,8 @@ export default function SectionDressCode({ content }) {
           style={{ whiteSpace: 'pre-line' }}
           data-aos="fade"
           data-aos-offset="0"
-          data-aos-delay="200"
-          data-aos-duration="2000"
+          data-aos-delay="80"
+          data-aos-duration="500"
         >
           {dc.text}
         </p>

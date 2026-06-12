@@ -6,18 +6,18 @@ export default function SectionThankYou({ content }) {
     <div id="section-thankyou" className="section-thankyou child">
 
       <div className="ty-content">
-        <div className="ty-top" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
+        <div className="ty-top" data-aos="fade-up" data-aos-delay="40" data-aos-duration="500">
           <span className="ty-label">Thank You</span>
           <h2 className="ty-title">{ty.title}</h2>
         </div>
 
-        <div className="ty-divider" data-aos="fade" data-aos-delay="300" data-aos-duration="800">
+        <div className="ty-divider" data-aos="fade" data-aos-delay="120" data-aos-duration="500">
           <span className="ty-divider-line" />
           <i className="fas fa-heart ty-divider-heart" />
           <span className="ty-divider-line" />
         </div>
 
-        <div className="ty-names-wrap" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
+        <div className="ty-names-wrap" data-aos="fade-up" data-aos-delay="160" data-aos-duration="500">
           <h1 className="ty-names">
             <span className="ty-name">{content.hero.name1}</span>
             <span className="ty-name-connector">&amp;</span>

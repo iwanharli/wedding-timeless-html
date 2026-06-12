@@ -20,8 +20,8 @@ export default function SectionLivestream({ content }) {
         className="ls9-content"
         data-aos="fade-up"
         data-aos-offset="0"
-        data-aos-delay="200"
-        data-aos-duration="900"
+        data-aos-delay="80"
+        data-aos-duration="500"
       >
         <p className="ls9-label">Streaming Event</p>
         <h2 className="ls9-title">{ls.title}</h2>

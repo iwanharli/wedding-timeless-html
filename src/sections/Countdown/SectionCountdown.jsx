@@ -64,7 +64,7 @@ export default function SectionCountdown({ content }) {
     <div className="section-countdown child">
       <div className="cd-body">
 
-        <div className="cd-top" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
+        <div className="cd-top" data-aos="fade-up" data-aos-delay="40" data-aos-duration="500">
           <h2 className="cd-message">{cd.message}</h2>
           <p className="cd-names-date">
             <span className="cd-names">{coupleNames(content)}</span>
@@ -73,7 +73,7 @@ export default function SectionCountdown({ content }) {
           </p>
         </div>
 
-        <div className="cd-timer" data-aos="fade-up" data-aos-delay="250" data-aos-duration="900">
+        <div className="cd-timer" data-aos="fade-up" data-aos-delay="100" data-aos-duration="500">
           <div className="cd-unit">
             <span className="cd-digits">{time.d}</span>
             <span className="cd-label">Hari</span>
@@ -95,7 +95,7 @@ export default function SectionCountdown({ content }) {
           </div>
         </div>
 
-        <div className="cd-save-wrap" data-aos="fade" data-aos-delay="400" data-aos-duration="800">
+        <div className="cd-save-wrap" data-aos="fade" data-aos-delay="160" data-aos-duration="500">
           <a
             className="cd-save-btn"
             href={gcalHref}

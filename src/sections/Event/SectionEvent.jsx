@@ -12,7 +12,7 @@ export default function SectionEvent({ content }) {
     <div id="weddingevent" className="section-event child">
 
       {/* Header */}
-      <div className="ev-header" data-aos="fade" data-aos-offset="0" data-aos-duration="800">
+      <div className="ev-header" data-aos="fade" data-aos-offset="0" data-aos-duration="500">
         <span className="ev-label">Wedding Event</span>
         <div className="ev-ornament">
           <span className="ev-orn-line" />
@@ -23,7 +23,7 @@ export default function SectionEvent({ content }) {
       </div>
 
       {/* Event cards — side by side */}
-      <div className="ev-list" data-aos="fade-up" data-aos-offset="0" data-aos-delay="200" data-aos-duration="800">
+      <div className="ev-list" data-aos="fade-up" data-aos-offset="0" data-aos-delay="80" data-aos-duration="500">
         {events.map((e, i) => (
           <div className="ev-card" key={i}>
             <div className="ev-card-top">

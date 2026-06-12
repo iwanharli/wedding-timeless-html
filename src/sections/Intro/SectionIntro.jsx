@@ -13,30 +13,30 @@ export default function SectionIntro({ content }) {
 
       <div className="intro-content">
 
-        <p className="intro-invite-title" data-aos="fade-up" data-aos-delay="0" data-aos-duration="900">{content.hero.inviteTitleIntro || content.hero.inviteTitle}</p>
+        <p className="intro-invite-title" data-aos="fade-up" data-aos-delay="0" data-aos-duration="500">{content.hero.inviteTitleIntro || content.hero.inviteTitle}</p>
 
-        <div className="intro-ornament" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
+        <div className="intro-ornament" data-aos="fade-up" data-aos-delay="40" data-aos-duration="500">
           <span className="intro-orn-line" />
           <span className="intro-orn-diamond" />
           <span className="intro-orn-line" />
         </div>
 
-        <div className="intro-names" data-aos="fade-up" data-aos-delay="200" data-aos-duration="900">
+        <div className="intro-names" data-aos="fade-up" data-aos-delay="80" data-aos-duration="500">
           <span className="intro-name intro-name1">{content.hero.name1}</span>
           <span className="intro-name-connector">{content.hero.connector}</span>
           <span className="intro-name intro-name2">{content.hero.name2}</span>
         </div>
 
-        <div className="intro-ornament" data-aos="fade-up" data-aos-delay="300" data-aos-duration="900">
+        <div className="intro-ornament" data-aos="fade-up" data-aos-delay="120" data-aos-duration="500">
           <span className="intro-orn-line" />
           <span className="intro-orn-diamond" />
           <span className="intro-orn-line" />
         </div>
 
-        <p className="intro-date" data-aos="fade-up" data-aos-delay="400" data-aos-duration="900">{content.hero.date}</p>
+        <p className="intro-date" data-aos="fade-up" data-aos-delay="160" data-aos-duration="500">{content.hero.date}</p>
 
         {content.hero.vow && (
-          <p className="intro-vow" style={{ whiteSpace: 'pre-line' }} data-aos="fade-up" data-aos-delay="500" data-aos-duration="900">
+          <p className="intro-vow" style={{ whiteSpace: 'pre-line' }} data-aos="fade-up" data-aos-delay="200" data-aos-duration="500">
             {content.hero.vow}
           </p>
         )}
