@@ -31,6 +31,28 @@ export function isConnected() { return connectionState === 'connected' }
 export function isBusy() { return isSending }
 export function abortSend() { sendAbort = true }
 
+// Snapshot of the in-progress (or last completed) bulk send, so a freshly
+// (re)connected admin page can restore the progress UI instead of showing
+// nothing while a send is still running on the server.
+let sendState = {
+  sendTarget: null,
+  progress: null,
+  waitSeconds: null,
+  rateLimitPause: null,
+  sendStatus: {},
+  log: [],
+  results: null,
+}
+
+export function getSendState() {
+  return { sending: isSending, ...sendState }
+}
+
+export function resetSendState() {
+  isSending = false
+  sendState = { ...sendState, sendTarget: null, progress: null, waitSeconds: null, rateLimitPause: null }
+}
+
 export async function connectWA() {
   if (sock && connectionState === 'connected') return
   manualDisconnect = false
@@ -167,7 +189,7 @@ function toJid(phone) {
   return normalized + '@s.whatsapp.net'
 }
 
-export async function sendBulk(guests, templateFn, onProgress) {
+export async function sendBulk(guests, templateFn, onProgress, target = 'bulk') {
   if (!sock || connectionState !== 'connected') throw new Error('WhatsApp belum terhubung')
   if (isSending) throw new Error('Pengiriman sedang berjalan')
 
@@ -178,13 +200,41 @@ export async function sendBulk(guests, templateFn, onProgress) {
   let sentThisHour = 0
   let windowStart = Date.now()
 
+  sendState = {
+    sendTarget: target,
+    progress: { index: 0, total: guests.length },
+    waitSeconds: null,
+    rateLimitPause: null,
+    sendStatus: {},
+    log: [],
+    results: null,
+  }
+
+  // Mirrors each progress event into sendState so it can be restored later,
+  // then forwards it to the route's own onProgress (SSE emit + DB update).
+  const emit = (event) => {
+    if (event.type === 'waiting') {
+      sendState.waitSeconds = event.delay
+    } else if (event.type === 'rate_limit_pause') {
+      sendState.waitSeconds = null
+      sendState.rateLimitPause = { limit: event.limit, waitSeconds: event.waitSeconds }
+    } else if (event.type === 'sent' || event.type === 'failed' || event.type === 'skip') {
+      sendState.waitSeconds = null
+      sendState.rateLimitPause = null
+      sendState.progress = { index: event.index, total: event.total }
+      sendState.log = [{ type: event.type, name: event.guest.name, reason: event.error }, ...sendState.log].slice(0, 50)
+      sendState.sendStatus = { ...sendState.sendStatus, [event.guest.id]: event.type }
+    }
+    onProgress(event)
+  }
+
   for (let i = 0; i < guests.length; i++) {
     if (sendAbort) break
 
     const guest = guests[i]
     if (!guest.phone) {
       results.skipped.push({ id: guest.id, name: guest.name, reason: 'no_phone' })
-      onProgress({ type: 'skip', index: i, total: guests.length, guest })
+      emit({ type: 'skip', index: i, total: guests.length, guest })
       continue
     }
 
@@ -192,7 +242,7 @@ export async function sendBulk(guests, templateFn, onProgress) {
     if (sentThisHour >= HOURLY_SEND_LIMIT) {
       const waitMs = windowStart + HOUR_MS - Date.now()
       if (waitMs > 0) {
-        onProgress({
+        emit({
           type: 'rate_limit_pause',
           limit: HOURLY_SEND_LIMIT,
           waitSeconds: Math.ceil(waitMs / 1000),
@@ -226,11 +276,11 @@ export async function sendBulk(guests, templateFn, onProgress) {
 
       await sock.sendMessage(jid, { text: message, linkPreview })
       results.sent.push({ id: guest.id, name: guest.name })
-      onProgress({ type: 'sent', index: i, total: guests.length, guest })
+      emit({ type: 'sent', index: i, total: guests.length, guest })
       sentThisHour++
     } catch (err) {
       results.failed.push({ id: guest.id, name: guest.name, reason: err.message })
-      onProgress({ type: 'failed', index: i, total: guests.length, guest, error: err.message })
+      emit({ type: 'failed', index: i, total: guests.length, guest, error: err.message })
       sentThisHour++
 
       // Ban/restriction signal from WhatsApp — stop immediately
@@ -248,11 +298,12 @@ export async function sendBulk(guests, templateFn, onProgress) {
     // Human-like delay before next message (skip after last)
     if (i < guests.length - 1 && !sendAbort) {
       const delay = humanDelay()
-      onProgress({ type: 'waiting', index: i, total: guests.length, delay: Math.round(delay / 1000) })
+      emit({ type: 'waiting', index: i, total: guests.length, delay: Math.round(delay / 1000) })
       await new Promise(r => setTimeout(r, delay))
     }
   }
 
   isSending = false
+  sendState = { ...sendState, sendTarget: null, progress: null, waitSeconds: null, rateLimitPause: null, results }
   return results
 }

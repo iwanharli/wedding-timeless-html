@@ -5,6 +5,7 @@ import { apiUrl } from '../lib/api'
 import defaultContent from '../data/content'
 import { hexToRgba } from '../lib/color'
 import { collectCoverImageUrls, preloadImages } from '../lib/preloadImages'
+import { imgSrc } from '../lib/image'
 
 import Preloader from './Preloader'
 import SectionHero from '../sections/Hero/SectionHero'
@@ -56,8 +57,8 @@ function IsolatedSectionBlock({ sectionId, content }) {
   const bg = sectionDef.background || { type: 'video', value: '' }
   const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
   const bgLayerStyle =
-    bg.type === 'image' && bg.value
-      ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
+    bg.type === 'image'
+      ? { backgroundImage: `url(${imgSrc(bg.value)})`, backgroundSize: 'cover', backgroundPosition: `center ${bg.position ?? 50}%`, opacity: mediaOpacity }
       : bg.type === 'color' && bg.value
       ? { backgroundColor: bg.value }
       : null
@@ -387,9 +388,9 @@ export default function PublicSite() {
         <aside
           id="left-panel"
           style={
-            content.hero.leftPanel?.type === 'video' || !content.hero.leftPanel?.image
+            content.hero.leftPanel?.type === 'video'
               ? undefined
-              : { backgroundImage: `url(${content.hero.leftPanel.image})` }
+              : { backgroundImage: `url(${imgSrc(content.hero.leftPanel?.image)})` }
           }
         >
           {content.hero.leftPanel?.type === 'video' && content.hero.leftPanel?.video && (
@@ -437,8 +438,8 @@ export default function PublicSite() {
               const bg = s.background || { type: 'video', value: '' }
               const mediaOpacity = bg.type === 'image' ? (bg.mediaOpacity ?? 100) / 100 : 1
               const bgLayerStyle =
-                bg.type === 'image' && bg.value
-                  ? { backgroundImage: `url(${bg.value})`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: mediaOpacity }
+                bg.type === 'image'
+                  ? { backgroundImage: `url(${imgSrc(bg.value)})`, backgroundSize: 'cover', backgroundPosition: `center ${bg.position ?? 50}%`, opacity: mediaOpacity }
                   : bg.type === 'color' && bg.value
                   ? { backgroundColor: bg.value }
                   : null

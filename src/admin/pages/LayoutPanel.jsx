@@ -38,6 +38,31 @@ function OpacitySlider({ label, value, onChange }) {
   )
 }
 
+function PositionSlider({ label, value, onChange }) {
+  return (
+    <div className="edit-layout-opacity-row">
+      <div className="edit-layout-opacity-head">
+        <span className="edit-layout-opacity-label">{label}</span>
+      </div>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        step="5"
+        value={value}
+        onChange={e => onChange(Number(e.target.value))}
+        className="edit-layout-opacity-slider"
+        style={{ '--fill': `${value}%` }}
+      />
+      <div className="edit-layout-opacity-head">
+        <span className="edit-layout-position-hint">Atas</span>
+        <span className="edit-layout-position-hint">Tengah</span>
+        <span className="edit-layout-position-hint">Bawah</span>
+      </div>
+    </div>
+  )
+}
+
 function ColorPickerField({ value, onChange, fallback, placeholder }) {
   return (
     <div className="edit-color-field">
@@ -87,6 +112,7 @@ function BackgroundPanel({ bg, onUpdate }) {
             onChange={v => onUpdate({ value: v })}
             accept="image/*"
             type="image"
+            cropAspect={2 / 5}
           />
         )}
 
@@ -102,6 +128,7 @@ function BackgroundPanel({ bg, onUpdate }) {
 
       {bg.type === 'image' && (
         <div className="edit-layout-bg-section">
+          <PositionSlider label="Posisi Foto (Vertikal)" value={bg.position ?? 50} onChange={v => onUpdate({ position: v })} />
           <OpacitySlider label="Opacity Foto" value={bg.mediaOpacity ?? 100} onChange={v => onUpdate({ mediaOpacity: v })} />
           {(bg.mediaOpacity ?? 100) < 100 && (
             <ColorPickerField

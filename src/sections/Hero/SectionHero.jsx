@@ -1,4 +1,5 @@
 import { hexToRgba } from '../../lib/color'
+import { imgSrc } from '../../lib/image'
 import './hero.css'
 
 export default function SectionHero({ content, onOpen, isOpen, guestName }) {
@@ -6,7 +7,7 @@ export default function SectionHero({ content, onOpen, isOpen, guestName }) {
 
   const bg = content.hero.background || { type: 'image', value: '' }
   const bgStyle =
-    bg.type === 'image' && bg.value ? { backgroundImage: `url(${bg.value})` } :
+    bg.type === 'image' ? { backgroundImage: `url(${imgSrc(bg.value)})`, '--hero-bg-pos-y': bg.position ?? 50 } :
     bg.type === 'color' && bg.value ? { backgroundColor: bg.value, backgroundImage: 'none' } :
     { backgroundColor: 'transparent', backgroundImage: 'none' }
   const overlayOpacity = (bg.opacity || 0) / 100
@@ -22,7 +23,7 @@ export default function SectionHero({ content, onOpen, isOpen, guestName }) {
 
       <div className="hero-content">
 
-        <p className="hero-invite-title hero-anim" style={{ '--d': '0ms' }}>{content.hero.inviteTitle}</p>
+        <p className="hero-invite-title hero-anim" style={{ '--d': '0ms' }}>{content.hero.inviteTitleHero || content.hero.inviteTitle}</p>
 
         <div className="hero-ornament hero-anim" style={{ '--d': '200ms' }}>
           <span className="hero-orn-line" />

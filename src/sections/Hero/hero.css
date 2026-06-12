@@ -152,7 +152,7 @@
     z-index: 3 !important;
     background-color: #101010;
     background-size: cover !important;
-    background-position: center center !important;
+    background-position: center calc(var(--hero-bg-pos-y, 50) * 1%) !important;
     display: flex;
     align-items: safe center;
     justify-content: center;
@@ -161,12 +161,10 @@
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(10,10,10,0.3) 0%,
-        rgba(10,10,10,0.45) 50%,
-        rgba(10,10,10,0.65) 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(10, 10, 10, 0.3) 0%,
+            rgba(10, 10, 10, 0.45) 50%,
+            rgba(10, 10, 10, 0.65) 100%);
     z-index: 0;
     pointer-events: none;
 }
@@ -186,7 +184,7 @@
 }
 
 .hero-invite-title {
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     font-family: lausanne300, sans-serif;
     font-size: 10px;
     letter-spacing: 3.5px;
@@ -202,16 +200,18 @@
     width: 55%;
     margin-bottom: 16px;
 }
+
 .hero-orn-line {
     flex: 1;
     height: 1px;
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
     display: block;
 }
+
 .hero-orn-diamond {
     width: 5px;
     height: 5px;
-    background: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.5);
     transform: rotate(45deg);
     flex-shrink: 0;
     display: block;
@@ -235,16 +235,17 @@
     line-height: 1.05;
 }
 
+
 .hero-name-connector {
     font-family: "script icon", sans-serif;
     font-size: clamp(16px, 5vw, 24px);
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
     margin: 4px 0;
     line-height: 1;
 }
 
 .hero-date {
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
     font-family: "time noww", sans-serif;
     font-size: 13px;
     letter-spacing: 2px;
@@ -258,11 +259,11 @@
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    margin: 8px 0 16px;
+    margin: 40px 0 16px;
     padding: 16px 20px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     width: 100%;
@@ -270,7 +271,7 @@
 }
 
 .hero-dear {
-    color: rgba(255,255,255,0.55);
+    color: rgba(255, 255, 255, 0.55);
     font-family: lausanne300, sans-serif;
     font-size: 11px;
     letter-spacing: 2px;
@@ -287,7 +288,7 @@
 }
 
 .hero-apology {
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.4);
     font-family: "ovo", sans-serif;
     font-size: 11px;
     margin: 6px 0 0;
@@ -306,26 +307,44 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #ffffff;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.45);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 50px;
     padding: 14px 36px;
     cursor: pointer;
-    animation: hero-btn-pulse 2.5s ease-in-out infinite;
     transition: background .25s, border-color .25s;
 }
+
+/* .hero-anim's fade-up animation (forwards) would otherwise override the
+   pulse below since both set `animation` on the same element — combine
+   both into one rule at higher specificity so they run together. */
+.hero-open-btn.hero-anim {
+    animation:
+        hero-fade-up 900ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
+        hero-btn-pulse 2.5s ease-in-out infinite;
+    animation-delay: var(--d, 0ms), 0s;
+}
+
 .hero-open-btn i {
     font-size: 12px;
     opacity: 0.8;
 }
+
 .hero-open-btn:hover {
-    background: rgba(255,255,255,0.18);
-    border-color: rgba(255,255,255,0.75);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.75);
 }
 
 @keyframes hero-btn-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-    50%       { box-shadow: 0 0 0 6px rgba(255,255,255,0.08); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.08);
+    }
 }
 
 /* Staggered entrance animation — fade up */
@@ -334,6 +353,7 @@
         opacity: 0;
         transform: translateY(18px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -344,4 +364,55 @@
     opacity: 0;
     animation: hero-fade-up 900ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     animation-delay: var(--d, 0ms);
+}
+
+/* hero-name2 needs a horizontal shift too, but the fade-up animation's
+   transform (forwards fill) overrides any static `transform` on the
+   element — bake the shift into a dedicated keyframe instead. */
+@keyframes hero-fade-up-shift-left {
+    from {
+        opacity: 0;
+        transform: translateX(0px) translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0px) translateY(0);
+    }
+}
+
+.hero-name2.hero-anim {
+    animation-name: hero-fade-up-shift-left;
+}
+
+@keyframes hero-fade-up-shift-right {
+    from {
+        opacity: 0;
+        transform: translateX(0px) translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0px) translateY(0);
+    }
+}
+
+.hero-name1.hero-anim {
+    animation-name: hero-fade-up-shift-right;
+}
+
+@keyframes hero-fade-up-shift-right-connector {
+    from {
+        opacity: 0;
+        transform: translateX(15px) translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(15px) translateY(0);
+    }
+}
+
+.hero-name-connector.hero-anim {
+    animation-name: hero-fade-up-shift-right-connector;
 }

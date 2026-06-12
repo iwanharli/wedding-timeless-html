@@ -1,3 +1,4 @@
+import { imgSrc, handleImgError } from '../../lib/image'
 import './love-story.css'
 
 export default function SectionLoveStory({ content }) {
@@ -24,11 +25,9 @@ export default function SectionLoveStory({ content }) {
               <span className="ls-chapter-index">{String(i + 1).padStart(2, '0')} / {String(chapters.length).padStart(2, '0')}</span>
               <span className="ls-chapter-date">{chapter.date}</span>
             </div>
-            {chapter.image && (
-              <div className="ls-chapter-photo-wrap">
-                <img src={chapter.image} className="ls-chapter-photo" loading="lazy" alt="" />
-              </div>
-            )}
+            <div className="ls-chapter-photo-wrap">
+              <img src={imgSrc(chapter.image)} onError={handleImgError} className="ls-chapter-photo" loading="lazy" alt="" />
+            </div>
             <div className="ls-chapter-body">
               <h3 className="ls-chapter-title" data-aos="ls-title-in" data-aos-delay="150" data-aos-duration="900">{chapter.title}</h3>
               <p className="ls-chapter-desc" style={{ whiteSpace: 'pre-line' }}>{chapter.description}</p>

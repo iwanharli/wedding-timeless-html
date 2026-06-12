@@ -5,35 +5,54 @@ export const CONTENT_SECTIONS = [
     label: 'Main Setup',
     tabs: [
       {
-        label: 'Info Pernikahan',
-        description: 'Nama pasangan dan tanggal pernikahan yang tampil di seluruh halaman undangan.',
+        label: 'Nama Mempelai',
         columns: 3,
         fields: [
-          { path: 'hero.name1', label: 'Nama Mempelai 1', type: 'text', hint: 'Muncul di halaman cover, intro, dan panel kiri' },
-          { path: 'hero.connector', label: 'Kata Penghubung', type: 'text', hint: 'Contoh: "dan", "&", "and"' },
-          { path: 'hero.name2', label: 'Nama Mempelai 2', type: 'text', hint: 'Muncul di halaman cover, intro, dan panel kiri' },
-          { path: 'hero.date', label: 'Tanggal Pernikahan', type: 'date-text', hint: 'Muncul di halaman cover, intro, dan hitungan mundur', span: 3 },
+          { type: 'divider', label: 'Mempelai 1', span: 3 },
+          { path: 'hero.firstName1', label: 'Nama Depan', type: 'text' },
+          { path: 'hero.middleName1', label: 'Nama Tengah', type: 'text' },
+          { path: 'hero.lastName1', label: 'Nama Belakang', type: 'text' },
+          { path: 'hero.name1', label: 'Nama Panggilan', type: 'text', hint: 'Tampil di Cover, Intro, Profile, dan Ucapan Terima Kasih.', hintTooltip: true },
+          { path: 'hero.fullName1', label: 'Nama Lengkap', type: 'computed', span: 2, compose: ['hero.titlePrefix1', 'hero.firstName1', 'hero.middleName1', 'hero.lastName1'], composeSuffix: 'hero.titleSuffix1', hint: 'Otomatis digabung dari Gelar (Depan), Nama Depan, Nama Tengah, Nama Belakang, dan Gelar (Belakang).', hintTooltip: true },
+          { path: 'hero.titlePrefix1', label: 'Gelar (Depan)', type: 'text', hint: 'Gelar yang ditulis sebelum nama. Contoh: dr., Ir. — kosongkan jika tidak ada', hintTooltip: true },
+          { path: 'hero.titleSuffix1', label: 'Gelar (Belakang)', type: 'text', hint: 'Gelar yang ditulis setelah nama. Contoh: S.T., S.Kom. — kosongkan jika tidak ada', hintTooltip: true },
+          { type: 'divider', label: 'Mempelai 2', span: 3 },
+          { path: 'hero.firstName2', label: 'Nama Depan', type: 'text' },
+          { path: 'hero.middleName2', label: 'Nama Tengah', type: 'text' },
+          { path: 'hero.lastName2', label: 'Nama Belakang', type: 'text' },
+          { path: 'hero.name2', label: 'Nama Panggilan', type: 'text', hint: 'Tampil di Cover, Intro, Profile, dan Ucapan Terima Kasih.', hintTooltip: true },
+          { path: 'hero.fullName2', label: 'Nama Lengkap', type: 'computed', span: 2, compose: ['hero.titlePrefix2', 'hero.firstName2', 'hero.middleName2', 'hero.lastName2'], composeSuffix: 'hero.titleSuffix2', hint: 'Otomatis digabung dari Gelar (Depan), Nama Depan, Nama Tengah, Nama Belakang, dan Gelar (Belakang).', hintTooltip: true },
+          { path: 'hero.titlePrefix2', label: 'Gelar (Depan)', type: 'text', hint: 'Gelar yang ditulis sebelum nama. Contoh: dr., Ir. — kosongkan jika tidak ada', hintTooltip: true },
+          { path: 'hero.titleSuffix2', label: 'Gelar (Belakang)', type: 'text', hint: 'Gelar yang ditulis setelah nama. Contoh: S.T., S.Kom. — kosongkan jika tidak ada', hintTooltip: true },
+        ],
+        footnote: 'Nama Panggilan digunakan di section: Cover, Intro, Profile, Ucapan Terima Kasih. Nama Depan/Tengah/Belakang/Gelar jadi nilai default untuk section Groom & Bride.',
+      },
+      {
+        label: 'Info Pernikahan',
+        columns: 3,
+        fields: [
+          { path: 'hero.date', label: 'Tanggal Pernikahan', type: 'date-text', span: 2, hint: 'Pilih tanggal di sebelah kiri untuk auto-isi, atau edit teks langsung di sebelah kanan', hintTooltip: true },
+          { path: 'hero.time', label: 'Jam Pernikahan', type: 'time', hint: 'Jam mulai acara — jadi nilai default untuk Countdown jika section Countdown belum diisi jamnya sendiri.', hintTooltip: true },
+          { path: 'hero.inviteTitle', label: 'Judul Undangan', type: 'text', span: 3, hint: 'Jadi judul default di section Cover & Intro — bisa ditimpa per section.', hintTooltip: true },
+          { path: 'hero.connector', label: 'Kata Penghubung', type: 'text', hint: 'Contoh: "dan", "&", "and"', hintTooltip: true },
+        ],
+        footnote: 'Tanggal Pernikahan digunakan di section: Cover, Intro, Countdown, dan jadi nilai default untuk section Event & Livestream. Tanggal + Jam jadi nilai default untuk hitung mundur di Countdown.',
+      },
+      {
+        label: 'Media Latar',
+        description: 'Media latar yang digunakan di seluruh halaman undangan.',
+        columns: 3,
+        fields: [
+          { path: 'hero.leftPanel', label: 'Background Kiri (Desktop)', type: 'media', compact: true, span: 1, hint: 'Tampil di panel kiri layar setelah undangan dibuka.' },
+          { path: 'hero.backgroundVideo', label: 'Background Video (Mobile)', type: 'video', compact: true, span: 1, hint: 'Dipakai oleh section yang diset bertipe "Video" di Section Layout.' },
         ],
       },
       {
-        label: 'Background Left Desktop',
-        description: 'Media yang tampil di panel kiri layar setelah undangan dibuka.',
+        label: 'Musik',
+        description: 'Musik latar yang otomatis diputar saat undangan dibuka.',
+        columns: 3,
         fields: [
-          { path: 'hero.leftPanel', label: '', type: 'media', compact: true },
-        ],
-      },
-      {
-        label: 'Background Right Mobile',
-        description: 'Video latar utama. Dipakai oleh section yang diset bertipe "Video" di Section Layout.',
-        fields: [
-          { path: 'hero.backgroundVideo', label: 'Video Background', type: 'video' },
-        ],
-      },
-      {
-        label: 'Background Music',
-        description: 'Musik yang otomatis diputar saat undangan dibuka.',
-        fields: [
-          { path: 'audio.track', label: 'File Musik', type: 'audio', hint: 'Format yang didukung: mp3, wav, ogg' },
+          { path: 'audio.track', label: 'Musik Latar', type: 'audio', span: 1, hint: 'Otomatis diputar saat undangan dibuka. Format: mp3, wav, ogg' },
         ],
         audioTrim: {
           trackPath: 'audio.track',
@@ -54,7 +73,7 @@ export const CONTENT_SECTIONS = [
     description: 'Konten teks halaman cover undangan (sebelum dibuka). Media latar diatur dari menu Media & Musik Latar.',
     columns: 2,
     fields: [
-      { path: 'hero.inviteTitle', label: 'Judul Undangan', type: 'text', hint: 'Muncul di halaman cover dan bagian intro awal', span: 2 },
+      { path: 'hero.inviteTitleHero', label: 'Judul Undangan', type: 'text', fallback: 'hero.inviteTitle', span: 2 },
       { path: 'hero.openButton', label: 'Teks Tombol Buka', type: 'text', hint: 'Contoh: "Buka Undangan"' },
       { path: 'hero.dear', label: 'Teks Sapaan', type: 'text', hint: 'Contoh: "Kepada Yth.", "Dear", "Halo"' },
       { path: 'hero.apologyText', label: 'Teks Permohonan Maaf', type: 'textarea', hint: 'Contoh: "Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir"', span: 2 },
@@ -71,7 +90,7 @@ export const CONTENT_SECTIONS = [
     description: 'Konten teks section sambutan setelah undangan dibuka.',
     columns: 2,
     fields: [
-      { path: 'hero.inviteTitle', label: 'Judul Undangan', type: 'text', hint: 'Sama dengan judul di halaman cover', span: 2 },
+      { path: 'hero.inviteTitleIntro', label: 'Judul Undangan', type: 'text', fallback: 'hero.inviteTitle', span: 2 },
       { path: 'hero.vow', label: 'Teks Pembuka / Janji', type: 'textarea', hint: 'Tekan Enter untuk baris baru.', span: 2 },
     ],
   },
@@ -110,9 +129,9 @@ export const CONTENT_SECTIONS = [
         layout: 'profile',
         fields: [
           { path: 'groom.image', label: 'Foto', type: 'image' },
-          { path: 'groom.title', label: 'Gelar / Sapaan', type: 'text', hint: 'Contoh: dr., Ir., S.T. — kosongkan jika tidak ada' },
-          { path: 'groom.firstName', label: 'Nama Depan', type: 'text' },
-          { path: 'groom.lastName', label: 'Nama Belakang', type: 'text' },
+          { path: 'groom.title', label: 'Gelar / Sapaan', type: 'text', fallback: 'hero.titlePrefix1', hint: 'Contoh: dr., Ir., S.T. — mengikuti "Gelar (Depan)" Mempelai 1 di Main Setup jika dikosongkan.', hintTooltip: true },
+          { path: 'groom.firstName', label: 'Nama Depan', type: 'text', fallback: 'hero.firstName1', hint: 'Mengikuti "Nama Depan" Mempelai 1 di Main Setup jika dikosongkan.', hintTooltip: true },
+          { path: 'groom.lastName', label: 'Nama Belakang', type: 'text', fallback: 'hero.lastName1', hint: 'Mengikuti "Nama Belakang Mempelai 1" di Main Setup jika dikosongkan.', hintTooltip: true },
           { path: 'groom.relation', label: 'Label Hubungan', type: 'text', hint: 'Contoh: "Putra pertama dari"' },
           { path: 'groom.relationDescription', label: 'Keterangan Orang Tua', type: 'textarea', hint: 'Nama lengkap orang tua, contoh: "Bapak Ahmad dan Ibu Siti"' },
           { path: 'groom.instagramUsername', label: 'Instagram', type: 'text', hint: 'Username tanpa @' },
@@ -131,9 +150,9 @@ export const CONTENT_SECTIONS = [
         layout: 'profile',
         fields: [
           { path: 'bride.image', label: 'Foto', type: 'image' },
-          { path: 'bride.title', label: 'Gelar / Sapaan', type: 'text', hint: 'Contoh: dr., S.Pd., S.Kom. — kosongkan jika tidak ada' },
-          { path: 'bride.firstName', label: 'Nama Depan', type: 'text' },
-          { path: 'bride.lastName', label: 'Nama Belakang', type: 'text' },
+          { path: 'bride.title', label: 'Gelar / Sapaan', type: 'text', fallback: 'hero.titlePrefix2', hint: 'Contoh: dr., S.Pd., S.Kom. — mengikuti "Gelar (Depan)" Mempelai 2 di Main Setup jika dikosongkan.', hintTooltip: true },
+          { path: 'bride.firstName', label: 'Nama Depan', type: 'text', fallback: 'hero.firstName2', hint: 'Mengikuti "Nama Depan" Mempelai 2 di Main Setup jika dikosongkan.', hintTooltip: true },
+          { path: 'bride.lastName', label: 'Nama Belakang', type: 'text', fallback: 'hero.lastName2', hint: 'Mengikuti "Nama Belakang Mempelai 2" di Main Setup jika dikosongkan.', hintTooltip: true },
           { path: 'bride.relation', label: 'Label Hubungan', type: 'text', hint: 'Contoh: "Putri pertama dari"' },
           { path: 'bride.relationDescription', label: 'Keterangan Orang Tua', type: 'textarea', hint: 'Nama lengkap orang tua, contoh: "Bapak Hendra dan Ibu Dewi"' },
           { path: 'bride.instagramUsername', label: 'Instagram', type: 'text', hint: 'Username tanpa @' },
@@ -167,7 +186,7 @@ export const CONTENT_SECTIONS = [
         itemColumns: 2,
         itemLayout: 'profile',
         itemFields: [
-          { path: 'image', label: 'Foto', type: 'image' },
+          { path: 'image', label: 'Foto', type: 'image', cropAspect: 4 / 3, hint: 'Klik "Crop" untuk menyesuaikan area foto sesuai rasio 4:3 pada layout.', hintTooltip: true },
           { path: 'date', label: 'Tanggal / Periode', type: 'text', placeholder: 'Contoh: Januari 2020' },
           { path: 'title', label: 'Judul Babak', type: 'text', hint: 'Contoh: "Pertama Bertemu"' },
           { path: 'description', label: 'Cerita', type: 'textarea' },
@@ -187,7 +206,7 @@ export const CONTENT_SECTIONS = [
     columns: 2,
     fields: [
       { path: 'countdown.message', label: 'Pesan', type: 'text', hint: 'Teks yang tampil di atas hitungan mundur', span: 2 },
-      { path: 'countdown.date', label: 'Tanggal & Jam Acara', type: 'datetime', hint: 'Waktu tepat acara dimulai — digunakan untuk menghitung mundur. Foto latar diatur dari menu Layout.', span: 2 },
+      { path: 'countdown.date', label: 'Tanggal & Jam Acara', type: 'datetime', span: 2, fallbackDate: 'hero.date', fallbackTime: 'hero.time', hint: 'Waktu tepat acara dimulai — digunakan untuk menghitung mundur. Mengikuti Tanggal & Jam Pernikahan Main Setup jika dikosongkan. Foto latar diatur dari menu Layout.', hintTooltip: true },
     ],
   },
 
@@ -201,7 +220,7 @@ export const CONTENT_SECTIONS = [
     description: 'Detail acara akad nikah dan resepsi.',
     columns: 2,
     fields: [
-      { path: 'event.date', label: 'Tanggal Acara (Teks Tampilan)', type: 'date-text', hint: 'Teks tanggal yang tampil di undangan, contoh: "Sabtu, 12 Oktober 2024"', span: 2 },
+      { path: 'event.date', label: 'Tanggal Acara (Teks Tampilan)', type: 'date-text', span: 2, fallback: 'hero.date', hint: 'Teks tanggal yang tampil di undangan, contoh: "Sabtu, 12 Oktober 2024" — mengikuti "Tanggal Pernikahan" Main Setup jika dikosongkan.', hintTooltip: true },
       { path: 'event.ceremony.title', label: 'Akad Nikah — Judul', type: 'text' },
       { path: 'event.reception.title', label: 'Resepsi — Judul', type: 'text' },
       { path: 'event.ceremony.time', label: 'Akad Nikah — Waktu', type: 'time-range', placeholder: 'Contoh: 09.00 - 11.00 WIB' },
@@ -226,10 +245,10 @@ export const CONTENT_SECTIONS = [
     columns: 2,
     layout: 'profile',
     fields: [
-      { path: 'livestream.image', label: 'Foto', type: 'image', hint: 'Hanya dipakai jika "Tautan Siaran" bukan link YouTube. Untuk YouTube, thumbnail diambil otomatis dari videonya.' },
+      { path: 'livestream.image', label: 'Foto', type: 'image', cropAspect: 2 / 1, hint: 'Hanya dipakai jika "Tautan Siaran" bukan link YouTube. Untuk YouTube, thumbnail diambil otomatis dari videonya. Klik "Crop" untuk menyesuaikan area foto sesuai rasio lebar pada layout.', hintTooltip: true },
       { path: 'livestream.title', label: 'Judul', type: 'text', hint: 'Contoh: "Saksikan Siaran Langsung"' },
       { path: 'livestream.buttonText', label: 'Teks Tombol', type: 'text', hint: 'Contoh: "Tonton Siaran"' },
-      { path: 'livestream.date', label: 'Tanggal Siaran', type: 'date-text', hint: 'Contoh: Sabtu, 12 Oktober 2024' },
+      { path: 'livestream.date', label: 'Tanggal Siaran', type: 'date-text', fallback: 'hero.date', hint: 'Contoh: Sabtu, 12 Oktober 2024 — mengikuti "Tanggal Pernikahan" Main Setup jika dikosongkan.', hintTooltip: true },
       { path: 'livestream.url', label: 'Tautan Siaran', type: 'url', span: 2, hint: 'URL YouTube Live (thumbnail otomatis), Zoom, atau platform siaran lainnya' },
     ],
   },
@@ -373,7 +392,7 @@ export const CONTENT_SECTIONS = [
         label: 'Slider Media',
         description: 'Foto dan video yang tampil di slider bawah. Seret untuk mengubah urutan.',
         imageLists: [
-          { path: 'gallery.images', label: 'Foto & Video Slider', accept: 'image/*,video/*' },
+          { path: 'gallery.images', label: 'Foto & Video Slider', accept: 'image/*,video/*', cropAspect: 4 / 3 },
         ],
       },
     ],

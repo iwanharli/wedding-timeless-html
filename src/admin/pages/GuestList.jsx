@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { authFetch } from '../auth/authClient'
+import UserMenu from '../shell/UserMenu'
 import './GuestList.css'
 
 const CSV_TEMPLATE = `Nama,WhatsApp,Kategori,Catatan\nContoh Tamu,081234567890,Keluarga,Saudara mempelai\n`
@@ -512,15 +513,7 @@ export default function GuestList({ config, onMenuOpen }) {
           </div>
         </div>
         <div className="gl-header-actions">
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
-            <i className="fas fa-download" /> Export CSV
-          </button>
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={() => setImportOpen(true)}>
-            <i className="fas fa-file-import" /> Import CSV
-          </button>
-          <button type="button" className="gl-btn gl-btn--primary" onClick={() => { setAdding(true); setEditId(null) }}>
-            <i className="fas fa-plus" /> Tambah Tamu
-          </button>
+          <UserMenu />
         </div>
       </div>
 
@@ -601,6 +594,17 @@ export default function GuestList({ config, onMenuOpen }) {
               <option value={25}>25 / Hal</option>
               <option value={50}>50 / Hal</option>
             </select>
+          </div>
+          <div className="gl-toolbar-actions">
+            <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
+              <i className="fas fa-download" /> Export CSV
+            </button>
+            <button type="button" className="gl-btn gl-btn--ghost" onClick={() => setImportOpen(true)}>
+              <i className="fas fa-file-import" /> Import CSV
+            </button>
+            <button type="button" className="gl-btn gl-btn--primary" onClick={() => { setAdding(true); setEditId(null) }}>
+              <i className="fas fa-plus" /> Tambah Tamu
+            </button>
           </div>
         </div>
 

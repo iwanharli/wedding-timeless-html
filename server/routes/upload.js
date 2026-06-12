@@ -32,8 +32,21 @@ export const uploadRouter = express.Router()
 uploadRouter.post('/', requireAuth, upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No valid file received' })
 
-  const ext = path.extname(req.file.filename).toLowerCase()
-  const fullPath = path.join(UPLOADS_DIR, req.file.filename)
+  let ext = path.extname(req.file.filename).toLowerCase()
+  let fullPath = path.join(UPLOADS_DIR, req.file.filename)
+  const compress = req.body.compress !== '0'
+
+  if (req.body.origin === 'cropped') {
+    const croppedName = req.file.filename.replace(/(\.[^.]+)$/, '-crop$1')
+    const croppedPath = path.join(UPLOADS_DIR, croppedName)
+    fs.renameSync(fullPath, croppedPath)
+    req.file.filename = croppedName
+    fullPath = croppedPath
+  }
+
+  if (!compress) {
+    return res.json({ url: `/assets/uploads/${req.file.filename}` })
+  }
 
   try {
     if (IMAGE_EXT.has(ext)) {

@@ -14,6 +14,25 @@
   padding: calc(58px + 24px) 24px 60px;
 }
 
+/* No EditorToolbar above (.gl-header pages) — drop the 58px reservation
+   so .gl-header sits flush at the top with no gap. Side/bottom padding
+   matches the tall-toolbar pages (28px / 100px) for a consistent feel
+   when switching pages. */
+.edit-scroll--full.edit-scroll--no-toolbar {
+  margin-top: 0;
+  padding: 0 28px 100px;
+}
+
+/* Tall toolbar variant (icon + title + subtitle) is 68px instead of 58px */
+.edit-scroll--tall-toolbar {
+  margin-top: -68px;
+  padding-top: calc(68px + 28px);
+}
+.edit-scroll--tall-toolbar.edit-scroll--full {
+  margin-top: -68px;
+  padding-top: calc(68px + 24px);
+}
+
 /* ══════════════════════════════════════════════════════════
    TAB BAR
 ══════════════════════════════════════════════════════════ */
@@ -63,6 +82,24 @@
   font-size: 12px;
   color: var(--text-400);
   line-height: 1.5;
+}
+
+.edit-tab-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-400);
+  line-height: 1.6;
+}
+
+.edit-tab-footnote i {
+  margin-top: 1px;
+  color: var(--accent-dark);
+  flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -168,10 +205,122 @@
 }
 
 .edit-field-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   font-size: 12.5px;
   font-weight: 500;
   color: #374151;
   letter-spacing: 0;
+}
+
+.edit-field-label-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.edit-field-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-400);
+}
+
+.edit-field-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.edit-field-label-hint {
+  position: relative;
+  font-size: 12px;
+  color: var(--text-400);
+  cursor: help;
+}
+
+.edit-field-label-hint::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  padding: 8px 12px;
+  background: var(--text-900);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  border-radius: var(--r-sm);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .12s, visibility .12s;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.edit-field-label-hint:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fallback field (inherits value from Main Setup unless overridden) */
+.edit-fallback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-fallback-input::placeholder {
+  color: var(--text-400);
+  opacity: .8;
+}
+
+.edit-fallback-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 11px;
+  color: var(--text-400);
+}
+
+.edit-shell .edit-fallback-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 4px 10px;
+  background: var(--accent-light);
+  border: 1px solid var(--accent-ring);
+  border-radius: var(--r-sm);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.edit-shell .edit-fallback-reset:hover {
+  background: var(--accent-ring);
 }
 
 /* 2-column grid */
@@ -189,6 +338,10 @@
 
 .edit-field-grid .edit-field--full {
   grid-column: 1 / -1;
+}
+
+.edit-field-grid .edit-field--span2 {
+  grid-column: span 2;
 }
 
 /* Text inputs — 0,2,1 beats app.css input[type=text] (0,1,1) */
@@ -380,15 +533,16 @@ video.edit-media-preview {
 /* date-text field */
 .edit-date-text-field {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .edit-date-text-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .edit-date-text-icon {
@@ -396,19 +550,9 @@ video.edit-media-preview {
   font-size: 14px;
 }
 
-.edit-date-text-preview {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--accent-dark);
-  background: var(--accent-light);
-  border: 1px solid var(--accent-ring);
-  border-radius: var(--r-sm);
-  padding: 4px 10px;
-  white-space: nowrap;
-}
-
 .edit-date-text-override {
-  width: 100%;
+  flex: 1 1 220px;
+  min-width: 0;
   padding: 8px 12px;
   border: 1.5px dashed var(--border-mid);
   border-radius: var(--r-sm);
@@ -425,6 +569,7 @@ video.edit-media-preview {
 }
 
 .edit-date-text-hint {
+  flex-basis: 100%;
   font-size: 11px;
   color: var(--text-400);
 }

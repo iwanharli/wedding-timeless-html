@@ -84,6 +84,7 @@ function scanFolder(relFolder) {
         ext:      ext.slice(1),
         size:     stat.size,
         mtime:    stat.mtimeMs,
+        origin:   /-crop\.[^.]+$/.test(f) ? 'cropped' : 'original',
       }
     })
     .sort((a, b) => b.mtime - a.mtime)
@@ -93,10 +94,11 @@ export const mediaRouter = Router()
 
 // GET /api/media — list all assets with usage info
 mediaRouter.get('/', requireAuth, requireAdmin, async (req, res) => {
-  const { folder, type } = req.query
+  const { folder, type, origin } = req.query
   const folders = folder ? [folder] : ['images', 'media', 'uploads']
   let files = folders.flatMap(scanFolder)
   if (type) files = files.filter(f => f.type === type)
+  if (origin) files = files.filter(f => f.origin === origin)
 
   const usageMap = await buildUsageMap()
   files = files.map(f => ({ ...f, usedIn: usageMap[f.url] || [] }))

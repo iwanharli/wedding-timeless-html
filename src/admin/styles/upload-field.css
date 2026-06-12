@@ -25,7 +25,6 @@
   font-weight: 500;
   color: var(--text-400);
   margin-bottom: 6px;
-  display: block;
 }
 
 .edit-field-profile-photo .edit-upload-thumb {
@@ -50,11 +49,17 @@
   min-height: 110px;
 }
 .edit-field--compact-media .edit-upload-preview {
-  max-height: 600px;
+  height: 520px;
   overflow: hidden;
 }
 .edit-field--compact-media .edit-upload-thumb {
-  max-height: 600px;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+}
+.edit-field--compact-media .edit-upload-video-wrap video.edit-upload-thumb {
+  height: 520px;
+  max-height: none;
   object-fit: cover;
 }
 
@@ -158,9 +163,12 @@ video.edit-upload-thumb {
   inset: 0;
   background: rgba(0, 0, 0, .45);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  align-content: center;
+  gap: 6px;
+  padding: 8px;
   opacity: 0;
   transition: opacity .18s;
 }
@@ -193,15 +201,16 @@ video.edit-upload-thumb {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 7px 14px;
+  padding: 7px 12px;
   background: #fff;
   border: none;
   border-radius: var(--r-sm);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-900);
   cursor: pointer;
   transition: background .12s;
+  white-space: nowrap;
 }
 
 .edit-shell .edit-upload-change-btn:hover:not([disabled]) {
@@ -315,7 +324,12 @@ video.edit-upload-thumb {
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
-  text-transform: capitalize;
+}
+
+.edit-upload-audio-ext {
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .edit-upload-audio-player {

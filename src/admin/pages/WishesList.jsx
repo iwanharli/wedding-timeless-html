@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { authFetch } from '../auth/authClient'
+import UserMenu from '../shell/UserMenu'
 import './WishesList.css'
 
 const RSVP_CONFIG = {
@@ -195,22 +196,7 @@ export default function WishesList({ onMenuOpen }) {
           </div>
         </div>
         <div className="gl-header-actions">
-          <div className="wl-view-toggle">
-            <button type="button" className={`wl-view-btn${view === 'cards' ? ' active' : ''}`}
-              onClick={() => setView('cards')} title="Tampilan kartu">
-              <i className="fas fa-th-large" />
-            </button>
-            <button type="button" className={`wl-view-btn${view === 'table' ? ' active' : ''}`}
-              onClick={() => setView('table')} title="Tampilan tabel">
-              <i className="fas fa-list" />
-            </button>
-          </div>
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
-            <i className="fas fa-download" /> Export CSV
-          </button>
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={load}>
-            <i className="fas fa-sync-alt" /> Refresh
-          </button>
+          <UserMenu />
         </div>
       </div>
 
@@ -294,6 +280,21 @@ export default function WishesList({ onMenuOpen }) {
             <option value="visible">Tampil Publik</option>
             <option value="hidden">Tersembunyi</option>
           </select>
+          <div className="gl-toolbar-actions">
+            <div className="wl-view-toggle">
+              <button type="button" className={`wl-view-btn${view === 'cards' ? ' active' : ''}`}
+                onClick={() => setView('cards')} title="Tampilan kartu">
+                <i className="fas fa-th-large" />
+              </button>
+              <button type="button" className={`wl-view-btn${view === 'table' ? ' active' : ''}`}
+                onClick={() => setView('table')} title="Tampilan tabel">
+                <i className="fas fa-list" />
+              </button>
+            </div>
+            <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv}>
+              <i className="fas fa-download" /> Export CSV
+            </button>
+          </div>
         </div>
 
         {loading ? (

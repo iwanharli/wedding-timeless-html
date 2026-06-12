@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { bgAudioRef } from '../../lib/bgAudioRef'
+import { imgSrc, handleImgError } from '../../lib/image'
 import './gallery.css'
 
 const BG_DUCK_VOLUME = 0
@@ -141,7 +142,7 @@ export default function SectionGallery({ content }) {
                     </div>
                   ) : (
                     <div className="gal-img-wrap" onClick={() => openLightbox(i)}>
-                      <img decoding="async" loading="lazy" src={src || null} alt="" />
+                      <img decoding="async" loading="lazy" src={imgSrc(src)} onError={handleImgError} alt="" />
                     </div>
                   )}
                 </div>

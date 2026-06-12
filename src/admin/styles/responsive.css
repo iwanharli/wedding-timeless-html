@@ -94,6 +94,27 @@
     font-size: 14px;
   }
 
+  /* Tall toolbar (icon + title + subtitle) collapses back to a compact
+     single-line toolbar on mobile, matching the regular toolbar height */
+  .edit-toolbar--tall {
+    height: 56px;
+  }
+
+  .edit-toolbar-icon,
+  .edit-toolbar-subtitle {
+    display: none;
+  }
+
+  .edit-toolbar-title-lg {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .edit-scroll--tall-toolbar {
+    margin-top: -58px;
+    padding: calc(58px + 16px) 16px 80px;
+  }
+
   .edit-unsaved-badge {
     display: none;
   }
@@ -118,11 +139,26 @@
     gap: 4px;
   }
 
+  /* Field grids collapse to a single column */
+  .edit-field-grid,
+  .edit-field-grid--3 {
+    grid-template-columns: 1fr;
+  }
+
   /* Toolbar save button — icon only on very small */
   @media (max-width: 400px) {
     .edit-save-btn-label {
       display: none;
     }
+  }
+
+  .edit-media-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* .gl-header pages — match the standard mobile scroll padding (16px / 80px) */
+  .edit-scroll--full.edit-scroll--no-toolbar {
+    padding: 0 16px 80px;
   }
 }
 

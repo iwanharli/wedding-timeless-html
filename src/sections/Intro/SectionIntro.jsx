@@ -13,7 +13,7 @@ export default function SectionIntro({ content }) {
 
       <div className="intro-content">
 
-        <p className="intro-invite-title" data-aos="fade-up" data-aos-delay="0" data-aos-duration="900">{content.hero.inviteTitle}</p>
+        <p className="intro-invite-title" data-aos="fade-up" data-aos-delay="0" data-aos-duration="900">{content.hero.inviteTitleIntro || content.hero.inviteTitle}</p>
 
         <div className="intro-ornament" data-aos="fade-up" data-aos-delay="100" data-aos-duration="900">
           <span className="intro-orn-line" />

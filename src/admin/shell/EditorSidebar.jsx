@@ -2,7 +2,7 @@ import { CONTENT_SECTIONS } from '../fields/contentSchemas'
 import { NAV_ICON } from './editorConstants'
 import { getRole } from '../auth/authClient'
 
-export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionActive, handleLogout }) {
+export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionActive }) {
   const isUserRole = getRole() === 'user'
 
   return (
@@ -73,33 +73,8 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
           <span className="edit-nav-item-icon"><i className="fas fa-photo-video" /></span>
           Media Library
         </button>
-        <div className="edit-nav-divider" />
-        <button
-          type="button"
-          className={`edit-nav-item${activeId === 'layout' ? ' active' : ''}`}
-          onClick={() => navTo('layout')}
-        >
-          <span className="edit-nav-item-icon"><i className="fas fa-th-large" /></span>
-          Section Layout
-        </button>
-        <button
-          type="button"
-          className={`edit-nav-item${activeId === 'mainSetup' ? ' active' : ''}`}
-          onClick={() => navTo('mainSetup')}
-        >
-          <span className="edit-nav-item-icon"><i className="fas fa-sliders-h" /></span>
-          Main Setup
-        </button>
         </>
         )}
-        <button
-          type="button"
-          className={`edit-nav-item${activeId === 'share' ? ' active' : ''}`}
-          onClick={() => navTo('share')}
-        >
-          <span className="edit-nav-item-icon"><i className="fas fa-share-alt" /></span>
-          Share Setup
-        </button>
         <button
           type="button"
           className={`edit-nav-item${activeId === 'whatsapp' ? ' active' : ''}`}
@@ -112,6 +87,22 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
         {!isUserRole && (
         <>
         <div className="edit-nav-divider" />
+        <button
+          type="button"
+          className={`edit-nav-item${activeId === 'mainSetup' ? ' active' : ''}`}
+          onClick={() => navTo('mainSetup')}
+        >
+          <span className="edit-nav-item-icon"><i className="fas fa-sliders-h" /></span>
+          Main Setup
+        </button>
+        <button
+          type="button"
+          className={`edit-nav-item${activeId === 'layout' ? ' active' : ''}`}
+          onClick={() => navTo('layout')}
+        >
+          <span className="edit-nav-item-icon"><i className="fas fa-th-large" /></span>
+          Section Layout
+        </button>
         <div className="edit-nav-section">
           <span className="edit-nav-section-label">Section</span>
         </div>
@@ -135,15 +126,6 @@ export default function EditorSidebar({ activeId, sidebarOpen, navTo, isSectionA
         </>
         )}
       </nav>
-
-      <div className="edit-sidebar-footer">
-        <a href="/" target="_blank" rel="noreferrer" className="edit-sidebar-footer-view">
-          <i className="fas fa-external-link-alt" /> View public site
-        </a>
-        <button type="button" className="edit-sidebar-footer-logout" onClick={handleLogout}>
-          <i className="fas fa-sign-out-alt" /> Log out
-        </button>
-      </div>
     </aside>
   )
 }

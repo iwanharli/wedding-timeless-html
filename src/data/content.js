@@ -2,8 +2,19 @@ const content = {
   "hero": {
     "vow": "Two souls, one heart — bound together by love, faith, and an unending promise.",
     "date": "Wednesday, 17 June 2026",
+    "time": "08:00",
     "dear": "Dear",
+    "titlePrefix1": "",
+    "titleSuffix1": "",
+    "firstName1": "Muhammad",
+    "middleName1": "Rikal",
+    "lastName1": "Renaldy",
     "name1": "Rikal",
+    "titlePrefix2": "",
+    "titleSuffix2": "",
+    "firstName2": "Acsri",
+    "middleName2": "Adelia",
+    "lastName2": "Rezkiani",
     "name2": "Adelia",
     "connector": "and",
     "leftPanel": {
@@ -22,7 +33,6 @@ const content = {
   },
   "profile": {
     "quoteText": "\"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.\"",
-    "coupleNames": "Riskitall & Adel",
     "quoteSource": "QS. Ar-Rum: 21"
   },
   "groom": {

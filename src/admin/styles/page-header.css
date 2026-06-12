@@ -9,8 +9,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 24px;
-  margin: 0 -24px 0;
+  padding: 14px 28px;
+  margin: 0 -28px 0;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   flex-wrap: nowrap;
@@ -41,7 +41,7 @@
   box-shadow: 0 3px 10px rgba(201, 168, 124, .22), inset 0 1px 0 rgba(255,255,255,.15);
 }
 
-.gl-header-icon i {
+.gl-header-icon i:not(.fab) {
   font-family: "Font Awesome 5 Free" !important;
   font-weight: 900 !important;
 }
@@ -99,6 +99,14 @@
   }
   .gl-header-left {
     flex: 1 1 100%;
+  }
+  .gl-header-icon,
+  .gl-header-sub {
+    display: none;
+  }
+  .gl-header-title {
+    font-size: 14px;
+    font-weight: 600;
   }
   .gl-header-actions {
     flex: 1 1 100%;

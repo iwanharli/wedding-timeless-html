@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { authFetch } from '../auth/authClient'
+import UserMenu from '../shell/UserMenu'
 import '../styles/admin.css'
 
 export default function TrafficDetail() {
@@ -105,6 +106,7 @@ export default function TrafficDetail() {
           <button type="button" className="gl-btn gl-btn--ghost" onClick={fetchData} disabled={loading}>
             <i className={`fas fa-sync-alt ${loading ? 'fa-spin' : ''}`} /> Refresh
           </button>
+          <UserMenu />
         </div>
       </div>
 

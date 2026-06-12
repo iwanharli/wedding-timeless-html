@@ -19,7 +19,7 @@ export default function SectionEvent({ content }) {
           <i className="fas fa-circle ev-orn-dot" />
           <span className="ev-orn-line" />
         </div>
-        <h2 className="ev-date">{ev.date}</h2>
+        <h2 className="ev-date">{ev.date || content.hero.date}</h2>
       </div>
 
       {/* Event cards — side by side */}

@@ -1,14 +1,16 @@
 import { useRef, useState } from 'react'
 import { MediaPickerModal } from './FieldInput'
+import ImageCropModal from './ImageCropModal'
 import { uploadFileWithProgress } from '../lib/uploadFile'
 
 function isVideoSrc(src) {
   return /\.(mp4|mov|webm|ogg)(\?|$)/i.test(src || '')
 }
 
-function MediaCard({ src, index, accept, isDragging, isDropTarget, onUpdate, onRemove, onDragStart, onDragEnd, onDragOver, onDrop }) {
+function MediaCard({ src, index, accept, cropAspect, isDragging, isDropTarget, onUpdate, onRemove, onDragStart, onDragEnd, onDragOver, onDrop }) {
   const inputRef = useRef(null)
   const [progress, setProgress] = useState(null) // { phase: 'uploading'|'processing', percent }
+  const [showCrop, setShowCrop] = useState(false)
   const uploading = !!progress
   const isVideo = isVideoSrc(src)
 
@@ -63,22 +65,43 @@ function MediaCard({ src, index, accept, isDragging, isDropTarget, onUpdate, onR
 
       <div className="edit-media-card-overlay">
         <span className="edit-media-card-handle"><i className="fas fa-grip-dots-vertical" /></span>
-        <button
-          type="button"
-          className="edit-media-card-remove"
-          onClick={e => { e.stopPropagation(); onRemove() }}
-          title="Remove"
-        >
-          <i className="fas fa-trash-alt" />
-        </button>
+        <div className="edit-media-card-actions">
+          {!isVideo && src && cropAspect && (
+            <button
+              type="button"
+              className="edit-media-card-crop"
+              onClick={e => { e.stopPropagation(); setShowCrop(true) }}
+              title="Crop foto"
+            >
+              <i className="fas fa-crop-alt" />
+            </button>
+          )}
+          <button
+            type="button"
+            className="edit-media-card-remove"
+            onClick={e => { e.stopPropagation(); onRemove() }}
+            title="Remove"
+          >
+            <i className="fas fa-trash-alt" />
+          </button>
+        </div>
       </div>
+
+      {showCrop && (
+        <ImageCropModal
+          src={src}
+          aspect={cropAspect}
+          onCancel={() => setShowCrop(false)}
+          onApply={url => { onUpdate(url); setShowCrop(false) }}
+        />
+      )}
 
       <span className="edit-media-card-index">{index + 1}</span>
     </div>
   )
 }
 
-export default function ImageListEditor({ label, items, onChange, accept }) {
+export default function ImageListEditor({ label, items, onChange, accept, cropAspect }) {
   const [draggingIndex, setDraggingIndex] = useState(null)
   const [dropTarget, setDropTarget] = useState(null)
   const [showPicker, setShowPicker] = useState(false)
@@ -175,6 +198,7 @@ export default function ImageListEditor({ label, items, onChange, accept }) {
             src={src}
             index={i}
             accept={accept}
+            cropAspect={cropAspect}
             isDragging={draggingIndex === i}
             isDropTarget={dropTarget === i && draggingIndex !== i}
             onUpdate={v => update(i, v)}

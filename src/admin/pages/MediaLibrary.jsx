@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { authFetch } from '../auth/authClient'
 import { uploadFileWithProgress } from '../lib/uploadFile'
+import UserMenu from '../shell/UserMenu'
 import './MediaLibrary.css'
 
 function Lightbox({ file, allPreviewable, onClose, onPrev, onNext }) {
@@ -164,7 +165,6 @@ function DeleteModal({ file, onConfirm, onCancel, deleting }) {
 }
 
 function MediaCard({ file, onRequestDelete, onPreview }) {
-  const isUploads = file.folder === 'uploads'
   const canPreview = file.type === 'image' || file.type === 'video'
 
   return (
@@ -190,23 +190,23 @@ function MediaCard({ file, onRequestDelete, onPreview }) {
         {canPreview && (
           <div className="ml-card-preview-hint"><i className="fas fa-expand-alt" /></div>
         )}
+        {file.origin === 'cropped' && (
+          <div className="ml-card-origin-badge" title="Hasil crop"><i className="fas fa-crop-alt" /> Crop</div>
+        )}
         <div className="ml-card-overlay" />
       </div>
       <div className="ml-card-info">
         <span className="ml-card-name" title={file.filename}>{file.filename}</span>
         <div className="ml-card-meta">
-          <span className={`ml-folder-badge ml-folder-badge--${file.folder}`}>{file.folder}</span>
           <span className="ml-card-size">{SIZE_LABELS(file.size)}</span>
-          {isUploads && (
-            <button type="button" className="ml-card-del" onClick={() => onRequestDelete(file)} title="Hapus file">
-              <i className="fas fa-trash-alt" />
-            </button>
-          )}
+          <button type="button" className="ml-card-del" onClick={() => onRequestDelete(file)} title="Hapus file">
+            <i className="fas fa-trash-alt" />
+          </button>
         </div>
         {file.usedIn && file.usedIn.length > 0 && (
           <div className="ml-usage-badges">
             {file.usedIn.map(label => (
-              <span key={label} className="ml-usage-badge">{label}</span>
+              <span key={label} className="ml-usage-badge ml-usage-badge--info">{label}</span>
             ))}
           </div>
         )}
@@ -222,7 +222,7 @@ function getMediaType(file) {
   return 'other'
 }
 
-function StagingArea({ pending, onRemove, onCancel, onSave, progress }) {
+function StagingArea({ pending, onRemove, onCancel, onSave, progress, compress, onToggleCompress }) {
   return (
     <div className="ml-staging">
       <div className="ml-staging-header">
@@ -231,6 +231,15 @@ function StagingArea({ pending, onRemove, onCancel, onSave, progress }) {
           <span>{pending.length} file siap diupload</span>
         </div>
         <div className="ml-staging-actions">
+          <label className="ml-staging-compress">
+            <input
+              type="checkbox"
+              checked={compress}
+              onChange={e => onToggleCompress(e.target.checked)}
+              disabled={!!progress}
+            />
+            Kompres file
+          </label>
           <button type="button" className="ml-staging-cancel" onClick={onCancel} disabled={!!progress}>
             Batal
           </button>
@@ -279,10 +288,11 @@ export default function MediaLibrary({ onMenuOpen }) {
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState(null)
   const [search, setSearch]       = useState('')
-  const [filterFolder, setFilterFolder] = useState('uploads')
   const [filterType, setFilterType]     = useState('')
+  const [filterOrigin, setFilterOrigin] = useState('')
   const [sortBy, setSortBy]             = useState('newest')
   const [pending, setPending]           = useState([])   // staged files
+  const [compressUpload, setCompressUpload] = useState(true)
   const [uploadProgress, setUploadProgress] = useState(null) // { current, total, name }
   const [lightbox, setLightbox]         = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
@@ -295,14 +305,15 @@ export default function MediaLibrary({ onMenuOpen }) {
     setLoading(true); setError(null)
     try {
       const params = new URLSearchParams()
-      if (filterFolder) params.set('folder', filterFolder)
-      if (filterType)   params.set('type', filterType)
+      params.set('folder', 'uploads')
+      if (filterType) params.set('type', filterType)
+      if (filterOrigin) params.set('origin', filterOrigin)
       const res = await authFetch(`/api/media?${params}`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setFiles(await res.json())
     } catch (e) { setError(e.message) }
     finally { setLoading(false) }
-  }, [filterFolder, filterType])
+  }, [filterType, filterOrigin])
 
   useEffect(() => { load() }, [load])
 
@@ -337,7 +348,7 @@ export default function MediaLibrary({ onMenuOpen }) {
       try {
         await uploadFileWithProgress(item.file, p => {
           setUploadProgress({ current: i + 1, total, name: item.file.name, phase: p.phase, percent: p.percent })
-        })
+        }, compressUpload)
         if (item.previewUrl) URL.revokeObjectURL(item.previewUrl)
       } catch (e) {
         setError(`Gagal upload ${item.file.name}: ${e.message}`)
@@ -470,13 +481,7 @@ export default function MediaLibrary({ onMenuOpen }) {
           </div>
         </div>
         <div className="gl-header-actions">
-          <button
-            type="button"
-            className="gl-btn gl-btn--primary"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <i className="fas fa-plus" /> Tambah File
-          </button>
+          <UserMenu />
         </div>
         <input ref={fileInputRef} type="file" multiple accept="image/*,video/*,audio/*" style={{ display: 'none' }} onChange={handleFileInput} />
       </div>
@@ -511,6 +516,8 @@ export default function MediaLibrary({ onMenuOpen }) {
           onCancel={cancelPending}
           onSave={uploadAll}
           progress={uploadProgress}
+          compress={compressUpload}
+          onToggleCompress={setCompressUpload}
         />
       )}
 
@@ -531,17 +538,16 @@ export default function MediaLibrary({ onMenuOpen }) {
             </button>
           )}
         </div>
-        <select className="gl-input gl-select" value={filterFolder} onChange={e => setFilterFolder(e.target.value)}>
-          <option value="">Semua Folder</option>
-          <option value="images">images/</option>
-          <option value="media">media/</option>
-          <option value="uploads">uploads/</option>
-        </select>
         <select className="gl-input gl-select" value={filterType} onChange={e => setFilterType(e.target.value)}>
           <option value="">Semua Tipe</option>
           <option value="image">Gambar</option>
           <option value="video">Video</option>
           <option value="audio">Audio</option>
+        </select>
+        <select className="gl-input gl-select" value={filterOrigin} onChange={e => setFilterOrigin(e.target.value)}>
+          <option value="">Semua Asal</option>
+          <option value="original">Original</option>
+          <option value="cropped">Hasil Crop</option>
         </select>
         <select className="gl-input gl-select" value={sortBy} onChange={e => setSortBy(e.target.value)}>
           <option value="newest">Terbaru</option>

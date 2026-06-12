@@ -1,9 +1,31 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { authFetch, getToken } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
+import { getPath } from '../utils'
+import FieldInput from '../fields/FieldInput'
+import WhatsAppRichEditor from './WhatsAppRichEditor'
 import WhatsAppPreview, { WA_SAMPLE_NAME } from '../components/WhatsAppPreview'
+import UserMenu from '../shell/UserMenu'
 import './WhatsApp.css'
+
+function SectionLabel({ icon, children }) {
+  return (
+    <div className="share-section-label">
+      <i className={`fas ${icon}`} />
+      {children}
+    </div>
+  )
+}
+
+function Field({ label, hint, full, children }) {
+  return (
+    <label className={`edit-field${full ? ' edit-field--full' : ''}`}>
+      <span className="edit-field-label">{label}</span>
+      {children}
+      {hint && <span className="edit-field-hint">{hint}</span>}
+    </label>
+  )
+}
 
 const STATE_LABEL = {
   disconnected: 'Belum terhubung',
@@ -37,7 +59,8 @@ function formatDuration(seconds) {
   return s > 0 ? `${m}m ${s}d` : `${m}m`
 }
 
-export default function WhatsApp({ config, onMenuOpen }) {
+export default function WhatsApp({ config, onMenuOpen, onFieldChange, canSave, saving, status, onSave, onRevert }) {
+  const [templateOpen, setTemplateOpen] = useState(false)
   const [waState, setWaState] = useState('disconnected')
   const [account, setAccount] = useState(null)
   const [qr, setQr] = useState(null)
@@ -90,6 +113,20 @@ export default function WhatsApp({ config, onMenuOpen }) {
       if (data.state === 'connected' || data.state === 'disconnected') setConnecting(false)
       if (data.state === 'connected') setAccount(data.account || null)
       else setAccount(null)
+
+      // Restore an in-progress (or just-finished) bulk send so reopening/
+      // re-logging into the page doesn't lose the progress UI.
+      const s = data.send
+      if (s) {
+        setSending(s.sending)
+        setSendTarget(s.sending ? s.sendTarget : null)
+        setProgress(s.sending ? s.progress : null)
+        setWaitSeconds(s.sending ? s.waitSeconds : null)
+        setRateLimitPause(s.sending ? s.rateLimitPause : null)
+        setSendStatus(s.sendStatus || {})
+        setLog(s.log || [])
+        if (!s.sending && s.results) setResults(s.results)
+      }
     })
 
     es.addEventListener('qr', (e) => {
@@ -248,6 +285,22 @@ export default function WhatsApp({ config, onMenuOpen }) {
             <i className={`fas ${STATE_ICON[waState]}`} />
             {STATE_LABEL[waState] || waState}
           </span>
+          {status && (
+            <span className={`edit-status-toast edit-status-toast--${status.type}`}>
+              {status.message}
+            </span>
+          )}
+          {canSave && (
+            <button type="button" className="edit-revert-btn" onClick={onRevert} disabled={saving} title="Batalkan perubahan">
+              <i className="fas fa-undo" /> <span className="edit-save-btn-label">Revert</span>
+            </button>
+          )}
+          <button type="button" className="edit-save-btn" onClick={onSave} disabled={saving || !canSave}>
+            {saving
+              ? <><i className="fas fa-circle-notch fa-spin" /> <span className="edit-save-btn-label">Saving…</span></>
+              : <><i className="fas fa-save" /> <span className="edit-save-btn-label">Save changes</span></>}
+          </button>
+          <UserMenu />
         </div>
       </div>
 
@@ -298,6 +351,70 @@ export default function WhatsApp({ config, onMenuOpen }) {
         )}
       </div>
 
+      {/* ── Template & link preview card ── */}
+      <div className="gl-card wa-template-card">
+        <button
+          type="button"
+          className="wa-send-header wa-template-toggle"
+          aria-expanded={templateOpen}
+          onClick={() => setTemplateOpen(open => !open)}
+        >
+          <h2 className="wa-send-title"><i className="fas fa-comment-dots" /> Template Pesan & Pratinjau Tautan</h2>
+          <i className={`fas fa-chevron-down wa-template-toggle-icon${templateOpen ? ' wa-template-toggle-icon--open' : ''}`} />
+        </button>
+
+        {templateOpen && (
+          <>
+            <Field
+              label="Teks Pesan WhatsApp"
+              hint="{{name}} akan diganti nama tamu, {{link}} akan diganti tautan undangan."
+              full
+            >
+              <WhatsAppRichEditor
+                value={template}
+                onChange={v => onFieldChange('share.whatsappTemplate', v)}
+              />
+            </Field>
+
+            <div className="edit-divider" />
+
+            <SectionLabel icon="fa-globe">Pratinjau Tautan</SectionLabel>
+            <p className="share-section-desc">
+              Tampilan kartu yang muncul saat tautan undangan dibagikan di WhatsApp, iMessage, atau media sosial.
+            </p>
+
+            <div className="share-og-layout">
+              <label className="edit-field share-og-image-field">
+                <span className="edit-field-label">Gambar Pratinjau</span>
+                <FieldInput
+                  field={{ path: 'share.ogImage', type: 'image', cropAspect: 1.91 }}
+                  value={getPath(config, 'share.ogImage')}
+                  onChange={v => onFieldChange('share.ogImage', v)}
+                />
+                <span className="edit-field-hint">Rasio 1.91:1 (mis. 1200×630 px).</span>
+              </label>
+
+              <div className="share-og-fields">
+                <Field label="Judul" hint="Judul yang tampil di kartu pratinjau saat tautan dibagikan.">
+                  <FieldInput
+                    field={{ path: 'share.ogTitle', type: 'text' }}
+                    value={getPath(config, 'share.ogTitle')}
+                    onChange={v => onFieldChange('share.ogTitle', v)}
+                  />
+                </Field>
+                <Field label="Deskripsi" hint="Teks singkat di bawah judul pada kartu pratinjau.">
+                  <FieldInput
+                    field={{ path: 'share.ogDescription', type: 'textarea' }}
+                    value={getPath(config, 'share.ogDescription')}
+                    onChange={v => onFieldChange('share.ogDescription', v)}
+                  />
+                </Field>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
       {/* ── Bulk send card ── */}
       <div className="gl-card wa-send-card">
         <div className="wa-send-header">
@@ -312,12 +429,6 @@ export default function WhatsApp({ config, onMenuOpen }) {
             Hanya kirim ke yang belum "Terkirim"
           </label>
         </div>
-
-        <div className="wa-template-preview">{template || '(Template pesan belum diatur)'}</div>
-        <p className="wa-template-hint">
-          Template pesan diatur di{' '}
-          <Link to="/admin/share">Share Setup</Link>.
-        </p>
 
         <div className="wa-send-actions">
           {sending ? (

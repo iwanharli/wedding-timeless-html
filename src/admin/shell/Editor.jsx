@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { authFetch, clearToken, getRole } from '../auth/authClient'
+import { authFetch, getRole } from '../auth/authClient'
 import { apiUrl } from '../../lib/api'
 import { CONTENT_SECTIONS } from '../fields/contentSchemas'
 import { setPath } from '../utils'
@@ -13,6 +13,7 @@ import {
   PREVIEW_HIDDEN_VIEWS,
   SCROLL_FULL_VIEWS,
   USER_ROLE_VIEWS,
+  NAV_ICON,
   getSectionTopKeys,
 } from './editorConstants'
 import { usePreviewSync } from './usePreviewSync'
@@ -26,7 +27,6 @@ const PreviewPanel     = lazy(() => import('./PreviewPanel'))
 const GuestList        = lazy(() => import('../pages/GuestList'))
 const Dashboard        = lazy(() => import('../pages/Dashboard'))
 const WishesList       = lazy(() => import('../pages/WishesList'))
-const ShareSetup       = lazy(() => import('../pages/ShareSetup'))
 const TrafficDetail    = lazy(() => import('../pages/TrafficDetail'))
 const MediaLibrary     = lazy(() => import('../pages/MediaLibrary'))
 const GiftConfirmations = lazy(() => import('../pages/GiftConfirmations'))
@@ -78,9 +78,31 @@ export default function Editor() {
     activeId === 'whatsapp'       ? 'Kirim WhatsApp' :
     activeId === 'wishes'         ? 'Daftar Ucapan' :
     activeId === 'gifts'          ? 'Daftar Hadiah' :
-    activeId === 'share'          ? 'Share Setup' :
     (activeSection?.label || '')
   const hasToolbar = !['dashboard', 'guests', 'whatsapp', 'wishes', 'gifts', 'traffic-detail', 'media'].includes(activeId)
+  const SECTION_SUBTITLE = {
+    mainSetup:  'Atur informasi dasar pernikahan & pengaturan global undangan',
+    hero:       'Atur tampilan cover undangan & media latar utama',
+    intro:      'Atur kalimat pembuka undangan',
+    profile:    'Atur profil pengantin pada bagian pembuka',
+    couple:     'Atur data lengkap mempelai pria & wanita',
+    loveStory:  'Atur kisah perjalanan cinta & momen kenangan',
+    countdown:  'Atur tanggal hitung mundur acara pernikahan',
+    event:      'Atur detail waktu & lokasi acara',
+    livestream: 'Atur tautan & foto siaran langsung acara',
+    dressCode:  'Atur ketentuan dan rekomendasi warna pakaian tamu',
+    rsvp:       'Atur formulir konfirmasi kehadiran tamu',
+    gift:       'Atur informasi rekening & alamat pengiriman hadiah',
+    gallery:    'Atur foto & video pada galeri slider',
+    thankYou:   'Atur ucapan penutup terima kasih',
+  }
+  const TOOLBAR_META = {
+    layout: { icon: 'fa-layer-group', subtitle: 'Atur urutan dan visibilitas section pada undangan' },
+    ...Object.fromEntries(
+      Object.entries(NAV_ICON).map(([id, icon]) => [id, { icon, subtitle: SECTION_SUBTITLE[id] }])
+    ),
+  }
+  const toolbarMeta = TOOLBAR_META[activeId]
 
   const [draft, setDraft] = useState(null)
   const [savedJson, setSavedJson] = useState(null)
@@ -116,7 +138,7 @@ export default function Editor() {
       data.hero = {
         ...data.hero,
         background: data.hero?.background || DEFAULT_HERO_BACKGROUND,
-        leftPanel: data.hero?.leftPanel || { type: 'image', image: data.hero?.backgroundOverlayImage || '', video: '' },
+        leftPanel: data.hero?.leftPanel || { type: 'image', image: '', video: '' },
       }
 
       setDraft(data)
@@ -188,11 +210,6 @@ export default function Editor() {
     } else {
       setDraft(JSON.parse(savedJson))
     }
-  }
-
-  function handleLogout() {
-    clearToken()
-    navigate('/login', { replace: true })
   }
 
   const hasChanges = draft !== null && savedJson !== null && JSON.stringify(draft) !== savedJson
@@ -331,6 +348,17 @@ export default function Editor() {
     )
   }
 
+  // Role 'user' isn't allowed on this view — the redirect effect above will
+  // navigate away on mount, but render nothing in the meantime so admin-only
+  // pages (Dashboard, Media, etc.) never mount and fire their 403 requests.
+  if (isUserRole && !USER_ROLE_VIEWS.has(activeId)) {
+    return (
+      <div className="edit-shell edit-shell--center">
+        <div className="edit-loading-spinner" />
+      </div>
+    )
+  }
+
   return (
     <div className={`edit-shell${previewVisible ? ' preview-open' : ''}`}>
       {/* ── Mobile overlay ── */}
@@ -343,7 +371,6 @@ export default function Editor() {
         sidebarOpen={sidebarOpen}
         navTo={navTo}
         isSectionActive={isSectionActive}
-        handleLogout={handleLogout}
       />
 
       {/* ── Main ── */}
@@ -352,6 +379,8 @@ export default function Editor() {
           <EditorToolbar
             activeId={activeId}
             activeLabel={activeLabel}
+            activeIcon={toolbarMeta?.icon}
+            activeSubtitle={toolbarMeta?.subtitle}
             canSave={canSave}
             status={status}
             saving={saving}
@@ -363,7 +392,7 @@ export default function Editor() {
           />
         )}
 
-        <div className={`edit-scroll${SCROLL_FULL_VIEWS.has(activeId) ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}`}>
+        <div className={`edit-scroll${SCROLL_FULL_VIEWS.has(activeId) ? ' edit-scroll--full' : ''}${!hasToolbar ? ' edit-scroll--no-toolbar' : ''}${toolbarMeta ? ' edit-scroll--tall-toolbar' : ''}`}>
           <Suspense fallback={null}>
           {activeId === 'media' ? (
             <MediaLibrary onMenuOpen={() => setSidebarOpen(true)} />
@@ -383,13 +412,20 @@ export default function Editor() {
           ) : activeId === 'guests' ? (
             <GuestList config={draft} onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'whatsapp' ? (
-            <WhatsApp config={draft} onMenuOpen={() => setSidebarOpen(true)} />
+            <WhatsApp
+              config={draft}
+              onMenuOpen={() => setSidebarOpen(true)}
+              onFieldChange={updateField}
+              canSave={canSave}
+              saving={saving}
+              status={status}
+              onSave={handleSave}
+              onRevert={handleRevert}
+            />
           ) : activeId === 'wishes' ? (
             <WishesList onMenuOpen={() => setSidebarOpen(true)} />
           ) : activeId === 'gifts' ? (
             <GiftConfirmations onMenuOpen={() => setSidebarOpen(true)} />
-          ) : activeId === 'share' ? (
-            <ShareSetup draft={draft} onFieldChange={updateField} />
           ) : activeSection ? (
             <SectionForm
               key={activeSection.id}

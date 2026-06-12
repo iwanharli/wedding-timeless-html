@@ -47,6 +47,56 @@
   white-space: nowrap;
 }
 
+/* ── Tall toolbar variant (icon + title + subtitle, à la .gl-header) ── */
+.edit-toolbar--tall {
+  height: 68px;
+}
+
+.edit-toolbar-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 3px 10px rgba(201, 168, 124, .22), inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+.edit-toolbar-icon i {
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900 !important;
+}
+
+.edit-toolbar-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.edit-toolbar-title-lg {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-900);
+  letter-spacing: -.025em;
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.edit-toolbar-subtitle {
+  font-size: 12px;
+  color: var(--text-400);
+  margin: 2px 0 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .edit-unsaved-badge {
   display: inline-flex;
   align-items: center;

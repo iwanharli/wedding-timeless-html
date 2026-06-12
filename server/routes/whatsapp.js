@@ -5,7 +5,7 @@ import { pool } from '../db/db.js'
 import {
   connectWA, disconnectWA,
   getWaStatus, getLastQr, isConnected, isBusy, abortSend,
-  waEvents, sendBulk,
+  waEvents, sendBulk, getSendState, resetSendState,
 } from '../lib/waClient.js'
 
 export const whatsappRouter = Router()
@@ -21,7 +21,7 @@ function buildMessage(template, guest) {
 
 // ── GET /api/wa/status ─────────────────────────────────────────────────────
 whatsappRouter.get('/status', requireAuth, (req, res) => {
-  res.json(getWaStatus())
+  res.json({ ...getWaStatus(), send: getSendState() })
 })
 
 // ── GET /api/wa/qr ─────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ whatsappRouter.get('/events', (req, res, next) => {
   const send = (event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
 
   // Send current state immediately
-  send('status', getWaStatus())
+  send('status', { ...getWaStatus(), send: getSendState() })
   const qr = getLastQr()
   if (qr) send('qr', qr)
 
@@ -120,6 +120,8 @@ whatsappRouter.post('/send-bulk', requireAuth, async (req, res) => {
 
   res.json({ ok: true, total: guests.length })
 
+  const target = guestIds?.length === 1 ? guestIds[0] : 'bulk'
+
   // Run async — progress pushed via SSE
   sendBulk(
     guests,
@@ -129,10 +131,12 @@ whatsappRouter.post('/send-bulk', requireAuth, async (req, res) => {
       if (event.type === 'sent') {
         await pool.query('UPDATE guests SET wa_sent=true WHERE id=$1', [event.guest.id])
       }
-    }
+    },
+    target
   ).then(results => {
     waEvents.emit('progress', { type: 'done', results })
   }).catch(err => {
+    resetSendState()
     waEvents.emit('progress', { type: 'error', message: err.message })
   })
 })

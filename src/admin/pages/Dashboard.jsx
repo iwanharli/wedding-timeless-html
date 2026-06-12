@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { authFetch } from '../auth/authClient'
+import UserMenu from '../shell/UserMenu'
 import './Dashboard.css'
 
 const CATEGORY_COLOR = {
@@ -250,6 +251,9 @@ export default function Dashboard({ onMenuOpen }) {
             <h1 className="gl-header-title">Dashboard</h1>
             <p className="gl-header-sub">Ringkasan RSVP, kunjungan, dan ucapan tamu</p>
           </div>
+        </div>
+        <div className="gl-header-actions">
+          <UserMenu />
         </div>
       </div>
 

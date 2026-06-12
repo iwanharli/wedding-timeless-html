@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { authFetch } from '../auth/authClient'
+import UserMenu from '../shell/UserMenu'
 import './GiftConfirmations.css'
 
 function timeAgo(dateStr) {
@@ -99,12 +100,7 @@ export default function GiftConfirmations({ onMenuOpen }) {
           </div>
         </div>
         <div className="gl-header-actions">
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv} disabled={!entries.length}>
-            <i className="fas fa-download" /> Export CSV
-          </button>
-          <button type="button" className="gl-btn gl-btn--ghost" onClick={load}>
-            <i className="fas fa-sync-alt" /> Refresh
-          </button>
+          <UserMenu />
         </div>
       </div>
 
@@ -167,6 +163,11 @@ export default function GiftConfirmations({ onMenuOpen }) {
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
+          </div>
+          <div className="gl-toolbar-actions">
+            <button type="button" className="gl-btn gl-btn--ghost" onClick={exportCsv} disabled={!entries.length}>
+              <i className="fas fa-download" /> Export CSV
+            </button>
           </div>
         </div>
 

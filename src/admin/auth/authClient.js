@@ -35,6 +35,17 @@ export function getRole() {
   }
 }
 
+export function getUsername() {
+  const token = getToken()
+  if (!token) return null
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.username || null
+  } catch {
+    return null
+  }
+}
+
 export function authFetch(url, options = {}) {
   const token = getToken()
   return fetch(apiUrl(url), {

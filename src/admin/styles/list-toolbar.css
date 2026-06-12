@@ -81,6 +81,12 @@
   width: 96px !important;
   flex-shrink: 0;
 }
+.gl-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
 /* ── Buttons & Inputs ── */
 .edit-shell .gl-btn {

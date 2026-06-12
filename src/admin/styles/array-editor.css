@@ -302,7 +302,7 @@
 
 .edit-media-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-top: 8px;
 }
@@ -409,6 +409,29 @@
   filter: drop-shadow(0 1px 2px rgba(0,0,0,.5));
   cursor: grab;
 }
+
+.edit-media-card-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.edit-shell .edit-media-card-crop {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.2);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background .12s;
+  backdrop-filter: blur(4px);
+}
+
+.edit-shell .edit-media-card-crop:hover { background: rgba(255,255,255,.35); }
 
 .edit-shell .edit-media-card-remove {
   width: 26px;

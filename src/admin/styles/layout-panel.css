@@ -332,6 +332,11 @@
   min-width: 38px;
   text-align: center;
 }
+
+.edit-layout-position-hint {
+  font-size: 10.5px;
+  color: var(--text-400);
+}
 .edit-layout-opacity-slider {
   -webkit-appearance: none;
   appearance: none;

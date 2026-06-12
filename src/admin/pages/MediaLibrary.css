@@ -367,8 +367,8 @@
 .ml-card-name {
   display: block;
   font-size: 11px;
-  font-weight: 500;
-  color: var(--text);
+  font-weight: 400;
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -464,6 +464,25 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.ml-staging-compress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  margin-right: 4px;
+}
+.ml-staging-compress input {
+  appearance: auto;
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--accent-dark);
 }
 .ml-staging-cancel {
   padding: 0 16px;
@@ -590,6 +609,10 @@
   color: #b91c1c;
   white-space: nowrap;
 }
+.ml-usage-badge--info {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
 
 /* ── Mobile responsive ── */
 @media (max-width: 768px) {
@@ -615,6 +638,14 @@
   .ml-stats {
     gap: 6px;
   }
+  .ml-staging-header {
+    flex-wrap: wrap;
+  }
+  .ml-staging-actions {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 @media (max-width: 420px) {
@@ -636,6 +667,20 @@
   transition: opacity .15s;
 }
 .ml-card:hover .ml-card-preview-hint { opacity: 1; }
+
+.ml-card-origin-badge {
+  position: absolute;
+  top: 8px; left: 8px;
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px 7px;
+  background: rgba(0,0,0,.55);
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: .3px;
+  backdrop-filter: blur(3px);
+}
 
 /* ── Lightbox (fullscreen) ── */
 .ml-lb-backdrop {

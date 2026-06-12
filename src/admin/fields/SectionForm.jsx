@@ -7,6 +7,27 @@ import { getPath } from '../utils'
 
 const FULL_WIDTH_TYPES = new Set(['textarea', 'image', 'video', 'audio', 'media'])
 
+const FIELD_ICONS = {
+  image: 'fa-image',
+  video: 'fa-film',
+  audio: 'fa-music',
+  media: 'fa-photo-video',
+}
+
+function FieldLabel({ field }) {
+  if (!field.label) return null
+  const icon = FIELD_ICONS[field.type]
+  return (
+    <span className="edit-field-label">
+      {icon && <i className={`fas ${icon} edit-field-label-icon`} />}
+      {field.label}
+      {field.hintTooltip && field.hint && (
+        <i className="fas fa-info-circle edit-field-label-hint" data-tooltip={field.hint} />
+      )}
+    </span>
+  )
+}
+
 function isFullWidth(field, colCount) {
   if (field.span != null) return field.span >= colCount
   return FULL_WIDTH_TYPES.has(field.type)
@@ -28,20 +49,32 @@ function FieldGroup({ fields, arrays, imageLists, audioTrim, draft, onFieldChang
 
   const makeFieldNode = (field, inGrid) => {
     if (!isFieldVisible(field)) return null
+    if (field.type === 'divider') {
+      return (
+        <div
+          className={`edit-field-divider${inGrid && isFullWidth(field, colCount) ? ' edit-field--full' : ''}`}
+          key={field.label}
+        >
+          <span>{field.label}</span>
+        </div>
+      )
+    }
     const cls = [
       'edit-field',
       inGrid && isFullWidth(field, colCount) ? 'edit-field--full' : '',
+      inGrid && field.span > 1 && field.span < colCount ? `edit-field--span${field.span}` : '',
       field.compact ? 'edit-field--compact-media' : '',
     ].filter(Boolean).join(' ')
     return (
       <label className={cls} key={field.path}>
-        {field.label && <span className="edit-field-label">{field.label}</span>}
+        <FieldLabel field={field} />
         <FieldInput
           field={field}
           value={getPath(draft, field.path)}
           onChange={v => onFieldChange(field.path, v)}
+          draft={draft}
         />
-        {field.hint && <span className="edit-field-hint">{field.hint}</span>}
+        {field.hint && !field.hintTooltip && <span className="edit-field-hint">{field.hint}</span>}
       </label>
     )
   }
@@ -56,7 +89,7 @@ function FieldGroup({ fields, arrays, imageLists, audioTrim, draft, onFieldChang
             {photoField && (
               <div className="edit-field-profile-photo">
                 <label className={`edit-field${photoField.compact ? ' edit-field--compact-media' : ''}`}>
-                  <span className="edit-field-label">{photoField.label}</span>
+                  <FieldLabel field={photoField} />
                   <FieldInput
                     field={photoField}
                     value={getPath(draft, photoField.path)}
@@ -96,6 +129,7 @@ function FieldGroup({ fields, arrays, imageLists, audioTrim, draft, onFieldChang
           key={listSchema.path}
           label={listSchema.label}
           accept={listSchema.accept}
+          cropAspect={listSchema.cropAspect}
           items={getPath(draft, listSchema.path) || []}
           onChange={items => onArrayChange(listSchema.path, items)}
         />
@@ -227,6 +261,11 @@ export default function SectionForm({ schema, draft, onFieldChange, onArrayChang
               columns={tab.columns}
               layout={tab.layout}
             />
+            {tab.footnote && (
+              <p className="edit-tab-footnote">
+                <i className="fas fa-info-circle" /> {tab.footnote}
+              </p>
+            )}
           </div>
         </div>
       </div>

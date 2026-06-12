@@ -1,0 +1,131 @@
+/* ══════════════════════════════════════════════════════════
+   USER MENU — profile dropdown (View public site / Log out)
+   Used in EditorToolbar and .gl-header-actions across admin pages.
+══════════════════════════════════════════════════════════ */
+
+.user-menu-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.user-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.edit-shell .user-menu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px 0 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-700, #374151);
+  transition: border-color .15s, background .15s;
+}
+
+.edit-shell .user-menu-trigger:hover {
+  border-color: var(--border-mid);
+  background: var(--accent-light);
+}
+
+.user-menu-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: #fff;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.user-menu-name {
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-menu-caret {
+  font-size: 10px;
+  color: var(--text-400);
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 190px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md, 0 8px 24px rgba(0,0,0,.12));
+  padding: 6px;
+  z-index: 100;
+}
+
+.edit-shell .user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  background: none;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-700, #374151);
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .12s, color .12s;
+}
+
+.edit-shell .user-menu-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 12px;
+  opacity: .75;
+}
+
+.edit-shell .user-menu-item:hover {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.edit-shell .user-menu-item--danger:hover {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .user-menu-name {
+    display: none;
+  }
+
+  .user-menu-view-link {
+    flex: 0 0 auto !important;
+    padding: 0 12px;
+  }
+
+  .user-menu-view-label {
+    display: none;
+  }
+
+  .user-menu-dropdown {
+    right: auto;
+    left: 0;
+  }
+}

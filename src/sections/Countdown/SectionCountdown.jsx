@@ -8,8 +8,20 @@ function coupleNames(content) {
   return [h.name1, h.connector, h.name2].filter(Boolean).join(' ') || 'The Couple'
 }
 
+function resolveCountdownDate(content) {
+  if (content.countdown?.date) return content.countdown.date
+  const h = content.hero || {}
+  const d = new Date(h.date || '')
+  if (isNaN(d.getTime())) return ''
+  if (h.time) {
+    const [hh, mm] = h.time.split(':').map(Number)
+    d.setHours(hh, mm, 0, 0)
+  }
+  return d.toISOString()
+}
+
 function buildGCalUrl(content) {
-  const date = content.countdown?.date || ''
+  const date = resolveCountdownDate(content)
   if (!date) return '#'
   const names = coupleNames(content)
   const location = content.event?.ceremony?.mapsUrl || content.event?.reception?.mapsUrl || ''
@@ -32,7 +44,7 @@ export default function SectionCountdown({ content }) {
   const gcalHref = useMemo(() => buildGCalUrl(content), [content])
 
   useEffect(() => {
-    const targetTs = new Date(cd.date).getTime()
+    const targetTs = new Date(resolveCountdownDate(content)).getTime()
     function tick() {
       const diff = targetTs - Date.now()
       if (diff <= 0) { setTime({ d: '00', h: '00', m: '00', s: '00' }); return }
@@ -46,7 +58,7 @@ export default function SectionCountdown({ content }) {
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [cd.date])
+  }, [content])
 
   return (
     <div className="section-countdown child">

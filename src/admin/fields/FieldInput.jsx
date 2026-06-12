@@ -2,8 +2,13 @@ import { useRef, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { authFetch } from '../auth/authClient'
 import { uploadFileWithProgress } from '../lib/uploadFile'
+import { getPath } from '../utils'
+import ImageCropModal from './ImageCropModal'
 
 const SIZE_FMT = b => b < 1048576 ? `${(b/1024).toFixed(1)} KB` : `${(b/1048576).toFixed(1)} MB`
+
+const VIDEO_EXT_RE = /\.(mp4|mov|webm|mkv|avi)$/i
+const isVideoUrl = url => VIDEO_EXT_RE.test(url || '')
 
 const TYPE_ICON = {
   image: 'fa-image',
@@ -276,13 +281,22 @@ export function MediaPickerModal({ type, onSelect, onClose }) {
   )
 }
 
-export function MediaUpload({ value, onChange, accept, type }) {
+export function MediaUpload({ value, onChange, accept, type, label, dropIcon: dropIconProp, dropLabel: dropLabelProp, cropAspect }) {
   const inputRef = useRef(null)
   const [progress, setProgress]     = useState(null) // { phase: 'uploading'|'processing', percent }
   const [error, setError]           = useState(null)
   const [dragOver, setDragOver]     = useState(false)
-  const [showPicker, setShowPicker] = useState(false)
+  const [showPicker, setShowPicker]   = useState(false)
+  const [showCrop, setShowCrop]       = useState(false)
+  const [showLightbox, setShowLightbox] = useState(false)
   const uploading = !!progress
+
+  useEffect(() => {
+    if (!showLightbox) return
+    const onKey = e => { if (e.key === 'Escape') setShowLightbox(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [showLightbox])
 
   async function processFile(file) {
     if (!file) return
@@ -333,8 +347,8 @@ export function MediaUpload({ value, onChange, accept, type }) {
       : ' Compressing…'
     : null
 
-  const dropIcon = isAudio ? 'fa-music' : isVideo ? 'fa-file-video' : 'fa-image'
-  const dropLabel = isAudio ? 'audio / music' : isVideo ? 'video' : 'image'
+  const dropIcon = dropIconProp || (isAudio ? 'fa-music' : isVideo ? 'fa-file-video' : 'fa-image')
+  const dropLabel = dropLabelProp || (isAudio ? 'audio / music' : isVideo ? 'video' : 'image')
 
   return (
     <div className="edit-upload-field">
@@ -351,7 +365,7 @@ export function MediaUpload({ value, onChange, accept, type }) {
         <div className="edit-upload-audio">
           <div className="edit-upload-audio-top">
             <span className="edit-upload-audio-icon"><i className="fas fa-music" /></span>
-            <span className="edit-upload-audio-name">{value.split('/').pop().replace(/-/g, ' ').replace(/\.[^.]+$/, '')}</span>
+            <span className="edit-upload-audio-name">{label || 'Audio'} <span className="edit-upload-audio-ext">.{value.split('.').pop()}</span></span>
             <div className="edit-upload-audio-actions">
               <button
                 type="button"
@@ -423,15 +437,23 @@ export function MediaUpload({ value, onChange, accept, type }) {
         <div className="edit-upload-preview">
           <img src={value} alt="" className="edit-upload-thumb" />
           <div className="edit-upload-overlay">
-            <a
-              href={value}
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
               className="edit-upload-view-btn"
+              onClick={() => setShowLightbox(true)}
               title="View fullscreen"
             >
               <i className="fas fa-expand-alt" />
-            </a>
+            </button>
+            <button
+              type="button"
+              className="edit-upload-change-btn"
+              onClick={() => setShowCrop(true)}
+              disabled={uploading}
+              title="Sesuaikan / crop foto"
+            >
+              <i className="fas fa-crop-alt" /> Crop
+            </button>
             <button
               type="button"
               className="edit-upload-change-btn"
@@ -458,6 +480,33 @@ export function MediaUpload({ value, onChange, accept, type }) {
             </button>
           </div>
         </div>
+      )}
+
+      {showCrop && (
+        <ImageCropModal
+          src={value}
+          aspect={cropAspect}
+          onCancel={() => setShowCrop(false)}
+          onApply={url => { onChange(url); setShowCrop(false) }}
+        />
+      )}
+
+      {showLightbox && createPortal(
+        <div className="mpm-lb-backdrop" onClick={() => setShowLightbox(false)}>
+          <div className="mpm-lb-topbar">
+            <div className="mpm-lb-topbar-info">
+              <i className="fas fa-image" />
+              <span className="mpm-lb-filename">{label || 'Foto'}</span>
+            </div>
+            <button type="button" className="mpm-lb-close" onClick={() => setShowLightbox(false)} title="Tutup (Esc)">
+              <i className="fas fa-times" />
+            </button>
+          </div>
+          <div className="mpm-lb-media" onClick={e => e.stopPropagation()}>
+            <img src={value} alt="" className="mpm-lb-img" draggable={false} />
+          </div>
+        </div>,
+        document.body
       )}
 
       {/* Drop zone + library picker (shown when no value) */}
@@ -573,8 +622,23 @@ function buildTimeRange(from, to) {
   return `${from} - ${to}`
 }
 
-export default function FieldInput({ field, value, onChange }) {
+export default function FieldInput({ field, value, onChange, draft }) {
   switch (field.type) {
+    case 'computed': {
+      const main = (field.compose || []).map(p => getPath(draft, p)).filter(Boolean).join(' ')
+      const suffix = field.composeSuffix ? getPath(draft, field.composeSuffix) : ''
+      const composed = suffix ? `${main}, ${suffix}` : main
+      return (
+        <input
+          type="text"
+          className="edit-fallback-input"
+          value={composed}
+          readOnly
+          placeholder={field.placeholder || ''}
+        />
+      )
+    }
+
     case 'textarea':
       return (
         <textarea
@@ -586,7 +650,9 @@ export default function FieldInput({ field, value, onChange }) {
       )
 
     case 'date-text': {
-      const iso = inferIsoDate(value)
+      const fallbackValue = field.fallback ? getPath(draft, field.fallback) : null
+      const isOverridden = value != null && value !== ''
+      const iso = inferIsoDate(isOverridden ? value : (fallbackValue || ''))
       return (
         <div className="edit-date-text-field">
           <div className="edit-date-text-row">
@@ -599,46 +665,82 @@ export default function FieldInput({ field, value, onChange }) {
                 if (e.target.value) onChange(formatDateDisplay(e.target.value))
               }}
             />
-            {iso && (
-              <span className="edit-date-text-preview">
-                {formatDateDisplay(iso)}
-              </span>
-            )}
           </div>
           <input
             type="text"
             className="edit-date-text-override"
             value={value ?? ''}
             onChange={e => onChange(e.target.value)}
-            placeholder="e.g. Saturday, 02 March 2024"
+            placeholder={fallbackValue || 'e.g. Saturday, 02 March 2024'}
           />
-          <span className="edit-date-text-hint">
-            <i className="fas fa-info-circle" /> Pilih tanggal di atas untuk auto-isi, atau edit teks langsung di bawah
-          </span>
+          {field.fallback && (
+            isOverridden ? (
+              <button
+                type="button"
+                className="edit-fallback-reset"
+                onClick={() => onChange('')}
+                title="Reset ke nilai Main Setup"
+              >
+                <i className="fas fa-undo" /> Reset
+              </button>
+            ) : (
+              <span className="edit-fallback-badge">
+                <i className="fas fa-link" /> Mengikuti Main Setup
+              </span>
+            )
+          )}
         </div>
       )
     }
 
-    case 'datetime':
+    case 'datetime': {
+      let fallbackIso = null
+      if (field.fallbackDate) {
+        const isoDate = inferIsoDate(getPath(draft, field.fallbackDate))
+        if (isoDate) {
+          const timeVal = field.fallbackTime ? getPath(draft, field.fallbackTime) : ''
+          fallbackIso = new Date(`${isoDate}T${timeVal || '00:00'}:00`).toISOString()
+        }
+      }
+      const isOverridden = value != null && value !== ''
+      const displayValue = isOverridden ? value : fallbackIso
+
       return (
         <div className="edit-datetime-field">
           <input
             type="datetime-local"
             className="edit-datetime"
-            value={toDatetimeLocal(value)}
+            value={toDatetimeLocal(displayValue)}
             onChange={e => onChange(e.target.value ? new Date(e.target.value).toISOString() : '')}
           />
-          {value && (
+          {displayValue && (
             <span className="edit-datetime-preview">
               <i className="fas fa-clock" />{' '}
-              {new Date(value).toLocaleString('id-ID', {
+              {new Date(displayValue).toLocaleString('id-ID', {
                 weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
                 hour: '2-digit', minute: '2-digit', timeZoneName: 'short',
               })}
             </span>
           )}
+          {field.fallbackDate && (
+            isOverridden ? (
+              <button
+                type="button"
+                className="edit-fallback-reset"
+                onClick={() => onChange('')}
+                title="Reset ke nilai Main Setup"
+              >
+                <i className="fas fa-undo" /> Reset
+              </button>
+            ) : (
+              <span className="edit-fallback-badge">
+                <i className="fas fa-link" /> Mengikuti Main Setup
+              </span>
+            )
+          )}
         </div>
       )
+    }
 
     case 'time': {
       return (
@@ -726,7 +828,7 @@ export default function FieldInput({ field, value, onChange }) {
 
     case 'image':
       return (
-        <MediaUpload value={value} onChange={onChange} accept="image/*" type="image" />
+        <MediaUpload value={value} onChange={onChange} accept="image/*" type="image" cropAspect={field.cropAspect} />
       )
 
     case 'video':
@@ -736,7 +838,7 @@ export default function FieldInput({ field, value, onChange }) {
 
     case 'audio':
       return (
-        <MediaUpload value={value} onChange={onChange} accept="audio/*" type="audio" />
+        <MediaUpload value={value} onChange={onChange} accept="audio/*" type="audio" label={field.label} />
       )
 
     case 'media': {
@@ -747,30 +849,18 @@ export default function FieldInput({ field, value, onChange }) {
         video: raw.video ?? (raw.type === 'video' ? raw.value : '') ?? '',
       }
       return (
-        <div className="edit-media-field">
-          <div className="edit-radio-group">
-            {[
-              { value: 'image', icon: 'fa-image', label: 'Foto' },
-              { value: 'video', icon: 'fa-film',  label: 'Video' },
-            ].map(opt => (
-              <button
-                key={opt.value}
-                type="button"
-                className={`edit-radio-btn${media.type === opt.value ? ' active' : ''}`}
-                onClick={() => onChange({ ...media, type: opt.value })}
-              >
-                <i className={`fas ${opt.icon}`} />
-                {opt.label}
-              </button>
-            ))}
-          </div>
-          <MediaUpload
-            value={media[media.type]}
-            onChange={v => onChange({ ...media, [media.type]: v })}
-            accept={media.type === 'video' ? 'video/*' : 'image/*'}
-            type={media.type}
-          />
-        </div>
+        <MediaUpload
+          value={media[media.type]}
+          onChange={v => {
+            if (!v) return onChange({ ...media, [media.type]: '' })
+            const detectedType = isVideoUrl(v) ? 'video' : 'image'
+            onChange({ type: detectedType, image: '', video: '', [detectedType]: v })
+          }}
+          accept="image/*,video/*"
+          type={media.type}
+          dropIcon="fa-images"
+          dropLabel="foto / video"
+        />
       )
     }
 
@@ -801,7 +891,36 @@ export default function FieldInput({ field, value, onChange }) {
         </div>
       )
 
-    default:
+    default: {
+      if (field.fallback) {
+        const fallbackValue = getPath(draft, field.fallback)
+        const isOverridden = value != null && value !== ''
+        return (
+          <div className="edit-fallback-field">
+            <input
+              type="text"
+              className="edit-fallback-input"
+              value={value ?? ''}
+              onChange={e => onChange(e.target.value)}
+              placeholder={fallbackValue || field.placeholder || ''}
+            />
+            {isOverridden ? (
+              <button
+                type="button"
+                className="edit-fallback-reset"
+                onClick={() => onChange('')}
+                title="Reset ke nilai Main Setup"
+              >
+                <i className="fas fa-undo" /> Reset
+              </button>
+            ) : (
+              <span className="edit-fallback-badge">
+                <i className="fas fa-link" /> Mengikuti Main Setup
+              </span>
+            )}
+          </div>
+        )
+      }
       return (
         <input
           type="text"
@@ -810,5 +929,6 @@ export default function FieldInput({ field, value, onChange }) {
           placeholder={field.placeholder || ''}
         />
       )
+    }
   }
 }

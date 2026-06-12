@@ -1,8 +1,11 @@
 import { NO_SAVE_VIEWS, NO_PREVIEW_TOGGLE_VIEWS } from './editorConstants'
+import UserMenu from './UserMenu'
 
 export default function EditorToolbar({
   activeId,
   activeLabel,
+  activeIcon,
+  activeSubtitle,
   canSave,
   status,
   saving,
@@ -13,7 +16,7 @@ export default function EditorToolbar({
   onTogglePreview,
 }) {
   return (
-    <header className="edit-toolbar">
+    <header className={`edit-toolbar${activeSubtitle ? ' edit-toolbar--tall' : ''}`}>
       <div className="edit-toolbar-left">
         <button
           type="button"
@@ -23,7 +26,17 @@ export default function EditorToolbar({
         >
           <i className="fas fa-bars" />
         </button>
-        <span className="edit-toolbar-title">{activeLabel}</span>
+        {activeSubtitle ? (
+          <>
+            <div className="edit-toolbar-icon"><i className={`fas ${activeIcon || 'fa-circle'}`} /></div>
+            <div className="edit-toolbar-titles">
+              <h1 className="edit-toolbar-title-lg">{activeLabel}</h1>
+              <p className="edit-toolbar-subtitle">{activeSubtitle}</p>
+            </div>
+          </>
+        ) : (
+          <span className="edit-toolbar-title">{activeLabel}</span>
+        )}
         {canSave && (
           <span className="edit-unsaved-badge">Unsaved changes</span>
         )}
@@ -71,6 +84,8 @@ export default function EditorToolbar({
             <i className="fas fa-mobile-alt" />
           </button>
         )}
+
+        <UserMenu />
       </div>
     </header>
   )

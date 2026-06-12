@@ -1,5 +1,6 @@
 import './livestream.css'
 import { getYoutubeThumbnail } from '../../lib/youtube'
+import { imgSrc, handleImgError } from '../../lib/image'
 
 export default function SectionLivestream({ content }) {
   const ls = content.livestream
@@ -7,7 +8,7 @@ export default function SectionLivestream({ content }) {
   return (
     <div id="livestreaming" className="section-livestream child">
       <div className="ls9-photo-wrap">
-        <img src={photoSrc} className="ls9-photo" loading="lazy" alt="" />
+        <img src={imgSrc(photoSrc)} onError={handleImgError} className="ls9-photo" loading="lazy" alt="" />
         <div className="ls9-photo-overlay" />
         <span className="ls9-live-badge">
           <span className="ls9-live-dot" />
@@ -26,7 +27,7 @@ export default function SectionLivestream({ content }) {
         <h2 className="ls9-title">{ls.title}</h2>
         <div className="ls9-date-row">
           <i className="fas fa-calendar-alt" />
-          <span className="ls9-date">{ls.date}</span>
+          <span className="ls9-date">{ls.date || content.hero.date}</span>
         </div>
         <a
           className="ls9-btn"

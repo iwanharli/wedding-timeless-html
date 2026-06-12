@@ -4,10 +4,12 @@ import { apiUrl } from '../../lib/api'
 // Uploads a file via XHR so we can report real upload progress, then a
 // "processing" phase while the server compresses the file (no progress
 // signal available for that part — it's reported as indeterminate).
-export function uploadFileWithProgress(file, onProgress) {
+export function uploadFileWithProgress(file, onProgress, compress = true, origin = null) {
   return new Promise((resolve, reject) => {
     const fd = new FormData()
     fd.append('file', file)
+    fd.append('compress', compress ? '1' : '0')
+    if (origin) fd.append('origin', origin)
 
     const xhr = new XMLHttpRequest()
     xhr.open('POST', apiUrl('/api/upload'))

@@ -1,0 +1,132 @@
+/* ══════════════════════════════════════════════════════════
+   IMAGE CROP MODAL (icm-*)
+══════════════════════════════════════════════════════════ */
+.icm-portal-root {
+  display: contents;
+}
+
+.icm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.icm-box {
+  width: min(95vw, 720px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: 0 24px 80px rgba(0,0,0,.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.icm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.icm-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-900);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icm-close {
+  width: 30px; height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: var(--r-md);
+  color: var(--text-400);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.icm-close:hover {
+  background: var(--bg);
+  color: var(--text-900);
+}
+
+.icm-cropper {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  max-height: 480px;
+  background: #111;
+}
+
+.icm-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: var(--text-400);
+  border-bottom: 1px solid var(--border);
+}
+
+.icm-zoom-slider {
+  flex: 1;
+}
+
+.icm-error {
+  margin: 0;
+  padding: 10px 20px 0;
+  color: #dc2626;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+}
+
+.icm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.icm-btn--ghost {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text-600);
+}
+.icm-btn--ghost:hover {
+  background: var(--bg);
+}
+
+.icm-btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+.icm-btn--primary:hover {
+  background: var(--accent-dark);
+}
+.icm-btn--primary:disabled,
+.icm-btn--ghost:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
